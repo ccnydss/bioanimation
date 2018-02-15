@@ -1,0 +1,46 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  background-color: #efeaef;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+#stage {
+  width: 850px;
+  display: flex;
+  border-style: solid;
+  border-color: #fa2;
+  border-width: 5px;
+  margin: auto;
+}
+
+#stage div {
+  flex: 1;
+  background-color: #fa2;
+}
+
+.can {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.qdiv {
+  display: flex;
+  justify-content: center;
+}
+
+.qoptions {
+  /* padding: 80px; */
+}
