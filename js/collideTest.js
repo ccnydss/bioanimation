@@ -1,7 +1,8 @@
 var circles;
 var outerBox;
-var numParticles = 4;
+var numParticles = 2;
 var particles = [];
+var cellWalls = [];
 var radius = 50;
 
 
@@ -37,26 +38,30 @@ function setup() {
     
     particles.push(new Particle(randomX,randomY,2*radius,velocity));
   }
+  drawCellWall(outerBox.tl.x,outerBox.tl.y,outerBox.tr.x,outerBox.bl.y);
+
 }
 
 function draw() {
   clear();
   console.log("---------------------- CLEARED ------------------------------- ", frameCount);
-  drawCellWall(outerBox.tl.x,outerBox.tl.y,outerBox.tr.x,outerBox.bl.y);
 
+  
 
   stroke(15, 15, 15, 100);
   fill(15, 15, 15, 100);
   // line(outerBox.tl.x+50,outerBox.tl.y+50, outerBox.tr.x-50, outerBox.tl.y+50);
   outerBox.draw();
-
   var randomColor = getRandomColor();
   for (var i = 0; i < numParticles; i++) {
     fill(color(50, 55, 100));
 
     particles[i].move(outerBox);
   }
-
+  for (var i = 0; i < 2; i++) {
+    cellWalls[i].draw();
+  }
+  console.log(cellWalls);
 }
 
 function Point (_x, _y) {
@@ -102,7 +107,7 @@ function Particle (_x, _y, _diam, _vel) {
     var pastTop = this.y - this.r <= container_context.tl.y;
     var pastRight = this.x + this.r >= container_context.br.x;
     var pastLeft = this.x - this.r <= container_context.bl.x;
-
+    hit = collideRectCircle(200,200,100,150,mouseX,mouseY,100)
     // Test if the next movement the particle makes would result in a part of it clipping past container
     var nextPastBottom = this.y + this.move_velocity.y + this.r > container_context.bl.y;
     var nextPastTop = this.y + this.move_velocity.y - this.r < container_context.tl.y;
@@ -276,8 +281,19 @@ function drawCellWall(x1,y1,x2,y2) {
   boxWidth = x2 - x1;
   boxHeight = y2 - y1;
   background(255);
-  fill(0);
-  rect(x1, y1 + boxHeight/2, (boxWidth/2) - (channelGap/2), wallThickness, 0, 10, 10, 0);
-  rect(x1 + (boxWidth/2) + (channelGap/2), y1 + boxHeight/2, (boxWidth/2) - (channelGap/2), wallThickness, 10, 0, 0, 10);
+  cellWalls.push(new CellWall(x1, y1 + boxHeight/2, (boxWidth/2) - (channelGap/2), wallThickness, 0, 10, 10, 0));
+  cellWalls.push(new CellWall(x1 + (boxWidth/2) + (channelGap/2), y1 + boxHeight/2, (boxWidth/2) - (channelGap/2), wallThickness, 10, 0, 0, 10));
+}
+
+function CellWall(_x,_y,_width,_height,_tl,_tr,_br,_bl) {
+  this.x = _x;
+  this.y = _y;
+  this.width = _width;
+  this.height = _height;
+
+  this.draw = function() {
+    fill(0)
+    rect(this.x, this.y, this.width, this.height,_tl,_tr,_br,_bl);
+  }
 }
 
