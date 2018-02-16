@@ -1,9 +1,9 @@
 var circles;
 var outerBox;
-var numParticles = 2;
+var numParticles = 5;
 var particles = [];
 var cellWalls = [];
-var radius = 50;
+var radius = 20;
 
 
 function setup() {
@@ -32,7 +32,7 @@ function setup() {
   for (var i = 0; i < numParticles; i++) {
     // Get random location
     randomX = outerBox.tl.x + radius + (Math.floor(Math.random() * xRange))
-    randomY = outerBox.tl.y + radius + (Math.floor(Math.random() * yRange))
+    randomY = outerBox.tl.y + radius + (Math.floor(Math.random() * yRange))/2
     console.log(randomX,randomY);
     //particles.push(new Particle( (outerBox.tl.x + radius + 50), outerBox.tl.y + radius+1, 2*radius, velocity) );
     
@@ -102,17 +102,21 @@ function Particle (_x, _y, _diam, _vel) {
   this.move = function (container_context) {
     // Pass in a Container object the particle should be constrained inside.
 
+    // Test if the particle is with the 
     // Test if the particle is within the container
-    var pastBottom = this.y + this.r >= container_context.bl.y;
-    var pastTop = this.y - this.r <= container_context.tl.y;
-    var pastRight = this.x + this.r >= container_context.br.x;
-    var pastLeft = this.x - this.r <= container_context.bl.x;
+    var pastBottom = (this.y + this.r >= container_context.bl.y) || ((this.y + this.r >= cellWalls[0].y) && ((this.x - this.r <= cellWalls[0].x + cellWalls[0].width) || (this.x + this.r >= cellWalls[1].x)));
+    var pastTop = this.y - this.r <= container_context.tl.y; //|| (this.y - this.r <= cellWalls[0].y + cellWalls[0].height);// && ((this.x - this.r <= cellWalls[0].x + cellWalls[0].width) || (this.x + this.r >= cellWalls[1].x)));
+    var pastRight = this.x + this.r >= container_context.br.x; // || ((this.x + this.r >= cellWalls[1].x) && (this.y + this.r >= cellWalls[0].y) && (this.y - this.r <= cellsWalls[0].y + cellsWalls[0].height));
+    var pastLeft = this.x - this.r <= container_context.bl.x; // || ((this.x - this.r <= cellWalls[0].x+cellWalls[0].width) && (this.y + this.r >= cellWalls[0].y) && (this.y - this.r <= cellsWalls[0].y + cellsWalls[0].height));
     hit = collideRectCircle(200,200,100,150,mouseX,mouseY,100)
     // Test if the next movement the particle makes would result in a part of it clipping past container
     var nextPastBottom = this.y + this.move_velocity.y + this.r > container_context.bl.y;
     var nextPastTop = this.y + this.move_velocity.y - this.r < container_context.tl.y;
     var nextPastRight = this.x + this.move_velocity.x + this.r > container_context.br.x;
     var nextPastLeft = this.x + this.move_velocity.x - this.r < container_context.bl.x;
+
+    
+
     console.log("X", container_context.bl.x, "Y", container_context.tl.y);
     console.log("X:", this.x, "Y:", this.y, "Radius", this.r);
     while ( nextPastBottom ) {
@@ -277,7 +281,7 @@ function getRandomColor() {
 
 function drawCellWall(x1,y1,x2,y2) {
   var channelGap = 100;
-  var wallThickness = 50;
+  var wallThickness = 20;
   boxWidth = x2 - x1;
   boxHeight = y2 - y1;
   background(255);
@@ -296,4 +300,5 @@ function CellWall(_x,_y,_width,_height,_tl,_tr,_br,_bl) {
     rect(this.x, this.y, this.width, this.height,_tl,_tr,_br,_bl);
   }
 }
+
 
