@@ -1,9 +1,14 @@
 var circles;
 var outerBox;
 var numParticles = 1;
+var numParticlesMax = 100;
 var particles = [];
 var cellWalls = [];
 var radius = 20;
+
+    //UI
+var PlusButton, MinusButton, textboard;
+    //UI
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -22,7 +27,7 @@ function setup() {
 
   xRange = outerBox.tr.x - outerBox.tl.x - 100
   yRange = outerBox.br.y - outerBox.tr.y - 100
-  for (var i = 0; i < numParticles; i++) {
+  for (var i = 0; i < numParticlesMax; i++) {
     // Get random location
     randomX = outerBox.tl.x + radius + (Math.floor(Math.random() * xRange))
     randomY = outerBox.tl.y + radius + (Math.floor(Math.random() * yRange))/2
@@ -31,6 +36,19 @@ function setup() {
     //particles.push(new Particle( (outerBox.tl.x + radius + 50), outerBox.tl.y + radius+1, 2*radius, velocity) );
     particles.push(new Particle(randomX,randomY,2*radius,velocity));
   }
+    
+    //UI
+  PlusButton = createButton('+');
+  PlusButton.position(400, (windowWidth - length ) / 8);
+  PlusButton.mousePressed(increase);
+  MinusButton = createButton('-');
+  MinusButton.position(430, (windowWidth - length ) / 8);
+  MinusButton.mousePressed(decrease);
+
+  textboard = createElement('h3', 'Current Number:'+numParticles);
+  textboard.position(340, (windowWidth - length ) / 7);
+    //UI
+    
   drawCellWall(outerBox.tl.x,outerBox.tl.y,outerBox.tr.x,outerBox.bl.y);
 
 }
