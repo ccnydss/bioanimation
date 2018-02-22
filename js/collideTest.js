@@ -18,7 +18,7 @@ function setup() {
   outerBox = new Container( topLeft, topRight, botRight, botLeft );
   outerBox.draw();
 
-  var velocity = createVector(-2.5, -2);
+  var velocity = createVector(-5, -4);
 
   xRange = outerBox.tr.x - outerBox.tl.x - 100
   yRange = outerBox.br.y - outerBox.tr.y - 100
@@ -52,7 +52,7 @@ function draw() {
   for (var i = 0; i < 2; i++) {
     cellWalls[i].draw();
   }
-  
+
   console.log(cellWalls);
 }
 
