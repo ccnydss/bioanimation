@@ -5,7 +5,6 @@ var particles = [];
 var cellWalls = [];
 var radius = 20;
 
-
 function setup() {
   createCanvas(windowWidth, windowHeight);
   noFill();
@@ -28,8 +27,8 @@ function setup() {
     randomX = outerBox.tl.x + radius + (Math.floor(Math.random() * xRange))
     randomY = outerBox.tl.y + radius + (Math.floor(Math.random() * yRange))/2
     console.log(randomX,randomY);
-    //particles.push(new Particle( (outerBox.tl.x + radius + 50), outerBox.tl.y + radius+1, 2*radius, velocity) );
 
+    //particles.push(new Particle( (outerBox.tl.x + radius + 50), outerBox.tl.y + radius+1, 2*radius, velocity) );
     particles.push(new Particle(randomX,randomY,2*radius,velocity));
   }
   drawCellWall(outerBox.tl.x,outerBox.tl.y,outerBox.tr.x,outerBox.bl.y);
@@ -42,16 +41,18 @@ function draw() {
 
   stroke(15, 15, 15, 100);
   fill(15, 15, 15, 100);
-  // line(outerBox.tl.x+50,outerBox.tl.y+50, outerBox.tr.x-50, outerBox.tl.y+50);
+
   outerBox.draw();
   for (var i = 0; i < numParticles; i++) {
     fill(color(50, 55, 100));
 
     particles[i].move(outerBox);
   }
+
   for (var i = 0; i < 2; i++) {
     cellWalls[i].draw();
   }
+  
   console.log(cellWalls);
 }
 

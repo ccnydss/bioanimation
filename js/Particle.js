@@ -18,11 +18,17 @@ function Particle (_x, _y, _diam, _vel) {
 
     // Test if the particle is with the
     // Test if the particle is within the container
-    var pastBottom = (this.y + this.r >= container_context.bl.y) || ((this.y + this.r >= cellWalls[0].y) && ((this.x - this.r <= cellWalls[0].x + cellWalls[0].width) || (this.x + this.r >= cellWalls[1].x)));
-    var pastTop = this.y - this.r <= container_context.tl.y; //|| (this.y - this.r <= cellWalls[0].y + cellWalls[0].height);// && ((this.x - this.r <= cellWalls[0].x + cellWalls[0].width) || (this.x + this.r >= cellWalls[1].x)));
-    var pastRight = this.x + this.r >= container_context.br.x; // || ((this.x + this.r >= cellWalls[1].x) && (this.y + this.r >= cellWalls[0].y) && (this.y - this.r <= cellsWalls[0].y + cellsWalls[0].height));
-    var pastLeft = this.x - this.r <= container_context.bl.x; // || ((this.x - this.r <= cellWalls[0].x+cellWalls[0].width) && (this.y + this.r >= cellWalls[0].y) && (this.y - this.r <= cellsWalls[0].y + cellsWalls[0].height));
-    //hit = collideRectCircle(200,200,100,150,mouseX,mouseY,100)
+    // var pastBottom = (this.y + this.r >= container_context.bl.y) || ((this.y + this.r >= cellWalls[0].y) && ((this.x - this.r <= cellWalls[0].x + cellWalls[0].width) || (this.x + this.r >= cellWalls[1].x)));
+    // var pastTop = this.y - this.r <= container_context.tl.y; //|| (this.y - this.r <= cellWalls[0].y + cellWalls[0].height);// && ((this.x - this.r <= cellWalls[0].x + cellWalls[0].width) || (this.x + this.r >= cellWalls[1].x)));
+    // var pastRight = this.x + this.r >= container_context.br.x; // || ((this.x + this.r >= cellWalls[1].x) && (this.y + this.r >= cellWalls[0].y) && (this.y - this.r <= cellsWalls[0].y + cellsWalls[0].height));
+    // var pastLeft = this.x - this.r <= container_context.bl.x; // || ((this.x - this.r <= cellWalls[0].x+cellWalls[0].width) && (this.y + this.r >= cellWalls[0].y) && (this.y - this.r <= cellsWalls[0].y + cellsWalls[0].height));
+    // //hit = collideRectCircle(200,200,100,150,mouseX,mouseY,100)
+
+    var pastBottom = this.y + this.r >= container_context.bl.y;
+    var pastTop = this.y - this.r <= container_context.tl.y;
+    var pastRight = this.x + this.r >= container_context.br.x;
+    var pastLeft = this.x - this.r <= container_context.bl.x;
+
 
     // Test if the next movement the particle makes would result in a part of it clipping past container
     var nextPastBottom = this.y + this.move_velocity.y + this.r > container_context.bl.y;
