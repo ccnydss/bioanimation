@@ -24,10 +24,10 @@ function Particle (_x, _y, _diam, _vel) {
     // var pastLeft = this.x - this.r <= container_context.bl.x; // || ((this.x - this.r <= cellWalls[0].x+cellWalls[0].width) && (this.y + this.r >= cellWalls[0].y) && (this.y - this.r <= cellsWalls[0].y + cellsWalls[0].height));
     // //hit = collideRectCircle(200,200,100,150,mouseX,mouseY,100)
 
-    var pastBottom = this.y + this.r >= container_context.bl.y;
-    var pastTop = this.y - this.r <= container_context.tl.y;
-    var pastRight = this.x + this.r >= container_context.br.x;
-    var pastLeft = this.x - this.r <= container_context.bl.x;
+    var pastBottom = this.y + this.r + 0.5 >= container_context.bl.y;
+    var pastTop = this.y - this.r - 0.5 <= container_context.tl.y;
+    var pastRight = this.x + this.r + 0.5 >= container_context.br.x;
+    var pastLeft = this.x - this.r - 0.5<= container_context.bl.x;
 
 
     // Test if the next movement the particle makes would result in a part of it clipping past container
@@ -114,7 +114,7 @@ function Particle (_x, _y, _diam, _vel) {
       var newy = -1 * this.orig_velocity.y;
       this.move_velocity = createVector (newx, newy);
       this.orig_velocity = createVector (newx, newy);
-
+      console.log("**SWITCHED**");
       console.log("after", this.move_velocity.toString());
 
       // Begin moving the particle in the new direction
@@ -129,7 +129,7 @@ function Particle (_x, _y, _diam, _vel) {
       var newy = -1 * this.orig_velocity.y;
       this.orig_velocity = createVector (newx, newy);
       this.move_velocity = createVector (newx, newy);
-
+      console.log("**SWITCHED**");
       // Begin moving the particle in new direction
       this.x += this.move_velocity.x;
       this.y += this.move_velocity.y;
@@ -145,7 +145,7 @@ function Particle (_x, _y, _diam, _vel) {
       var newy = this.orig_velocity.y;
       this.orig_velocity = createVector (newx, newy);
       this.move_velocity = createVector (newx, newy);
-
+      console.log("**SWITCHED**");
       // Move particle
       this.x += this.move_velocity.x;
       this.y += this.move_velocity.y;
@@ -158,7 +158,7 @@ function Particle (_x, _y, _diam, _vel) {
       var newy = this.orig_velocity.y;
       this.orig_velocity = createVector (newx, newy);
       this.move_velocity = createVector (newx, newy);
-
+      console.log("**SWITCHED**");
       // Move particle
       this.x += this.move_velocity.x;
       this.y += this.move_velocity.y;
