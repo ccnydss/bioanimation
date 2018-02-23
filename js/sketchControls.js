@@ -1,40 +1,3 @@
-//alert(numParticles);
-
-//var greeting = document.getElementsByTagName("h3")[0];
-//alert(greeting);
-function increase() {
-    randomX = outerBox[0].tl.x + radius + (Math.floor(Math.random() * xRange))
-    randomY = outerBox[0].tl.y + radius + (Math.floor(Math.random() * yRange))
-
-
-  textboard.html('Current Number:'+numParticles[0]);
-
-    //Random position when spawn
-    eval("particles" + 0)[numParticles[0]].x = randomX;
-    eval("particles" + 0)[numParticles[0]].y = randomY;
-
-    numParticles[0]++;
-
-    OldnumParticles = numParticles[0]
-    input.value(numParticles[0]);
-}
-
-function decrease() {
-    randomX = outerBox[0].tl.x + radius + (Math.floor(Math.random() * xRange))
-    randomY = outerBox[0].tl.y + radius + (Math.floor(Math.random() * yRange))
-
-    if (numParticles[0] < 0){numParticles[0]=0}
-
-  textboard.html('Current Number:'+numParticles[0]);
-    eval("particles" + 0)[numParticles[0]].x = randomX;
-    eval("particles" + 0)[numParticles[0]].y = randomY;
-
-    numParticles[0]--;
-
-    OldnumParticles = numParticles[0]
-    input.value(numParticles[0]);
-}
-
 // Pause / unpause the animation (debug purposes)
 var togLoop = false;
 function toggleLoop() {
@@ -51,4 +14,45 @@ function keyPressed() {
   if (keyCode == 32) {
     toggleLoop();
   }
+}
+
+//UI
+function increase(evt) {
+  console.log(evt.target.id);
+  var i = evt.target.id;
+    randomX = outerBox[i].tl.x + radius + (Math.floor(Math.random() * xRange))
+    randomY = outerBox[i].tl.y + radius + (Math.floor(Math.random() * yRange))
+
+        if (numParticles[i] >= numParticlesMax[i]){numParticles[i]=numParticlesMax[i]-1} else {
+
+  //textboard[i].html('Current Number:'+numParticles[i]);
+
+    //Random position when spawn
+    eval("particles" + i)[numParticles[i]].x = randomX;
+    eval("particles" + i)[numParticles[i]].y = randomY;
+
+    numParticles[i]++;
+
+    OldnumParticles[i] = numParticles[i]
+    input[i].value(numParticles[i]);
+  }
+}
+
+function decrease(evt) {
+  console.log(evt.target.id);
+  var i = evt.target.id;
+    randomX = outerBox[i].tl.x + radius + (Math.floor(Math.random() * xRange))
+    randomY = outerBox[i].tl.y + radius + (Math.floor(Math.random() * yRange))
+
+    if (numParticles[i] <= 0){numParticles[i]=0} else {
+
+  //textboard[i].html('Current Number:'+numParticles[i]);
+    eval("particles" + i)[numParticles[i]].x = randomX;
+    eval("particles" + i)[numParticles[i]].y = randomY;
+
+    numParticles[i]--;
+
+    OldnumParticles[i] = numParticles[i]
+    input[i].value(numParticles[i]);
+    }
 }
