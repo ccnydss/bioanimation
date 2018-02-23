@@ -13,11 +13,16 @@ function Particle (_x, _y, _diam, _vel) {
   }
 
   var insideContainer = true;
-  this.move = function (container_context) {
+  this.move = function (container_context, cellWalls) {
     // Pass in a Container object the particle should be constrained inside.
 
     container_context.clips(this);
     container_context.hit(this);
+    for (var i=0; i<cellWalls.length; i++) {
+      cellWalls[i].clips(this);
+      cellWalls[i].hit(this);
+    }
+    
 
     ellipse( this.x, this.y, this.diam );
   }

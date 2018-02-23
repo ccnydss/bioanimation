@@ -1,0 +1,12 @@
+
+    var pastCellWallBottom = (this.y + this.r + 0.5 >= container_context.bl.y) || ((this.y + this.r + 0.5 >= cellWalls[0].y) && ((this.x - this.r - 0.5 <= cellWalls[0].x + cellWalls[0].width) || (this.x + this.r + 0.5 >= cellWalls[1].x)));
+    var pastCellWallTop = (this.y - this.r - 0.5 <= container_context.tl.y) || ((this.y - this.r - 0.5 <= cellWalls[0].y + cellWalls[0].height) && ((this.x - this.r - 0.5 <= cellWalls[0].x + cellWalls[0].width) || (this.x + this.r + 0.5 >= cellWalls[1].x)));
+    var pastCellWallRight = (this.x + this.r + 0.5 >= container_context.br.x) || ((this.x + this.r + 0.5 >= cellWalls[1].x) && (this.y + this.r + 0.5 >= cellWalls[0].y) && (this.y + this.r - 0.5 <= cellWalls[0].y + cellWalls[0].height));
+    var pastCellWallLeft = (this.x - this.r - 0.5<= container_context.bl.x) || ((this.x - this.r <= cellWalls[0].x+cellWalls[0].width) && (this.y + this.r >= cellWalls[0].y) && (this.y - this.r <= cellsWalls[0].y + cellsWalls[0].height));
+
+
+    // Test if the next movement the particle makes would result in a part of it clipping past container
+    var nextPastCellWallBottom = (this.y + this.move_velocity.y + this.r > container_context.bl.y) || ((this.y + this.move_velocity.y + this.r + 0.5 >= cellWalls[0].y) && ((this.x + this.move_velocity.x - this.r - 0.5 <= cellWalls[0].x + cellWalls[0].width) || (this.x + this.move_velocity.x + this.r + 0.5 >= cellWalls[1].x)));;
+    var nextPastCellWallTop = (this.y + this.move_velocity.y - this.r < container_context.tl.y) || ((this.y + this.move_velocity.y - this.r - 0.5 <= cellWalls[0].y + cellWalls[0].height) && ((this.x + this.move_velocity.x - this.r - 0.5 <= cellWalls[0].x + this.move_velocity.x + cellWalls[0].width) || (this.x + this.move_velocity.x + this.r + 0.5 >= cellWalls[1].x)));
+    var nextPastCellWallRight = (this.x + this.move_velocity.x + this.r > container_context.br.x) || ((this.x + this.move_velocity.x + this.r + 0.5 >= cellWalls[1].x) && (this.y + this.move_velocity.y + this.r + 0.5 >= cellWalls[0].y) && (this.y + this.move_velocity.y + this.r - 0.5 <= cellWalls[0].y + cellWalls[0].height));
+    var nextPastCellWallLeft = (this.x + this.move_velocity.x - this.r < container_context.bl.x) || ((this.x + this.move_velocity.x + - this.r <= cellWalls[0].x+cellWalls[0].width) && (this.y + this.move_velocity.y + this.r >= cellWalls[0].y) && (this.y + this.move_velocity.y - this.r <= cellsWalls[0].y + cellsWalls[0].height));

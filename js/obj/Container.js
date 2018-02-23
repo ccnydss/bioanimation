@@ -15,10 +15,10 @@ class Container {
 
   clips(p) {
     // Test if the next movement the particle makes would result in a part of it clipping past container
-    var nextPastBottom = p.y + p.move_velocity.y + p.r > this.bl.y;
-    var nextPastTop = p.y + p.move_velocity.y - p.r < this.tl.y;
-    var nextPastRight = p.x + p.move_velocity.x + p.r > this.br.x;
-    var nextPastLeft = p.x + p.move_velocity.x - p.r < this.bl.x;
+    var nextPastBottom = p.y + p.move_velocity.y + p.r + 0.5 > this.bl.y;
+    var nextPastTop = p.y + p.move_velocity.y - p.r - 0.5 < this.tl.y;
+    var nextPastRight = p.x + p.move_velocity.x + p.r + 0.5 > this.br.x;
+    var nextPastLeft = p.x + p.move_velocity.x - p.r - 0.5 < this.bl.x;
 
     while ( nextPastBottom ) {
       console.log("\nAH! BOTTOM------------------------------------------");
@@ -168,3 +168,4 @@ class Container {
     }
   }
 }
+
