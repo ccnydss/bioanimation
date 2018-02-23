@@ -56,8 +56,12 @@ function setup() {
       //randomY = outerBox.tl.y + radius + (Math.floor(Math.random() * yRange))/2
       randomY = outerBox[j].tl.y + radius + (Math.floor(Math.random() * yRange))
 
-      //particles.push(new Particle( (outerBox.tl.x + radius + 50), outerBox.tl.y + radius+1, 2*radius, velocity) );
-      eval("particles" + j).push(new Particle(randomX,randomY,2*radius,velocity));
+      var chance = Math.random()
+      if (chance < 0.5) {
+      eval("particles" + j).push(new Na(randomX,randomY,radius,velocity));
+      }else {
+      eval("particles" + j).push(new Cl(randomX,randomY,2*radius,velocity));
+      }
     }
   }
 
@@ -123,8 +127,8 @@ function draw() {
 
   for (var j = 0; j < numContainer; j++) {
     for (var i = 0; i < numParticles[j]; i++) {
-      fill(color(50, 55, 100));
 
+            eval("particles" + j)[i].color();
       eval("particles" + j)[i].move(outerBox[j]);
     }
   }
