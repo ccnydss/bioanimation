@@ -21,16 +21,6 @@ class Container {
     var nextPastLeft = p.x + p.move_velocity.x - p.r - 0.5 < this.bl.x;
 
     while ( nextPastBottom ) {
-      console.log("\nAH! BOTTOM------------------------------------------");
-      console.log ("MOVE VEC --- ", p.move_velocity.toString());
-      console.log ("ORIG VEC --- ", p.orig_velocity.toString());
-      console.log ("x", p.x);
-      console.log ("vx", p.move_velocity.x);
-      console.log ("r", p.r);
-      console.log ("POS", p.x + p.move_velocity.x - p.r);
-      console.log( "CONT", this.bl.x);
-      console.log("END! BOTTOM------------------------------------------\n");
-
       // For as long as the next position increment will bring the particle
       // outside of the container, then... decelerate the particle.
       p.move_velocity.y -= 1;
@@ -40,46 +30,16 @@ class Container {
     }
 
     while ( nextPastTop ) {
-      console.log("\nAH! TOP------------------------------------------");
-      console.log ("MOVE VEC --- ", p.move_velocity.toString());
-      console.log ("ORIG VEC --- ", p.orig_velocity.toString());
-      console.log ("x", p.x);
-      console.log ("vx", p.move_velocity.x);
-      console.log ("r", p.r);
-      console.log ("POS", p.x + p.move_velocity.x - p.r);
-      console.log( "CONT", this.bl.x);
-      console.log("END! TOP------------------------------------------\n");
-
       p.move_velocity.y += 1;
       nextPastTop = p.y + p.move_velocity.y - p.r < this.tl.y;
     }
 
     while ( nextPastRight ) {
-      console.log("\nAH! RIGHT------------------------------------------");
-      console.log ("MOVE VEC --- ", p.move_velocity.toString());
-      console.log ("ORIG VEC --- ", p.orig_velocity.toString());
-      console.log ("x", p.x);
-      console.log ("vx", p.move_velocity.x);
-      console.log ("r", p.r);
-      console.log ("POS", p.x + p.move_velocity.x - p.r);
-      console.log( "CONT", this.bl.x);
-      console.log("END! RIGHT------------------------------------------\n");
-
       p.move_velocity.x -= 1;
       nextPastRight = p.x + p.move_velocity.x + p.r > this.br.x;
     }
 
     while ( nextPastLeft ) {
-      console.log("\nAH! LEFT------------------------------------------");
-      console.log ("MOVE VEC --- ", p.move_velocity.toString());
-      console.log ("ORIG VEC --- ", p.orig_velocity.toString());
-      console.log ("x", p.x);
-      console.log ("vx", p.move_velocity.x);
-      console.log ("r", p.r);
-      console.log ("POS", p.x + p.move_velocity.x - p.r);
-      console.log( "CONT", this.bl.x);
-      console.log("END! LEFT------------------------------------------\n");
-
       p.move_velocity.x += 1;
       nextPastLeft = p.x + p.move_velocity.x - p.r < this.bl.x;
     }
@@ -92,27 +52,18 @@ class Container {
     var pastLeft = p.x - p.r - 0.5<= this.bl.x;
 
     if ( pastBottom ) {
-      print( "pb" );
-      console.log("before", p.move_velocity.toString());
-      console.log("boriginal", p.orig_velocity.toString());
-
       // Create new velocity vector based off of reflection
       var newx = p.orig_velocity.x;
       var newy = -1 * p.orig_velocity.y;
 
       p.move_velocity = createVector (newx, newy);
       p.orig_velocity = createVector (newx, newy);
-
-      console.log("**SWITCHED**");
-      console.log("after", p.move_velocity.toString());
 
       // Begin moving the particle in the new direction
       p.x += p.move_velocity.x;
       p.y += p.move_velocity.y;
 
     } if ( pastTop ) {
-      print( "pt" );
-
       // Create new velocity vector based off of reflection
       var newx = p.orig_velocity.x;
       var newy = -1 * p.orig_velocity.y;
@@ -120,17 +71,11 @@ class Container {
       p.orig_velocity = createVector (newx, newy);
       p.move_velocity = createVector (newx, newy);
 
-      console.log("**SWITCHED**");
       // Begin moving the particle in new direction
       p.x += p.move_velocity.x;
       p.y += p.move_velocity.y;
 
     } if ( pastRight ) {
-      print( "pr" );
-
-      console.log("ONE", p.orig_velocity.toString());
-      console.log("TWO", p.move_velocity.toString());
-
       // Create new velocity vector based off of reflection
       var newx = -1 * p.orig_velocity.x;
       var newy = p.orig_velocity.y;
@@ -138,14 +83,11 @@ class Container {
       p.orig_velocity = createVector (newx, newy);
       p.move_velocity = createVector (newx, newy);
 
-      console.log("**SWITCHED**");
       // Move particle
       p.x += p.move_velocity.x;
       p.y += p.move_velocity.y;
 
     } if ( pastLeft ) {
-      print( "pl" );
-
       // Create new velocity vector based off of reflection
       var newx = -1 * p.orig_velocity.x;
       var newy = p.orig_velocity.y;
@@ -153,15 +95,10 @@ class Container {
       p.orig_velocity = createVector (newx, newy);
       p.move_velocity = createVector (newx, newy);
 
-      console.log("**SWITCHED**");
       // Move particle
       p.x += p.move_velocity.x;
       p.y += p.move_velocity.y;
     } else {
-      print( "within" );
-
-      console.log("MOVIN ORIGN", p.orig_velocity.toString());
-      console.log("MOVIN TEMP", p.move_velocity.toString());
 
       p.x += p.move_velocity.x;
       p.y += p.move_velocity.y;

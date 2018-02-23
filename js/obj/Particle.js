@@ -27,3 +27,15 @@ function Particle (_x, _y, _diam, _vel) {
     ellipse( this.x, this.y, this.diam );
   }
 }
+
+class Na extends Particle {
+  color() {
+    fill(color(255, 204, 0));
+  }
+}
+
+class Cl extends Particle {
+  color() {
+    fill('rgba(0,255,0, 0.25)')
+  }
+}

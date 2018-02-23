@@ -28,7 +28,14 @@ body {
 
 #stage div {
   flex: 1;
-  background-color: #fa2;
+  /* background-color: #fa2; */
+}
+
+#controls {
+  background-color: #0f0;
+  border-style: solid;
+  border-color: #0f0;
+  border-width: 5px;
 }
 
 .can {
@@ -36,9 +43,15 @@ body {
   margin-right: auto;
 }
 
-.qdiv {
+#sim {
+  background-color: #fa2;
+}
+
+#qdiv {
   display: flex;
   justify-content: center;
+
+  background-color: #fa2;
 }
 
 .qoptions {
