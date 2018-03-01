@@ -18,6 +18,7 @@ var particles1 = [];
 
 var cellWalls = [];
 var radius = 20;
+channels = [];
 
 //UI
 var numContainer = 2;
@@ -140,8 +141,8 @@ function draw() {
 
       for (var i = low; i < high; i++) {
         console.log(i+"&&&"+randomX);
-        randomX = outerBox[k].tl.x + radius + (Math.floor(Math.random() * xRange))
-        randomY = outerBox[k].tl.y + radius + (Math.floor(Math.random() * yRange))
+        randomX = outerBox[k].tl.x + radius + (Math.floor(Math.random() * xRange));
+        randomY = outerBox[k].tl.y + radius + (Math.floor(Math.random() * yRange));
 
         if (i < numParticlesMax[k]) {
           eval("particles" + k)[i].x = randomX;
@@ -152,6 +153,28 @@ function draw() {
       numParticles[k] = input[k].value();
       OldnumParticles[k] = input[k].value();
     }
+
+    var j = k*1/2;
+    MinusButton[k].position(stage.position().x + 3*(stage.size().width - 600 - 10)/5, stage.position().y + stage.size().height/20 + stage.size().height*j);
+    PlusButton[k].position(stage.position().x + 2*(stage.size().width - 600 - 10)/5, stage.position().y + stage.size().height/20 + stage.size().height*j);
+    input[k].position(stage.position().x + 192, stage.position().y + stage.size().height/20 + 30 + 2 + stage.size().height*j);
+    textboard[k].position(stage.position().x + (stage.size().width - 600 - 10)/5, stage.position().y + stage.size().height/20 + 30 + stage.size().height*j);
+  }
+      //UI
+}
+
+function drawChannels(numOfChannels) {
+  basePoint = (outerBox[0].bl.x + outerBox[0].br.x)/(numOfChannels+1);
+  channelLength = 20;
+
+  for (var i=1; i<=numOfChannels; i++) {
+    var left = new Point((basePoint*i)-(channelLength/2),outerBox[0].bl.y);
+    var right = new Point((basePoint*i)+(channelLength/2),outerBox[0].br.y);
+    channels.push(new Channel(left, right));
+    channels[i].draw();
+  }
+
+}
 
     var j = k*1/2;
 
