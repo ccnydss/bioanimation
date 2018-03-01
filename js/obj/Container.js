@@ -24,7 +24,6 @@ class Container {
       // For as long as the next position increment will bring the particle
       // outside of the container, then... decelerate the particle.
       p.move_velocity.y -= 1;
-
       // Recheck condition
       nextPastBottom = p.y + p.move_velocity.y + p.r > this.bl.y;
     }
@@ -98,11 +97,11 @@ class Container {
       // Move particle
       p.x += p.move_velocity.x;
       p.y += p.move_velocity.y;
-    } else {
+    } 
 
       p.x += p.move_velocity.x;
       p.y += p.move_velocity.y;
-    }
+    
   }
 }
 

@@ -18,11 +18,11 @@ function Particle (_x, _y, _diam, _vel) {
 
     container_context.clips(this);
     container_context.hit(this);
-    for (var i=0; i<cellWalls.length; i++) {
-      cellWalls[i].clips(this);
-      cellWalls[i].hit(this);
-    }
-    
+    // for (var i=0; i<cellWalls.length; i++) {
+    //   cellWalls[i].clips(this);
+    //   cellWalls[i].hit(this);
+    // }
+
 
     ellipse( this.x, this.y, this.diam );
   }

@@ -36,6 +36,12 @@ body {
   border-style: solid;
   border-color: #0f0;
   border-width: 5px;
+  display: flex;
+}
+
+.control {
+  display: flex;
+  justify-content: center;
 }
 
 .can {
