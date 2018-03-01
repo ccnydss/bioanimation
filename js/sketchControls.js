@@ -183,6 +183,28 @@ function ChangeNumParticles(evt) {
 
 } else if (isNaN(input[j].value())) {
   input[j].value(0);
+
+    for (var k = 0; k<MaxParticles; k++) {
+      if (j==1 || j==(1+row) ) {
+
+        if(N_Na[i]>0) {
+          eval("NaParticles" + i).splice(N_Na[i]-1, 1);
+          N_Na[i]--;
+          numParticles[i]--;
+        }
+        var Value = N_Na[i]
+
+      }else if(j==2 || j==(2+row) ) {
+
+        if(N_Cl[i]>0) {
+          eval("ClParticles" + i).splice(N_Cl[i]-1, 1);
+          N_Cl[i]--;
+          numParticles[i]--;
+        }
+        var Value = N_Cl[i]
+      }
+    }
+
 }
 
 
