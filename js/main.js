@@ -79,6 +79,10 @@ function setup() {
 
   for (var j = 0; j < numContainer; j++) {
     for (var i = 0; i < numParticles[j]; i++) {
+      velocities = [-4,-3,3,4];
+      var x_vel = Math.floor(Math.random() * 3) + 0;
+      var y_vel = Math.floor(Math.random() * 3) + 0;
+      var velocity = createVector(velocities[x_vel],velocities[y_vel]);
       xRange = outerBox[j].tr.x - outerBox[j].tl.x - 100;
       yRange = outerBox[j].br.y - outerBox[j].tr.y - 100;
 
@@ -139,26 +143,20 @@ function setup() {
     input[k].class('qoptions');
     input[k].parent(eval("control" + k));
 
-    input[k].style('width', '20px','font-size', '12px','vertical-align','middle');
-
     PlusButton[k] = createButton('+');
-
     PlusButton[k].id(k);
     PlusButton[k].mousePressed(increase);
     PlusButton[k].class('qoptions');
     PlusButton[k].parent(eval("control" + k));
-
-    PlusButton[k].style('width', '20px');
 
     MinusButton[k] = createButton('-');
     MinusButton[k].id(k);
     MinusButton[k].mousePressed(decrease);
     MinusButton[k].class('qoptions');
     MinusButton[k].parent(eval("control" + k));
-    MinusButton[k].style('width', '20px');
-    }
   }
   //UI
+}
 }
 
 function draw() {

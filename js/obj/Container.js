@@ -15,6 +15,12 @@ class Container {
 
   clips(p) {
     // Test if the next movement the particle makes would result in a part of it clipping past container
+    var write = function (direction, particle, wall, velocity) {
+      // console.log("direction: ", direction);
+      // console.log("particle: ", particle);
+      // console.log(direction, " wall: ", wall);
+      // console.log(p.move_velocity.x,p.move_velocity.y);
+    }
     var nextPastBottom = p.y + p.move_velocity.y + p.r + 0.5 > this.bl.y;
     var nextPastTop = p.y + p.move_velocity.y - p.r - 0.5 < this.tl.y;
     var nextPastRight = p.x + p.move_velocity.x + p.r + 0.5 > this.br.x;
@@ -23,36 +29,48 @@ class Container {
     while ( nextPastBottom ) {
       // For as long as the next position increment will bring the particle
       // outside of the container, then... decelerate the particle.
+      write("bottom", p.y + p.r, this.bl.y);
       p.move_velocity.y -= 1;
-
       // Recheck condition
       nextPastBottom = p.y + p.move_velocity.y + p.r > this.bl.y;
     }
 
     while ( nextPastTop ) {
+      write("top", p.y - p.r, this.tl.y);
       p.move_velocity.y += 1;
       nextPastTop = p.y + p.move_velocity.y - p.r < this.tl.y;
     }
 
     while ( nextPastRight ) {
+      write("right", p.x + p.r, this.br.x);
       p.move_velocity.x -= 1;
       nextPastRight = p.x + p.move_velocity.x + p.r > this.br.x;
     }
 
     while ( nextPastLeft ) {
+      write("left", p.x - p.r, this.bl.x);
       p.move_velocity.x += 1;
       nextPastLeft = p.x + p.move_velocity.x - p.r < this.bl.x;
     }
   }
 
   hit(p) {
-    var pastBottom = p.y + p.r + 0.5 >= this.bl.y;
-    var pastTop = p.y - p.r - 0.5 <= this.tl.y;
-    var pastRight = p.x + p.r + 0.5 >= this.br.x;
-    var pastLeft = p.x - p.r - 0.5<= this.bl.x;
+    var write = function (direction, particle, wall) {
+      //console.log("direction: ", direction);
+      //console.log("particle: ", particle);
+      //console.log(direction, " wall: ", wall);
+    }
+
+    p.x += p.move_velocity.x;
+    p.y += p.move_velocity.y;
+    var pastBottom = p.y + p.r >= this.bl.y;
+    var pastTop = p.y - p.r <= this.tl.y;
+    var pastRight = p.x + p.r >= this.br.x;
+    var pastLeft = p.x - p.r <= this.bl.x;
 
     if ( pastBottom ) {
       // Create new velocity vector based off of reflection
+      write("bottom", p.y + p.r, this.bl.y);
       var newx = p.orig_velocity.x;
       var newy = -1 * p.orig_velocity.y;
 
@@ -65,6 +83,7 @@ class Container {
 
     } if ( pastTop ) {
       // Create new velocity vector based off of reflection
+      write("top", p.y - p.r, this.tl.y);
       var newx = p.orig_velocity.x;
       var newy = -1 * p.orig_velocity.y;
 
@@ -77,6 +96,7 @@ class Container {
 
     } if ( pastRight ) {
       // Create new velocity vector based off of reflection
+      write("right", p.x + p.r, this.br.x);
       var newx = -1 * p.orig_velocity.x;
       var newy = p.orig_velocity.y;
 
@@ -89,6 +109,7 @@ class Container {
 
     } if ( pastLeft ) {
       // Create new velocity vector based off of reflection
+      write("left", p.x - p.r, this.bl.x);
       var newx = -1 * p.orig_velocity.x;
       var newy = p.orig_velocity.y;
 
@@ -98,11 +119,9 @@ class Container {
       // Move particle
       p.x += p.move_velocity.x;
       p.y += p.move_velocity.y;
-    } else {
+    } 
 
-      p.x += p.move_velocity.x;
-      p.y += p.move_velocity.y;
-    }
+    
   }
 }
 
