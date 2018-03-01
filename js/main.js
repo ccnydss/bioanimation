@@ -21,7 +21,7 @@ var radius = 20;
 
 //UI
 var numContainer = 2;
-var PlusButton = [], MinusButton = [], textboard = [], input = [];
+var PlusButton = [], MinusButton = [], titletext = [], textboard = [], input = [];
 //UI
 
 function setup() {
@@ -51,7 +51,7 @@ function setup() {
   var velocity = createVector(-5, -4);
 
   for (var j = 0; j < numContainer; j++) {
-    for (var i = 0; i < numParticlesMax[j]; i++) {
+    for (var i = 0; i < numParticles[j]; i++) {
       xRange = outerBox[j].tr.x - outerBox[j].tl.x - 100;
       yRange = outerBox[j].br.y - outerBox[j].tr.y - 100;
 
@@ -71,14 +71,18 @@ function setup() {
   makeDivs();
 
   for (var k = 0; k < numContainer; k++) {
-    textboard[k] = createElement('h3', 'Current Number:' + numParticles[k]);
+
+    if (k==0) {
+      var text = 'Top';
+    } else { var text = 'Bottom'; }
+    textboard[k] = createElement('h3', text+' Number:');
     textboard[k].class('qoptions');
-    textboard[k].parent('controls');
+    textboard[k].parent(eval("control" + k));
 
     input[k] = createInput(numParticles[k]);
     input[k].id("fasf");
     input[k].class('qoptions');
-    input[k].parent('controls');
+    input[k].parent(eval("control" + k));
 
     input[k].style('width', '20px','font-size', '12px','vertical-align','middle');
 
@@ -87,7 +91,7 @@ function setup() {
     PlusButton[k].id(k);
     PlusButton[k].mousePressed(increase);
     PlusButton[k].class('qoptions');
-    PlusButton[k].parent('controls');
+    PlusButton[k].parent(eval("control" + k));
 
     PlusButton[k].style('width', '20px');
 
@@ -95,7 +99,7 @@ function setup() {
     MinusButton[k].id(k);
     MinusButton[k].mousePressed(decrease);
     MinusButton[k].class('qoptions');
-    MinusButton[k].parent('controls');
+    MinusButton[k].parent(eval("control" + k));
     MinusButton[k].style('width', '20px');
   }
   //UI
@@ -129,25 +133,46 @@ function draw() {
 
     if (OldnumParticles[k] != input[k].value() & input[k].value() <= numParticlesMax[k]) {
 
-      if (OldnumParticles[k] > input[k].value()) {
-        var high = OldnumParticles[k];
-        var low = input[k].value();
-      }
-      else {
-        var low = OldnumParticles[k];
-        var high = input[k].value();
+
+        var velocity = createVector(-5, -4);
+
+
+      if (OldnumParticles[k] > input[k].value()) { //Deleting particles
+            eval("particles" + k).splice(input[k].value(), OldnumParticles[k]-input[k].value());
       }
 
-      for (var i = low; i < high; i++) {
-        console.log(i+"&&&"+randomX);
-        randomX = outerBox[k].tl.x + radius + (Math.floor(Math.random() * xRange))
-        randomY = outerBox[k].tl.y + radius + (Math.floor(Math.random() * yRange))
 
-        if (i < numParticlesMax[k]) {
-          eval("particles" + k)[i].x = randomX;
-          eval("particles" + k)[i].y = randomY;
+      if (OldnumParticles[k] < input[k].value()) { //adding particles
+        for (var i = OldnumParticles[k]; i < input[k].value(); i++) {
+          randomX = outerBox[k].tl.x + radius + (Math.floor(Math.random() * xRange))
+          randomY = outerBox[k].tl.y + radius + (Math.floor(Math.random() * yRange))
+          var chance = Math.random()
+          if (chance < 0.5) {
+          eval("particles" + k).push(new Na(randomX,randomY,radius,velocity));
+          }else {
+          eval("particles" + k).push(new Cl(randomX,randomY,2*radius,velocity));
+          }
         }
       }
+      // if (OldnumParticles[k] > input[k].value()) {
+      //   var high = OldnumParticles[k];
+      //   var low = input[k].value();
+      // }
+      // else {
+      //   var low = OldnumParticles[k];
+      //   var high = input[k].value();
+      // }
+      //
+      // for (var i = low; i < high; i++) {
+      //   console.log(i+"&&&"+randomX);
+      //   randomX = outerBox[k].tl.x + radius + (Math.floor(Math.random() * xRange))
+      //   randomY = outerBox[k].tl.y + radius + (Math.floor(Math.random() * yRange))
+      //
+      //   if (i < numParticlesMax[k]) {
+      //     eval("particles" + k)[i].x = randomX;
+      //     eval("particles" + k)[i].y = randomY;
+      //   }
+      // }
 
       numParticles[k] = input[k].value();
       OldnumParticles[k] = input[k].value();
@@ -180,7 +205,16 @@ function makeDivs() {
   canvas.class('can');
   canvas.parent('sim');
 
+//Control UI
   controls = createDiv('');
   controls.id('controls');
   controls.parent('sim');
+
+  control0 = createDiv('');
+  control0.class('control');
+  control0.parent('controls');
+
+  control1 = createDiv('');
+  control1.class('control');
+  control1.parent('controls');
 }
