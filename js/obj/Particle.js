@@ -29,14 +29,14 @@ function Particle (_x, _y, _diam, _vel) {
   }
 }
 
-class Na extends Particle {
+class Cl extends Particle {
   color() {
-    fill(color(255, 204, 0));
+  fill('rgba(0,255,0, 0.25)')
   }
 }
 
-class Cl extends Particle {
+class Na extends Particle {
   color() {
-    fill('rgba(0,255,0, 0.25)')
+    fill(color(255, 204, 0));
   }
 }
