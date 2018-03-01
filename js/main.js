@@ -48,10 +48,15 @@ function setup() {
   outerBox[1] = new Container( topLeft, topRight, botRight, botLeft );
   outerBox[1].draw();
 
-  var velocity = createVector(-5, -4);
+
+  
 
   for (var j = 0; j < numContainer; j++) {
     for (var i = 0; i < numParticles[j]; i++) {
+      velocities = [-4,-3,3,4];
+      var x_vel = Math.floor(Math.random() * 3) + 0;
+      var y_vel = Math.floor(Math.random() * 3) + 0;
+      var velocity = createVector(velocities[x_vel],velocities[y_vel]);
       xRange = outerBox[j].tr.x - outerBox[j].tl.x - 100;
       yRange = outerBox[j].br.y - outerBox[j].tr.y - 100;
 
