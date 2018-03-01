@@ -124,10 +124,10 @@ function setup() {
     } else if(k==row) {
        var text = 'Bottom';
      } else if(k==1 || k==(1+row)) {
-        var text = 'Na Number:&nbsp;';
+        var text = 'Na Ions:&nbsp;';
         var Value = N_Na[Math.floor(k/3)]
       } else if(k==2 || k==(2+row)) {
-         var text = 'Cl Number:&nbsp;';
+         var text = 'Cl Ions:&nbsp;';
          var Value = N_Cl[Math.floor(k/3)]
        }
 
@@ -161,10 +161,6 @@ function setup() {
 
 function draw() {
   clear();
-
-  stroke(15, 15, 15, 100);
-  // noStroke();
-  fill(180, 180, 180, 255);
 
   UIBoxs[0].draw();
   UIBoxs[1].draw();

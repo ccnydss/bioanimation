@@ -15,6 +15,8 @@ body {
   width: 100%;
   height: 100%;
   background-color: #efeaef;
+
+  font-family: 'Open Sans', sans-serif;
   color: #fff;
 }
 
@@ -63,11 +65,12 @@ body {
 #qdiv {
   display: flex;
   justify-content: center;
-  background-color: #1b2432;
+  background-color: #403f4c;
 }
 
 .qoptions {
-  margin-right: 5px;
+  margin-left: 5px;
+  margin-bottom: 5px;
   vertical-align: middle;
 }
 
@@ -86,8 +89,6 @@ body {
   height: 35px;
   width: 35px;
 
-  background-color: #2b48ef;
-  color: #fff;
 
   border-radius: 5px;
   border: none;
@@ -96,7 +97,21 @@ body {
   text-align: center;
 }
 
+.control #\31, #\34 {
+  /* SODIUM */
+  background-color: #efec2b;
+}
 
-.control button:hover {
-  background-color: #4c67ff;
+.control #\32, #\35 {
+  /* CLORINE */
+  background-color: #6bce25;
+}
+
+
+.control #\31:hover, #\34:hover {
+  background-color: #efee8d;
+}
+
+.control #\32:hover, #\35:hover {
+  background-color: #9dce79;
 }

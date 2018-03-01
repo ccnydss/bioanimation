@@ -12,14 +12,11 @@ class Channel {
   draw() {
     var thickness = 25;
 
-  fill(180, 180, 180, 255);
-    //fill(color(255, 204, 0));
-  rect( this.tl.x-thickness, this.tl.y, this.vertical+2*thickness, this.horizontal ); //Gap
+    rect( this.tl.x-thickness, this.tl.y, this.vertical+2*thickness, this.horizontal ); //Gap
 
-  fill('rgba(0,255,0, 0.25)')
-  rect( this.tl.x-thickness, this.tl.y, this.vertical/2, this.horizontal ); //Border left
-  rect( this.tl.x+2*thickness, this.tl.y, this.vertical/2, this.horizontal ); //Border Right
-    // stroke(51);
+    fill('rgba(100,155,200, 0.9)')
+    rect( this.tl.x-thickness, this.tl.y, this.vertical/2, this.horizontal ); //Border left
+    rect( this.tl.x+2*thickness, this.tl.y, this.vertical/2, this.horizontal ); //Border Right
   }
 }
 
@@ -35,8 +32,7 @@ class UIBox {
   }
 
   draw() {
-
-    fill(180, 180, 180, 255);
+    fill(100, 155, 180, 100);
     rect( this.tl.x, this.tl.y, this.vertical, this.horizontal );
-    }
   }
+}
