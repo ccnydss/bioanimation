@@ -3,6 +3,7 @@ function Particle (_x, _y, _diam, _vel) {
   this.y = _y;
   this.diam = _diam;
   this.r = int(_diam/2);
+  this.collidable = false;
 
   // Store the original vector to remember it after modifying move_velocity.
   this.orig_velocity = createVector(_vel.x, _vel.y);
@@ -15,14 +16,8 @@ function Particle (_x, _y, _diam, _vel) {
   var insideContainer = true;
   this.move = function (container_context, cellWalls) {
     // Pass in a Container object the particle should be constrained inside.
-
     container_context.clips(this);
     container_context.hit(this);
-    // for (var i=0; i<cellWalls.length; i++) {
-    //   cellWalls[i].clips(this);
-    //   cellWalls[i].hit(this);
-    // }
-
 
     ellipse( this.x, this.y, this.diam );
   }
