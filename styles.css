@@ -31,12 +31,13 @@ body {
   /* background-color: #fa2; */
 }
 
-#controls {
+.controls {
   background-color: #0f0;
   border-style: solid;
   border-color: #0f0;
   border-width: 5px;
   display: flex;
+  flex-direction: column;
 }
 
 .control {
@@ -51,6 +52,12 @@ body {
 
 #sim {
   background-color: #fa2;
+}
+
+#simInput {
+  background-color: #fa2;
+  display: flex;
+  flex-direction: row;
 }
 
 #qdiv {
