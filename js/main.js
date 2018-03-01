@@ -79,8 +79,10 @@ function setup() {
 
     if (k==0) {
       var text = 'Top';
-    } else { var text = 'Bottom'; }
-    textboard[k] = createElement('h3', text+' Number:');
+    } else {
+        var text = 'Bottom';
+    }
+    textboard[k] = createElement('h3', text+' Number ');
     textboard[k].class('qoptions');
     textboard[k].parent(eval("control" + k));
 
@@ -89,23 +91,17 @@ function setup() {
     input[k].class('qoptions');
     input[k].parent(eval("control" + k));
 
-    input[k].style('width', '20px','font-size', '12px','vertical-align','middle');
-
     PlusButton[k] = createButton('+');
-
     PlusButton[k].id(k);
     PlusButton[k].mousePressed(increase);
     PlusButton[k].class('qoptions');
     PlusButton[k].parent(eval("control" + k));
-
-    PlusButton[k].style('width', '20px');
 
     MinusButton[k] = createButton('-');
     MinusButton[k].id(k);
     MinusButton[k].mousePressed(decrease);
     MinusButton[k].class('qoptions');
     MinusButton[k].parent(eval("control" + k));
-    MinusButton[k].style('width', '20px');
   }
   //UI
 }
@@ -185,10 +181,6 @@ function draw() {
 
     var j = k*1/2;
 
-    // MinusButton[k].position(stage.position().x + 3*(stage.size().width - 600 - 10)/5, stage.position().y + stage.size().height/20 + stage.size().height*j);
-    // PlusButton[k].position(stage.position().x + 2*(stage.size().width - 600 - 10)/5, stage.position().y + stage.size().height/20 + stage.size().height*j);
-    // input[k].position(stage.position().x + 192, stage.position().y + stage.size().height/20 + 30 + 2 + stage.size().height*j);
-    // textboard[k].position(stage.position().x + (stage.size().width - 600 - 10)/5, stage.position().y + stage.size().height/20 + 30 + stage.size().height*j);
   }
   // UI
 }

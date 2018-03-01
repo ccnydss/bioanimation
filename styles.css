@@ -32,16 +32,15 @@ body {
 }
 
 #controls {
-  background-color: #0f0;
-  border-style: solid;
-  border-color: #0f0;
-  border-width: 5px;
+    background-color: #f99;
+    padding: 5px;
   display: flex;
 }
 
 .control {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .can {
@@ -61,5 +60,23 @@ body {
 }
 
 .qoptions {
-  /* padding: 80px; */
+    /* padding: 80px; */
+    margin-right: 5px;
+    
+    font-size: 12px;
+    vertical-align: middle;
+}
+
+.control h3 {
+    font-size: 20px;
+}
+
+.control input {
+    width: 20px;
+    height: 35px
+}
+
+.control button {
+    height: 35px;
+    width: 35px;
 }
