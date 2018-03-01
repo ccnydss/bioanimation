@@ -14,8 +14,9 @@ function Particle (_x, _y, _diam, _vel) {
   }
 
   var insideContainer = true;
-  this.move = function (container_context, cellWalls) {
+  this.move = function (container_context,channel) {
     // Pass in a Container object the particle should be constrained inside.
+    channel.transfers(this);
     if (this.collidable) {
       container_context.clips(this);
       container_context.hit(this);

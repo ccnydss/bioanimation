@@ -178,7 +178,7 @@ function draw() {
     for (var i = 0; i < numParticles[j]; i++) {
 
             eval("particles" + j)[i].color();
-      eval("particles" + j)[i].move(outerBox[j]);
+      eval("particles" + j)[i].move(outerBox[j], Channels[0]);
     }
   }
 

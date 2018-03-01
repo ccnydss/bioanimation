@@ -3,4 +3,9 @@ class Point {
     this.x = _x;
     this.y = _y;
   }
+
+  draw(){
+  	//stroke(255);
+  	point(this.x,this.y);
+  }
 }
