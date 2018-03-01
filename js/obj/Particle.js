@@ -30,12 +30,14 @@ function Particle (_x, _y, _diam, _vel) {
 
 class Cl extends Particle {
   color() {
-  fill('rgba(0,255,0, 0.25)')
+    noStroke();
+    fill('#6bce25')
   }
 }
 
 class Na extends Particle {
   color() {
-    fill(color(255, 204, 0));
+    noStroke();
+    fill('#efec2b');
   }
 }
