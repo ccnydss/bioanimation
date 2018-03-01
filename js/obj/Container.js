@@ -13,6 +13,11 @@ class Container {
     rect( this.tl.x, this.tl.y, this.vertical, this.horizontal );
   }
 
+  moveNoCollision(p) {
+    p.x += p.move_velocity.x;
+    p.y += p.move_velocity.y;
+  }
+
   clips(p) {
     // Test if the next movement the particle makes would result in a part of it clipping past container
     var write = function (direction, particle, wall, velocity) {
