@@ -10,6 +10,8 @@ class Container {
   }
 
   draw() {
+    fill('#2c2b3c');
+    stroke(0,255,0);
     rect( this.tl.x, this.tl.y, this.vertical, this.horizontal );
   }
 
@@ -124,9 +126,6 @@ class Container {
       // Move particle
       p.x += p.move_velocity.x;
       p.y += p.move_velocity.y;
-    } 
-
-    
+    }
   }
 }
-

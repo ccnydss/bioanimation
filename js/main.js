@@ -39,7 +39,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   noFill();
 
-  var length = 600;
+  var length = Math.floor(0.80*windowHeight);
 
   var topLeft = new Point( 0, 0 );
   var topRight = new Point( length, 0 );
@@ -74,6 +74,14 @@ function setup() {
   var botLeft = new Point( 0, ( length ) );
   UIBoxs[1] = new UIBox( topLeft, topRight, botRight, botLeft );
   UIBoxs[1].draw();
+
+  var cellWallTL = UIBoxs[0].tl;
+  var cellWallTR = UIBoxs[0].tr;
+  var cellWallBR = UIBoxs[1].br;
+  var cellWallBL = UIBoxs[1].bl;
+
+  console.log(UIBoxs[0].tl,UIBoxs[0].tr,UIBoxs[0].br,UIBoxs[0].bl);
+  console.log(UIBoxs[1].tl,UIBoxs[1].tr,UIBoxs[1].br,UIBoxs[1].bl);
 
   var velocity = createVector(-5, -4);
 
@@ -110,8 +118,8 @@ function setup() {
     var topRight = new Point( length/2+thickness, length/2-thickness );
     var botRight = new Point( length/2+thickness, length/2-thickness );
     var botLeft = new Point( length/2-thickness, length/2+thickness );
-    Channels[0] = new Channel( topLeft, topRight, botRight, botLeft );
-    Channels[0].draw();
+    // Channels[0] = new Channel( topLeft, topRight, botRight, botLeft );
+    // Channels[0].draw();
 
     //Title text
     //Na Input
@@ -124,10 +132,10 @@ function setup() {
     } else if(k==row) {
        var text = 'Bottom';
      } else if(k==1 || k==(1+row)) {
-        var text = 'Na Number:&nbsp;';
+        var text = 'Na Ions:&nbsp;';
         var Value = N_Na[Math.floor(k/3)]
       } else if(k==2 || k==(2+row)) {
-         var text = 'Cl Number:&nbsp;';
+         var text = 'Cl Ions:&nbsp;';
          var Value = N_Cl[Math.floor(k/3)]
        }
 
@@ -162,23 +170,19 @@ function setup() {
 function draw() {
   clear();
 
-  stroke(15, 15, 15, 100);
-  // noStroke();
-  fill(180, 180, 180, 255);
-
   UIBoxs[0].draw();
   UIBoxs[1].draw();
    strokeWeight(0);
   outerBox[0].draw();
   outerBox[1].draw();
-  Channels[0].draw();
+  // Channels[0].draw();
    strokeWeight(1);
 
   for (var j = 0; j < numContainer; j++) {
     for (var i = 0; i < numParticles[j]; i++) {
 
             eval("particles" + j)[i].color();
-      eval("particles" + j)[i].move(outerBox[j], Channels[0]);
+      eval("particles" + j)[i].move(outerBox[j], /*Channels[0]*/);
     }
   }
 

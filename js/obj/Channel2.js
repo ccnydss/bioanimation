@@ -10,16 +10,8 @@ class Channel {
   }
 
   draw() {
-    var thickness = 20;
-
-    fill(180, 180, 180, 255);
-    //fill(color(255, 204, 0));
-    rect( this.tl.x-thickness, this.tl.y, this.height+2*thickness, this.width ); //Gap
-
-    fill('rgba(0,255,0, 0.25)')
-    rect( this.tl.x-thickness, this.tl.y, this.height/2, this.width ); //Border left
-    rect( this.tl.x+2*thickness, this.tl.y, this.height/2, this.width ); //Border Right
-      // stroke(51);
+    fill(255)
+    rect(this.tl.x,this.tl.y,this.height,this.width)
   }
 
   isInTransferRange(p) {
@@ -74,6 +66,26 @@ class UIBox {
 
   draw() {
     fill(100, 155, 180, 100);
+    stroke(255, 0, 0);
     rect( this.tl.x, this.tl.y, this.height, this.width );
   }
+}
+
+var createChannels = function(tl,tr,br,bl,numOfChannels){
+  var channels = [];
+  var offset = 30;
+  var cellWallWidth = abs(_tl.y - _bl.y);
+  var channelHeight = abs(_tr.x - _tl.x);
+  for (var i=1; i<=numOfChannels; i++) {
+    // Get center x coordinate for cell wall
+    var center = (i)*Math.floor(cellWallWidth/(numOfChannels+1));
+    // Get coordinates of channel rectangle
+    var channelTL = new Point(center-offset,tl.y);
+    var channelTR = new Point(center+offset,tr.y);
+    var channelBR = new Point(center+offset,br.y);
+    var channelBL = new Point(center-offset,bl.y);
+    // Add new channel to channels array
+    channels.push(new Channel(channelTL,channelTR,channelBR,channelBL));
+  }
+  return channels;
 }
