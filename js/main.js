@@ -104,11 +104,11 @@ function setup() {
 
       var chance = Math.random()
       if (chance < 0.5) {
-      eval("NaParticles" + j).push(new Na(randomX,randomY,radius,velocity));
-      N_Na[j] = N_Na[j] + 1;
+        eval("NaParticles" + j).push(new Na(randomX,randomY,radius,velocity));
+        N_Na[j] = N_Na[j] + 1;
       }else {
-      eval("ClParticles" + j).push(new Cl(randomX,randomY,2*radius,velocity));
-      N_Cl[j] = N_Cl[j] + 1;
+        eval("ClParticles" + j).push(new Cl(randomX,randomY,2*radius,velocity));
+        N_Cl[j] = N_Cl[j] + 1;
       }
     }
   }
@@ -150,13 +150,13 @@ function setup() {
     if (k != 0 & k!= row) {
 
 
-    input[k] = createInput(Value);
+      input[k] = createInput(Value);
 
-    if (Value == 0) {input[k].value(0)}
-    input[k].input(ChangeNumParticles);
-    input[k].id(k);
-    input[k].class('qoptions');
-    input[k].parent(eval("control" + k));
+      if (Value == 0) {input[k].value(0)}
+      input[k].input(ChangeNumParticles);
+      input[k].id(k);
+      input[k].class('qoptions');
+      input[k].parent(eval("control" + k));
 
       PlusButton[k] = createButton('+');
       PlusButton[k].id(k);
@@ -189,12 +189,12 @@ function draw() {
     for (var i = 0; i < numParticles[j]; i++) {
 
       if(eval("NaParticles" + j)[i]) {
-              eval("NaParticles" + j)[i].color();
+        eval("NaParticles" + j)[i].color();
         eval("NaParticles" + j)[i].move(outerBox[j]);
       }
       if(eval("ClParticles" + j)[i]) {
-            eval("ClParticles" + j)[i].color();
-      eval("ClParticles" + j)[i].move(outerBox[j]);
+        eval("ClParticles" + j)[i].color();
+        eval("ClParticles" + j)[i].move(outerBox[j]);
       }
     }
   }

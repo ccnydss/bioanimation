@@ -68,117 +68,117 @@ function decrease(evt) {
   // randomY = outerBox[i].tl.y + radius + (Math.floor(Math.random() * yRange))
 
 
-    //textboard[i].html('Current Number:'+numParticles[i]);
-    // eval("particles" + i)[numParticles[i]].x = randomX;
-    // eval("particles" + i)[numParticles[i]].y = randomY;
+  //textboard[i].html('Current Number:'+numParticles[i]);
+  // eval("particles" + i)[numParticles[i]].x = randomX;
+  // eval("particles" + i)[numParticles[i]].y = randomY;
 
 
-      if (j==1 || j==(1+row) ) {
+  if (j==1 || j==(1+row) ) {
 
-        if(N_Na[i]>0) {
+    if(N_Na[i]>0) {
       eval("NaParticles" + i).splice(N_Na[i]-1, 1);
-         N_Na[i]--;
-         numParticles[i]--;
-      }
-      var Value = N_Na[i]
-
-    }else if(j==2 || j==(2+row) ) {
-
-      if(N_Cl[i]>0) {
-      eval("ClParticles" + i).splice(N_Cl[i]-1, 1);
-         N_Cl[i]--;
-         numParticles[i]--;
+      N_Na[i]--;
+      numParticles[i]--;
     }
-      var Value = N_Cl[i]
-      }
+    var Value = N_Na[i]
+
+  }else if(j==2 || j==(2+row) ) {
+
+    if(N_Cl[i]>0) {
+      eval("ClParticles" + i).splice(N_Cl[i]-1, 1);
+      N_Cl[i]--;
+      numParticles[i]--;
+    }
+    var Value = N_Cl[i]
+  }
 
 
-    // OldnumParticles[i] = numParticles[i]
-    input[j].value(Value);
+  // OldnumParticles[i] = numParticles[i]
+  input[j].value(Value);
 }
 
 function ChangeNumParticles(evt) {
 
-   var j = evt.target.id;
+  var j = evt.target.id;
 
-   var i = Math.floor(j/3);
-   var row = 3;
-   console.log("Id is "+evt.target.id+" Input is "+input[j].value());
+  var i = Math.floor(j/3);
+  var row = 3;
+  console.log("Id is "+evt.target.id+" Input is "+input[j].value());
 
- if (!isNaN(input[j].value())) {
+  if (!isNaN(input[j].value())) {
 
-  if (j==1 || j==(1+row) ) {
-    var Compare = N_Na[i]
+    if (j==1 || j==(1+row) ) {
+      var Compare = N_Na[i]
 
-  }else if(j==2 || j==(2+row) ) {
-    var Compare = N_Cl[i]
-  }
-
-
-  if (input[j].value() > Compare ) {
-    if (input[j].value() >= MaxParticles+1) {
-      input[j].value(MaxParticles);
+    }else if(j==2 || j==(2+row) ) {
+      var Compare = N_Cl[i]
     }
 
-    if (numParticles[i] >= numParticlesMax[i]){numParticles[i]=numParticlesMax[i]-1} else {
 
-      //textboard[i].html('Current Number:'+numParticles[i]);
+    if (input[j].value() > Compare ) {
+      if (input[j].value() >= MaxParticles+1) {
+        input[j].value(MaxParticles);
+      }
 
-      for (var k = Compare; k<input[j].value(); k++) {
+      if (numParticles[i] >= numParticlesMax[i]){numParticles[i]=numParticlesMax[i]-1} else {
 
-        randomX = outerBox[i].tl.x + radius + (Math.floor(Math.random() * xRange))
-        randomY = outerBox[i].tl.y + radius + (Math.floor(Math.random() * yRange))
+        //textboard[i].html('Current Number:'+numParticles[i]);
 
-        numParticles[i]++;
+        for (var k = Compare; k<input[j].value(); k++) {
 
-        var velocity = createVector(-5, -4);
+          randomX = outerBox[i].tl.x + radius + (Math.floor(Math.random() * xRange))
+          randomY = outerBox[i].tl.y + radius + (Math.floor(Math.random() * yRange))
 
+          numParticles[i]++;
+
+          var velocity = createVector(-5, -4);
+
+          if (j==1 || j==(1+row) ) {
+            eval("NaParticles" + i).push(new Na(randomX,randomY,radius,velocity));
+            N_Na[i]++;
+            var Value = N_Na[i]
+
+          }else if(j==2 || j==(2+row) ) {
+            eval("ClParticles" + i).push(new Cl(randomX,randomY,2*radius,velocity));
+            N_Cl[i]++;
+            var Value = N_Cl[i]
+          }
+        }
+
+
+        // OldnumParticles[i] = numParticles[i]
+        // input[j].value(Value);
+      }
+    } else if  (input[j].value() < Compare) {
+
+      for (var k = input[j].value(); k<Compare; k++) {
         if (j==1 || j==(1+row) ) {
-          eval("NaParticles" + i).push(new Na(randomX,randomY,radius,velocity));
-          N_Na[i]++;
+
+          if(N_Na[i]>0) {
+            eval("NaParticles" + i).splice(N_Na[i]-1, 1);
+            N_Na[i]--;
+            numParticles[i]--;
+          }
           var Value = N_Na[i]
 
         }else if(j==2 || j==(2+row) ) {
-          eval("ClParticles" + i).push(new Cl(randomX,randomY,2*radius,velocity));
-          N_Cl[i]++;
+
+          if(N_Cl[i]>0) {
+            eval("ClParticles" + i).splice(N_Cl[i]-1, 1);
+            N_Cl[i]--;
+            numParticles[i]--;
+          }
           var Value = N_Cl[i]
         }
       }
 
 
       // OldnumParticles[i] = numParticles[i]
-      // input[j].value(Value);
-    }
-  } else if  (input[j].value() < Compare) {
 
-    for (var k = input[j].value(); k<Compare; k++) {
-      if (j==1 || j==(1+row) ) {
-
-        if(N_Na[i]>0) {
-          eval("NaParticles" + i).splice(N_Na[i]-1, 1);
-          N_Na[i]--;
-          numParticles[i]--;
-        }
-        var Value = N_Na[i]
-
-      }else if(j==2 || j==(2+row) ) {
-
-        if(N_Cl[i]>0) {
-          eval("ClParticles" + i).splice(N_Cl[i]-1, 1);
-          N_Cl[i]--;
-          numParticles[i]--;
-        }
-        var Value = N_Cl[i]
-      }
     }
 
-
-    // OldnumParticles[i] = numParticles[i]
-
-  }
-
-} else if (isNaN(input[j].value())) {
-  input[j].value(0);
+  } else if (isNaN(input[j].value())) {
+    input[j].value(0);
 
     for (var k = 0; k<MaxParticles; k++) {
       if (j==1 || j==(1+row) ) {
@@ -201,7 +201,7 @@ function ChangeNumParticles(evt) {
       }
     }
 
-}
+  }
 
 
 }
