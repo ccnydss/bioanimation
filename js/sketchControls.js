@@ -168,9 +168,27 @@ function makeUIs() {
   stage = createDiv('');
   stage.id('stage');
 
+  rightBox = createDiv("");
+  rightBox.id('qdiv');
+  rightBox.parent('stage');
+
+
   questions = createDiv("");
-  questions.id('qdiv');
-  questions.parent('stage');
+  questions.id('questionsdiv');
+  questions.parent('qdiv');
+
+
+  equation = createDiv("");
+  equation.id('equationdiv');
+  equation.parent('qdiv');
+
+  // equation0 = createDiv('');
+  // equation0.id('equation0');
+  // equation0.parent(equationdiv);
+  //
+  // equation1 = createDiv('');
+  // equation1.id('equation1');
+  // equation1.parent(equationdiv);
 
   simulator = createDiv("");
   simulator.id('sim');
@@ -237,6 +255,44 @@ function makeUIs() {
     channels[i].draw();
   }
 
+var answer = 0;
+    equations[0] = createDiv('<img src="js/files/NernstEqn.JPG" alt="Nernst equaiton">');
+    equations[0].class('qoptions');
+    equations[0].parent('equationdiv');
+    equations[1] = createElement('h3', 'Answer: '+answer+'mV');
+    equations[1].class('qoptions');
+    equations[1].parent('equationdiv');
+
+    equations[2] = createSelect();
+    equations[2].id(2);
+    equations[2].class('eqninput');
+    equations[2].parent('equationdiv');
+    equations[2].option('Na');
+    equations[2].option('Cl');
+    equations[2].changed(NernstFormula);
+
+    equations[3] = createSelect();
+    equations[3].id(3);
+    equations[3].class('eqninput');
+    equations[3].parent('equationdiv');
+    equations[3].option('Na');
+    equations[3].option('Cl');
+    equations[3].changed(NernstFormula);
+
+  //Right side equaiton
+       // equations[0] = createElement('h3', "E<sub>ion</sub> = RT/zF ln([Cl]<sub>out</sub>/[Cl]<sub>in</sub>)");
+      //  equations[0] = createElement('h3', "E<sub>ion</sub> = ");
+      //  equations[0].class('qoptions');
+      // equations[0].parent('equationdiv');
+      //
+      //
+      //   equations[1] = createDiv("");
+      //   equations[1].parent('equationdiv');
+      //   equations[1].class('eqntop');
+      //   equations[2] = createDiv("");
+      //   equations[2].parent('equationdiv');
+      //   equations[2].class('eqnbot');
+
   //Title text
   //Na Input
   //Cl Input
@@ -244,9 +300,9 @@ function makeUIs() {
   for (var k = 0; k < numContainer*row; k++) {
 
     if (k==0) {
-      var text = 'Top';
+      var text = 'Outside';
     } else if(k==row) {
-      var text = 'Bottom';
+      var text = 'Inside';
     } else if(k==1 || k==(1+row)) {
       var text = 'Na Ions:&nbsp;';
       var Value = N_Na[Math.floor(k/3)]
@@ -283,4 +339,32 @@ function makeUIs() {
       MinusButton[k].parent(eval("control" + k));
     }
   }
+}
+
+function NernstFormula(evt) {
+  var j = evt.target.id;
+
+  if (j == 2) {
+    i =3;
+  } else if (j == 3) {
+    i =2;
+  }
+  var R = 8.314;
+  var T = 37 + 273.13 //@37C is common
+    if (equations[j].value()=="Na") {
+      var z = 1;
+      Xout = N_Na[0];
+      Xin = N_Na[1];
+    } else if (equations[j].value()=="Cl") {
+      var z = -1;
+      Xout = N_Cl[0];
+      Xin = N_Cl[1];}
+  var F = 0.096485;
+
+  var answer = (R*T)/(z*F)*Math.log(Xout/Xin);
+  console.log(answer*10000)
+
+  equations[i].value(equations[j].value());
+  equations[1].html('Answer: '+answer+'mV');
+
 }

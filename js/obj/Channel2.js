@@ -1,16 +1,19 @@
 class Channel {
-  constructor(_tl, _tr, _br, _bl) {
+  constructor(_tl, _tr, _br, _bl, _color) {
     this.tl = _tl;
     this.tr = _tr;
     this.br = _br;
     this.bl = _bl;
+
+    this.color = _color;
 
     this.height = abs(_tr.x - _tl.x);
     this.width = abs(_tl.y - _bl.y);
   }
 
   draw() {
-    fill(255)
+    // fill(255)
+    fill(particlesColor[this.color-1])
     rect(this.tl.x,this.tl.y,this.height,this.width)
   }
 
@@ -84,7 +87,7 @@ var createChannels = function(tl,tr,br,bl,numOfChannels){
     var channelBR = new Point(center+offset,br.y);
     var channelBL = new Point(center-offset,bl.y);
     // Add new channel to channels array
-    channels.push(new Channel(channelTL,channelTR,channelBR,channelBL));
+    channels.push(new Channel(channelTL,channelTR,channelBR,channelBL, i));
   }
   return channels;
 }

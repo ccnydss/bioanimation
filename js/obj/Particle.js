@@ -26,7 +26,7 @@ class Particle {
     else {
       container_context.moveNoCollision(this)
     }
-    
+
     container_context.clips(this);
     container_context.hit(this);
 
@@ -34,16 +34,17 @@ class Particle {
   }
 }
 
-class Cl extends Particle {
-  color() {
-    noStroke();
-    fill('#6bce25')
-  }
-}
 
 class Na extends Particle {
   color() {
     noStroke();
-    fill('#efec2b');
+    fill(particlesColor[0]);
+  }
+}
+
+class Cl extends Particle {
+  color() {
+    noStroke();
+    fill(particlesColor[1])
   }
 }

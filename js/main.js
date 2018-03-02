@@ -9,6 +9,10 @@ numParticles[1] = 2;
 //0 = top
 //1 = bot
 
+var particlesColor = [];
+particlesColor[0] = '#efec2b';
+particlesColor[1] = '#6bce25';
+
 //For local particles on each box
 var MaxParticles = 25;
 var NaParticles0 = [];
@@ -32,11 +36,15 @@ N_Cl[1] = 0;
 
 var numContainer = 2;
 var PlusButton = [], MinusButton = [], titletext = [], textboard = [], input = [];
-var UIBoxs = [];
+var UIBoxs = [], equations = [], equationImg;
 
 var length = 600;
 var thickness = 25; //Make channel a square for now...
 //UI
+
+function preload() {
+  imgCb = loadImage("https://wikimedia.org/api/rest_v1/media/math/render/svg/59fb8dd0b3884bbb390b4cbfacdc9cb81b37bca3");
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -125,6 +133,7 @@ function draw() {
   }
   strokeWeight(1);
 
+    image(imgCb,0, 0);
   for (var j = 0; j < numContainer; j++) {
     for (var i = 0; i < N_Na[j]; i++) {
 
@@ -142,5 +151,11 @@ function draw() {
       }
     }
   }
+
+  //UI
+  lock = equations[0].position()
+  equations[2].position(lock.x+167, lock.y+11);
+  equations[3].position(lock.x+172, lock.y+55);
+  //UI
 
 }

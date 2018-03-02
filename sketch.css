@@ -63,10 +63,59 @@ body {
 }
 
 #qdiv {
-  display: flex;
   justify-content: center;
   background-color: #403f4c;
 }
+
+#questionsdiv {
+  height: calc(100% - 135px);
+}
+
+#equationdiv {
+  height: 135px;
+  background-color: #1b2432;
+  vertical-align: middle;
+  /* line-height: 135px; */
+    justify-content: center;
+  align-items: center;
+}
+
+#equationdiv select {
+  width: 36px;
+  height: 25px;
+
+  text-align: center;
+}
+
+/* .top {
+    border-bottom: solid #fff 1px;
+    display: inline-block;
+    float: left;
+}
+
+.bottom {
+    display: inline-block;
+    clear: left;
+    float: left;
+} */
+
+/* .eqnnormal {
+  max-width: 50%;
+  height: 25px;
+  width: 25px;
+  background-color: white;
+}
+.eqntop {
+  height: 25px;
+  width: 25px;
+  background-color: white;
+}
+.eqnbot {
+  height: 25px;
+  width: 25px;
+  background-color: white;
+} */
+
 
 .qoptions {
   margin-left: 5px;
