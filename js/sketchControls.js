@@ -18,11 +18,11 @@ function keyPressed() {
 
 //UI
 function increase(evt) {
-   console.log(evt.target.id);
+  console.log(evt.target.id);
   var j = evt.target.id;
 
-    var i = Math.floor(j/3);
-    var row = 3;
+  var i = Math.floor(j/3);
+  var row = 3;
 
   randomX = outerBox[i].tl.x + radius + (Math.floor(Math.random() * xRange))
   randomY = outerBox[i].tl.y + radius + (Math.floor(Math.random() * yRange))
@@ -32,58 +32,178 @@ function increase(evt) {
     //textboard[i].html('Current Number:'+numParticles[i]);
 
 
-        numParticles[i]++;
+    numParticles[i]++;
 
-      var velocity = createVector(-5, -4);
+    var velocity = createVector(-5, -4);
 
-          if (j==1 || j==(1+row) ) {
-          eval("particles" + i).push(new Na(randomX,randomY,radius,velocity));
-          N_Na[Math.floor(j/3)] = N_Na[Math.floor(j/3)] + 1;
-          var Value = N_Na[Math.floor(j/3)]
+    if (j==1 || j==(1+row) ) {
+      eval("particles" + i).push(new Na(randomX,randomY,radius,velocity));
+      N_Na[Math.floor(j/3)] = N_Na[Math.floor(j/3)] + 1;
+      var Value = N_Na[Math.floor(j/3)]
 
-        }else if(j==2 || j==(2+row) ) {
-          eval("particles" + i).push(new Cl(randomX,randomY,2*radius,velocity));
-          N_Cl[Math.floor(j/3)] = N_Cl[Math.floor(j/3)] + 1;
-          var Value = N_Cl[Math.floor(j/3)]
-          }
+    } else if(j==2 || j==(2+row) ) {
+      eval("particles" + i).push(new Cl(randomX,randomY,2*radius,velocity));
+      N_Cl[Math.floor(j/3)] = N_Cl[Math.floor(j/3)] + 1;
+      var Value = N_Cl[Math.floor(j/3)]
+    }
 
-              //Random position when spawn
-              // eval("particles" + i)[numParticles[i]].x = randomX;
-              // eval("particles" + i)[numParticles[i]].y = randomY;
+    //Random position when spawn
+    // eval("particles" + i)[numParticles[i]].x = randomX;
+    // eval("particles" + i)[numParticles[i]].y = randomY;
 
 
-    OldnumParticles[i] = numParticles[i]
+    // OldnumParticles[i] = numParticles[i]
     input[j].value(Value);
   }
 }
 
 function decrease(evt) {
-   console.log(evt.target.id);
+  console.log(evt.target.id);
   var j = evt.target.id;
 
-  var i;
-  if (j==1) {
-    i = 0;
-  } else if (j==4) {
-    i = 1;
+  var i = Math.floor(j/3);
+  var row = 3;
+
+  // randomX = outerBox[i].tl.x + radius + (Math.floor(Math.random() * xRange))
+  // randomY = outerBox[i].tl.y + radius + (Math.floor(Math.random() * yRange))
+
+
+  //textboard[i].html('Current Number:'+numParticles[i]);
+  // eval("particles" + i)[numParticles[i]].x = randomX;
+  // eval("particles" + i)[numParticles[i]].y = randomY;
+
+
+  if (j==1 || j==(1+row) ) {
+
+    if(N_Na[i]>0) {
+      eval("NaParticles" + i).splice(N_Na[i]-1, 1);
+      N_Na[i]--;
+      numParticles[i]--;
+    }
+    var Value = N_Na[i]
+
+  }else if(j==2 || j==(2+row) ) {
+
+    if(N_Cl[i]>0) {
+      eval("ClParticles" + i).splice(N_Cl[i]-1, 1);
+      N_Cl[i]--;
+      numParticles[i]--;
+    }
+    var Value = N_Cl[i]
   }
 
-  randomX = outerBox[i].tl.x + radius + (Math.floor(Math.random() * xRange))
-  randomY = outerBox[i].tl.y + radius + (Math.floor(Math.random() * yRange))
 
-  if (numParticles[i] <= 0){numParticles[i]=0} else {
+  // OldnumParticles[i] = numParticles[i]
+  input[j].value(Value);
+}
 
-    //textboard[i].html('Current Number:'+numParticles[i]);
-    // eval("particles" + i)[numParticles[i]].x = randomX;
-    // eval("particles" + i)[numParticles[i]].y = randomY;
+function ChangeNumParticles(evt) {
 
-    eval("particles" + i).splice(numParticles[i]-1, 1);
+  var j = evt.target.id;
 
-    numParticles[i]--;
+  var i = Math.floor(j/3);
+  var row = 3;
+  console.log("Id is "+evt.target.id+" Input is "+input[j].value());
 
-    OldnumParticles[i] = numParticles[i]
-    input[j].value(numParticles[i]);
+  if (!isNaN(input[j].value())) {
+
+    if (j==1 || j==(1+row) ) {
+      var Compare = N_Na[i]
+
+    }else if(j==2 || j==(2+row) ) {
+      var Compare = N_Cl[i]
+    }
+
+
+    if (input[j].value() > Compare ) {
+      if (input[j].value() >= MaxParticles+1) {
+        input[j].value(MaxParticles);
+      }
+
+      if (numParticles[i] >= numParticlesMax[i]){numParticles[i]=numParticlesMax[i]-1} else {
+
+        //textboard[i].html('Current Number:'+numParticles[i]);
+
+        for (var k = Compare; k<input[j].value(); k++) {
+
+          randomX = outerBox[i].tl.x + radius + (Math.floor(Math.random() * xRange))
+          randomY = outerBox[i].tl.y + radius + (Math.floor(Math.random() * yRange))
+
+          numParticles[i]++;
+
+          var velocity = createVector(-5, -4);
+
+          if (j==1 || j==(1+row) ) {
+            eval("NaParticles" + i).push(new Na(randomX,randomY,radius,velocity));
+            N_Na[i]++;
+            var Value = N_Na[i]
+
+          }else if(j==2 || j==(2+row) ) {
+            eval("ClParticles" + i).push(new Cl(randomX,randomY,2*radius,velocity));
+            N_Cl[i]++;
+            var Value = N_Cl[i]
+          }
+        }
+
+
+        // OldnumParticles[i] = numParticles[i]
+        // input[j].value(Value);
+      }
+    } else if  (input[j].value() < Compare) {
+
+      for (var k = input[j].value(); k<Compare; k++) {
+        if (j==1 || j==(1+row) ) {
+
+          if(N_Na[i]>0) {
+            eval("NaParticles" + i).splice(N_Na[i]-1, 1);
+            N_Na[i]--;
+            numParticles[i]--;
+          }
+          var Value = N_Na[i]
+
+        }else if(j==2 || j==(2+row) ) {
+
+          if(N_Cl[i]>0) {
+            eval("ClParticles" + i).splice(N_Cl[i]-1, 1);
+            N_Cl[i]--;
+            numParticles[i]--;
+          }
+          var Value = N_Cl[i]
+        }
+      }
+
+
+      // OldnumParticles[i] = numParticles[i]
+
+    }
+
+  } else if (isNaN(input[j].value())) {
+    input[j].value(0);
+
+    for (var k = 0; k<MaxParticles; k++) {
+      if (j==1 || j==(1+row) ) {
+
+        if(N_Na[i]>0) {
+          eval("NaParticles" + i).splice(N_Na[i]-1, 1);
+          N_Na[i]--;
+          numParticles[i]--;
+        }
+        var Value = N_Na[i]
+
+      }else if(j==2 || j==(2+row) ) {
+
+        if(N_Cl[i]>0) {
+          eval("ClParticles" + i).splice(N_Cl[i]-1, 1);
+          N_Cl[i]--;
+          numParticles[i]--;
+        }
+        var Value = N_Cl[i]
+      }
+    }
+
   }
+
+
 }
 
 function makeDivs() {
@@ -106,7 +226,7 @@ function makeDivs() {
   simulatorInput = createDiv('');
   simulatorInput.id('simInput');
   simulatorInput.parent('sim');
-//Control UI
+  //Control UI
   controlsLeft = createDiv('');
   controlsLeft.class('controls');
   controlsLeft.parent('simInput');
@@ -115,10 +235,10 @@ function makeDivs() {
   controlsRight.class('controls');
   controlsRight.parent('simInput');
 
-    // NOt Working
-    // for (var i = 0; i<2; i++) {
-    //   eval("control" + i) = createDiv('');
-    // }
+  // NOt Working
+  // for (var i = 0; i<2; i++) {
+  //   eval("control" + i) = createDiv('');
+  // }
   control0 = createDiv('');
   control0.class('control');
   control0.parent(controlsLeft);

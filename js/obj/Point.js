@@ -5,7 +5,7 @@ class Point {
   }
 
   draw(){
-  	//stroke(255);
+  	stroke(255);
   	point(this.x,this.y);
   }
 }

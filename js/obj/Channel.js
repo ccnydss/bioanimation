@@ -75,5 +75,6 @@ class UIBox {
   draw() {
     fill(100, 155, 180, 100);
     rect( this.tl.x, this.tl.y, this.height, this.width );
+    stroke(255, 0, 0);
   }
 }

@@ -11,7 +11,6 @@ class Container {
 
   draw() {
     fill('#2c2b3c');
-    stroke(0,255,0);
     rect( this.tl.x, this.tl.y, this.vertical, this.horizontal );
   }
 

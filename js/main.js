@@ -1,23 +1,34 @@
 var circles;
 var outerBox = [];
 
+
 var numParticles = [];
 numParticles[0] = 3;
 numParticles[1] = 2;
+//0 = top
+//1 = bot
 
-var OldnumParticles = [];
-OldnumParticles[0] = 3;
-OldnumParticles[1] = 2;
+//For overall particles on the screen
+// var OldnumParticles = [];
+// OldnumParticles[0] = 3;
+// OldnumParticles[1] = 2;
 
 var numParticlesMax = [];
 numParticlesMax[0] = 100;
 numParticlesMax[1] = 100;
 
-var particles0 = [];
-var particles1 = [];
+
+//For local particles on each box
+var MaxParticles = 25;
+var NaParticles0 = [];
+var NaParticles1 = [];
+var ClParticles0 = [];
+var ClParticles1 = [];
+//0 = top
+//1 = bot
 
 var cellWalls = [];
-var Channels = [];
+var channels = [];
 var radius = 20;
 
 //UI
@@ -39,7 +50,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   noFill();
 
-  var length = Math.floor(0.80*windowHeight);
+  var length = 600;
 
   var topLeft = new Point( 0, 0 );
   var topRight = new Point( length, 0 );
@@ -75,13 +86,6 @@ function setup() {
   UIBoxs[1] = new UIBox( topLeft, topRight, botRight, botLeft );
   UIBoxs[1].draw();
 
-  var cellWallTL = UIBoxs[0].tl;
-  var cellWallTR = UIBoxs[0].tr;
-  var cellWallBR = UIBoxs[1].br;
-  var cellWallBL = UIBoxs[1].bl;
-
-  console.log(UIBoxs[0].tl,UIBoxs[0].tr,UIBoxs[0].br,UIBoxs[0].bl);
-  console.log(UIBoxs[1].tl,UIBoxs[1].tr,UIBoxs[1].br,UIBoxs[1].bl);
 
   var velocity = createVector(-5, -4);
 
@@ -98,13 +102,14 @@ function setup() {
       randomX = outerBox[j].tl.x + radius + (Math.floor(Math.random() * xRange));
       randomY = outerBox[j].tl.y + radius + (Math.floor(Math.random() * yRange));
 
+
       var chance = Math.random()
       if (chance < 0.5) {
-      eval("particles" + j).push(new Na(randomX,randomY,radius,velocity));
-      N_Na[j] = N_Na[j] + 1;
+        eval("NaParticles" + j).push(new Na(randomX,randomY,radius,velocity));
+        N_Na[j] = N_Na[j] + 1;
       }else {
-      eval("particles" + j).push(new Cl(randomX,randomY,2*radius,velocity));
-      N_Cl[j] = N_Cl[j] + 1;
+        eval("ClParticles" + j).push(new Cl(randomX,randomY,2*radius,velocity));
+        N_Cl[j] = N_Cl[j] + 1;
       }
     }
   }
@@ -114,30 +119,38 @@ function setup() {
   //UI
 
   //Channel
-    var topLeft = new Point( length/2-thickness, length/2-thickness );
-    var topRight = new Point( length/2+thickness, length/2-thickness );
-    var botRight = new Point( length/2+thickness, length/2-thickness );
-    var botLeft = new Point( length/2-thickness, length/2+thickness );
-    // Channels[0] = new Channel( topLeft, topRight, botRight, botLeft );
-    // Channels[0].draw();
+  var topLeft = new Point( length/2-thickness, length/2-thickness );
+  var topRight = new Point( length/2+thickness, length/2-thickness );
+  var botRight = new Point( length/2+thickness, length/2-thickness );
+  var botLeft = new Point( length/2-thickness, length/2+thickness );
 
-    //Title text
-    //Na Input
-    //Cl Input
-    var row = 3;
+  var divisionTL = new Point(outerBox[0].bl.x,outerBox[0].bl.y);
+  var divisionTR = new Point(outerBox[0].br.x,outerBox[0].br.y);
+  var divisionBR = new Point(outerBox[1].tr.x,outerBox[1].tr.y);
+  var divisionBL = new Point(outerBox[1].tl.x,outerBox[1].tl.y);
+
+  channels = createChannels(divisionTL,divisionTR,divisionBR,divisionBL,2);
+  for (var i=0; i<channels.length; i++) {
+    channels[i].draw();
+  }
+
+  //Title text
+  //Na Input
+  //Cl Input
+  var row = 3;
   for (var k = 0; k < numContainer*row; k++) {
 
     if (k==0) {
       var text = 'Top';
     } else if(k==row) {
-       var text = 'Bottom';
-     } else if(k==1 || k==(1+row)) {
-        var text = 'Na Ions:&nbsp;';
-        var Value = N_Na[Math.floor(k/3)]
-      } else if(k==2 || k==(2+row)) {
-         var text = 'Cl Ions:&nbsp;';
-         var Value = N_Cl[Math.floor(k/3)]
-       }
+      var text = 'Bottom';
+    } else if(k==1 || k==(1+row)) {
+      var text = 'Na Ions:&nbsp;';
+      var Value = N_Na[Math.floor(k/3)]
+    } else if(k==2 || k==(2+row)) {
+      var text = 'Cl Ions:&nbsp;';
+      var Value = N_Cl[Math.floor(k/3)]
+    }
 
     textboard[k] = createElement('h3', text);
     textboard[k].class('qoptions');
@@ -146,25 +159,28 @@ function setup() {
     if (k != 0 & k!= row) {
 
 
-    input[k] = createInput(Value);
-    input[k].id("fasf");
-    input[k].class('qoptions');
-    input[k].parent(eval("control" + k));
+      input[k] = createInput(Value);
 
-    PlusButton[k] = createButton('+');
-    PlusButton[k].id(k);
-    PlusButton[k].mousePressed(increase);
-    PlusButton[k].class('qoptions');
-    PlusButton[k].parent(eval("control" + k));
+      if (Value == 0) {input[k].value(0)}
+      input[k].input(ChangeNumParticles);
+      input[k].id(k);
+      input[k].class('qoptions');
+      input[k].parent(eval("control" + k));
 
-    MinusButton[k] = createButton('-');
-    MinusButton[k].id(k);
-    MinusButton[k].mousePressed(decrease);
-    MinusButton[k].class('qoptions');
-    MinusButton[k].parent(eval("control" + k));
+      PlusButton[k] = createButton('+');
+      PlusButton[k].id(k);
+      PlusButton[k].mousePressed(increase);
+      PlusButton[k].class('qoptions');
+      PlusButton[k].parent(eval("control" + k));
+
+      MinusButton[k] = createButton('-');
+      MinusButton[k].id(k);
+      MinusButton[k].mousePressed(decrease);
+      MinusButton[k].class('qoptions');
+      MinusButton[k].parent(eval("control" + k));
+    }
+    //UI
   }
-  //UI
-}
 }
 
 function draw() {
@@ -172,88 +188,25 @@ function draw() {
 
   UIBoxs[0].draw();
   UIBoxs[1].draw();
-   strokeWeight(0);
+  strokeWeight(0);
   outerBox[0].draw();
   outerBox[1].draw();
-  // Channels[0].draw();
-   strokeWeight(1);
+  for (var i=0; i<channels.length; i++) {
+    channels[i].draw();
+  }
+  strokeWeight(1);
 
   for (var j = 0; j < numContainer; j++) {
     for (var i = 0; i < numParticles[j]; i++) {
 
-            eval("particles" + j)[i].color();
-      eval("particles" + j)[i].move(outerBox[j], /*Channels[0]*/);
+      if(eval("NaParticles" + j)[i]) {
+        eval("NaParticles" + j)[i].color();
+        eval("NaParticles" + j)[i].move(outerBox[j]);
+      }
+      if(eval("ClParticles" + j)[i]) {
+        eval("ClParticles" + j)[i].color();
+        eval("ClParticles" + j)[i].move(outerBox[j]);
+      }
     }
   }
-
-  //UI
-  // for (var j = 0; j < numContainer*row; j++) {
-  //     var k;
-  //   if (j==1) {
-  //     k = 0;
-  //   } else if (j==4) {
-  //     k = 1;
-  //   }
-  //
-  //   if (input[k].value() >= numParticlesMax[k]) {
-  //     input[k].value(numParticlesMax[k]-1)
-  //   } else if (!input[k].value()) {
-  //     input[k].value(0)
-  //   }
-  //
-  //   if (OldnumParticles[k] != input[k].value() & input[k].value() <= numParticlesMax[k]) {
-  //
-  //
-  //       var velocity = createVector(-5, -4);
-  //
-  //
-  //     if (OldnumParticles[k] > input[k].value()) { //Deleting particles
-  //           eval("particles" + k).splice(input[k].value(), OldnumParticles[k]-input[k].value());
-  //     }
-  //
-  //
-  //     if (OldnumParticles[k] < input[k].value()) { //adding particles
-  //       for (var i = OldnumParticles[k]; i < input[k].value(); i++) {
-  //         randomX = outerBox[k].tl.x + radius + (Math.floor(Math.random() * xRange))
-  //         randomY = outerBox[k].tl.y + radius + (Math.floor(Math.random() * yRange))
-  //         var chance = Math.random()
-  //         if (chance < 0.5) {
-  //         eval("particles" + k).push(new Na(randomX,randomY,radius,velocity));
-  //         }else {
-  //         eval("particles" + k).push(new Cl(randomX,randomY,2*radius,velocity));
-  //         }
-  //       }
-  //     }
-  //     // if (OldnumParticles[k] > input[k].value()) {
-  //     //   var high = OldnumParticles[k];
-  //     //   var low = input[k].value();
-  //     // }
-  //     // else {
-  //     //   var low = OldnumParticles[k];
-  //     //   var high = input[k].value();
-  //     // }
-  //     //
-  //     // for (var i = low; i < high; i++) {
-  //     //   console.log(i+"&&&"+randomX);
-  //     //   randomX = outerBox[k].tl.x + radius + (Math.floor(Math.random() * xRange))
-  //     //   randomY = outerBox[k].tl.y + radius + (Math.floor(Math.random() * yRange))
-  //     //
-  //     //   if (i < numParticlesMax[k]) {
-  //     //     eval("particles" + k)[i].x = randomX;
-  //     //     eval("particles" + k)[i].y = randomY;
-  //     //   }
-  //     // }
-  //
-  //     numParticles[k] = input[k].value();
-  //     OldnumParticles[k] = input[k].value();
-  //   }
-  //
-  //   // var j = k*1/2;
-  //
-  //   // MinusButton[k].position(stage.position().x + 3*(stage.size().width - 600 - 10)/5, stage.position().y + stage.size().height/20 + stage.size().height*j);
-  //   // PlusButton[k].position(stage.position().x + 2*(stage.size().width - 600 - 10)/5, stage.position().y + stage.size().height/20 + stage.size().height*j);
-  //   // input[k].position(stage.position().x + 192, stage.position().y + stage.size().height/20 + 30 + 2 + stage.size().height*j);
-  //   // textboard[k].position(stage.position().x + (stage.size().width - 600 - 10)/5, stage.position().y + stage.size().height/20 + 30 + stage.size().height*j);
-  // }
-  // UI
 }

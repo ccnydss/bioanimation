@@ -66,7 +66,6 @@ class UIBox {
 
   draw() {
     fill(100, 155, 180, 100);
-    stroke(255, 0, 0);
     rect( this.tl.x, this.tl.y, this.height, this.width );
   }
 }
@@ -74,8 +73,8 @@ class UIBox {
 var createChannels = function(tl,tr,br,bl,numOfChannels){
   var channels = [];
   var offset = 30;
-  var cellWallWidth = abs(_tl.y - _bl.y);
-  var channelHeight = abs(_tr.x - _tl.x);
+  var channelHeight = abs(tl.y - bl.y);
+  var  cellWallWidth= abs(tr.x - tl.x);
   for (var i=1; i<=numOfChannels; i++) {
     // Get center x coordinate for cell wall
     var center = (i)*Math.floor(cellWallWidth/(numOfChannels+1));
