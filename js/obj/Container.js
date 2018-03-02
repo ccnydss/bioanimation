@@ -13,7 +13,7 @@ class Container {
     fill('#2c2b3c');
     rect( this.tl.x, this.tl.y, this.vertical, this.horizontal );
   }
-
+  
   clips(p) {
     // Test if the next movement the particle makes would result in a part of it clipping past container
     var write = function (direction, particle, wall, velocity) {

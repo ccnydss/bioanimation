@@ -18,18 +18,18 @@ class CellWall {
 
   clips(p) {
     // Test if the next movement the particle makes would result in a part of it clipping past container
-    var nextPastTop =       (p.y + p.move_velocity.y + p.r > this.y) && 
-                            (p.x + p.move_velocity.x + p.r < this.x + this.width) &&
-                            //(p.move_velocity.y >= 0) && 
-                            (p.x + p.move_velocity.x - p.r > this.x);
-    // var nextPastBottom =    (p.y + p.move_velocity.y - p.r - 0.5 <= this.y + this.height) && 
-    //                         (p.y + p.move_velocity.y + p.r + 0.5 <= this.y) && 
+    var nextPastTop =       (p.y + p.move_velocity.y + p.r > this.y) &&
+    (p.x + p.move_velocity.x + p.r < this.x + this.width) &&
+    //(p.move_velocity.y >= 0) &&
+    (p.x + p.move_velocity.x - p.r > this.x);
+    // var nextPastBottom =    (p.y + p.move_velocity.y - p.r - 0.5 <= this.y + this.height) &&
+    //                         (p.y + p.move_velocity.y + p.r + 0.5 <= this.y) &&
     //                         (p.x + p.move_velocity.x + p.r + 0.5 <= this.x + this.width) &&
     //                         (p.x + p.move_velocity.x - p.r - 0.5 >= this.x);
     var nextPastRight = (p.x + p.move_velocity.x - p.r < this.x + this.width) && // is not past right edge of wall
-                        // (p.x + p.move_velocity.x - p.r >= this.x + this.width-50) &&
-                        (p.y + p.move_velocity.y + p.r < this.y + this.height /*+ (p.r*2)*/) && // is within the lower bound of the cell wall
-                        (p.y + p.move_velocity.y - p.r > this.y /* -(p.r*2) */); // is within the upper bound of the cell wall
+    // (p.x + p.move_velocity.x - p.r >= this.x + this.width-50) &&
+    (p.y + p.move_velocity.y + p.r < this.y + this.height /*+ (p.r*2)*/) && // is within the lower bound of the cell wall
+    (p.y + p.move_velocity.y - p.r > this.y /* -(p.r*2) */); // is within the upper bound of the cell wall
     // var nextPastLeft =  (p.x + p.move_velocity.x - p.r - 0.5 < this.x + this.width+(p.move_velocity.x*2)) && // is not past left edge of wall
     //                     (p.x + p.move_velocity.x - p.r - 0.5 <= this.x + this.width)
     //                     (p.y + p.move_velocity.y + p.r + 0.5 <= this.y + this.height + (p.r*1.5)) && // is within the upper bound of the cell wall
@@ -44,13 +44,13 @@ class CellWall {
     while ( nextPastTop ) {
       console.log("\nAH! TOP--CW--------------------------------------");
       p.move_velocity.y -= 1;
-      nextPastTop = (p.y + p.move_velocity.y + p.r > this.y) && 
-                            (p.x + p.move_velocity.x + p.r < this.x + this.width) &&
-                            //(p.move_velocity.y >= 0) && 
-                            (p.x + p.move_velocity.x - p.r > this.x);
+      nextPastTop = (p.y + p.move_velocity.y + p.r > this.y) &&
+      (p.x + p.move_velocity.x + p.r < this.x + this.width) &&
+      //(p.move_velocity.y >= 0) &&
+      (p.x + p.move_velocity.x - p.r > this.x);
     }
 
-     // while ( nextPastBottom ) {
+    // while ( nextPastBottom ) {
     //   console.log("\nAH! BOTTOM-1-----------------------------------------");
     //   p.move_velocity.y += 1;
     //   nextPastBottom = p.y + p.move_velocity.y + p.r > this.bl.y;
@@ -60,9 +60,9 @@ class CellWall {
       console.log("\nAH! RIGHT--CW--------------------------------------");
       p.move_velocity.x += 1;
       nextPastRight = (p.x + p.move_velocity.x - p.r < this.x + this.width) && // is not past right edge of wall
-                        // (p.x + p.move_velocity.x - p.r >= this.x + this.width-50) &&
-                        (p.y + p.move_velocity.y + p.r < this.y + this.height) && // is within the lower bound of the cell wall
-                        (p.y + p.move_velocity.y - p.r > this.y); // is within the upper bound of the cell wall
+      // (p.x + p.move_velocity.x - p.r >= this.x + this.width-50) &&
+      (p.y + p.move_velocity.y + p.r < this.y + this.height) && // is within the lower bound of the cell wall
+      (p.y + p.move_velocity.y - p.r > this.y); // is within the upper bound of the cell wall
     }
 
     // while ( nextPastLeft ) {
@@ -72,22 +72,22 @@ class CellWall {
   }
 
   hit(p) {
-    var pastTop =   (p.y + p.r >= this.y) && 
-                    // (p.y - p.r <= this.y + this.height) &&
-                    (p.x + p.r <= this.x + this.width) &&
-                    (p.x - p.r >= this.x);
-    // var pastBottom =  (p.y - p.r - 0.5 <= this.y + this.height) && 
-    //                   (p.y + p.r + 0.5 <= this.y) && 
+    var pastTop =   (p.y + p.r >= this.y) &&
+    // (p.y - p.r <= this.y + this.height) &&
+    (p.x + p.r <= this.x + this.width) &&
+    (p.x - p.r >= this.x);
+    // var pastBottom =  (p.y - p.r - 0.5 <= this.y + this.height) &&
+    //                   (p.y + p.r + 0.5 <= this.y) &&
     //                   (p.x + p.r + 0.5 <= this.x + this.width) &&
     //                   (p.x - p.r - 0.5 >= this.x);
     var pastRight = (p.x - p.r <= this.x + this.width) && // is not past right edge of wall
-                    (p.y + p.r <= this.y + this.height /*+ (p.r*2) */) && // is within the lower bound of the cell wall
-                    (p.y - p.r >= this.y /* -(p.r*2) */); // is within the upper bound of the cell wall
+    (p.y + p.r <= this.y + this.height /*+ (p.r*2) */) && // is within the lower bound of the cell wall
+    (p.y - p.r >= this.y /* -(p.r*2) */); // is within the upper bound of the cell wall
     // var pastLeft =  (p.x - p.r - 0.5 <= this.x + this.width) && // is not past left edge of wall
     //                 (p.y + p.r + 0.5 <= this.y + this.height + (p.r*1.5)) && // is within the upper bound of the cell wall
     //                 (p.y - p.r - 0.5 >= this.y+(p.r*1.5)); // is within the lower bound of the cell wall
 
-      
+
     if ( pastTop ) {
       print( "pt" );
 
@@ -103,7 +103,7 @@ class CellWall {
       p.x += p.move_velocity.x;
       p.y += p.move_velocity.y;
 
-    } 
+    }
 
     // if ( pastBottom ) {
     //   print( "pb" );
@@ -124,7 +124,7 @@ class CellWall {
     //   p.x += p.move_velocity.x;
     //   p.y += p.move_velocity.y;
 
-    // } 
+    // }
 
     if ( pastRight ) {
 
@@ -143,7 +143,7 @@ class CellWall {
       p.x += p.move_velocity.x;
       p.y += p.move_velocity.y;
 
-    } 
+    }
 
     // if ( pastLeft ) {
     //   print( "pl" );
@@ -160,6 +160,6 @@ class CellWall {
     //   // Move particle
     //   p.x += p.move_velocity.x;
     //   p.y += p.move_velocity.y;
-    // } 
+    // }
   }
 }
