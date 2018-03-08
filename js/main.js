@@ -104,10 +104,10 @@ function setup() {
 
       var chance = Math.random()
       if (chance < 0.5) {
-        eval("NaParticles" + j).push(new Na(randomX,randomY,radius,velocity));
+        eval("NaParticles" + j).push(new Na(randomX,randomY,radius,velocity, true));
         N_Na[j] = N_Na[j] + 1;
       }else {
-        eval("ClParticles" + j).push(new Cl(randomX,randomY,2*radius,velocity));
+        eval("ClParticles" + j).push(new Cl(randomX,randomY,2*radius,velocity, true));
         N_Cl[j] = N_Cl[j] + 1;
       }
     }
@@ -121,6 +121,8 @@ function setup() {
 }
 
 function draw() {
+
+  equilibriumCheck()
   clear();
 
   UIBoxs[0].draw();
