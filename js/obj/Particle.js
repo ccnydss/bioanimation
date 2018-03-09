@@ -38,25 +38,25 @@ class Particle {
 class Na extends Particle {
   color() {
     noStroke();
-    fill(particlesColor[0]);
+    fill(particlesColor["Na"]);
   }
 }
 
 class Cl extends Particle {
   color() {
     noStroke();
-    fill(particlesColor[1])
+    fill(particlesColor["Cl"])
   }
 }
 
 class AnimatedParticle {
-  constructor(_x, _y, _diam, _vel, _collidable) {
+  constructor(_x, _y, _diam, _vel, _collidable, _particle) {
     this.x = _x;
     this.y = _y;
     this.diam = _diam;
     this.r = int(_diam/2);
     this.collidable = _collidable;
-
+    this.particle = _particle;
     // Store the original vector to remember it after modifying move_velocity.
     this.orig_velocity = createVector(_vel.x, _vel.y);
     this.move_velocity = createVector(_vel.x, _vel.y);
@@ -68,13 +68,12 @@ class AnimatedParticle {
 
     color() {
       noStroke();
-      fill(particlesColor[0]);
+      fill(particlesColor[this.particle]);
     }
 
     move() {
       // Pass in a Container object the particle should be constrained inside.
-      //channel.transfers(this);
-      this.y = this.y + 5
+      this.y = this.y + this.move_velocity.y;
       ellipse( this.x, this.y, this.diam );
     }
 }

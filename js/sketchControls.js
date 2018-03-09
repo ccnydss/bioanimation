@@ -1,5 +1,65 @@
 // Pause / unpause the animation (debug purposes)
 var togLoop = false;
+var transferParticle = function(particle,currentNum) {
+  var xMul = 100;
+  var yMul = 100;
+
+  // Set names of current array is in and array to transfer particle into
+  var currentArray = eval(particle+"Particles"+currentNum);
+  var transferNum = (currentNum == 0)? 1 : 0;
+  var transferArray = eval(particle+"Particles"+transferNum);
+  var numOfParticles = eval("N_"+particle);
+  var offset = Math.floor(channels[0].width/2+10);
+
+  if (currentArray.length == 0) {
+    return;
+  }
+  // If the particle is in the top division
+  if (currentNum == 0) {
+    var targetChannel = (particle == "Na") ? channels[0].tl : channels[1].tl;
+  }
+  // If the particle is in the bottom division
+  else {
+    var targetChannel = (particle == "Na") ? channels[0].bl : channels[1].bl;
+  }
+  // Change move velocity to get particle to target channel
+  var v = (targetChannel.x+ offset - currentArray[0].x)/xMul;
+  var u = (targetChannel.y - currentArray[0].y)/yMul;
+  currentArray[0].orig_velocity = createVector(v, u);
+  currentArray[0].move_velocity = createVector(v, u);
+
+  // Move particle through channel
+  setTimeout(function() {
+    var OriX = Math.floor(currentArray[0].x);
+    var OriY = Math.floor(currentArray[0].y);
+    var diam = currentArray[0].diam;
+    currentArray.splice(0, 1);
+    var yVector = (currentNum == 0) ? 3 : -3;
+    var velocity = createVector(0, yVector);
+    currentArray.push(new AnimatedParticle(OriX,OriY,diam,velocity, false, particle));
+  }, 800)
+
+  // Remove particle from its old division and create particle in the new division
+  setTimeout(function() {
+    var OriParticle = currentArray[numOfParticles[currentNum]-1]
+    var OriX = Math.floor(OriParticle.x);
+    var OriY = Math.floor(OriParticle.y);
+    var diam = Math.floor(OriParticle.diam);
+    var velocities = [-4,-3,3,4];
+    var x_vel = Math.floor(Math.random() * 3) + 0;
+    var y_vel = Math.floor(Math.random() * 3) + 0;
+    var velocity = createVector(velocities[x_vel],Math.abs(velocities[y_vel]));
+    currentArray.splice(numOfParticles[currentNum]-1, 1);
+    numOfParticles[currentNum]--;
+    input[1].value(numOfParticles[currentNum]);
+    (particle == "Na") ? transferArray.push(new Na(OriX,OriY,diam,velocity,true)):
+                         transferArray.push(new Cl(OriX,OriY,diam,velocity,true));
+    numOfParticles[transferNum]++;
+    console.log(particle);
+    input[4].value(numOfParticles[transferNum]);
+  }, 1200)
+}
+
 function toggleLoop() {
   if (togLoop) {
     loop();
@@ -15,49 +75,22 @@ function keyPressed() {
     toggleLoop();
   }
 
-
+  // Press Q
   if (keyCode == 81) {
-    // console.log(NaParticles0[0].move_velocity)
-    //   console.log(NaParticles0[0].orig_velocity)
-    //   console.log(NaParticles0[0].x + " & " + channels[0].tl.x)
-    //   console.log(Math.pow(10,Math.floor(Math.log10(channels[0].tl.x+25 -NaParticles0[0].x))) )
-
-//xMul = Math.pow(10,Math.floor(Math.log10(channels[0].tl.x+25 -NaParticles0[0].x)))
-//yMul = Math.pow(10,Math.floor(Math.log10(channels[0].tl.y -NaParticles0[0].y)))
-xMul = 100;
-yMul = 100;
-  //if (isNaN(xMul)) {xMul = 1}
-  //  if (isNaN(yMul)) {yMul = 1}
-var v = (channels[0].tl.x+25 -NaParticles0[0].x)/(xMul );
-var u = (channels[0].tl.y -NaParticles0[0].y)/(yMul );
-       NaParticles0[0].orig_velocity = createVector(v, u);
-      NaParticles0[0].move_velocity = createVector(v, u);
-
-setTimeout(function() {
-var OriX = NaParticles0[0].x;
-var OriY = NaParticles0[0].y;
-  eval("NaParticles" + 0).splice(0, 1);
-    var velocity = createVector(0, -3);
-  eval("NaParticles" + 0).push(new AnimatedParticle(OriX,OriY,radius,velocity, false));
-}, 800)
-
-setTimeout(function() {
-var OriX = NaParticles0[N_Na[0]-1].x;
-var OriY = NaParticles0[N_Na[0]-1].y;
-
-var x_vel = Math.floor(Math.random() * 3) + 0;
-var y_vel = Math.floor(Math.random() * 3) + 0;
-var velocity = createVector(velocities[x_vel],velocities[y_vel]);
-    eval("NaParticles" + 0).splice(N_Na[0]-1, 1);
-    N_Na[0]--;
-        input[1].value(N_Na[0]);
-  eval("NaParticles" + 1).push(new Na(OriX,OriY,radius,velocity, true));
-    N_Na[1]++;
-        input[4].value(N_Na[1]);
-}, 1200)
-
+    transferParticle("Na",0);
   }
-
+  // Press W
+  if (keyCode == 87) {
+    transferParticle("Cl",0);
+  }
+  // Press A
+  if (keyCode == 65) {
+    transferParticle("Na",1);
+  }
+  // Press S
+  if (keyCode == 83) {
+    transferParticle("Cl",1);
+  }
 
 }
 
@@ -78,26 +111,26 @@ function increase(evt) {
   randomX = outerBox[i].tl.x + radius + (Math.floor(Math.random() * xRange))
   randomY = outerBox[i].tl.y + radius + (Math.floor(Math.random() * yRange))
 
-    var velocity = createVector(-5, -4);
+  var velocity = createVector(-5, -4);
 
-    if (j==1 || j==(1+row) ) {
-        if(N_Na[i]<MaxParticles) {
+  if (j==1 || j==(1+row) ) {
+    if(N_Na[i]<MaxParticles) {
       eval("NaParticles" + i).push(new Na(randomX,randomY,radius,velocity, true));
       N_Na[Math.floor(j/3)] = N_Na[Math.floor(j/3)] + 1;
       var Value = N_Na[Math.floor(j/3)]
       NernstFormulaInput("Na");
-          input[j].value(Value);
-        }
+      input[j].value(Value);
+    }
 
-    } else if(j==2 || j==(2+row) ) {
-        if(N_Cl[i]<MaxParticles) {
+  } else if(j==2 || j==(2+row) ) {
+    if(N_Cl[i]<MaxParticles) {
       eval("ClParticles" + i).push(new Cl(randomX,randomY,2*radius,velocity, true));
       N_Cl[Math.floor(j/3)] = N_Cl[Math.floor(j/3)] + 1;
       var Value = N_Cl[Math.floor(j/3)]
       NernstFormulaInput("Cl");
-          input[j].value(Value);
-        }
+      input[j].value(Value);
     }
+  }
 
 }
 
@@ -116,7 +149,7 @@ function decrease(evt) {
     }
     var Value = N_Na[i]
     NernstFormulaInput("Na");
-      input[j].value(Value);
+    input[j].value(Value);
 
   }else if(j==2 || j==(2+row) ) {
 
@@ -126,7 +159,7 @@ function decrease(evt) {
     }
     var Value = N_Cl[i]
     NernstFormulaInput("Cl");
-      input[j].value(Value);
+    input[j].value(Value);
   }
 
 
@@ -155,25 +188,25 @@ function ChangeNumParticles(evt) {
         input[j].value(MaxParticles);
       }
 
-        for (var k = Compare; k<input[j].value(); k++) {
+      for (var k = Compare; k<input[j].value(); k++) {
 
-          randomX = outerBox[i].tl.x + radius + (Math.floor(Math.random() * xRange))
-          randomY = outerBox[i].tl.y + radius + (Math.floor(Math.random() * yRange))
+        randomX = outerBox[i].tl.x + radius + (Math.floor(Math.random() * xRange))
+        randomY = outerBox[i].tl.y + radius + (Math.floor(Math.random() * yRange))
 
 
-          var velocity = createVector(-5, -4);
+        var velocity = createVector(-5, -4);
 
-          if (j==1 || j==(1+row) ) {
-            eval("NaParticles" + i).push(new Na(randomX,randomY,radius,velocity, true));
-            N_Na[i]++;
-            NernstFormulaInput("Na");
+        if (j==1 || j==(1+row) ) {
+          eval("NaParticles" + i).push(new Na(randomX,randomY,radius,velocity, true));
+          N_Na[i]++;
+          NernstFormulaInput("Na");
 
-          }else if(j==2 || j==(2+row) ) {
-            eval("ClParticles" + i).push(new Cl(randomX,randomY,2*radius,velocity, true));
-            N_Cl[i]++;
-            NernstFormulaInput("Cl");
-          }
+        }else if(j==2 || j==(2+row) ) {
+          eval("ClParticles" + i).push(new Cl(randomX,randomY,2*radius,velocity, true));
+          N_Cl[i]++;
+          NernstFormulaInput("Cl");
         }
+      }
     } else if  (input[j].value() < Compare) {
 
       for (var k = input[j].value(); k<Compare; k++) {
@@ -316,43 +349,43 @@ function makeUIs() {
     channels[i].draw();
   }
 
-var answer = 0;
-    equations[0] = createDiv('<img src="js/files/NernstEqn.JPG" alt="Nernst equaiton">');
-    equations[0].class('qoptions');
-    equations[0].parent('equationdiv');
-    equations[1] = createElement('h3', 'Answer: '+answer+'V');
-    equations[1].class('qoptions');
-    equations[1].parent('equationdiv');
+  var answer = 0;
+  equations[0] = createDiv('<img src="js/files/NernstEqn.JPG" alt="Nernst equaiton">');
+  equations[0].class('qoptions');
+  equations[0].parent('equationdiv');
+  equations[1] = createElement('h3', 'Answer: '+answer+'V');
+  equations[1].class('qoptions');
+  equations[1].parent('equationdiv');
 
-    equations[2] = createSelect();
-    equations[2].id(2);
-    equations[2].class('eqninput');
-    equations[2].parent('equationdiv');
-    equations[2].option('Na');
-    equations[2].option('Cl');
-    equations[2].changed(NernstFormula);
+  equations[2] = createSelect();
+  equations[2].id(2);
+  equations[2].class('eqninput');
+  equations[2].parent('equationdiv');
+  equations[2].option('Na');
+  equations[2].option('Cl');
+  equations[2].changed(NernstFormula);
 
-    equations[3] = createSelect();
-    equations[3].id(3);
-    equations[3].class('eqninput');
-    equations[3].parent('equationdiv');
-    equations[3].option('Na');
-    equations[3].option('Cl');
-    equations[3].changed(NernstFormula);
+  equations[3] = createSelect();
+  equations[3].id(3);
+  equations[3].class('eqninput');
+  equations[3].parent('equationdiv');
+  equations[3].option('Na');
+  equations[3].option('Cl');
+  equations[3].changed(NernstFormula);
 
   //Right side equaiton
-       // equations[0] = createElement('h3', "E<sub>ion</sub> = RT/zF ln([Cl]<sub>out</sub>/[Cl]<sub>in</sub>)");
-      //  equations[0] = createElement('h3', "E<sub>ion</sub> = ");
-      //  equations[0].class('qoptions');
-      // equations[0].parent('equationdiv');
-      //
-      //
-      //   equations[1] = createDiv("");
-      //   equations[1].parent('equationdiv');
-      //   equations[1].class('eqntop');
-      //   equations[2] = createDiv("");
-      //   equations[2].parent('equationdiv');
-      //   equations[2].class('eqnbot');
+  // equations[0] = createElement('h3', "E<sub>ion</sub> = RT/zF ln([Cl]<sub>out</sub>/[Cl]<sub>in</sub>)");
+  //  equations[0] = createElement('h3', "E<sub>ion</sub> = ");
+  //  equations[0].class('qoptions');
+  // equations[0].parent('equationdiv');
+  //
+  //
+  //   equations[1] = createDiv("");
+  //   equations[1].parent('equationdiv');
+  //   equations[1].class('eqntop');
+  //   equations[2] = createDiv("");
+  //   equations[2].parent('equationdiv');
+  //   equations[2].class('eqnbot');
 
   //Title text
   //Na Input
@@ -412,27 +445,27 @@ function NernstFormula(evt) {
   }
   var R = 8.314;
   var T = 37 + 273.13 //@37C is common
-    if (equations[j].value()=="Na") {
-      var z = 1;
-      Xout = N_Na[0];
-      Xin = N_Na[1];
-    } else if (equations[j].value()=="Cl") {
-      var z = -1;
-      Xout = N_Cl[0];
-      Xin = N_Cl[1];}
-  var F = 0.096485;
+  if (equations[j].value()=="Na") {
+    var z = 1;
+    Xout = N_Na[0];
+    Xin = N_Na[1];
+  } else if (equations[j].value()=="Cl") {
+    var z = -1;
+    Xout = N_Cl[0];
+    Xin = N_Cl[1];}
+    var F = 0.096485;
 
-  var answer = (R*T)/(z*F)*Math.log(Xout/Xin);
-  console.log(answer*10000)
+    var answer = (R*T)/(z*F)*Math.log(Xout/Xin);
+    console.log(answer*10000)
 
-  equations[i].value(equations[j].value());
-  equations[1].html('Answer: '+answer+'V');
+    equations[i].value(equations[j].value());
+    equations[1].html('Answer: '+answer+'V');
 
-}
+  }
 
-function NernstFormulaInput(j) {
-  var R = 8.314;
-  var T = 37 + 273.13 //@37C is common
+  function NernstFormulaInput(j) {
+    var R = 8.314;
+    var T = 37 + 273.13 //@37C is common
     if (j=="Na") {
       var z = 1;
       Xout = N_Na[0];
@@ -441,11 +474,11 @@ function NernstFormulaInput(j) {
       var z = -1;
       Xout = N_Cl[0];
       Xin = N_Cl[1];}
-  var F = 0.096485;
+      var F = 0.096485;
 
-  var answer = (R*T)/(z*F)*Math.log(Xout/Xin);
-  console.log(answer*10000)
+      var answer = (R*T)/(z*F)*Math.log(Xout/Xin);
+      console.log(answer*10000)
 
-  equations[1].html('Answer: '+answer+'V');
+      equations[1].html('Answer: '+answer+'V');
 
-}
+    }

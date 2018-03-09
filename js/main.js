@@ -4,14 +4,15 @@ var outerBox = [];
 
 //Just for initializing
 var numParticles = [];
+var particleNames = ["Na","Cl"]
 numParticles[0] = 3;
 numParticles[1] = 2;
 //0 = top
 //1 = bot
 
-var particlesColor = [];
-particlesColor[0] = '#efec2b';
-particlesColor[1] = '#6bce25';
+var particlesColor = {};
+particlesColor["Na"] = '#efec2b';
+particlesColor["Cl"] = '#6bce25';
 
 //For local particles on each box
 var MaxParticles = 25;
