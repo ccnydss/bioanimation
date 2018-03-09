@@ -1,7 +1,6 @@
 var circles;
 var outerBox = [];
 
-
 //Just for initializing
 var numParticles = [];
 numParticles[0] = 3;
@@ -38,7 +37,9 @@ var numContainer = 2;
 var PlusButton = [], MinusButton = [], titletext = [], textboard = [], input = [];
 var UIBoxs = [], equations = [], equationImg;
 
-var length = 600;
+// var length = 600;  // CAN DELETE THIS LATER
+var canWidth;
+var canHeight;
 var thickness = 25; //Make channel a square for now...
 //UI
 
@@ -47,14 +48,15 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
   noFill();
 
+  // Defines the simulator's layout as well as "canWidth", "canHeight"
+  makeLayout();
 
   var topLeft = new Point( 0, 0 );
-  var topRight = new Point( length, 0 );
-  var botRight = new Point( length, length/2-thickness );
-  var botLeft = new Point( 0, ( length/2-thickness ) );
+  var topRight = new Point( canWidth, 0 );
+  var botRight = new Point( canWidth, canHeight/2-thickness );
+  var botLeft = new Point( 0, ( canHeight/2-thickness ) );
 
   //Relative to parent coordinate
 
@@ -63,25 +65,25 @@ function setup() {
 
 
   var topLeft = new Point( 0, 0 );
-  var topRight = new Point( length, 0 );
-  var botRight = new Point( length, length/2 );
-  var botLeft = new Point( 0, ( length/2 ) );
+  var topRight = new Point( canWidth, 0 );
+  var botRight = new Point( canWidth, canHeight/2 );
+  var botLeft = new Point( 0, canHeight/2 );
   UIBoxs[0] = new UIBox( topLeft, topRight, botRight, botLeft );
   UIBoxs[0].draw();
 
-  var topLeft = new Point( 0, length/2+thickness );
-  var topRight = new Point( length, length/2+thickness );
-  var botRight = new Point( length, length );
-  var botLeft = new Point( 0, ( length ) );
+  var topLeft = new Point( 0, canHeight/2+thickness );
+  var topRight = new Point( canWidth, canHeight/2+thickness );
+  var botRight = new Point( canWidth, canHeight );
+  var botLeft = new Point( 0, canHeight );
 
   outerBox[1] = new Container( topLeft, topRight, botRight, botLeft );
   outerBox[1].draw();
 
 
-  var topLeft = new Point( 0, length/2 );
-  var topRight = new Point( length, length/2 );
-  var botRight = new Point( length, length );
-  var botLeft = new Point( 0, ( length ) );
+  var topLeft = new Point( 0, canHeight/2 );
+  var topRight = new Point( canWidth, canHeight/2 );
+  var botRight = new Point( canWidth, canHeight );
+  var botLeft = new Point( 0, canHeight );
   UIBoxs[1] = new UIBox( topLeft, topRight, botRight, botLeft );
   UIBoxs[1].draw();
 
@@ -113,11 +115,8 @@ function setup() {
     }
   }
 
+  // UI
   makeUIs();
-
-  //UI
-
-
 }
 
 function draw() {
