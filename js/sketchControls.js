@@ -240,7 +240,7 @@ function makeLayout() {
   questions.parent('leftbar');
   questions.size(leftBox.size().width, leftBox.size().height);
 
-  createElement("h3", "Questions Div!").parent('questionsdiv');
+  createElement("h3", "hi questions").parent('questionsdiv');
 
   // Div to contain the equation
   equation = createDiv("");
@@ -321,7 +321,7 @@ function makeUIs() {
   }
 
   var answer = 0;
-  equations[0] = createDiv('<img src="js/files/NernstEqn.JPG" alt="Nernst equaiton">');
+  equations[0] = createDiv('<img src="files/NernstEqn.JPG" alt="Nernst equation">');
   equations[0].class('qoptions');
   equations[0].parent('equationdiv');
   equations[1] = createElement('h3', 'Answer: '+answer+'V');
@@ -362,7 +362,6 @@ function makeUIs() {
   //Na Input
   //Cl Input
   var row = 3;
-  console.log("AAHHH", row*numContainer);
   for (var k = 0; k < numContainer*row; k++) {
     if (k==0) {
       var text = 'Outside';
