@@ -55,7 +55,6 @@ var transferParticle = function(particle,currentNum) {
     (particle == "Na") ? transferArray.push(new Na(OriX,OriY,diam,velocity,true)):
                          transferArray.push(new Cl(OriX,OriY,diam,velocity,true));
     numOfParticles[transferNum]++;
-    console.log(particle);
     input[4].value(numOfParticles[transferNum]);
   }, 1200)
 }
@@ -90,48 +89,7 @@ function keyPressed() {
   // Press S
   if (keyCode == 83) {
     transferParticle("Cl",1);
-
-    // console.log(NaParticles0[0].move_velocity)
-    //   console.log(NaParticles0[0].orig_velocity)
-    //   console.log(NaParticles0[0].x + " & " + channels[0].tl.x)
-    //   console.log(Math.pow(10,Math.floor(Math.log10(channels[0].tl.x+25 -NaParticles0[0].x))) )
-
-    //xMul = Math.pow(10,Math.floor(Math.log10(channels[0].tl.x+25 -NaParticles0[0].x)))
-    //yMul = Math.pow(10,Math.floor(Math.log10(channels[0].tl.y -NaParticles0[0].y)))
-    xMul = 100;
-    yMul = 100;
-    //if (isNaN(xMul)) {xMul = 1}
-    //  if (isNaN(yMul)) {yMul = 1}
-    var v = (channels[0].tl.x+25 -NaParticles0[0].x)/(xMul );
-    var u = (channels[0].tl.y -NaParticles0[0].y)/(yMul );
-    NaParticles0[0].orig_velocity = createVector(v, u);
-    NaParticles0[0].move_velocity = createVector(v, u);
-
-    setTimeout(function() {
-      var OriX = NaParticles0[0].x;
-      var OriY = NaParticles0[0].y;
-      eval("NaParticles" + 0).splice(0, 1);
-      var velocity = createVector(0, -3);
-      eval("NaParticles" + 0).push(new AnimatedParticle(OriX,OriY,radius,velocity, false));
-    }, 800)
-
-    setTimeout(function() {
-      var OriX = NaParticles0[N_Na[0]-1].x;
-      var OriY = NaParticles0[N_Na[0]-1].y;
-
-      var x_vel = Math.floor(Math.random() * 3) + 0;
-      var y_vel = Math.floor(Math.random() * 3) + 0;
-      var velocity = createVector(velocities[x_vel],velocities[y_vel]);
-      eval("NaParticles" + 0).splice(N_Na[0]-1, 1);
-      N_Na[0]--;
-      input[1].value(N_Na[0]);
-      eval("NaParticles" + 1).push(new Na(OriX,OriY,radius,velocity, true));
-      N_Na[1]++;
-      input[4].value(N_Na[1]);
-    }, 1200)
-
   }
-
 }
 
 

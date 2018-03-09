@@ -62,9 +62,9 @@ class Container {
 
   hit(p) {
     var write = function (direction, particle, wall) {
-      //console.log("direction: ", direction);
-      //console.log("particle: ", particle);
-      //console.log(direction, " wall: ", wall);
+      // console.log("direction: ", direction);
+      // console.log("particle: ", particle);
+      // console.log(direction, " wall: ", wall);
     }
 
     p.x += p.move_velocity.x;
