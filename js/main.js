@@ -44,9 +44,9 @@ var canHeight;
 var thickness = 25; //Make channel a square for now...
 //UI
 
-function preload() {
-  imgCb = loadImage("https://wikimedia.org/api/rest_v1/media/math/render/svg/59fb8dd0b3884bbb390b4cbfacdc9cb81b37bca3");
-}
+// function preload() {
+//   imgCb = loadImage("https://wikimedia.org/api/rest_v1/media/math/render/svg/59fb8dd0b3884bbb390b4cbfacdc9cb81b37bca3");
+// }
 
 function setup() {
   noFill();
@@ -155,9 +155,12 @@ function draw() {
   }
 
   //UI
+  console.log(equations[0].size().height)
   lock = equations[0].position()
-  equations[2].position(lock.x+167, lock.y+11);
-  equations[3].position(lock.x+172, lock.y+55);
+  equations[2].position(lock.x + equations[0].size().width/20*13, lock.y + equations[0].size().height/10*1);
+  equations[2].size(equations[0].size().width/30*5,equations[0].size().height/10*3);
+  equations[3].size(equations[0].size().width/30*5,equations[0].size().height/10*3);
+  equations[3].position(lock.x + equations[0].size().width/25*17, lock.y + equations[0].size().height/2 + equations[0].size().height/10*1);
   //UI
 
 }
