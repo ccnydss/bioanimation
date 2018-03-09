@@ -135,7 +135,7 @@ function draw() {
   }
   strokeWeight(1);
 
-    image(imgCb,0, 0);
+    // image(imgCb,0, 0);
   for (var j = 0; j < numContainer; j++) {
     for (var i = 0; i < N_Na[j]; i++) {
 
