@@ -1,6 +1,7 @@
 * {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 
 html {
@@ -18,38 +19,46 @@ body {
 
   font-family: 'Open Sans', sans-serif;
   color: #fff;
+  box-sizing: border-box;
 }
 
 #stage {
   display: flex;
-  width: 850px;
-  margin: auto;
+  width: 100%;
+  height: 100%;
   border-style: solid;
   border-color: #121420;
   border-width: 5px;
 }
 
 #stage div {
-  flex: 1;
+  /* flex: 1; */
 }
 
-.controls {
-  background-color: #1b2432;
-  padding: 5px;
+#leftbar {
   display: flex;
   flex-direction: column;
+  /* justify-content: center; */
+  background-color: #403f4c;
+  height: 100vh;
 }
 
-.control {
+#questionsdiv {
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  width: 300px;
+  justify-content: center;
 }
 
-.can {
-  margin-left: auto;
-  margin-right: auto;
+#equationdiv img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+#equationdiv select {
+  width: 36px;
+  height: 25px;
+
+  text-align: center;
 }
 
 #sim {
@@ -62,60 +71,25 @@ body {
   flex-direction: row;
 }
 
-#qdiv {
-  justify-content: center;
-  background-color: #403f4c;
+.can {
+  margin-left: auto;
+  margin-right: auto;
 }
 
-#questionsdiv {
-  height: calc(100% - 135px);
-}
 
-#equationdiv {
-  height: 135px;
+.controls {
   background-color: #1b2432;
-  vertical-align: middle;
-  /* line-height: 135px; */
-    justify-content: center;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.control {
+  display: flex;
+  justify-content: flex-start;
   align-items: center;
+  /* width: 300px; */
 }
-
-#equationdiv select {
-  width: 36px;
-  height: 25px;
-
-  text-align: center;
-}
-
-/* .top {
-    border-bottom: solid #fff 1px;
-    display: inline-block;
-    float: left;
-}
-
-.bottom {
-    display: inline-block;
-    clear: left;
-    float: left;
-} */
-
-/* .eqnnormal {
-  max-width: 50%;
-  height: 25px;
-  width: 25px;
-  background-color: white;
-}
-.eqntop {
-  height: 25px;
-  width: 25px;
-  background-color: white;
-}
-.eqnbot {
-  height: 25px;
-  width: 25px;
-  background-color: white;
-} */
-
 
 .qoptions {
   margin-left: 5px;
@@ -128,7 +102,7 @@ body {
 }
 
 .control input {
-  width: 20px;
+  width: 35px;
   height: 35px;
 
   text-align: center;

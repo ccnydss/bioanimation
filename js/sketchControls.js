@@ -90,6 +90,46 @@ function keyPressed() {
   // Press S
   if (keyCode == 83) {
     transferParticle("Cl",1);
+
+    // console.log(NaParticles0[0].move_velocity)
+    //   console.log(NaParticles0[0].orig_velocity)
+    //   console.log(NaParticles0[0].x + " & " + channels[0].tl.x)
+    //   console.log(Math.pow(10,Math.floor(Math.log10(channels[0].tl.x+25 -NaParticles0[0].x))) )
+
+    //xMul = Math.pow(10,Math.floor(Math.log10(channels[0].tl.x+25 -NaParticles0[0].x)))
+    //yMul = Math.pow(10,Math.floor(Math.log10(channels[0].tl.y -NaParticles0[0].y)))
+    xMul = 100;
+    yMul = 100;
+    //if (isNaN(xMul)) {xMul = 1}
+    //  if (isNaN(yMul)) {yMul = 1}
+    var v = (channels[0].tl.x+25 -NaParticles0[0].x)/(xMul );
+    var u = (channels[0].tl.y -NaParticles0[0].y)/(yMul );
+    NaParticles0[0].orig_velocity = createVector(v, u);
+    NaParticles0[0].move_velocity = createVector(v, u);
+
+    setTimeout(function() {
+      var OriX = NaParticles0[0].x;
+      var OriY = NaParticles0[0].y;
+      eval("NaParticles" + 0).splice(0, 1);
+      var velocity = createVector(0, -3);
+      eval("NaParticles" + 0).push(new AnimatedParticle(OriX,OriY,radius,velocity, false));
+    }, 800)
+
+    setTimeout(function() {
+      var OriX = NaParticles0[N_Na[0]-1].x;
+      var OriY = NaParticles0[N_Na[0]-1].y;
+
+      var x_vel = Math.floor(Math.random() * 3) + 0;
+      var y_vel = Math.floor(Math.random() * 3) + 0;
+      var velocity = createVector(velocities[x_vel],velocities[y_vel]);
+      eval("NaParticles" + 0).splice(N_Na[0]-1, 1);
+      N_Na[0]--;
+      input[1].value(N_Na[0]);
+      eval("NaParticles" + 1).push(new Na(OriX,OriY,radius,velocity, true));
+      N_Na[1]++;
+      input[4].value(N_Na[1]);
+    }, 1200)
+
   }
 
 }
@@ -253,62 +293,64 @@ function ChangeNumParticles(evt) {
     }
 
   }
-
-
 }
 
-function makeUIs() {
-  //UI
+function makeLayout() {
+  // Make the entire stage. This represents the entire, outer box containing the simulator, sidebar, and controls.
   stage = createDiv('');
   stage.id('stage');
+  stage.size(windowWidth, windowHeight);
 
-  rightBox = createDiv("");
-  rightBox.id('qdiv');
-  rightBox.parent('stage');
+  // The right sidebar for displaying questions.
+  leftBox = createDiv("");
+  leftBox.id('leftbar');
+  leftBox.parent('stage');
+  leftBox.size(0.25 * windowWidth, windowHeight - 8);  // subtract stage 4px border from top and bottom to remove scrollbars in the parent iframe. (so, 8px total)
 
-
+  // Create the div to actually contain the questions.
   questions = createDiv("");
   questions.id('questionsdiv');
-  questions.parent('qdiv');
+  questions.parent('leftbar');
+  questions.size(leftBox.size().width, leftBox.size().height);
 
+  createElement("h3", "hi questions").parent('questionsdiv');
 
+  // Div to contain the equation
   equation = createDiv("");
   equation.id('equationdiv');
-  equation.parent('qdiv');
-
-  // equation0 = createDiv('');
-  // equation0.id('equation0');
-  // equation0.parent(equationdiv);
-  //
-  // equation1 = createDiv('');
-  // equation1.id('equation1');
-  // equation1.parent(equationdiv);
+  equation.parent('leftbar');
+  equation.size(leftBox.size().width, 0.20 * leftBox.size().height);
 
   simulator = createDiv("");
   simulator.id('sim');
   simulator.parent('stage');
+  simulator.size(0.75 * windowWidth, windowHeight - 8);
 
-  canvas = createCanvas(600, 600);
+  // Define the global canWidth & canHeight variables~
+  canWidth = simulator.size().width;
+  canHeight = 0.75 * (simulator.size().height - 8);
+
+  // Now to create the canvas!!
+  canvas = createCanvas(canWidth, canHeight);
   canvas.class('can');
   canvas.parent('sim');
 
   simulatorInput = createDiv('');
   simulatorInput.id('simInput');
   simulatorInput.parent('sim');
+  simulatorInput.size(canWidth, 0.33 * canHeight);
 
-  //Control UI
+  //Control UI ----------------------------
   controlsLeft = createDiv('');
   controlsLeft.class('controls');
   controlsLeft.parent('simInput');
+  controlsLeft.size(canWidth / 2, 0.33 * canHeight);
 
   controlsRight = createDiv('');
   controlsRight.class('controls');
   controlsRight.parent('simInput');
+  controlsRight.size(canWidth / 2, 0.33 * canHeight);
 
-  // NOt Working
-  // for (var i = 0; i<2; i++) {
-  //   eval("control" + i) = createDiv('');
-  // }
   control0 = createDiv('');
   control0.class('control');
   control0.parent(controlsLeft);
@@ -332,12 +374,14 @@ function makeUIs() {
   control5 = createDiv('');
   control5.class('control');
   control5.parent(controlsRight);
+}
 
+function makeUIs() {
   //Channel
-  var topLeft = new Point( length/2-thickness, length/2-thickness );
-  var topRight = new Point( length/2+thickness, length/2-thickness );
-  var botRight = new Point( length/2+thickness, length/2-thickness );
-  var botLeft = new Point( length/2-thickness, length/2+thickness );
+  var topLeft = new Point( canWidth/2-thickness, canHeight/2-thickness );
+  var topRight = new Point( canWidth/2+thickness, canHeight/2-thickness );
+  var botRight = new Point( canWidth/2+thickness, canHeight/2-thickness );
+  var botLeft = new Point( canWidth/2-thickness, canHeight/2+thickness );
 
   var divisionTL = new Point(outerBox[0].bl.x,outerBox[0].bl.y);
   var divisionTR = new Point(outerBox[0].br.x,outerBox[0].br.y);
@@ -350,7 +394,7 @@ function makeUIs() {
   }
 
   var answer = 0;
-  equations[0] = createDiv('<img src="js/files/NernstEqn.JPG" alt="Nernst equaiton">');
+  equations[0] = createDiv('<img src="files/NernstEqn.JPG" alt="Nernst equation">');
   equations[0].class('qoptions');
   equations[0].parent('equationdiv');
   equations[1] = createElement('h3', 'Answer: '+answer+'V');
@@ -392,7 +436,6 @@ function makeUIs() {
   //Cl Input
   var row = 3;
   for (var k = 0; k < numContainer*row; k++) {
-
     if (k==0) {
       var text = 'Outside';
     } else if(k==row) {
@@ -405,32 +448,58 @@ function makeUIs() {
       var Value = N_Cl[Math.floor(k/3)]
     }
 
-    textboard[k] = createElement('h3', text);
-    textboard[k].class('qoptions');
-    textboard[k].parent(eval("control" + k));
+    if (k == 0 || k == row) {
+      textboard[k] = createElement('h3', text);
+      textboard[k].class('qoptions');
+      textboard[k].parent(eval("control" + k));
 
-    if (k != 0 & k!= row) {
+      createElement('br').parent(eval("control" + k));
 
+      console.log("Table time?");
+      var table = createElement('table')
+      table.class("table qoptions");
+      table.id("table" + k);
+      table.parent(eval("control" + (k + 1)));
+    } else {
+      var trow = createElement('tr');
+      if (k < row) {
+        trow.parent("table0");
+      } else {
+        trow.parent("table" + row);
+      }
+
+      textboard[k] = createElement('h4', text);
+      textboard[k].class('qoptions');
+
+      var td0 = createElement('td');
+      textboard[k].parent(td0);
+      td0.parent(trow);
 
       input[k] = createInput(Value);
-
-      if (Value == 0) {input[k].value(0)}
-      input[k].input(ChangeNumParticles);
-      input[k].id(k);
+      input[k].id("fasf");
       input[k].class('qoptions');
-      input[k].parent(eval("control" + k));
+
+      var td1 = createElement('td');
+      input[k].parent(td1);
+      td1.parent(trow);
 
       PlusButton[k] = createButton('+');
       PlusButton[k].id(k);
       PlusButton[k].mousePressed(increase);
       PlusButton[k].class('qoptions');
-      PlusButton[k].parent(eval("control" + k));
+
+      var td2 = createElement('td');
+      PlusButton[k].parent(td2);
+      td2.parent(trow);
 
       MinusButton[k] = createButton('-');
       MinusButton[k].id(k);
       MinusButton[k].mousePressed(decrease);
       MinusButton[k].class('qoptions');
-      MinusButton[k].parent(eval("control" + k));
+
+      var td3 = createElement('td');
+      MinusButton[k].parent(td3);
+      td3.parent(trow);
     }
   }
 }
