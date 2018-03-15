@@ -155,11 +155,4 @@ function draw() {
   }
 
   //UI
-  lock = equations[0].position()
-  equations[2].position(lock.x + equations[0].size().width/20*13, lock.y + equations[0].size().height/10*1);
-  equations[2].size(equations[0].size().width/30*5,equations[0].size().height/10*3);
-  equations[3].size(equations[0].size().width/30*5,equations[0].size().height/10*3);
-  equations[3].position(lock.x + equations[0].size().width/25*17, lock.y + equations[0].size().height/2 + equations[0].size().height/10*1);
-  //UI
-
 }
