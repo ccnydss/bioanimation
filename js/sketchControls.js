@@ -279,6 +279,8 @@ function makeLayout() {
   equation.parent('leftbar');
   equation.size(leftBox.size().width, 0.20 * leftBox.size().height);
 
+  makeNeqMML();
+
   simulator = createDiv("");
   simulator.id('sim');
   simulator.parent('stage');
@@ -352,25 +354,24 @@ function makeUIs() {
   }
 
   var answer = 0;
-  equations[0] = createDiv('<img src="files/NernstEqn.JPG" alt="Nernst equation">');
-  equations[0].class('qoptions');
-  equations[0].parent('equationdiv');
   equations[1] = createElement('h3', 'Answer: '+answer+'V');
   equations[1].class('qoptions');
   equations[1].parent('equationdiv');
 
   equations[2] = createSelect();
   equations[2].id(2);
+  equations[2].attribute("xmlns", "http://www.w3.org/1999/xhtml")
   equations[2].class('eqninput');
-  equations[2].parent('equationdiv');
+  equations[2].parent('neq-top');
   equations[2].option('Na');
   equations[2].option('Cl');
   equations[2].changed(NernstFormula);
 
   equations[3] = createSelect();
   equations[3].id(3);
+  equations[3].attribute("xmlns", "http://www.w3.org/1999/xhtml")
   equations[3].class('eqninput');
-  equations[3].parent('equationdiv');
+  equations[3].parent('neq-bot');
   equations[3].option('Na');
   equations[3].option('Cl');
   equations[3].changed(NernstFormula);
@@ -509,3 +510,91 @@ function NernstFormula(evt) {
       equations[1].html('Answer: '+answer+'V');
 
     }
+
+    function makeNeqMML() {
+      math = createElement("math");
+      math.attribute("xmlns", "http://www.w3.org/1998/Math/MathML");
+      math.id('math');
+      math.parent('equationdiv');
+
+      mrow0 = createElement("mrow");
+      mrow0.id('mrow0');
+      mrow0.parent('math');
+
+      msub0 = createElement("msub");
+      msub0.id('msub0');
+      msub0.parent("mrow0");
+
+      mi0 = createElement("mi", "V");
+      mi0.parent("msub0");
+
+      mi1 = createElement("mi", "Eq.");
+      mi1.parent("msub0");
+
+      eqSign = createElement("mo", "=");
+      eqSign.parent("math");
+
+      // -------------------------------------
+
+      mrow1 = createElement("mrow");
+      mrow1.id("mrow1");
+      mrow1.parent("math");
+
+      mfrac0 = createElement("mfrac");
+      mfrac0.id("mfrac0");
+      mfrac0.parent("mrow1");
+
+      mrow2 = createElement("mrow");
+      mrow2.id("mrow2");
+      mrow2.parent("mfrac0");
+
+      mi2 = createElement("mi", "R");
+      mi2.parent("mrow2");
+
+      mi3 = createElement("mi", "T");
+      mi3.parent("mrow2");
+
+      mrow3 = createElement("mrow");
+      mrow3.id("mrow3");
+      mrow3.parent("mfrac0");
+
+      mi4 = createElement("mi", "z");
+      mi4.parent("mrow3");
+
+      mi5 = createElement("mi", "F");
+      mi5.parent("mrow3");
+
+      // -----------------------------------------
+      mrow4 = createElement("mrow");
+      mrow4.id("mrow4");
+      mrow4.parent("math");
+
+      mi6 = createElement("mi", "ln");
+      mi6.parent("mrow4");
+
+      mfence0 = createElement("mfenced");
+      mfence0.id("mfence0");
+      mfence0.parent("mrow4");
+
+      mfrac1 = createElement("mfrac");
+      mfrac1.id("mfrac1");
+      mfrac1.parent("mfence0");
+
+      sem0 = createElement("semantics");
+      sem0.id("sem0");
+      sem0.parent("mfrac1");
+
+      anno0 = createElement("annotation-xml");
+      anno0.attribute("encoding", "application/xhtml+xml");
+      anno0.parent("sem0");
+      anno0.id("neq-top");
+
+      sem1 = createElement("semantics");
+      sem1.id("sem1");
+      sem1.parent("mfrac1");
+
+      anno1 = createElement("annotation-xml");
+      anno1.attribute("encoding", "application/xhtml+xml");
+      anno1.parent("sem1");
+      anno1.id("neq-bot");
+  }
