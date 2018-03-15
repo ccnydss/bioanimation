@@ -38,7 +38,7 @@ var transferParticle = function(particle,currentNum) {
     var velocity = createVector(0, yVector);
     currentArray.push(new AnimatedParticle(OriX,OriY,diam,velocity, false, particle));
   }, 800)
-
+ console.log(currentArray);
   // Remove particle from its old division and create particle in the new division
   setTimeout(function() {
     var OriParticle = currentArray[numOfParticles[currentNum]-1]
@@ -51,11 +51,20 @@ var transferParticle = function(particle,currentNum) {
     var velocity = createVector(velocities[x_vel],Math.abs(velocities[y_vel]));
     currentArray.splice(numOfParticles[currentNum]-1, 1);
     numOfParticles[currentNum]--;
-    input[1].value(numOfParticles[currentNum]);
+
+    if (particle == "Na") {
+      var oldInput = currentNum == 0 ? input[1] : input[4];
+      var transferInput = transferNum == 0 ? input[1] : input[4];
+    }
+    else {
+      var oldInput = currentNum == 0 ? input[2] : input[5];
+      var transferInput = transferNum == 0 ? input[2] : input[5];
+    }
+    oldInput.value(numOfParticles[currentNum]);
     (particle == "Na") ? transferArray.push(new Na(OriX,OriY,diam,velocity,true)):
                          transferArray.push(new Cl(OriX,OriY,diam,velocity,true));
     numOfParticles[transferNum]++;
-    input[4].value(numOfParticles[transferNum]);
+    transferInput.value(numOfParticles[transferNum]);
   }, 1200)
 }
 
@@ -501,8 +510,7 @@ function NernstFormula(evt) {
       var z = -1;
       Xout = N_Cl[0];
       Xin = N_Cl[1];}
-      var F = 0.096485;
-
+      var F = 96485.3329;//0.096485;
       var answer = (R*T)/(z*F)*Math.log(Xout/Xin);
       console.log(answer*10000)
 

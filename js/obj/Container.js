@@ -22,7 +22,7 @@ class Container {
   clips(p) {
     // Test if the next movement the particle makes would result in a part of it clipping past container
     var write = function (direction, particle, wall, velocity) {
-      // console.log("direction: ", direction);
+      //console.log("direction: ", direction);
       // console.log("particle: ", particle);
       // console.log(direction, " wall: ", wall);
       // console.log(p.move_velocity.x,p.move_velocity.y);
@@ -69,8 +69,8 @@ class Container {
 
     p.x += p.move_velocity.x;
     p.y += p.move_velocity.y;
-    var pastBottom = p.y + p.r >= this.bl.y;
-    var pastTop = p.y - p.r <= this.tl.y;
+    var pastBottom = p.y + p.r >= this.bl.y-1;
+    var pastTop = p.y - p.r <= this.tl.y+1;
     var pastRight = p.x + p.r >= this.br.x;
     var pastLeft = p.x - p.r <= this.bl.x;
 
