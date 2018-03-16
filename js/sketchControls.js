@@ -112,27 +112,6 @@ function keyPressed() {
   switch (keyCode) {
     case spacebar:
     toggleLoop();
-<<<<<<< HEAD
-  }
-  // Press Q
-  if (keyCode == 81) {
-    transferParticle("Na",0);
-  }
-  // Press W
-  if (keyCode == 87) {
-    transferParticle("Cl",0);
-  }
-  // Press A
-  if (keyCode == 65) {
-    transferParticle("Na",1);
-  }
-  // Press S
-  if (keyCode == 83) {
-    transferParticle("Cl",1);
-  }
-  // Press E
-  if (keyCode == 69) {
-=======
     break;
 
     case Q_key:
@@ -152,38 +131,10 @@ function keyPressed() {
     break;
 
     case E_key:
->>>>>>> ae8dfd0234df1b046d23ab600d03425759b15bdd
     equilibrate("Na");
     equilibrate("Cl");
     break;
   }
-
-  // if (keyCode == spacebar) {
-  //   toggleLoop();
-  // }
-  // if (keyCode == Q_key) {
-  //   transferParticle("Na",0);
-  // }
-  // if (keyCode == W_key) {
-  //   transferParticle("Cl",0);
-  // }
-  // if (keyCode == A_key) {
-  //   transferParticle("Na",1);
-  // }
-  // if (keyCode == S_key) {
-  //   transferParticle("Cl",1);
-  // }
-  // Press E
-  // if (keyCode == 69) {
-  //   equilibrate("Na");
-  //   equilibrate("Cl");
-  // }
-}
-
-
-function equilibriumCheck() {
-
-
 }
 
 //UI
@@ -263,7 +214,7 @@ function ChangeNumParticles(evt) {
     if (j==1 || j==(1+row) ) {
       var Compare = N_Na[i]
 
-    }else if(j==2 || j==(2+row) ) {
+    } else if(j==2 || j==(2+row) ) {
       var Compare = N_Cl[i]
     }
 
@@ -303,7 +254,7 @@ function ChangeNumParticles(evt) {
           }
           NernstFormulaInput("Na");
 
-        }else if(j==2 || j==(2+row) ) {
+        } else if(j==2 || j==(2+row) ) {
 
           if(N_Cl[i]>0) {
             eval("ClParticles" + i).splice(N_Cl[i]-1, 1);
@@ -404,7 +355,6 @@ function makeUIs() {
 
       createElement('br').parent(eval("control" + k));
 
-      console.log("Table time?");
       var table = createElement('table')
       table.class("table qoptions");
       table.id("table" + k);
@@ -432,22 +382,22 @@ function makeUIs() {
       input[k].parent(td1);
       td1.parent(trow);
 
-      PlusButton[k] = createButton('+');
-      PlusButton[k].id(k);
-      PlusButton[k].mousePressed(increase);
-      PlusButton[k].class('qoptions');
+      plusButton[k] = createButton('+');
+      plusButton[k].id(k);
+      plusButton[k].mousePressed(increase);
+      plusButton[k].class('qoptions');
 
       var td2 = createElement('td');
-      PlusButton[k].parent(td2);
+      plusButton[k].parent(td2);
       td2.parent(trow);
 
-      MinusButton[k] = createButton('-');
-      MinusButton[k].id(k);
-      MinusButton[k].mousePressed(decrease);
-      MinusButton[k].class('qoptions');
+      minusButton[k] = createButton('-');
+      minusButton[k].id(k);
+      minusButton[k].mousePressed(decrease);
+      minusButton[k].class('qoptions');
 
       var td3 = createElement('td');
-      MinusButton[k].parent(td3);
+      minusButton[k].parent(td3);
       td3.parent(trow);
     }
   }

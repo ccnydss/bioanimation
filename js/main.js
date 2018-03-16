@@ -2,7 +2,7 @@ var containers = {};
 
 //Just for initializing
 var numParticles = [];
-var particleNames = ["Na","Cl"]
+var particleTypes = ["Na","Cl"]
 numParticles[0] = 3;
 numParticles[1] = 2;
 //0 = top
@@ -31,7 +31,7 @@ N_Cl[0] = 0;
 N_Cl[1] = 0;
 
 var numContainer = 2;
-var PlusButton = [], MinusButton = [], textboard = [], input = [];
+var plusButton = [], minusButton = [], textboard = [], input = [];
 var UIBoxs = [], equations = [];
 
 var canWidth;
@@ -71,7 +71,6 @@ function setup() {
   containers["inside"] = new Container( topLeft, topRight, botRight, botLeft );
   containers["inside"].draw();
 
-
   var topLeft = new Point( 0, canHeight/2 );
   var topRight = new Point( canWidth, canHeight/2 );
   var botRight = new Point( canWidth, canHeight );
@@ -95,7 +94,6 @@ function setup() {
       randomX = containers[key].tl.x + radius + (Math.floor(Math.random() * xRange));
       randomY = containers[key].tl.y + radius + (Math.floor(Math.random() * yRange));
 
-
       var chance = Math.random()
       if (chance < 0.5) {
         eval("NaParticles" + j).push(new Na(randomX,randomY,radius,velocity, true));
@@ -106,17 +104,12 @@ function setup() {
       }
     }
   }
-<<<<<<< HEAD
-=======
 
->>>>>>> ae8dfd0234df1b046d23ab600d03425759b15bdd
-  // UI
   makeUIs();
 }
 
 function draw() {
 
-  equilibriumCheck()
   clear();
 
   UIBoxs[0].draw();
