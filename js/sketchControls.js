@@ -38,7 +38,6 @@ var transferParticle = function(particle,currentNum) {
     var velocity = createVector(0, yVector);
     currentArray.push(new AnimatedParticle(OriX,OriY,diam,velocity, false, particle));
   }, 800)
- console.log(currentArray);
   // Remove particle from its old division and create particle in the new division
   setTimeout(function() {
     var OriParticle = currentArray[numOfParticles[currentNum]-1]
@@ -67,6 +66,32 @@ var transferParticle = function(particle,currentNum) {
     transferInput.value(numOfParticles[transferNum]);
   }, 1200)
 }
+
+// Brings outside and inside into equilibrium
+function equilibrate(particle) {
+  topArray = eval(particle+"Particles"+0);
+  botArray = eval(particle+"Particles"+1);
+
+  particleAmount = topArray.length + botArray.length;
+  equiAmount = Math.floor(particleAmount/2);
+  // if either top or bottom has equilibrium amount, we can return
+  if (topArray.length == equiAmount || botArray.length == equiAmount) {
+    console.log("equi reached");
+    return;
+  }
+  largerArrayNum = topArray.length > botArray.length? 0 : 1;
+  largerArray = eval(particle+"Particles"+largerArrayNum);
+
+  var transfers = largerArray.length - equiAmount
+  for (var i = 0; i < transfers; i++) {
+    setTimeout(function(){
+        transferParticle(particle,largerArrayNum);
+    }, 1000*i);
+
+  }
+
+}
+
 
 function toggleLoop() {
   if (togLoop) {
@@ -99,6 +124,11 @@ function keyPressed() {
   if (keyCode == 83) {
     transferParticle("Cl",1);
   }
+  // Press E
+  if (keyCode == 69) {
+    equilibrate("Na");
+    equilibrate("Cl");
+  }
 }
 
 
@@ -109,7 +139,6 @@ function equilibriumCheck() {
 
 //UI
 function increase(evt) {
-  console.log(evt.target.id);
   var j = evt.target.id;
 
   var i = Math.floor(j/3);

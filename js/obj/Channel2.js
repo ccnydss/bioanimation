@@ -10,7 +10,6 @@ class Channel {
   }
 
   draw() {
-    // fill(255)
     fill(particlesColor[this.particle])
     rect(this.tl.x,this.tl.y,this.height,this.width)
   }
@@ -41,13 +40,8 @@ class Channel {
     if (isInTransferRange) {
       console.log(isInTransferRange);
     }
-    // while (isInTransferRange) {
-    //   // p.collidable = false;
-    // }
 
-    // p.collidable = true;
     rect( this.tl.x-thickness, this.tl.y, this.height+2*thickness, this.width ); //Gap
-
     fill('rgba(100,155,200, 0.9)')
     rect( this.tl.x-thickness, this.tl.y, this.height/2, this.width ); //Border left
     rect( this.tl.x+2*thickness, this.tl.y, this.height/2, this.width ); //Border Right
