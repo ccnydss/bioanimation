@@ -2,7 +2,7 @@ var containers = {};
 
 //Just for initializing
 var numParticles = [];
-var particleNames = ["Na","Cl"]
+var particleTypes = ["Na","Cl"]
 numParticles[0] = 3;
 numParticles[1] = 2;
 //0 = top

@@ -134,7 +134,6 @@ function keyPressed() {
     case E_key:
     equilibrate("Na");
     equilibrate("Cl");
-    break;
   }
 
   // if (keyCode == spacebar) {
@@ -383,7 +382,6 @@ function makeUIs() {
 
       createElement('br').parent(eval("control" + k));
 
-      console.log("Table time?");
       var table = createElement('table')
       table.class("table qoptions");
       table.id("table" + k);
@@ -413,6 +411,14 @@ function makeUIs() {
 
       PlusButton[k] = createButton('+');
       PlusButton[k].id(k);
+
+      // Does 1 and 4 correspond to particle type? or is it 2 and 5 that do particle type?
+      var ptype = (k == 1 || k == 4) ? particleTypes[0] : particleTypes[1];
+      PlusButton[k].attribute("data-ptype", ptype);
+
+      var location = (k == 2 || k == 5) ? "inside" : "outside";
+      PlusButton[k].attribute("data-location", "");
+
       PlusButton[k].mousePressed(increase);
       PlusButton[k].class('qoptions');
 
