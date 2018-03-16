@@ -32,13 +32,11 @@ body {
 }
 
 #stage div {
-  /* flex: 1; */
 }
 
 #leftbar {
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   background-color: #403f4c;
   height: 100vh;
 }
@@ -88,7 +86,6 @@ body {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  /* width: 300px; */
 }
 
 .qoptions {

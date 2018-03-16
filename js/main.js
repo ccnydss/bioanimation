@@ -106,6 +106,10 @@ function setup() {
       }
     }
   }
+<<<<<<< HEAD
+=======
+
+>>>>>>> ae8dfd0234df1b046d23ab600d03425759b15bdd
   // UI
   makeUIs();
 }
