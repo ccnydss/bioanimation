@@ -18,10 +18,7 @@ var NaParticles0 = [];
 var NaParticles1 = [];
 var ClParticles0 = [];
 var ClParticles1 = [];
-//0 = top
-//1 = bot
 
-var cellWalls = [];
 var channels = [];
 var radius = 20;
 
@@ -34,18 +31,13 @@ N_Cl[0] = 0;
 N_Cl[1] = 0;
 
 var numContainer = 2;
-var PlusButton = [], MinusButton = [], titletext = [], textboard = [], input = [];
-var UIBoxs = [], equations = [], equationImg;
+var PlusButton = [], MinusButton = [], textboard = [], input = [];
+var UIBoxs = [], equations = [];
 
-// var length = 600;  // CAN DELETE THIS LATER
 var canWidth;
 var canHeight;
 var thickness = 25; //Make channel a square for now...
 //UI
-
-// function preload() {
-//   imgCb = loadImage("https://wikimedia.org/api/rest_v1/media/math/render/svg/59fb8dd0b3884bbb390b4cbfacdc9cb81b37bca3");
-// }
 
 function setup() {
   noFill();
@@ -114,32 +106,6 @@ function setup() {
       }
     }
   }
-
-  // for (var j = 0; j < numContainer; j++) {
-  //   for (var i = 0; i < numParticles[j]; i++) {
-  //     velocities = [-3,-2,2,3];
-  //     var x_vel = Math.floor(Math.random() * (velocities.length-1)) + 0;
-  //     var y_vel = Math.floor(Math.random() * (velocities.length-1)) + 0;
-  //     var velocity = createVector(velocities[x_vel],velocities[y_vel]);
-  //     xRange = outerBox[j].tr.x - outerBox[j].tl.x - 100;
-  //     yRange = outerBox[j].br.y - outerBox[j].tr.y - 100;
-  //
-  //     // Get random location
-  //     randomX = outerBox[j].tl.x + radius + (Math.floor(Math.random() * xRange));
-  //     randomY = outerBox[j].tl.y + radius + (Math.floor(Math.random() * yRange));
-  //
-  //
-  //     var chance = Math.random()
-  //     if (chance < 0.5) {
-  //       eval("NaParticles" + j).push(new Na(randomX,randomY,radius,velocity, true));
-  //       N_Na[j] = N_Na[j] + 1;
-  //     }else {
-  //       eval("ClParticles" + j).push(new Cl(randomX,randomY,2*radius,velocity, true));
-  //       N_Cl[j] = N_Cl[j] + 1;
-  //     }
-  //   }
-  // }
-
   // UI
   makeUIs();
 }
@@ -159,7 +125,6 @@ function draw() {
   }
   strokeWeight(1);
 
-    // image(imgCb,0, 0);
   for (key in containers) {
     for (var i = 0; i < N_Na[j]; i++) {
 

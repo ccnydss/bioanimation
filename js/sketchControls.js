@@ -76,7 +76,6 @@ function equilibrate(particle) {
   equiAmount = Math.floor(particleAmount/2);
   // if either top or bottom has equilibrium amount, we can return
   if (topArray.length == equiAmount || botArray.length == equiAmount) {
-    console.log("equi reached");
     return;
   }
   largerArrayNum = topArray.length > botArray.length? 0 : 1;
@@ -107,7 +106,6 @@ function keyPressed() {
   if (keyCode == 32) {
     toggleLoop();
   }
-
   // Press Q
   if (keyCode == 81) {
     transferParticle("Na",0);
