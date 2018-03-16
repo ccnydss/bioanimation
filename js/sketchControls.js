@@ -1,5 +1,3 @@
-// Pause / unpause the animation (debug purposes)
-var togLoop = false;
 var transferParticle = function(particle,currentNum) {
   var xMul = 100;
   var yMul = 100;
@@ -92,7 +90,8 @@ function equilibrate(particle) {
 
 }
 
-
+// Pause / unpause the animation (debug purposes)
+var togLoop = false;
 function toggleLoop() {
   if (togLoop) {
     loop();
@@ -104,31 +103,60 @@ function toggleLoop() {
 }
 
 function keyPressed() {
-  if (keyCode == 32) {
-    toggleLoop();
-  }
+  var spacebar = 32;
+  var Q_key = 81;
+  var W_key = 87;
+  var A_key = 65;
+  var S_key = 83;
+  var E_key = 69;
 
-  // Press Q
-  if (keyCode == 81) {
-    transferParticle("Na",0);
-  }
-  // Press W
-  if (keyCode == 87) {
-    transferParticle("Cl",0);
-  }
-  // Press A
-  if (keyCode == 65) {
-    transferParticle("Na",1);
-  }
-  // Press S
-  if (keyCode == 83) {
-    transferParticle("Cl",1);
-  }
-  // Press E
-  if (keyCode == 69) {
+  switch (keyCode) {
+    case spacebar:
+    toggleLoop();
+    break;
+
+    case Q_key:
+    transferParticle("Na", 0);
+    break;
+
+    case W_key:
+    transferParticle("Cl", 0);
+    break;
+
+    case A_key:
+    transferParticle("Na", 1);
+    break;
+
+    case S_key:
+    transferParticle("Cl", 1);
+    break;
+
+    case E_key:
     equilibrate("Na");
     equilibrate("Cl");
+    break;
   }
+
+  // if (keyCode == spacebar) {
+  //   toggleLoop();
+  // }
+  // if (keyCode == Q_key) {
+  //   transferParticle("Na",0);
+  // }
+  // if (keyCode == W_key) {
+  //   transferParticle("Cl",0);
+  // }
+  // if (keyCode == A_key) {
+  //   transferParticle("Na",1);
+  // }
+  // if (keyCode == S_key) {
+  //   transferParticle("Cl",1);
+  // }
+  // Press E
+  // if (keyCode == 69) {
+  //   equilibrate("Na");
+  //   equilibrate("Cl");
+  // }
 }
 
 
