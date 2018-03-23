@@ -1,31 +1,20 @@
 var containers = {};
 
 //Just for initializing
-var particleTypes = ["Na","Cl"]
+var particleTypes = ["Na","Cl"];
 
-var particlesColor = {};
-particlesColor["Na"] = '#efec2b';
-particlesColor["Cl"] = '#6bce25';
+var particlesProperties = {
+  "Na":{"color":"#F5CE28","radius":20},
+  "Cl":{"color":"#01ABAA","radius":40}
+};
 
 //For local particles on each box
 var MaxParticles = 25;
-var NaParticles0 = [];
-var NaParticles1 = [];
-var ClParticles0 = [];
-var ClParticles1 = [];
 var particles = {"inside": {"Na":[], "Cl":[]},
                  "outside": {"Na":[], "Cl":[]}}
 
 var channels = {"Na":[],"Cl":[]};
 var radius = 20;
-
-//UI
-var N_Na = [];
-N_Na[0] = 0;
-N_Na[1] = 0;
-var N_Cl = [];
-N_Cl[0] = 0;
-N_Cl[1] = 0;
 
 var numContainer = 2;
 var plusButton = [], minusButton = [], textboard = [], input = [];
@@ -33,7 +22,7 @@ var UIBoxs = [], equations = [];
 
 var canWidth;
 var canHeight;
-var thickness = 25; //Make channel a square for now...
+var thickness = 25; // Make channel a square for now...
 
 function setup() {
   noFill();
@@ -48,7 +37,7 @@ function setup() {
 
   //Relative to parent coordinate
 
-  containers["outside"] = new Container( topLeft, topRight, botRight, botLeft );
+  containers["outside"] = new Container(topLeft, topRight, botRight, botLeft, "#A9B7C0");
   containers["outside"].draw();
 
 
@@ -64,7 +53,7 @@ function setup() {
   var botRight = new Point( canWidth, canHeight );
   var botLeft = new Point( 0, canHeight );
 
-  containers["inside"] = new Container( topLeft, topRight, botRight, botLeft );
+  containers["inside"] = new Container(topLeft, topRight, botRight, botLeft, "#EAE3EA");
   containers["inside"].draw();
 
   var topLeft = new Point( 0, canHeight/2 );

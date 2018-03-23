@@ -1,16 +1,17 @@
 class Container {
-  constructor(_tl, _tr, _br, _bl) {
+  constructor(_tl, _tr, _br, _bl, _color) {
     this.tl = _tl;
     this.tr = _tr;
     this.br = _br;
     this.bl = _bl;
+    this.color = _color;
 
     this.vertical = abs(_tr.x - _tl.x);
     this.horizontal = abs(_tl.y - _bl.y);
   }
 
   draw() {
-    fill('#2c2b3c');
+    fill(this.color);
     rect( this.tl.x, this.tl.y, this.vertical, this.horizontal );
   }
 

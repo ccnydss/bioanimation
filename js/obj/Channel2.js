@@ -10,7 +10,7 @@ class Channel {
   }
 
   draw() {
-    fill(particlesColor[this.particle])
+    fill(particlesProperties[this.particle].color)
     rect(this.tl.x,this.tl.y,this.height,this.width)
   }
 

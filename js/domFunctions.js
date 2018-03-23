@@ -2,6 +2,7 @@ function makeLayout() {
   // Make the entire stage. This represents the entire, outer box containing the simulator, sidebar, and controls.
   stage = createDiv('');
   stage.id('stage');
+  stage.class('flex-container');
   stage.size(windowWidth, windowHeight);
 
   // The right sidebar for displaying questions.
@@ -16,7 +17,7 @@ function makeLayout() {
   questions.parent('leftbar');
   questions.size(leftBox.size().width, leftBox.size().height);
 
-  createElement("h3", "hi questions").parent('questionsdiv');
+  createElement("h3", "Questions").parent('questionsdiv');
 
   // Div to contain the equation
   equation = createDiv("");

@@ -38,20 +38,20 @@ class Particle {
 class Na extends Particle {
   color() {
     noStroke();
-    fill(particlesColor["Na"]);
+    fill(particlesProperties["Na"].color);
   }
 }
 
 class Cl extends Particle {
   color() {
     noStroke();
-    fill(particlesColor["Cl"])
+    fill(particlesProperties["Cl"].color);
   }
 }
 
 var factory = {
     "Na": Na,
-    "Cl": Cl,  
+    "Cl": Cl,
 }
 
 class AnimatedParticle {
@@ -73,7 +73,7 @@ class AnimatedParticle {
 
     color() {
       noStroke();
-      fill(particlesColor[this.particle]);
+      fill(particlesProperties[this.particle].color);
     }
 
     move() {
