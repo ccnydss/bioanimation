@@ -1,24 +1,24 @@
-var transferParticle = function(particle,currentNum) {
+var transferParticle = function(particleType,location) {
   var xMul = 100;
   var yMul = 100;
 
   // Set names of current array is in and array to transfer particle into
-  var currentArray = eval(particle+"Particles"+currentNum);
-  var transferNum = (currentNum == 0)? 1 : 0;
-  var transferArray = eval(particle+"Particles"+transferNum);
-  var numOfParticles = eval("N_"+particle);
+  var currentArray = particles[location][particleType];// eval(particle+"Particles"+currentNum);
+  var transferLocation = (location == "outside")? "inside" : "outside";
+  var transferType = particleType == particleTypes[0] ? particleTypes[1] : particleTypes[0];
+  var transferArray = particles[transferLocation][particleType];
   var offset = Math.floor(channels[0].width/2+10);
 
   if (currentArray.length == 0) {
     return;
   }
   // If the particle is in the top division
-  if (currentNum == 0) {
-    var targetChannel = (particle == "Na") ? channels[0].tl : channels[1].tl;
+  if (location == "outside") {
+    var targetChannel = (particle == particleTypes[0]) ? channels[0].tl : channels[1].tl;
   }
   // If the particle is in the bottom division
   else {
-    var targetChannel = (particle == "Na") ? channels[0].bl : channels[1].bl;
+    var targetChannel = (particle == particleTypes[0]) ? channels[0].bl : channels[1].bl;
   }
   // Change move velocity to get particle to target channel
   var v = (targetChannel.x+ offset - currentArray[0].x)/xMul;
@@ -38,7 +38,8 @@ var transferParticle = function(particle,currentNum) {
   }, 800)
   // Remove particle from its old division and create particle in the new division
   setTimeout(function() {
-    var OriParticle = currentArray[numOfParticles[currentNum]-1]
+    var particleIndex = particles[location][particleType].length - 1;
+    var OriParticle = currentArray[particleIndex];
     var OriX = Math.floor(OriParticle.x);
     var OriY = Math.floor(OriParticle.y);
     var diam = Math.floor(OriParticle.diam);
@@ -46,47 +47,41 @@ var transferParticle = function(particle,currentNum) {
     var x_vel = Math.floor(Math.random() * 3) + 0;
     var y_vel = Math.floor(Math.random() * 3) + 0;
     var velocity = createVector(velocities[x_vel],Math.abs(velocities[y_vel]));
-    currentArray.splice(numOfParticles[currentNum]-1, 1);
-    numOfParticles[currentNum]--;
+    currentArray.splice(particleIndex, 1);
 
-    if (particle == "Na") {
-      var oldInput = currentNum == 0 ? input[1] : input[4];
-      var transferInput = transferNum == 0 ? input[1] : input[4];
+    if (particle == particleTypes[0]) {
+      var oldInput = location == "outside" ? input[1] : input[4];
+      var transferInput = location == "outside"?  input[4] : input[1];
     }
     else {
-      var oldInput = currentNum == 0 ? input[2] : input[5];
-      var transferInput = transferNum == 0 ? input[2] : input[5];
+      var oldInput = location == "outside" ? input[2] : input[5];
+      var transferInput = location == "outside"?  input[5] : input[2];
     }
-    oldInput.value(numOfParticles[currentNum]);
-    (particle == "Na") ? transferArray.push(new Na(OriX,OriY,diam,velocity,true)):
-                         transferArray.push(new Cl(OriX,OriY,diam,velocity,true));
-    numOfParticles[transferNum]++;
-    transferInput.value(numOfParticles[transferNum]);
+    oldInput.value(particles[location][particleType].length);
+    transferArray.push(new factory[particleType](OriX,OriY,diam,velocity,true));
+    transferInput.value(particles[location][transferType].length);
   }, 1200)
 }
 
 // Brings outside and inside into equilibrium
-function equilibrate(particle) {
-  topArray = eval(particle+"Particles"+0);
-  botArray = eval(particle+"Particles"+1);
+function equilibrate(particleType) {
+  outsideArray = particles["outside"][particleType];
+  insideArray = particles["inside"][particleType];
 
-  particleAmount = topArray.length + botArray.length;
+  particleAmount = outsideArray.length + insideArray.length;
   equiAmount = Math.floor(particleAmount/2);
   // if either top or bottom has equilibrium amount, we can return
-  if (topArray.length == equiAmount || botArray.length == equiAmount) {
+  if (outsideArray.length == equiAmount || insideArray.length == equiAmount) {
     return;
   }
-  largerArrayNum = topArray.length > botArray.length? 0 : 1;
-  largerArray = eval(particle+"Particles"+largerArrayNum);
+  largerArrayLocation  = outsideArray.length > insideArray.length? "outside" : "inside";
 
-  var transfers = largerArray.length - equiAmount
+  var transfers = particles[largerArrayLocation][particleType].length - equiAmount;
   for (var i = 0; i < transfers; i++) {
     setTimeout(function(){
-        transferParticle(particle,largerArrayNum);
+        transferParticle(particleType,largerArrayLocation);
     }, 1000*i);
-
   }
-
 }
 
 // Pause / unpause the animation (debug purposes)
@@ -115,199 +110,121 @@ function keyPressed() {
     break;
 
     case Q_key:
-    transferParticle("Na", 0);
+    transferParticle(particleTypes[0], "outside");
     break;
 
     case W_key:
-    transferParticle("Cl", 0);
+    transferParticle(particleTypes[1], "outside");
     break;
 
     case A_key:
-    transferParticle("Na", 1);
+    transferParticle(particleTypes[0], "inside");
     break;
 
     case S_key:
-    transferParticle("Cl", 1);
+    transferParticle(particleTypes[1], "inside");
     break;
 
     case E_key:
-    equilibrate("Na");
-    equilibrate("Cl");
-    break;
+    equilibrate(particleTypes[0]);
+    equilibrate(particleTypes[1]);
   }
 }
 
-//UI
 function increase(evt) {
-  var j = evt.target.id;
-
-  var i = Math.floor(j/3);
+  var eventID = evt.target.id;
   var row = 3;
 
-  randomX = outerBox[i].tl.x + radius + (Math.floor(Math.random() * xRange))
-  randomY = outerBox[i].tl.y + radius + (Math.floor(Math.random() * yRange))
+  var particleType = (eventID == 1 || eventID == (1+row)) ? particleTypes[0] : particleTypes[1];
+  var particleLocation = (eventID == 1 || eventID == 2) ? "outside" : "inside";
+  var particleArray = particles[particleLocation][particleType];
+
+  randomX = containers[particleLocation].tl.x + radius + (Math.floor(Math.random() * xRange));
+  randomY = containers[particleLocation].tl.y + radius + (Math.floor(Math.random() * yRange));
 
   var velocity = createVector(-5, -4);
 
-  if (j==1 || j==(1+row) ) {
-    if(N_Na[i]<MaxParticles) {
-      eval("NaParticles" + i).push(new Na(randomX,randomY,radius,velocity, true));
-      N_Na[Math.floor(j/3)] = N_Na[Math.floor(j/3)] + 1;
-      var Value = N_Na[Math.floor(j/3)]
-      NernstFormulaInput("Na");
-      input[j].value(Value);
-    }
-
-  } else if(j==2 || j==(2+row) ) {
-    if(N_Cl[i]<MaxParticles) {
-      eval("ClParticles" + i).push(new Cl(randomX,randomY,2*radius,velocity, true));
-      N_Cl[Math.floor(j/3)] = N_Cl[Math.floor(j/3)] + 1;
-      var Value = N_Cl[Math.floor(j/3)]
-      NernstFormulaInput("Cl");
-      input[j].value(Value);
-    }
+  if(particleArray.length >= MaxParticles) {
+    return;
   }
 
+  particleArray.push(new factory[particleType](randomX,randomY,radius,velocity, true));
+  var updatedParticleAmount = particleArray.length;
+  NernstFormulaInput(particleType);
+  input[eventID].value(updatedParticleAmount);
 }
 
 function decrease(evt) {
-  console.log(evt.target.id);
-  var j = evt.target.id;
-
-  var i = Math.floor(j/3);
+  var eventID = evt.target.id;
   var row = 3;
 
-  if (j==1 || j==(1+row) & N_Na[i]>0 ) {
+  var particleType = (eventID == 1 || eventID == (1+row)) ? particleTypes[0] : particleTypes[1];
+  var particleLocation = (eventID == 1 || eventID == 2) ? "outside" : "inside";
+  var particleArray = particles[particleLocation][particleType];
 
-    if(N_Na[i]>0) {
-      eval("NaParticles" + i).splice(N_Na[i]-1, 1);
-      N_Na[i]--;
-    }
-    var Value = N_Na[i]
-    NernstFormulaInput("Na");
-    input[j].value(Value);
+  randomX = containers[particleLocation].tl.x + radius + (Math.floor(Math.random() * xRange));
+  randomY = containers[particleLocation].tl.y + radius + (Math.floor(Math.random() * yRange));
 
-  }else if(j==2 || j==(2+row) ) {
-
-    if(N_Cl[i]>0) {
-      eval("ClParticles" + i).splice(N_Cl[i]-1, 1);
-      N_Cl[i]--;
-    }
-    var Value = N_Cl[i]
-    NernstFormulaInput("Cl");
-    input[j].value(Value);
+  if(particleArray.length <= 0) {
+    return;
   }
 
+  particleArray.splice(particleArray.length - 1, 1);
 
+  var updatedParticleAmount = particleArray.length;
+  NernstFormulaInput(particleType);
+  input[inputID].value(updatedParticleAmount);
 }
 
 function ChangeNumParticles(evt) {
+  var eventID = evt.target.id;
 
-  var j = evt.target.id;
+  var particleType = (eventID == 1 || eventID == (1+row)) ?  particleTypes[0] : particleTypes[1];
+  var particleLocation = (eventID == 1 || eventID == 2) ? "outside" : "inside";
+  var particleArray = particles[particleLocation][particleType];
+  var updatedAmount = input[eventID].value();
 
-  var i = Math.floor(j/3);
-  var row = 3;
-  console.log("Id is "+evt.target.id+" Input is "+input[j].value());
+  // If the amount entered is invalid, alert user
+  if (isNaN(updatedAmount) || Math.floor(updatedAmount) != updatedAmount || updatedAmount < 0) {
+    alert("Please enter valid input.");
+    return;
+  }
 
-  if (!isNaN(input[j].value()) & Math.floor(input[j].value()) == input[j].value()) {
+  // If the amount entered is greater than the maximum, force it to maximum and alert user
+  else if (updatedAmount > MaxParticles) {
+    input[eventID].value(MaxParticles);
+    alert("Maximum amount is " + MaxParticles + ".");
+  }
 
-    if (j==1 || j==(1+row) ) {
-      var Compare = N_Na[i]
-
-    } else if(j==2 || j==(2+row) ) {
-      var Compare = N_Cl[i]
-    }
-
-
-    if (input[j].value() > Compare ) {
-      if (input[j].value() >= MaxParticles+1) {
-        input[j].value(MaxParticles);
-      }
-
-      for (var k = Compare; k<input[j].value(); k++) {
-
-        randomX = outerBox[i].tl.x + radius + (Math.floor(Math.random() * xRange))
-        randomY = outerBox[i].tl.y + radius + (Math.floor(Math.random() * yRange))
-
-
-        var velocity = createVector(-5, -4);
-
-        if (j==1 || j==(1+row) ) {
-          eval("NaParticles" + i).push(new Na(randomX,randomY,radius,velocity, true));
-          N_Na[i]++;
-          NernstFormulaInput("Na");
-
-        }else if(j==2 || j==(2+row) ) {
-          eval("ClParticles" + i).push(new Cl(randomX,randomY,2*radius,velocity, true));
-          N_Cl[i]++;
-          NernstFormulaInput("Cl");
-        }
-      }
-    } else if  (input[j].value() < Compare) {
-
-      for (var k = input[j].value(); k<Compare; k++) {
-        if (j==1 || j==(1+row) ) {
-
-          if(N_Na[i]>0) {
-            eval("NaParticles" + i).splice(N_Na[i]-1, 1);
-            N_Na[i]--;
-          }
-          NernstFormulaInput("Na");
-
-        } else if(j==2 || j==(2+row) ) {
-
-          if(N_Cl[i]>0) {
-            eval("ClParticles" + i).splice(N_Cl[i]-1, 1);
-            N_Cl[i]--;
-          }
-          NernstFormulaInput("Cl");
-        }
-      }
-
-    }
-
-  } else if (isNaN(input[j].value()) || Math.floor(input[j].value()) != input[j].value()) {
-    input[j].value(0);
-
-    for (var k = 0; k<MaxParticles; k++) {
-      if (j==1 || j==(1+row) ) {
-
-        if(N_Na[i]>0) {
-          eval("NaParticles" + i).splice(N_Na[i]-1, 1);
-          N_Na[i]--;
-        }
-        NernstFormulaInput("Na");
-
-      }else if(j==2 || j==(2+row) ) {
-
-        if(N_Cl[i]>0) {
-          eval("ClParticles" + i).splice(N_Cl[i]-1, 1);
-          N_Cl[i]--;
-        }
-        NernstFormulaInput("Cl");
-      }
-    }
-
+  // If the amount entered is less than 0, increase the amount
+  if (updatedAmount > particleArray.length) {
+    increase(evt);
+  }
+  else if (updatedAmount < particleArray.length) {
+    decrease(evt);
   }
 }
 
 function makeUIs() {
-  //Channel
+  // Channel
   var topLeft = new Point( canWidth/2-thickness, canHeight/2-thickness );
   var topRight = new Point( canWidth/2+thickness, canHeight/2-thickness );
   var botRight = new Point( canWidth/2+thickness, canHeight/2-thickness );
   var botLeft = new Point( canWidth/2-thickness, canHeight/2+thickness );
+  // Containers
+  var divisionTL = new Point(containers["outside"].bl.x,containers["outside"].bl.y);
+  var divisionTR = new Point(containers["outside"].br.x,containers["outside"].br.y);
+  var divisionBR = new Point(containers["inside"].tr.x,containers["inside"].tr.y);
+  var divisionBL = new Point(containers["inside"].tl.x,containers["inside"].tl.y);
 
-  var divisionTL = new Point(outerBox[0].bl.x,outerBox[0].bl.y);
-  var divisionTR = new Point(outerBox[0].br.x,outerBox[0].br.y);
-  var divisionBR = new Point(outerBox[1].tr.x,outerBox[1].tr.y);
-  var divisionBL = new Point(outerBox[1].tl.x,outerBox[1].tl.y);
-
+  // Create channels
   channels = createChannels(divisionTL,divisionTR,divisionBR,divisionBL,2);
+
   for (var i=0; i<channels.length; i++) {
     channels[i].draw();
   }
 
+  // Set up the section where answers are displayed
   var answer = 0;
   equations[1] = createElement('h3', 'Answer: '+answer+'V');
   equations[1].class('qoptions');
@@ -318,8 +235,8 @@ function makeUIs() {
   equations[2].attribute("xmlns", "http://www.w3.org/1999/xhtml")
   equations[2].class('eqninput');
   equations[2].parent('neq-top');
-  equations[2].option('Na');
-  equations[2].option('Cl');
+  equations[2].option(particleTypes[0]);
+  equations[2].option(particleTypes[1]);
   equations[2].changed(NernstFormula);
 
   equations[3] = createSelect();
@@ -327,27 +244,24 @@ function makeUIs() {
   equations[3].attribute("xmlns", "http://www.w3.org/1999/xhtml")
   equations[3].class('eqninput');
   equations[3].parent('neq-bot');
-  equations[3].option('Na');
-  equations[3].option('Cl');
+  equations[3].option(particleTypes[0]);
+  equations[3].option(particleTypes[1]);
   equations[3].changed(NernstFormula);
 
-  //Title text
-  //Na Input
-  //Cl Input
   var row = 3;
   for (var k = 0; k < numContainer*row; k++) {
     if (k==0) {
       var text = 'Outside';
     } else if(k==row) {
       var text = 'Inside';
-    } else if(k==1 || k==(1+row)) {
-      var text = 'Na Ions:&nbsp;';
-      var Value = N_Na[Math.floor(k/3)]
-    } else if(k==2 || k==(2+row)) {
-      var text = 'Cl Ions:&nbsp;';
-      var Value = N_Cl[Math.floor(k/3)]
+    } else {
+      var particleType = (k == 1 || k == (1+row)) ? particleTypes[0] : particleTypes[1];
+      var particleLocation = (k == 1 || k == 2) ? "outside" : "inside";
+      var particleArray = particles[particleLocation][particleType];
+      var text = particleType + ' Ions:&nbsp;';
+      var Value = particleArray.length;
+      console.log(Value);
     }
-
     if (k == 0 || k == row) {
       textboard[k] = createElement('h3', text);
       textboard[k].class('qoptions');
@@ -384,6 +298,10 @@ function makeUIs() {
 
       plusButton[k] = createButton('+');
       plusButton[k].id(k);
+
+      plusButton[k].attribute("data-ptype", particleType);
+      plusButton[k].attribute("data-location", particleLocation);
+
       plusButton[k].mousePressed(increase);
       plusButton[k].class('qoptions');
 
@@ -404,48 +322,20 @@ function makeUIs() {
 }
 
 function NernstFormula(evt) {
-  var j = evt.target.id;
-
-  if (j == 2) {
-    i =3;
-  } else if (j == 3) {
-    i =2;
-  }
-  var R = 8.314;
-  var T = 37 + 273.13 //@37C is common
-  if (equations[j].value()=="Na") {
-    var z = 1;
-    Xout = N_Na[0];
-    Xin = N_Na[1];
-  } else if (equations[j].value()=="Cl") {
-    var z = -1;
-    Xout = N_Cl[0];
-    Xin = N_Cl[1];}
-    var F = 0.096485;
-
-    var answer = (R*T)/(z*F)*Math.log(Xout/Xin);
-    console.log(answer*10000)
-
-    equations[i].value(equations[j].value());
-    equations[1].html('Answer: '+answer+'V');
-
+  var eventID = evt.target.id;
+  var particleType = (eventID == 1 || eventID == (1+row)) ?  particleTypes[0] : particleTypes[1];
+  NernstFormulaInput(particleType);
   }
 
-  function NernstFormulaInput(j) {
+  function NernstFormulaInput(particleType) {
     var R = 8.314;
     var T = 37 + 273.13 //@37C is common
-    if (j=="Na") {
-      var z = 1;
-      Xout = N_Na[0];
-      Xin = N_Na[1];
-    } else if (j="Cl") {
-      var z = -1;
-      Xout = N_Cl[0];
-      Xin = N_Cl[1];}
-      var F = 96485.3329;//0.096485;
-      var answer = (R*T)/(z*F)*Math.log(Xout/Xin);
-      console.log(answer*10000)
-
-      equations[1].html('Answer: '+answer+'V');
-
-    }
+    var z = (particleType == particleTypes[0]) ? 1 : -1;
+    Xout = particles["outside"][particleType].length;
+    Xin = particles["inside"][particleType].length;
+    var F = 96485.3329;//0.096485;
+    var answer = (R*T)/(z*F)*Math.log(Xout/Xin);
+    equations[1].html('Answer: '+answer+'V');
+    //
+    // }
+}

@@ -1,12 +1,7 @@
 var containers = {};
 
 //Just for initializing
-var numParticles = [];
 var particleTypes = ["Na","Cl"]
-numParticles[0] = 3;
-numParticles[1] = 2;
-//0 = top
-//1 = bot
 
 var particlesColor = {};
 particlesColor["Na"] = '#efec2b';
@@ -18,8 +13,10 @@ var NaParticles0 = [];
 var NaParticles1 = [];
 var ClParticles0 = [];
 var ClParticles1 = [];
+var particles = {"inside": {"Na":[], "Cl":[]},
+                 "outside": {"Na":[], "Cl":[]}}
 
-var channels = [];
+var channels = {"Na":[],"Cl":[]};
 var radius = 20;
 
 //UI
@@ -37,7 +34,6 @@ var UIBoxs = [], equations = [];
 var canWidth;
 var canHeight;
 var thickness = 25; //Make channel a square for now...
-//UI
 
 function setup() {
   noFill();
@@ -81,28 +77,27 @@ function setup() {
 
   var velocity = createVector(-5, -4);
 
-  for (key in containers) {
-    for (var i = 0; i < numParticles[j]; i++) {
-      velocities = [-3,-2,2,3];
-      var x_vel = Math.floor(Math.random() * (velocities.length-1)) + 0;
-      var y_vel = Math.floor(Math.random() * (velocities.length-1)) + 0;
-      var velocity = createVector(velocities[x_vel],velocities[y_vel]);
-      xRange = containers[key].tr.x - containers[key].tl.x - 100;
-      yRange = containers[key].br.y - containers[key].tr.y - 100;
+  for (var location in particles) {
+   for (var particle in particles[location]) {
+     velocities = [-4,-3,3,4];
+     var x_vel = Math.floor(Math.random() * (velocities.length-1)) + 0;
+     var y_vel = Math.floor(Math.random() * (velocities.length-1)) + 0;
+     var velocity = createVector(velocities[x_vel],velocities[y_vel]);
+     xRange = containers[location].tr.x - containers[location].tl.x - 100;
+     yRange = containers[location].br.y - containers[location].tr.y - 100;
 
-      // Get random location
-      randomX = containers[key].tl.x + radius + (Math.floor(Math.random() * xRange));
-      randomY = containers[key].tl.y + radius + (Math.floor(Math.random() * yRange));
+     // Get random location
+     randomX = containers[location].tl.x + radius + (Math.floor(Math.random() * xRange));
+     randomY = containers[location].tl.y + radius + (Math.floor(Math.random() * yRange));
 
-      var chance = Math.random()
-      if (chance < 0.5) {
-        eval("NaParticles" + j).push(new Na(randomX,randomY,radius,velocity, true));
-        N_Na[j] = N_Na[j] + 1;
-      }else {
-        eval("ClParticles" + j).push(new Cl(randomX,randomY,2*radius,velocity, true));
-        N_Cl[j] = N_Cl[j] + 1;
-      }
-    }
+     var chance = Math.random();
+
+     if (chance < 0.5) {
+       particles[location][particleTypes[0]].push(new Na(randomX,randomY,radius,velocity, true));
+     } else {
+       particles[location][particleTypes[1]].push(new Cl(randomX,randomY,2*radius,velocity, true));
+     }
+   }
   }
 
   makeUIs();
@@ -122,23 +117,12 @@ function draw() {
   }
   strokeWeight(1);
 
-  for (key in containers) {
-    for (var i = 0; i < N_Na[j]; i++) {
-
-      if(eval("NaParticles" + j)[i]) {
-        eval("NaParticles" + j)[i].color();
-        eval("NaParticles" + j)[i].move(containers[key]);
-      }
-    }
-
-    for (var i = 0; i < N_Cl[j]; i++) {
-
-      if(eval("ClParticles" + j)[i]) {
-        eval("ClParticles" + j)[i].color();
-        eval("ClParticles" + j)[i].move(containers[key]);
-      }
-    }
+  for (var location in particles) {
+   for (var particle in particles[location]) {
+     for (var i = 0; i < particles[location][particle].length; i++) {
+       particles[location][particle][i].color();
+       particles[location][particle][i].move(containers[location]);
+     }
+   }
   }
-
-  //UI
 }

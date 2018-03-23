@@ -49,6 +49,11 @@ class Cl extends Particle {
   }
 }
 
+var factory = {
+    "Na": Na,
+    "Cl": Cl,  
+}
+
 class AnimatedParticle {
   constructor(_x, _y, _diam, _vel, _collidable, _particle) {
     this.x = _x;
