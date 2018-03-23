@@ -10,11 +10,14 @@ html {
 }
 
 body {
+  display: flex;
+  justify-content: center;
   font-family: 'Open Sans', sans-serif;
 }
 
 #simulator {
     background-color: rgb(34, 34, 34);
+    margin-top:4%;
     position: absolute;
     width: 65%;
     height: 90%;

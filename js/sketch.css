@@ -29,11 +29,14 @@ body {
   border-style: solid;
   border-color: #7A9D96;
   border-width: 5px;
+  overflow:auto;
 }
+
 .flex-container {
   justify-content: center;
   align-items: center;
 }
+
 #stage div {
 }
 

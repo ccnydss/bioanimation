@@ -5,7 +5,6 @@ var transferParticle = function(particleType,location) {
   // Set names of current array is in and array to transfer particle into
   var currentArray = particles[location][particleType];// eval(particle+"Particles"+currentNum);
   var transferLocation = (location == "outside")? "inside" : "outside";
-  var transferType = particleType == particleTypes[0] ? particleTypes[1] : particleTypes[0];
   var transferArray = particles[transferLocation][particleType];
   var offset = Math.floor(channels[0].width/2+10);
 
@@ -59,7 +58,7 @@ var transferParticle = function(particleType,location) {
     }
     oldInput.value(particles[location][particleType].length);
     transferArray.push(new factory[particleType](OriX,OriY,diam,velocity,true));
-    transferInput.value(particles[transferLocation][transferType].length);
+    transferInput.value(particles[transferLocation][particleType].length);
   }, 1200)
 }
 
