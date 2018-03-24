@@ -185,7 +185,9 @@ function decrease(evt) {
 
 function ChangeNumParticles(evt) {
   var eventID = evt.target.id;
+  console.log(input[eventID].value());
 
+  var row = 3;
   var particleType = (eventID == 1 || eventID == (1+row)) ?  particleTypes[0] : particleTypes[1];
   var particleLocation = (eventID == 1 || eventID == 2) ? "outside" : "inside";
   var particleArray = particles[particleLocation][particleType];
@@ -203,12 +205,23 @@ function ChangeNumParticles(evt) {
     alert("Maximum amount is " + MaxParticles + ".");
   }
 
-  // If the amount entered is less than 0, increase the amount
+
+  var difference =  Math.abs(updatedAmount - particleArray.length)
+    // If the amount entered is less than 0, increase the amount
   if (updatedAmount > particleArray.length) {
-    increase(evt);
+    for (var i=0; i<difference; i++) {
+      randomX = containers[particleLocation].tl.x + particlesProperties[particleType].radius + (Math.floor(Math.random() * xRange));
+      randomY = containers[particleLocation].tl.y + particlesProperties[particleType].radius + (Math.floor(Math.random() * yRange));
+      var velocity = createVector(-5, -4);
+      particleArray.push(new factory[particleType](randomX,randomY,particlesProperties[particleType].radius,velocity, true));
+      NernstFormulaInput(particleType);
+    }
   }
   else if (updatedAmount < particleArray.length) {
-    decrease(evt);
+    for (var i=0; i<difference; i++) {
+      particleArray.splice(particleArray.length - 1, 1);
+      NernstFormulaInput(particleType);
+    }
   }
 }
 
@@ -299,12 +312,12 @@ function makeUIs() {
       td0.parent(trow);
       input[k] = createInput();
       input[k].value(Value)
-      input[k].id("fasf");
+      input[k].id(k);
       input[k].class('qoptions');
-
       var td1 = createElement('td');
       input[k].parent(td1);
       td1.parent(trow);
+      input[k].input(ChangeNumParticles);
 
       plusButton[k] = createButton('+');
       plusButton[k].id(k);
