@@ -1,10 +1,10 @@
+var largerArrayLocations = {};
 var transferParticle = function(particleType,location) {
   var xMul = 100;
   var yMul = 100;
-
   // Set names of current array is in and array to transfer particle into
-  var currentArray = particles[location][particleType];// eval(particle+"Particles"+currentNum);
-  var transferLocation = (location == "outside")? "inside" : "outside";
+  var currentArray = particles[location[particleType]][particleType];// eval(particle+"Particles"+currentNum);
+  var transferLocation = (location[particleType] == "outside")? "inside" : "outside";
   var transferArray = particles[transferLocation][particleType];
   var offset = Math.floor(channels[0].width/2+10);
 
@@ -12,7 +12,7 @@ var transferParticle = function(particleType,location) {
     return;
   }
   // If the particle is in the top division
-  if (location == "outside") {
+  if (location[particleType][particleType] == "outside") {
     var targetChannel = (particleType == particleTypes[0]) ? channels[0].tl : channels[1].tl;
   }
   // If the particle is in the bottom division
@@ -31,13 +31,13 @@ var transferParticle = function(particleType,location) {
     var OriY = Math.floor(currentArray[0].y);
     var diam = currentArray[0].diam;
     currentArray.splice(0, 1);
-    var yVector = (location == "outside") ? 3 : -3;
+    var yVector = (location[particleType] == "outside") ? 3 : -3;
     var velocity = createVector(0, yVector);
     currentArray.push(new AnimatedParticle(OriX,OriY,diam,velocity, false, particleType));
   }, 800)
   // Remove particle from its old division and create particle in the new division
   setTimeout(function() {
-    var particleIndex = particles[location][particleType].length - 1;
+    var particleIndex = particles[location[particleType]][particleType].length - 1;
     var OriParticle = currentArray[particleIndex];
     var OriX = Math.floor(OriParticle.x);
     var OriY = Math.floor(OriParticle.y);
@@ -49,21 +49,21 @@ var transferParticle = function(particleType,location) {
     currentArray.splice(particleIndex, 1);
 
     if (particleType == particleTypes[0]) {
-      var oldInput = location == "outside" ? input[1] : input[4];
-      var transferInput = location == "outside"?  input[4] : input[1];
+      var oldInput = location[particleType] == "outside" ? input[1] : input[4];
+      var transferInput = location[particleType] == "outside"?  input[4] : input[1];
     }
     else {
-      var oldInput = location == "outside" ? input[2] : input[5];
-      var transferInput = location == "outside"?  input[5] : input[2];
+      var oldInput = location[particleType] == "outside" ? input[2] : input[5];
+      var transferInput = location[particleType] == "outside"?  input[5] : input[2];
     }
-    oldInput.value(particles[location][particleType].length);
+    oldInput.value(particles[location[particleType]][particleType].length);
     transferArray.push(new factory[particleType](OriX,OriY,diam,velocity,true));
     transferInput.value(particles[transferLocation][particleType].length);
   }, 1200)
 }
 
 // Brings outside and inside into equilibrium
-function equilibrate(particleType) {
+function equilibrate(particleType,callback) {
   outsideArray = particles["outside"][particleType];
   insideArray = particles["inside"][particleType];
 
@@ -76,21 +76,31 @@ function equilibrate(particleType) {
   largerArrayLocation  = outsideArray.length > insideArray.length? "outside" : "inside";
 
   var transfers = particles[largerArrayLocation][particleType].length - equiAmount;
+var enableButton = true;
+largerArrayLocations[particleType] = largerArrayLocation;
   for (var i = 0; i < transfers; i++) {
+    enableButton = false;
     setTimeout(function(){
-        transferParticle(particleType,largerArrayLocation);
+        transferParticle(particleType,largerArrayLocations);
+        console.log(particleType,largerArrayLocations);
     }, 1000*i);
+
   }
+callback();
+
 }
 
 function startEquilibrate(evt) {
   console.log("equilibrate");
-  for (var i = 0; i < 2; i++) {
-    equilibrate(particleTypes[i]);
-  }
+  document.getElementById('equilibrate-button').disabled = true;
+  equilibrate(particleTypes[0], function() { return; });
+  equilibrate(particleTypes[1],enableButton);
 }
 
-
+function enableButton() {
+  console.log("ENABLED");
+  document.getElementById('equilibrate-button').disabled = false;
+}
 // Pause / unpause the animation (debug purposes)
 var togLoop = false;
 function toggleLoop() {
