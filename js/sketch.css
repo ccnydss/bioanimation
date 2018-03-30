@@ -37,9 +37,6 @@ body {
   align-items: center;
 }
 
-#stage div {
-}
-
 #leftbar {
   display: flex;
   flex-direction: column;
@@ -66,14 +63,11 @@ body {
   text-align: center;
 }
 
-#sim {
-  background-color: #7A9D96;
-}
-
 #simInput {
-  background-color: #fa2;
+  background-color: #A5A5AF;
   display: flex;
   flex-direction: row;
+
 }
 
 .can {
@@ -83,7 +77,6 @@ body {
 
 
 .controls {
-  background-color: #A5A5AF;
   padding: 5px;
   display: flex;
   flex-direction: column;
@@ -101,26 +94,40 @@ body {
 }
 
 .control h3 {
-  font-size: 20px;
+  font-size: 25px;
 }
 
 .control input {
-  width: 35px;
-  height: 35px;
+  width: 20px;
+  height: 20px;
 
   text-align: center;
 }
 
 .control button {
-  height: 35px;
-  width: 35px;
+  height: 20px;
+  width: 20px;
 
 
   border-radius: 5px;
   border: none;
 
-  font-size: 25px;
+  font-size: 20px;
   text-align: center;
+}
+
+.checkboxes {
+  margin:5px;
+}
+.checkboxes label{
+  margin-left:5px;
+}
+
+#particleControl {
+  background-color: #A5A5AF;
+  display:flex;
+  justify-content: flex-start;
+  padding:8px;
 }
 
 #equilibrate-button {

@@ -19,8 +19,8 @@ function makeLayout() {
   createElement("h3", "Questions").parent('questionsdiv');
 
   for (var i=1; i<5; i++) {
-    single_question = createElement("p","Q1").parent('questionsdiv');
-    single_question.style("clear","right");
+    // single_question = createElement("p","Q1").parent('questionsdiv');
+    // single_question.style("clear","right");
   }
 
   // single_question.class("question");
@@ -53,18 +53,18 @@ function makeLayout() {
   simulatorInput = createDiv('');
   simulatorInput.id('simInput');
   simulatorInput.parent('sim');
-  simulatorInput.size(canWidth, 0.33 * canHeight);
+  simulatorInput.size(canWidth, 0.25 * canHeight);
 
   //Control UI ----------------------------
   controlsLeft = createDiv('');
   controlsLeft.class('controls');
   controlsLeft.parent('simInput');
-  controlsLeft.size(canWidth / 2, 0.33 * canHeight);
+  controlsLeft.size(canWidth / 2, 0.25 * canHeight);
 
   controlsRight = createDiv('');
   controlsRight.class('controls');
   controlsRight.parent('simInput');
-  controlsRight.size(canWidth / 2, 0.33 * canHeight);
+  controlsRight.size(canWidth / 2, 0.25 * canHeight);
 
   control0 = createDiv('');
   control0.class('control');
@@ -89,6 +89,11 @@ function makeLayout() {
   control5 = createDiv('');
   control5.class('control');
   control5.parent(controlsRight);
+
+  particleControl = createDiv('');
+  particleControl.id('particleControl');
+  particleControl.parent('sim');
+  particleControl.size(canWidth, 0.10 * canHeight);
 }
 
 function makeNeqMML() {

@@ -57,6 +57,7 @@ var transferParticle = function(particleType,location) {
     oldInput.value(particles[location[particleType]][particleType].length);
     transferArray.push(new factory[particleType](OriX,OriY,diam,velocity,true));
     transferInput.value(particles[transferLocation][particleType].length);
+    NernstFormulaInput(particleType);
   }, 1200)
 }
 
@@ -158,7 +159,7 @@ function keyPressed() {
 function increase(evt) {
   var eventID = evt.target.id;
   var row = 4;
-  var id =  (eventID % row)-1;
+  var id = (eventID % row)-1;
   var particleType = particleTypes[id];
   var particleLocation = (eventID < row) ? "outside" : "inside";
   var particleArray = particles[particleLocation][particleType];
@@ -166,7 +167,7 @@ function increase(evt) {
   randomX = containers[particleLocation].tl.x + particlesProperties[particleType].radius + (Math.floor(Math.random() * xRange));
   randomY = containers[particleLocation].tl.y + particlesProperties[particleType].radius + (Math.floor(Math.random() * yRange));
 
-  var velocity = createVector(-5, -4);
+  var velocity = createVector(-3, -3);
 
   if(particleArray.length >= MaxParticles) {
     return;
@@ -181,7 +182,7 @@ function increase(evt) {
 function decrease(evt) {
   var eventID = evt.target.id;
   var row = 4;
-  var id =  (eventID % row)-1;
+  var id = (eventID % row)-1;
   var particleType = particleTypes[id];
   var particleLocation = (eventID < row) ? "outside" : "inside";
   var particleArray = particles[particleLocation][particleType];
@@ -202,11 +203,10 @@ function decrease(evt) {
 
 function ChangeNumParticles(evt) {
   var eventID = evt.target.id;
-  console.log(input[eventID].value());
-
-  var row = 3;
-  var particleType = (eventID == 1 || eventID == (1+row)) ?  particleTypes[0] : particleTypes[1];
-  var particleLocation = (eventID == 1 || eventID == 2) ? "outside" : "inside";
+  var row = 4;
+  var id =  (eventID % row)-1;
+  var particleType = particleTypes[id];
+  var particleLocation = (eventID < row) ? "outside" : "inside";
   var particleArray = particles[particleLocation][particleType];
   var updatedAmount = input[eventID].value();
 
@@ -229,7 +229,7 @@ function ChangeNumParticles(evt) {
     for (var i=0; i<difference; i++) {
       randomX = containers[particleLocation].tl.x + particlesProperties[particleType].radius + (Math.floor(Math.random() * xRange));
       randomY = containers[particleLocation].tl.y + particlesProperties[particleType].radius + (Math.floor(Math.random() * yRange));
-      var velocity = createVector(-5, -4);
+      var velocity = createVector(-3, -3);
       particleArray.push(new factory[particleType](randomX,randomY,particlesProperties[particleType].radius,velocity, true));
       NernstFormulaInput(particleType);
     }
@@ -288,6 +288,14 @@ function makeUIs() {
   }
   equations[3].changed(NernstFormula);
 
+  // Radio buttons to select ions to include
+  for (var i=0; i<particleTypes.length; i++) {
+    var checkbox = createCheckbox(particleTypes[i],true);
+    checkbox.class('checkboxes')
+    checkbox.id('checkbox'+i)
+    checkbox.parent('particleControl');
+  }
+
   equi = createButton('Equilibrate');
   equi.id('equilibrate-button');
   equi.parent('leftbar');
@@ -295,9 +303,9 @@ function makeUIs() {
   var row = 4;
   for (var k = 0; k < Object.keys(containers).length*row; k++) {
     if (k==0) {
-      var text = 'Outside';
+      var text = 'Number of particles outside the cell';
     } else if(k==row) {
-      var text = 'Inside';
+      var text = 'Number of particles inside the cell';
     } else {
       var id = (k % row)-1;
       var particleType = particleTypes[id];
@@ -308,7 +316,7 @@ function makeUIs() {
       var Value = particleArray.length;
     }
     if (k == 0 || k == row) {
-      textboard[k] = createElement('h3', text);
+      textboard[k] = createElement('h4', text);
       textboard[k].class('qoptions');
       textboard[k].parent(eval("control" + k));
 
@@ -372,7 +380,9 @@ function makeUIs() {
 
 function NernstFormula(evt) {
   var eventID = evt.target.id;
-  var particleType = (eventID == 1 || eventID == (1+row)) ?  particleTypes[0] : particleTypes[1];
+  var row = 4;
+  var id = eventID%row - 1;
+  var particleType = particleTypes[id];
   NernstFormulaInput(particleType);
 }
 

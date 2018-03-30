@@ -79,14 +79,14 @@ class AnimatedParticle {
     ellipse( xc, yc, rc );
   }
 
-    color() {
-      noStroke();
-      fill(particlesProperties[this.particle].color);
-    }
+  color() {
+    noStroke();
+    fill(particlesProperties[this.particle].color);
+  }
 
-    move() {
-      // Pass in a Container object the particle should be constrained inside.
-      this.y = this.y + this.move_velocity.y;
-      ellipse( this.x, this.y, this.diam );
-    }
+  move() {
+    // Pass in a Container object the particle should be constrained inside.
+    this.y = this.y + this.move_velocity.y;
+    ellipse( this.x, this.y, this.diam );
+  }
 }

@@ -8,9 +8,9 @@ inEquilbrateState[particleTypes[0]] = false;
 inEquilbrateState[particleTypes[1]] = false;
 
 var particlesProperties = {
-  "Na":{"color":"#F5CE28","radius":20,"id":0},
-  "Cl":{"color":"#01ABAA","radius":40,"id":1},
-  "K" :{"color":"#35B235","radius":30,"id":2}
+  "Na":{"color":"#F5CE28","radius":15,"id":0},
+  "Cl":{"color":"#01ABAA","radius":15,"id":1},
+  "K" :{"color":"#35B235","radius":15,"id":2}
 };
 
 //For local particles on each box
@@ -68,32 +68,20 @@ function setup() {
   UIBoxs[1] = new UIBox( topLeft, topRight, botRight, botLeft );
   UIBoxs[1].draw();
 
-
-  var velocity = createVector(-5, -4);
-
   for (var location in particles) {
    for (var particle in particles[location]) {
-     velocities = [-4,-3,3,4];
-     var x_vel = Math.floor(Math.random() * (velocities.length-1)) + 0;
-     var y_vel = Math.floor(Math.random() * (velocities.length-1)) + 0;
-     var velocity = createVector(velocities[x_vel],velocities[y_vel]);
      xRange = containers[location].tr.x - containers[location].tl.x - 100;
      yRange = containers[location].br.y - containers[location].tr.y - 100;
-
-     // Get random location
-     randomX = containers[location].tl.x + particlesProperties[particle]["radius"] + (Math.floor(Math.random() * xRange));
-     randomY = containers[location].tl.y + particlesProperties[particle]["radius"] + (Math.floor(Math.random() * yRange));
-
-     var chance = Math.random();
-
-     if (chance < 0.3) {
-       particles[location][particleTypes[0]].push(new Na(randomX,randomY,particlesProperties[particleTypes[0]]["radius"],velocity, true));
-     }
-     else if (chance < 0.6) {
-       particles[location][particleTypes[1]].push(new Cl(randomX,randomY,particlesProperties[particleTypes[1]]["radius"],velocity, true));
-     }
-     else {
-       particles[location][particleTypes[2]].push(new K(randomX,randomY,particlesProperties[particleTypes[2]]["radius"],velocity, true));
+     var amount = Math.random()*10;
+     for (var i=0; i<amount; i++) {
+       velocities = [-4,-3,3,4];
+       var x_vel = Math.floor(Math.random() * (velocities.length-1)) + 0;
+       var y_vel = Math.floor(Math.random() * (velocities.length-1)) + 0;
+       var velocity = createVector(velocities[x_vel],velocities[y_vel]);
+       // Get random location
+       randomX = containers[location].tl.x + particlesProperties[particle]["radius"] + (Math.floor(Math.random() * xRange));
+       randomY = containers[location].tl.y + particlesProperties[particle]["radius"] + (Math.floor(Math.random() * yRange));
+       particles[location][particle].push(new factory[particle](randomX,randomY,particlesProperties[particle]["radius"],velocity, true));
      }
    }
   }
@@ -102,9 +90,7 @@ function setup() {
 }
 
 function draw() {
-
   clear();
-
   UIBoxs[0].draw();
   UIBoxs[1].draw();
   strokeWeight(0);
