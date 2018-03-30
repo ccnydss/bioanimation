@@ -3,6 +3,10 @@ var containers = {};
 //Just for initializing
 var particleTypes = ["Na","Cl"];
 
+var inEquilbrateState = {}; // global dictionary used to flag if particle is currently in equilbrate state.
+inEquilbrateState[particleTypes[0]] = false;
+inEquilbrateState[particleTypes[1]] = false;
+
 var particlesProperties = {
   "Na":{"color":"#F5CE28","radius":20},
   "Cl":{"color":"#01ABAA","radius":40}

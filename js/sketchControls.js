@@ -1,4 +1,5 @@
-var largerArrayLocations = {};
+var largerArrayLocations = {}; // global dictionary used to prevent equilibrating one particle type from interrupting another.
+
 var transferParticle = function(particleType,location) {
   var xMul = 100;
   var yMul = 100;
@@ -63,7 +64,7 @@ var transferParticle = function(particleType,location) {
 }
 
 // Brings outside and inside into equilibrium
-function equilibrate(particleType,callback) {
+function equilibrate(particleType) {
   outsideArray = particles["outside"][particleType];
   insideArray = particles["inside"][particleType];
 
@@ -76,27 +77,39 @@ function equilibrate(particleType,callback) {
   largerArrayLocation  = outsideArray.length > insideArray.length? "outside" : "inside";
 
   var transfers = particles[largerArrayLocation][particleType].length - equiAmount;
-var enableButton = true;
-largerArrayLocations[particleType] = largerArrayLocation;
+  inEquilbrateState[particleType] = true;
+  setTimeout(function() {
+    inEquilbrateState[particleType] = false;
+  }, 1000*transfers);
+
+  largerArrayLocations[particleType] = largerArrayLocation;
   for (var i = 0; i < transfers; i++) {
-    enableButton = false;
     setTimeout(function(){
-        transferParticle(particleType,largerArrayLocations);
-        console.log(particleType,largerArrayLocations);
+      transferParticle(particleType,largerArrayLocations);
+      // console.log(particleType,largerArrayLocations);
+      console.log(inEquilbrateState);
     }, 1000*i);
 
   }
-callback();
 
 }
 
 function startEquilibrate(evt) {
-  console.log("equilibrate");
-  document.getElementById('equilibrate-button').disabled = true;
-  equilibrate(particleTypes[0], function() { return; });
-  equilibrate(particleTypes[1],enableButton);
+  console.log(inEquilbrateState);
+  if (!inEquilbrateState[particleTypes[0]]) {
+    console.log("equilibrate ", particleTypes[0]);
+    equilibrate(particleTypes[0]);
+  }
+  if (!inEquilbrateState[particleTypes[1]]) {
+    console.log("equilibrate ", particleTypes[1]);
+    equilibrate(particleTypes[1]);
+  }
 }
 
+function disableButton() {
+  console.log("DISABLED");
+  document.getElementById('equilibrate-button').disabled = true;
+}
 function enableButton() {
   console.log("ENABLED");
   document.getElementById('equilibrate-button').disabled = false;
