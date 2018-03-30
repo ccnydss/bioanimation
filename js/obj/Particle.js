@@ -49,9 +49,17 @@ class Cl extends Particle {
   }
 }
 
+class K extends Particle {
+  color() {
+    noStroke();
+    fill(particlesProperties["K"].color);
+  }
+}
+
 var factory = {
     "Na": Na,
     "Cl": Cl,
+    "K": K,
 }
 
 class AnimatedParticle {

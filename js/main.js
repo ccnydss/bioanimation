@@ -1,23 +1,24 @@
 var containers = {};
 
 //Just for initializing
-var particleTypes = ["Na","Cl"];
+var particleTypes = ["Na","Cl","K"];
 
 var inEquilbrateState = {}; // global dictionary used to flag if particle is currently in equilbrate state.
 inEquilbrateState[particleTypes[0]] = false;
 inEquilbrateState[particleTypes[1]] = false;
 
 var particlesProperties = {
-  "Na":{"color":"#F5CE28","radius":20},
-  "Cl":{"color":"#01ABAA","radius":40}
+  "Na":{"color":"#F5CE28","radius":20,"id":0},
+  "Cl":{"color":"#01ABAA","radius":40,"id":1},
+  "K" :{"color":"#35B235","radius":30,"id":2}
 };
 
 //For local particles on each box
 var MaxParticles = 25;
-var particles = {"inside": {"Na":[], "Cl":[]},
-                 "outside": {"Na":[], "Cl":[]}}
+var particles = {"inside": {"Na":[], "Cl":[], "K":[]},
+                 "outside": {"Na":[], "Cl":[], "K":[]}}
 
-var channels = {"Na":[],"Cl":[]};
+var channels = {"Na":[],"Cl":[], "K":[]};
 var radius = 20;
 
 var numContainer = 2;
@@ -80,15 +81,19 @@ function setup() {
      yRange = containers[location].br.y - containers[location].tr.y - 100;
 
      // Get random location
-     randomX = containers[location].tl.x + radius + (Math.floor(Math.random() * xRange));
-     randomY = containers[location].tl.y + radius + (Math.floor(Math.random() * yRange));
+     randomX = containers[location].tl.x + particlesProperties[particle]["radius"] + (Math.floor(Math.random() * xRange));
+     randomY = containers[location].tl.y + particlesProperties[particle]["radius"] + (Math.floor(Math.random() * yRange));
 
      var chance = Math.random();
 
-     if (chance < 0.5) {
-       particles[location][particleTypes[0]].push(new Na(randomX,randomY,radius,velocity, true));
-     } else {
-       particles[location][particleTypes[1]].push(new Cl(randomX,randomY,2*radius,velocity, true));
+     if (chance < 0.3) {
+       particles[location][particleTypes[0]].push(new Na(randomX,randomY,particlesProperties[particleTypes[0]]["radius"],velocity, true));
+     }
+     else if (chance < 0.6) {
+       particles[location][particleTypes[1]].push(new Cl(randomX,randomY,particlesProperties[particleTypes[1]]["radius"],velocity, true));
+     }
+     else {
+       particles[location][particleTypes[2]].push(new K(randomX,randomY,particlesProperties[particleTypes[2]]["radius"],velocity, true));
      }
    }
   }

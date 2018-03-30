@@ -66,6 +66,7 @@ class UIBox {
 }
 
 var createChannels = function(tl,tr,br,bl,numOfChannels){
+  console.log("CHANNELS:",numOfChannels);
   var channels = [];
   var offset = 30;
   var channelHeight = abs(tl.y - bl.y);

@@ -16,8 +16,17 @@ function makeLayout() {
   questions.id('questionsdiv');
   questions.parent('leftbar');
   questions.size(leftBox.size().width, leftBox.size().height);
-
   createElement("h3", "Questions").parent('questionsdiv');
+
+  for (var i=1; i<5; i++) {
+    single_question = createElement("p","Q1").parent('questionsdiv');
+    single_question.style("clear","right");
+  }
+
+  // single_question.class("question");
+  // single_question.id("q0");
+  // single_question.parent('questionsdiv');
+
 
   // Div to contain the equation
   equation = createDiv("");

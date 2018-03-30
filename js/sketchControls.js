@@ -3,6 +3,8 @@ var largerArrayLocations = {}; // global dictionary used to prevent equilibratin
 var transferParticle = function(particleType,location) {
   var xMul = 100;
   var yMul = 100;
+  var id = particlesProperties[particleType]["id"];
+  var row = 4;
   // Set names of current array is in and array to transfer particle into
   var currentArray = particles[location[particleType]][particleType];// eval(particle+"Particles"+currentNum);
   var transferLocation = (location[particleType] == "outside")? "inside" : "outside";
@@ -13,12 +15,13 @@ var transferParticle = function(particleType,location) {
     return;
   }
   // If the particle is in the top division
+  console.log(channels);
   if (location[particleType][particleType] == "outside") {
-    var targetChannel = (particleType == particleTypes[0]) ? channels[0].tl : channels[1].tl;
+    var targetChannel = channels[id].tl;
   }
   // If the particle is in the bottom division
   else {
-    var targetChannel = (particleType == particleTypes[0]) ? channels[0].bl : channels[1].bl;
+    var targetChannel = channels[id].bl;
   }
   // Change move velocity to get particle to target channel
   var v = (targetChannel.x+ offset - currentArray[0].x)/xMul;
@@ -49,14 +52,8 @@ var transferParticle = function(particleType,location) {
     var velocity = createVector(velocities[x_vel],Math.abs(velocities[y_vel]));
     currentArray.splice(particleIndex, 1);
 
-    if (particleType == particleTypes[0]) {
-      var oldInput = location[particleType] == "outside" ? input[1] : input[4];
-      var transferInput = location[particleType] == "outside"?  input[4] : input[1];
-    }
-    else {
-      var oldInput = location[particleType] == "outside" ? input[2] : input[5];
-      var transferInput = location[particleType] == "outside"?  input[5] : input[2];
-    }
+    var oldInput = location[particleType] == "outside" ? input[id+1] : input[id+row+1];
+    var transferInput = location[particleType] == "outside"?  input[id+row+1] : input[id+1];
     oldInput.value(particles[location[particleType]][particleType].length);
     transferArray.push(new factory[particleType](OriX,OriY,diam,velocity,true));
     transferInput.value(particles[transferLocation][particleType].length);
@@ -96,13 +93,10 @@ function equilibrate(particleType) {
 
 function startEquilibrate(evt) {
   console.log(inEquilbrateState);
-  if (!inEquilbrateState[particleTypes[0]]) {
-    console.log("equilibrate ", particleTypes[0]);
-    equilibrate(particleTypes[0]);
-  }
-  if (!inEquilbrateState[particleTypes[1]]) {
-    console.log("equilibrate ", particleTypes[1]);
-    equilibrate(particleTypes[1]);
+  for (var i=0; i<particleTypes.length; i++) {
+    if (!inEquilbrateState[particleTypes[i]]) {
+      equilibrate(particleTypes[i]);
+    }
   }
 }
 
@@ -163,10 +157,10 @@ function keyPressed() {
 
 function increase(evt) {
   var eventID = evt.target.id;
-  var row = 3;
-
-  var particleType = (eventID == 1 || eventID == (1+row)) ? particleTypes[0] : particleTypes[1];
-  var particleLocation = (eventID == 1 || eventID == 2) ? "outside" : "inside";
+  var row = 4;
+  var id =  (eventID % row)-1;
+  var particleType = particleTypes[id];
+  var particleLocation = (eventID < row) ? "outside" : "inside";
   var particleArray = particles[particleLocation][particleType];
 
   randomX = containers[particleLocation].tl.x + particlesProperties[particleType].radius + (Math.floor(Math.random() * xRange));
@@ -186,10 +180,10 @@ function increase(evt) {
 
 function decrease(evt) {
   var eventID = evt.target.id;
-  var row = 3;
-
-  var particleType = (eventID == 1 || eventID == (1+row)) ? particleTypes[0] : particleTypes[1];
-  var particleLocation = (eventID == 1 || eventID == 2) ? "outside" : "inside";
+  var row = 4;
+  var id =  (eventID % row)-1;
+  var particleType = particleTypes[id];
+  var particleLocation = (eventID < row) ? "outside" : "inside";
   var particleArray = particles[particleLocation][particleType];
 
   randomX = containers[particleLocation].tl.x + particlesProperties[particleType].radius + (Math.floor(Math.random() * xRange));
@@ -261,8 +255,8 @@ function makeUIs() {
   var divisionBL = new Point(containers["inside"].tl.x,containers["inside"].tl.y);
 
   // Create channels
-  channels = createChannels(divisionTL,divisionTR,divisionBR,divisionBL,2);
-
+  channels = createChannels(divisionTL,divisionTR,divisionBR,divisionBL,particleTypes.length);
+  console.log(channels);
   for (var i=0; i<channels.length; i++) {
     channels[i].draw();
   }
@@ -278,8 +272,10 @@ function makeUIs() {
   equations[2].attribute("xmlns", "http://www.w3.org/1999/xhtml")
   equations[2].class('eqninput');
   equations[2].parent('neq-top');
-  equations[2].option(particleTypes[0]);
-  equations[2].option(particleTypes[1]);
+  for (var i=0; i<particleTypes.length; i++){
+    equations[2].option(particleTypes[i]);
+  }
+
   equations[2].changed(NernstFormula);
 
   equations[3] = createSelect();
@@ -287,23 +283,26 @@ function makeUIs() {
   equations[3].attribute("xmlns", "http://www.w3.org/1999/xhtml")
   equations[3].class('eqninput');
   equations[3].parent('neq-bot');
-  equations[3].option(particleTypes[0]);
-  equations[3].option(particleTypes[1]);
+  for (var i=0; i<particleTypes.length; i++){
+    equations[3].option(particleTypes[i]);
+  }
   equations[3].changed(NernstFormula);
 
   equi = createButton('Equilibrate');
   equi.id('equilibrate-button');
   equi.parent('leftbar');
   equi.mousePressed(startEquilibrate);
-  var row = 3;
+  var row = 4;
   for (var k = 0; k < Object.keys(containers).length*row; k++) {
     if (k==0) {
       var text = 'Outside';
     } else if(k==row) {
       var text = 'Inside';
     } else {
-      var particleType = (k == 1 || k == (1+row)) ? particleTypes[0] : particleTypes[1];
-      var particleLocation = (k == 1 || k == 2) ? "outside" : "inside";
+      var id = (k % row)-1;
+      var particleType = particleTypes[id];
+      console.log(particleType);
+      var particleLocation = (k <= 3) ? "outside" : "inside";
       var particleArray = particles[particleLocation][particleType];
       var text = particleType + ' Ions:&nbsp;';
       var Value = particleArray.length;
