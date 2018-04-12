@@ -84,7 +84,6 @@ function equilibrate(particleType) {
   for (var i = 0; i < transfers; i++) {
     setTimeout(function(){
       transferParticle(particleType,largerArrayLocations);
-      // console.log(particleType,largerArrayLocations);
       console.log(inEquilbrateState);
     }, 1000*i);
 
@@ -244,19 +243,19 @@ function ChangeNumParticles(evt) {
 
 function checkedEvent(evt) {
   var particleType = this.elt.innerText;
-  //console.log(this.checked());
   particlesProperties[particleType]["display"] = this.checked();
-  console.log(particlesProperties);
   for (var i = 0; i < particles["inside"][particleType].length; i++) {
-    //setDisplay(particle, this.checked());
     setDisplay(particles["inside"][particleType][i], this.checked());
   }
   for (var i = 0; i < particles["outside"][particleType].length; i++) {
-    //setDisplay(particle, this.checked());
     setDisplay(particles["outside"][particleType][i],this.checked());
   }
-  
-
+  if (this.checked() == false) {
+    disableInputForParticle(particleType);
+  }
+  else {
+    enableInputForParticle(particleType);
+  }
 }
 
 function makeUIs() {
@@ -415,3 +414,29 @@ function NernstFormulaInput(particleType) {
     var answer = (R*T)/(z*F)*Math.log(Xout/Xin);
     equations[1].html('Answer: '+answer.toFixed(4)+'V');
 }
+
+function disableInputForParticle(particleType) {
+  var row = 4;
+  var particle_id = particlesProperties[particleType]["id"];
+  inside_id = particle_id + 1; 
+  outside_id = particle_id + 1 + row;
+  input[inside_id].attribute('disabled', '');
+  plusButton[inside_id].attribute('disabled', '');
+  minusButton[inside_id].attribute('disabled', '');
+  plusButton[outside_id].attribute('disabled', '');
+  minusButton[outside_id].attribute('disabled', '');
+}
+
+function enableInputForParticle(particleType) {
+  var row = 4;
+  var particle_id = particlesProperties[particleType]["id"];
+  inside_id = particle_id + 1; 
+  outside_id = particle_id + 1 + row;
+  input[inside_id].removeAttribute('disabled');
+  plusButton[inside_id].removeAttribute('disabled');
+  minusButton[inside_id].removeAttribute('disabled');
+  plusButton[outside_id].removeAttribute('disabled');
+  minusButton[outside_id].removeAttribute('disabled');
+}
+
+

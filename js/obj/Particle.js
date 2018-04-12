@@ -105,6 +105,5 @@ class AnimatedParticle {
 
 var setDisplay = function(particle,value) {
   particle.display = value;
-  console.log(particle);
 }
 
