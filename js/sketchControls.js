@@ -421,6 +421,7 @@ function disableInputForParticle(particleType) {
   inside_id = particle_id + 1; 
   outside_id = particle_id + 1 + row;
   input[inside_id].attribute('disabled', '');
+  input[outside_id].attribute('disabled', '');
   plusButton[inside_id].attribute('disabled', '');
   minusButton[inside_id].attribute('disabled', '');
   plusButton[outside_id].attribute('disabled', '');
@@ -433,6 +434,7 @@ function enableInputForParticle(particleType) {
   inside_id = particle_id + 1; 
   outside_id = particle_id + 1 + row;
   input[inside_id].removeAttribute('disabled');
+  input[outside_id].removeAttribute('disabled');
   plusButton[inside_id].removeAttribute('disabled');
   minusButton[inside_id].removeAttribute('disabled');
   plusButton[outside_id].removeAttribute('disabled');
