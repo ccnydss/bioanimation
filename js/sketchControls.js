@@ -94,7 +94,7 @@ function equilibrate(particleType) {
 function startEquilibrate(evt) {
   console.log(inEquilbrateState);
   for (var i=0; i<particleTypes.length; i++) {
-    if (!inEquilbrateState[particleTypes[i]]) {
+    if (!inEquilbrateState[particleTypes[i]] && particlesProperties[particleTypes[i]]["display"]) {
       equilibrate(particleTypes[i]);
     }
   }
