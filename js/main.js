@@ -8,9 +8,9 @@ inEquilbrateState[particleTypes[0]] = false;
 inEquilbrateState[particleTypes[1]] = false;
 
 var particlesProperties = {
-  "Na":{"color":"#F5CE28","radius":15,"id":0},
-  "Cl":{"color":"#01ABAA","radius":15,"id":1},
-  "K" :{"color":"#35B235","radius":15,"id":2}
+  "Na":{"color":"#F5CE28","radius":15,"id":0,"display":true},
+  "Cl":{"color":"#01ABAA","radius":15,"id":1,"display":true},
+  "K" :{"color":"#35B235","radius":15,"id":2,"display":true}
 };
 
 //For local particles on each box

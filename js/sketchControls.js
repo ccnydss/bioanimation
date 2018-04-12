@@ -242,6 +242,23 @@ function ChangeNumParticles(evt) {
   }
 }
 
+function checkedEvent(evt) {
+  var particleType = this.elt.innerText;
+  //console.log(this.checked());
+  particlesProperties[particleType]["display"] = this.checked();
+  console.log(particlesProperties);
+  for (var i = 0; i < particles["inside"][particleType].length; i++) {
+    //setDisplay(particle, this.checked());
+    setDisplay(particles["inside"][particleType][i], this.checked());
+  }
+  for (var i = 0; i < particles["outside"][particleType].length; i++) {
+    //setDisplay(particle, this.checked());
+    setDisplay(particles["outside"][particleType][i],this.checked());
+  }
+  
+
+}
+
 function makeUIs() {
   // Channel
   var topLeft = new Point( canWidth/2-thickness, canHeight/2-thickness );
@@ -288,12 +305,14 @@ function makeUIs() {
   }
   equations[3].changed(NernstFormula);
 
+  
   // Radio buttons to select ions to include
   for (var i=0; i<particleTypes.length; i++) {
     var checkbox = createCheckbox(particleTypes[i],true);
     checkbox.class('checkboxes')
-    checkbox.id('checkbox'+i)
+    checkbox.id('checkbox'+particleTypes[i])
     checkbox.parent('particleControl');
+    checkbox.changed(checkedEvent);
   }
 
   equi = createButton('Equilibrate');
