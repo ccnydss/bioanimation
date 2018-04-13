@@ -38,7 +38,7 @@ var transferParticle = function(particleType,location) {
     var yVector = (location[particleType] == "outside") ? 3 : -3;
     var velocity = createVector(0, yVector);
     currentArray.push(new AnimatedParticle(OriX,OriY,diam,velocity, false, particleType));
-  }, 800)
+  }, 1000)
   // Remove particle from its old division and create particle in the new division
   setTimeout(function() {
     var particleIndex = particles[location[particleType]][particleType].length - 1;
@@ -208,7 +208,6 @@ function ChangeNumParticles(evt) {
   var particleLocation = (eventID < row) ? "outside" : "inside";
   var particleArray = particles[particleLocation][particleType];
   var updatedAmount = input[eventID].value();
-
   // If the amount entered is invalid, alert user
   if (isNaN(updatedAmount) || Math.floor(updatedAmount) != updatedAmount || updatedAmount < 0) {
     alert("Please enter valid input.");
@@ -218,6 +217,7 @@ function ChangeNumParticles(evt) {
   // If the amount entered is greater than the maximum, force it to maximum and alert user
   else if (updatedAmount > MaxParticles) {
     input[eventID].value(MaxParticles);
+    updatedAmount = MaxParticles;
     alert("Maximum amount is " + MaxParticles + ".");
   }
 
@@ -272,7 +272,6 @@ function makeUIs() {
 
   // Create channels
   channels = createChannels(divisionTL,divisionTR,divisionBR,divisionBL,particleTypes.length);
-  console.log(channels);
   for (var i=0; i<channels.length; i++) {
     channels[i].draw();
   }
@@ -304,7 +303,7 @@ function makeUIs() {
   }
   equations[3].changed(NernstFormula);
 
-  
+
   // Radio buttons to select ions to include
   for (var i=0; i<particleTypes.length; i++) {
     var checkbox = createCheckbox(particleTypes[i],true);
@@ -327,7 +326,6 @@ function makeUIs() {
     } else {
       var id = (k % row)-1;
       var particleType = particleTypes[id];
-      console.log(particleType);
       var particleLocation = (k <= 3) ? "outside" : "inside";
       var particleArray = particles[particleLocation][particleType];
       var text = particleType + ' Ions:&nbsp;';
@@ -418,7 +416,7 @@ function NernstFormulaInput(particleType) {
 function disableInputForParticle(particleType) {
   var row = 4;
   var particle_id = particlesProperties[particleType]["id"];
-  inside_id = particle_id + 1; 
+  inside_id = particle_id + 1;
   outside_id = particle_id + 1 + row;
   input[inside_id].attribute('disabled', '');
   input[outside_id].attribute('disabled', '');
@@ -431,7 +429,7 @@ function disableInputForParticle(particleType) {
 function enableInputForParticle(particleType) {
   var row = 4;
   var particle_id = particlesProperties[particleType]["id"];
-  inside_id = particle_id + 1; 
+  inside_id = particle_id + 1;
   outside_id = particle_id + 1 + row;
   input[inside_id].removeAttribute('disabled');
   input[outside_id].removeAttribute('disabled');
@@ -440,5 +438,3 @@ function enableInputForParticle(particleType) {
   plusButton[outside_id].removeAttribute('disabled');
   minusButton[outside_id].removeAttribute('disabled');
 }
-
-

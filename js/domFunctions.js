@@ -35,7 +35,6 @@ function makeLayout() {
   }
   text_url = "https://raw.githubusercontent.com/alexmat2on/bioanimation/master/js/questions.txt?token=AIFGvc5jU8QpQ25v3TiVEopqtdjj5ZZ_ks5a2hV4wA%3D%3D";
   httpGet(text_url);
-  console.log(questions);
 
   for (var i=0; i<questions.length; i++){
     var q = questions[i];
@@ -112,7 +111,7 @@ function makeLayout() {
   particleControl = createDiv('');
   particleControl.id('particleControl');
   particleControl.parent('sim');
-  particleControl.size(canWidth, 0.10 * canHeight);
+  particleControl.size(canWidth, 0.1 * canHeight);
 }
 
 function makeNeqMML() {
