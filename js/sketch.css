@@ -47,7 +47,12 @@ body {
 
 #questionsdiv {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+#questionsdiv h3 {
+  align-self: center;
 }
 
 #equationdiv img {

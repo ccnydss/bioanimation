@@ -15,15 +15,24 @@ function makeLayout() {
   questions = createDiv("");
   questions.id('questionsdiv');
   questions.parent('leftbar');
-  questions.size(leftBox.size().width, leftBox.size().height);
+  questions.size(0.25 * windowWidth, windowHeight - 8);
   createElement("h3", "Questions").parent('questionsdiv');
 
-  for (var i=1; i<5; i++) {
-    // single_question = createElement("p","Q1").parent('questionsdiv');
-    // single_question.style("clear","right");
-  }
+  // var fso = new ActiveXObject("Scripting.FileSystemObject");
+  // var s = fso.OpenTextFile("questions.txt", 1, true);
+  // var questions = text.split("\n")
+  // for (var i=0; i<questions.length; i++) {
+  //   q = questions[i];
+  //   single_question = createElement("p",q).parent('questionsdiv');
+  //   single_question.style("clear","right");
+  //   single_question.class("question");
+  //
+  // }
 
-  // single_question.class("question");
+  // var read = new XMLHttpRequest();
+  // read.open('GET', './questions.txt', false);
+  // console.log(read.responseText);
+  //
   // single_question.id("q0");
   // single_question.parent('questionsdiv');
 
