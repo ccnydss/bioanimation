@@ -37,12 +37,56 @@ function makeLayout() {
   httpGet(text_url);
   console.log(questions);
 
-  for (var i=0; i<questions.length; i++){
-    var q = questions[i];
-    var question = createElement("p",q).parent('questionsdiv');
+    var qmax = questions.length - 2;
+    var q = 0;
+    var question = createElement("p",questions[q]).parent('questionsdiv');
     question.class("questions");
-    question.id("q" + (i+1));
-  }
+    question.id("q1");
+
+
+    questionBotton = createDiv("");
+    questionBotton.id('questionBotton');
+    questionBotton.class('questionButton');
+    questionBotton.parent('questionsdiv');
+
+    questionNext = createButton('Previous');
+    questionNext.id('questionNext');
+    questionNext.parent('questionBotton');
+    questionNext.size(leftBox.size().width, 0.075 * leftBox.size().height);
+    questionNext.mousePressed(quesPrev);
+
+    questionPrev = createButton('Next');
+    questionPrev.id('questionPrev');
+    questionPrev.parent('questionBotton');
+    questionPrev.size(leftBox.size().width, 0.075 * leftBox.size().height);
+    questionPrev.mousePressed(quesNext);
+
+
+    function quesNext(evt) {
+      if (q>qmax) {
+        alert("This is already last question.");
+        return;
+      } else {
+      q = q+1;
+        document.getElementById("q1").innerHTML = questions[q];
+        }
+    }
+
+    function quesPrev(evt) {
+      if (q<=0) {
+        alert("This is already first question");
+        return;
+      } else {
+      q = q-1;
+        document.getElementById("q1").innerHTML = questions[q];
+        }
+    }
+  // for (var i=0; i<questions.length; i++){
+  //   var q = questions[i];
+  //   var question = createElement("p",q).parent('questionsdiv');
+  //   question.class("questions");
+  //   question.id("q" + (i+1));
+  // }
   // single_question.id("q0");
   // single_question.parent('questionsdiv');
 

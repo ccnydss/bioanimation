@@ -67,6 +67,7 @@ body {
 }
 
 .questions {
+height: 80%;
   margin:10px;
 }
 #equationdiv img {
@@ -99,6 +100,26 @@ body {
   padding: 5px;
   display: flex;
   flex-direction: column;
+}
+
+#questionBotton {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #C09F80;
+}
+
+#questionNext, #questionPrev {
+border-style: solid;
+border-color: #7A9D96;
+border-width: 2px;
+  background-color: #C09F80;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
 }
 
 .control {

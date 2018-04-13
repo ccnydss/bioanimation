@@ -304,7 +304,7 @@ function makeUIs() {
   }
   equations[3].changed(NernstFormula);
 
-  
+
   // Radio buttons to select ions to include
   for (var i=0; i<particleTypes.length; i++) {
     var checkbox = createCheckbox(particleTypes[i],true);
@@ -418,7 +418,7 @@ function NernstFormulaInput(particleType) {
 function disableInputForParticle(particleType) {
   var row = 4;
   var particle_id = particlesProperties[particleType]["id"];
-  inside_id = particle_id + 1; 
+  inside_id = particle_id + 1;
   outside_id = particle_id + 1 + row;
   input[inside_id].attribute('disabled', '');
   input[outside_id].attribute('disabled', '');
@@ -431,7 +431,7 @@ function disableInputForParticle(particleType) {
 function enableInputForParticle(particleType) {
   var row = 4;
   var particle_id = particlesProperties[particleType]["id"];
-  inside_id = particle_id + 1; 
+  inside_id = particle_id + 1;
   outside_id = particle_id + 1 + row;
   input[inside_id].removeAttribute('disabled');
   input[outside_id].removeAttribute('disabled');
@@ -440,5 +440,3 @@ function enableInputForParticle(particleType) {
   plusButton[outside_id].removeAttribute('disabled');
   minusButton[outside_id].removeAttribute('disabled');
 }
-
-
