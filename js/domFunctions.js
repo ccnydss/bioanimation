@@ -20,32 +20,29 @@ function makeLayout() {
 
   var questions
   function httpGet(theUrl){
-    if (window.XMLHttpRequest)
-    {// code for IE7+, Firefox, Chrome, Opera, Safari
+    if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
         xmlhttp=new XMLHttpRequest();
-    }
-    else
-    {// code for IE6, IE5
+    } else {// code for IE6, IE5
         xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
     }
-    xmlhttp.onreadystatechange=function()
-    {
-        if (xmlhttp.readyState==4 && xmlhttp.status==200)
-        {
-            questions = xmlhttp.responseText.split("\n");
+    xmlhttp.onreadystatechange=function() {
+        if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+            questions = xmlhttp.responseText.split("\n").slice(0, 10);
         }
     }
     xmlhttp.open("GET", theUrl, false);
     xmlhttp.send();
   }
-  text_url = "https://raw.githubusercontent.com/alexmat2on/bioanimation/master/js/questions.txt?token=AIFGvXmWhg13WfegaHzLqrfnFHRdJbNeks5a2hTowA%3D%3D";
+  text_url = "https://raw.githubusercontent.com/alexmat2on/bioanimation/master/js/questions.txt?token=AIFGvc5jU8QpQ25v3TiVEopqtdjj5ZZ_ks5a2hV4wA%3D%3D";
   httpGet(text_url);
   console.log(questions);
 
-  // var read = new XMLHttpRequest();
-  // read.open('GET', './questions.txt', false);
-  // console.log(read.responseText);
-  //
+  for (var i=0; i<questions.length; i++){
+    var q = questions[i];
+    var question = createElement("p",q).parent('questionsdiv');
+    question.class("questions");
+    question.id("q" + (i+1));
+  }
   // single_question.id("q0");
   // single_question.parent('questionsdiv');
 

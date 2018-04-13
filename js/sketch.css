@@ -49,12 +49,16 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  overflow-y: auto;
 }
 
 #questionsdiv h3 {
   align-self: center;
 }
 
+.questions {
+  margin:10px;
+}
 #equationdiv img {
   width: 100%;
   height: 100%;
