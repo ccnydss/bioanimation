@@ -18,16 +18,29 @@ function makeLayout() {
   questions.size(0.25 * windowWidth, windowHeight - 8);
   createElement("h3", "Questions").parent('questionsdiv');
 
-  // var fso = new ActiveXObject("Scripting.FileSystemObject");
-  // var s = fso.OpenTextFile("questions.txt", 1, true);
-  // var questions = text.split("\n")
-  // for (var i=0; i<questions.length; i++) {
-  //   q = questions[i];
-  //   single_question = createElement("p",q).parent('questionsdiv');
-  //   single_question.style("clear","right");
-  //   single_question.class("question");
-  //
-  // }
+  var questions
+  function httpGet(theUrl){
+    if (window.XMLHttpRequest)
+    {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+    }
+    else
+    {// code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange=function()
+    {
+        if (xmlhttp.readyState==4 && xmlhttp.status==200)
+        {
+            questions = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", theUrl, false);
+    xmlhttp.send();
+  }
+  text_url = "https://raw.githubusercontent.com/alexmat2on/bioanimation/master/js/questions.txt?token=AIFGvTNs3hXRkABXLQ272cc2AICOc_UYks5a2g5TwA%3D%3D";
+  httpGet(text_url);
+  console.log(questions);
 
   // var read = new XMLHttpRequest();
   // read.open('GET', './questions.txt', false);
