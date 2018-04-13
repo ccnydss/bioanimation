@@ -32,13 +32,13 @@ function makeLayout() {
     {
         if (xmlhttp.readyState==4 && xmlhttp.status==200)
         {
-            questions = xmlhttp.responseText;
+            questions = xmlhttp.responseText.split("\n");
         }
     }
     xmlhttp.open("GET", theUrl, false);
     xmlhttp.send();
   }
-  text_url = "https://raw.githubusercontent.com/alexmat2on/bioanimation/master/js/questions.txt?token=AIFGvTNs3hXRkABXLQ272cc2AICOc_UYks5a2g5TwA%3D%3D";
+  text_url = "https://raw.githubusercontent.com/alexmat2on/bioanimation/master/js/questions.txt?token=AIFGvXmWhg13WfegaHzLqrfnFHRdJbNeks5a2hTowA%3D%3D";
   httpGet(text_url);
   console.log(questions);
 
