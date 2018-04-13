@@ -9,7 +9,7 @@ var transferParticle = function(particleType,location) {
   var currentArray = particles[location[particleType]][particleType];// eval(particle+"Particles"+currentNum);
   var transferLocation = (location[particleType] == "outside")? "inside" : "outside";
   var transferArray = particles[transferLocation][particleType];
-  var offset = Math.floor(channels[0].width/2+10);
+  var offset = Math.floor(channels[0].width/2+1);
 
   if (currentArray.length == 0) {
     return;
@@ -24,11 +24,12 @@ var transferParticle = function(particleType,location) {
     var targetChannel = channels[id].bl;
   }
   // Change move velocity to get particle to target channel
-  var v = (targetChannel.x+ offset - currentArray[0].x)/xMul;
+  var v = (targetChannel.x + offset - currentArray[0].x)/xMul;
   var u = (targetChannel.y - currentArray[0].y)/yMul;
   currentArray[0].orig_velocity = createVector(v, u);
   currentArray[0].move_velocity = createVector(v, u);
-
+  var dist = euclideanDistance(currentArray[0].x,currentArray[0].y,targetChannel.x, targetChannel.y);
+  var timeToGetToChannel = dist * 3;
   // Move particle through channel
   setTimeout(function() {
     var OriX = Math.floor(currentArray[0].x);
@@ -38,7 +39,8 @@ var transferParticle = function(particleType,location) {
     var yVector = (location[particleType] == "outside") ? 3 : -3;
     var velocity = createVector(0, yVector);
     currentArray.push(new AnimatedParticle(OriX,OriY,diam,velocity, false, particleType));
-  }, 1000)
+  }, 800)
+
   // Remove particle from its old division and create particle in the new division
   setTimeout(function() {
     var particleIndex = particles[location[particleType]][particleType].length - 1;
@@ -92,7 +94,6 @@ function equilibrate(particleType) {
 }
 
 function startEquilibrate(evt) {
-  console.log(inEquilbrateState);
   for (var i=0; i<particleTypes.length; i++) {
     if (!inEquilbrateState[particleTypes[i]] && particlesProperties[particleTypes[i]]["display"]) {
       equilibrate(particleTypes[i]);
@@ -437,4 +438,10 @@ function enableInputForParticle(particleType) {
   minusButton[inside_id].removeAttribute('disabled');
   plusButton[outside_id].removeAttribute('disabled');
   minusButton[outside_id].removeAttribute('disabled');
+}
+
+function euclideanDistance(x1,y1,x2,y2) {
+  var xdiff = x2 - x1;
+  var ydiff = y2 - y1;
+  return Math.sqrt(xdiff*xdiff + ydiff*ydiff);
 }

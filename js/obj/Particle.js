@@ -38,7 +38,7 @@ class Particle {
     if (this.display) {
      ellipse( this.x, this.y, this.diam );
     }
-    
+
   }
 }
 
@@ -84,9 +84,7 @@ class AnimatedParticle {
   }
 
   draw(xc = this.x, yc = this.y, rc = this.r) {
-    if (this.display) {
       ellipse( xc, yc, rc );
-    }
   }
 
   color() {
@@ -97,13 +95,10 @@ class AnimatedParticle {
   move() {
     // Pass in a Container object the particle should be constrained inside.
     this.y = this.y + this.move_velocity.y;
-    if (this.display) {
-     ellipse( this.x, this.y, this.diam );
-    }
+    ellipse( this.x, this.y, this.diam );
   }
 }
 
 var setDisplay = function(particle,value) {
   particle.display = value;
 }
-
