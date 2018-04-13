@@ -15,7 +15,6 @@ var transferParticle = function(particleType,location) {
     return;
   }
   // If the particle is in the top division
-  console.log(channels);
   if (location[particleType][particleType] == "outside") {
     var targetChannel = channels[id].tl;
   }
@@ -86,7 +85,6 @@ function equilibrate(particleType) {
   for (var i = 0; i < transfers; i++) {
     setTimeout(function(){
       transferParticle(particleType,largerArrayLocations);
-      console.log(inEquilbrateState);
     }, 1000*i);
 
   }
@@ -102,11 +100,9 @@ function startEquilibrate(evt) {
 }
 
 function disableButton() {
-  console.log("DISABLED");
   document.getElementById('equilibrate-button').disabled = true;
 }
 function enableButton() {
-  console.log("ENABLED");
   document.getElementById('equilibrate-button').disabled = false;
 }
 // Pause / unpause the animation (debug purposes)

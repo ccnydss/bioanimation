@@ -49,6 +49,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  padding-right: 10px;
   overflow-y: scroll;
 }
 
@@ -57,8 +58,8 @@ body {
 }
 
 .questions {
-height: 80%;
-  margin:10px;
+  height: 80%;
+  padding:10px;
   font-size: 0.95em;
 }
 
