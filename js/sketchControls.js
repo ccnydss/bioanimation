@@ -48,9 +48,9 @@ var transferParticle = function(particleType,location) {
     var OriX = Math.floor(OriParticle.x);
     var OriY = Math.floor(OriParticle.y);
     var diam = Math.floor(OriParticle.diam);
-    var velocities = [-4,-3,3,4];
-    var x_vel = Math.floor(Math.random() * 3) + 0;
-    var y_vel = Math.floor(Math.random() * 3) + 0;
+    velocities = [-4,-3,3,4];
+    var x_vel = Math.floor(Math.random() * (velocities.length-1)) + 0;
+    var y_vel = Math.floor(Math.random() * (velocities.length-1)) + 0;
     var velocity = createVector(velocities[x_vel],Math.abs(velocities[y_vel]));
     currentArray.splice(particleIndex, 1);
 
