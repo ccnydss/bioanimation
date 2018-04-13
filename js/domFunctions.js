@@ -54,6 +54,7 @@ function makeLayout() {
     questionNext.parent('questionBotton');
     questionNext.size(leftBox.size().width, 0.075 * leftBox.size().height);
     questionNext.mousePressed(quesPrev);
+    document.getElementById("questionPrev").style.display= "none";
 
     questionPrev = createButton('Next');
     questionPrev.id('questionNext');
