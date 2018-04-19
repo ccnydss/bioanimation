@@ -75,7 +75,7 @@ function setup() {
      var amount = Math.random()*10;
      for (var i=0; i<amount; i++) {
        //velocities = [-4,-3,3,4];
-       velocities = [-3,-2,2,3];
+       velocities = [-2,-1,1,2];
 
        var x_vel = Math.floor(Math.random() * (velocities.length-1)) + 0;
        var y_vel = Math.floor(Math.random() * (velocities.length-1)) + 0;

@@ -37,9 +37,6 @@ class Channel {
 
   transfers(p) {
     var isInTransferRange = this.isInTransferRange(p);
-    if (isInTransferRange) {
-      console.log(isInTransferRange);
-    }
 
     rect( this.tl.x-thickness, this.tl.y, this.height+2*thickness, this.width ); //Gap
     fill('rgba(100,155,200, 0.9)')

@@ -23,15 +23,15 @@ class Container {
   clips(p) {
     // Test if the next movement the particle makes would result in a part of it clipping past container
     var write = function (direction, particle, wall,p) {
-      if (direction == "left" || direction == "right") {
-        console.log("CLIPS!")
-        console.log("direction: ", direction);
-        console.log("particle: ", particle);
-        console.log(direction, "wall: ", wall);
-        console.log('velocity: (',p.move_velocity.x,p.move_velocity.y,')');
-        console.log("leftball:",p.x - p.r);
-        console.log("rightball:",p.x + p.r);
-      }
+      // if (direction == "left" || direction == "right") {
+      //   console.log("CLIPS!")
+      //   console.log("direction: ", direction);
+      //   console.log("particle: ", particle);
+      //   console.log(direction, "wall: ", wall);
+      //   console.log('velocity: (',p.move_velocity.x,p.move_velocity.y,')');
+      //   console.log("leftball:",p.x - p.r);
+      //   console.log("rightball:",p.x + p.r);
+      // }
     }
     var nextPastBottom = p.y + p.move_velocity.y + p.r + 0.5 > this.bl.y;
     var nextPastTop = p.y + p.move_velocity.y - p.r - 0.5 < this.tl.y;
@@ -68,15 +68,15 @@ class Container {
 
   hit(p) {
     var write = function (direction, particle, wall) {
-      if (direction == "left" || direction == "right") {
-        console.log("HITS!")
-        console.log("direction: ", direction);
-        console.log("particle: ", particle);
-        console.log(direction, " wall: ", wall);
-        console.log('velocity: (',p.move_velocity.x,p.move_velocity.y,')');
-        console.log("leftball:",p.x - p.r);
-        console.log("rightball:",p.x + p.r);
-      }
+      // if (direction == "left" || direction == "right") {
+      //   console.log("HITS!")
+      //   console.log("direction: ", direction);
+      //   console.log("particle: ", particle);
+      //   console.log(direction, " wall: ", wall);
+      //   console.log('velocity: (',p.move_velocity.x,p.move_velocity.y,')');
+      //   console.log("leftball:",p.x - p.r);
+      //   console.log("rightball:",p.x + p.r);
+      // }
     }
 
     p.x += p.move_velocity.x;

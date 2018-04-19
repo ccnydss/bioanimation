@@ -17,7 +17,7 @@ class Particle {
       ellipse( xc, yc, rc );
     }
     else {
-      console.log(display);
+      //console.log(display);
     }
   }
 
