@@ -47,7 +47,8 @@ var transferParticle = function(particleType,location) {
     var OriX = Math.floor(OriParticle.x);
     var OriY = Math.floor(OriParticle.y);
     var diam = Math.floor(OriParticle.diam);
-    velocities = [-4,-3,3,4];
+    //velocities = [-4,-3,3,4];
+    velocities = [-3,-2,2,3];
     var x_vel = Math.floor(Math.random() * (velocities.length-1)) + 0;
     var y_vel = Math.floor(Math.random() * (velocities.length-1)) + 0;
     var velocity = createVector(velocities[x_vel],Math.abs(velocities[y_vel]));
@@ -163,8 +164,8 @@ function increase(evt) {
   randomX = containers[particleLocation].tl.x + particlesProperties[particleType].radius + (Math.floor(Math.random() * xRange));
   randomY = containers[particleLocation].tl.y + particlesProperties[particleType].radius + (Math.floor(Math.random() * yRange));
 
-  var velocity = createVector(-3, -3);
-
+  // var velocity = createVector(-3, -3);
+  var velocity = createVector(-2, -2);
   if(particleArray.length >= MaxParticles) {
     return;
   }

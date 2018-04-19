@@ -103,10 +103,10 @@ body {
 }
 
 #questionNext, #questionPrev {
-border-style: solid;
-border-color: #7A9D96;
-border-width: 2px;
-  background-color: #C09F80;
+  border-style: solid;
+  border-color: #7A9D96;
+  border-width: 2px;
+  background-color: #2F4F4F;
   color: white;
   padding: 10px;
   text-align: center;

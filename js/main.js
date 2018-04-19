@@ -74,7 +74,9 @@ function setup() {
      yRange = containers[location].br.y - containers[location].tr.y - 100;
      var amount = Math.random()*10;
      for (var i=0; i<amount; i++) {
-       velocities = [-4,-3,3,4];
+       //velocities = [-4,-3,3,4];
+       velocities = [-3,-2,2,3];
+
        var x_vel = Math.floor(Math.random() * (velocities.length-1)) + 0;
        var y_vel = Math.floor(Math.random() * (velocities.length-1)) + 0;
        var velocity = createVector(velocities[x_vel],velocities[y_vel]);
