@@ -48,7 +48,7 @@ var transferParticle = function(particleType,location) {
     var OriY = Math.floor(OriParticle.y);
     var diam = Math.floor(OriParticle.diam);
     //velocities = [-4,-3,3,4];
-    velocities = [-2,-1,1,2];
+    velocities = velocityRange;
     var x_vel = Math.floor(Math.random() * (velocities.length-1)) + 0;
     var y_vel = Math.floor(Math.random() * (velocities.length-1)) + 0;
     var velocity = createVector(velocities[x_vel],Math.abs(velocities[y_vel]));
@@ -167,7 +167,7 @@ function increase(evt) {
   randomY = containers[particleLocation].tl.y + particlesProperties[particleType].radius + (Math.floor(Math.random() * yRange));
 
   // var velocity = createVector(-3, -3);
-  velocities = [-2,-1,1,2];
+  velocities = velocityRange;
   var x_vel = Math.floor(Math.random() * (velocities.length-1)) + 0;
   var y_vel = Math.floor(Math.random() * (velocities.length-1)) + 0;
   var velocity = createVector(velocities[x_vel],Math.abs(velocities[y_vel]));
@@ -435,7 +435,7 @@ function NernstFormula(evt) {
 function NernstFormulaInput(particleType) {
     var R = 8.314;
     var T = 37 + 273.13
-    var z = (particleType == particleTypes[0]) ? 1 : -1;
+    var z = particlesProperties[particleType]["charge"];
     Xout = particles["outside"][particleType].length;
     Xin = particles["inside"][particleType].length;
     var F = 96485.3329;//0.096485;
