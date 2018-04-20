@@ -13,7 +13,7 @@ var particlesProperties = {
   "K" :{"color":"#35B235","radius":15,"id":2,"display":true,"charge":1}
 };
 
-var velocityRange = [-1,-0.5,0.5,1];
+var velocityRange = [-1,-1.25,1.25,1];
 
 //For local particles on each box
 var MaxParticles = 25;
@@ -44,7 +44,7 @@ function setup() {
 
   //Relative to parent coordinate
 
-  containers["outside"] = new Container(topLeft, topRight, botRight, botLeft, "#A9B7C0","outside");
+  containers["outside"] = new Container(topLeft, topRight, botRight, botLeft, "#8e8e8e","outside");
   //containers["outside"].draw();
 
 
@@ -60,7 +60,7 @@ function setup() {
   var botRight = new Point( canWidth, canHeight );
   var botLeft = new Point( 0, canHeight );
 
-  containers["inside"] = new Container(topLeft, topRight, botRight, botLeft, "#EAE3EA","inside");
+  containers["inside"] = new Container(topLeft, topRight, botRight, botLeft, "#e3f8fc","inside");
   //containers["inside"].draw();
 
   var topLeft = new Point( 0, canHeight/2 );

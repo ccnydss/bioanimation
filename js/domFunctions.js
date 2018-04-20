@@ -4,6 +4,7 @@ function makeLayout() {
   stage.id('stage');
   stage.class('flex-container');
   stage.size(windowWidth, windowHeight);
+  // stage.style('background-color',color(0));
 
   // The right sidebar for displaying questions.
   leftBox = createDiv("");
@@ -115,7 +116,6 @@ function makeLayout() {
   canvas = createCanvas(canWidth, canHeight);
   canvas.class('can');
   canvas.parent('sim');
-  canvas.background('#6E6658');
 
   simulatorInput = createDiv('');
   simulatorInput.id('simInput');

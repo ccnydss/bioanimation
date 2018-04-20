@@ -28,6 +28,7 @@ body {
   border-style: solid;
   border-color: #88BDBC;
   border-width: 5px;
+  /* background-color: #FFF; */
   overflow:hidden;
 }
 
@@ -156,7 +157,6 @@ body {
   background-color: #4F4A41;
   display:flex;
   justify-content: flex-start;
-  padding:8px;
 }
 
 #equilibrate-button {
