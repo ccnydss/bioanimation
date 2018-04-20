@@ -42,8 +42,8 @@ function setup() {
 
   //Relative to parent coordinate
 
-  containers["outside"] = new Container(topLeft, topRight, botRight, botLeft, "#A9B7C0");
-  containers["outside"].draw();
+  containers["outside"] = new Container(topLeft, topRight, botRight, botLeft, "#A9B7C0","outside");
+  //containers["outside"].draw();
 
 
   var topLeft = new Point( 0, 0 );
@@ -58,8 +58,8 @@ function setup() {
   var botRight = new Point( canWidth, canHeight );
   var botLeft = new Point( 0, canHeight );
 
-  containers["inside"] = new Container(topLeft, topRight, botRight, botLeft, "#EAE3EA");
-  containers["inside"].draw();
+  containers["inside"] = new Container(topLeft, topRight, botRight, botLeft, "#EAE3EA","inside");
+  //containers["inside"].draw();
 
   var topLeft = new Point( 0, canHeight/2 );
   var topRight = new Point( canWidth, canHeight/2 );

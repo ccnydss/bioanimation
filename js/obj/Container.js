@@ -1,18 +1,29 @@
 class Container {
-  constructor(_tl, _tr, _br, _bl, _color) {
+  constructor(_tl, _tr, _br, _bl, _color, _id) {
     this.tl = _tl;
     this.tr = _tr;
     this.br = _br;
     this.bl = _bl;
     this.color = _color;
-
     this.vertical = abs(_tr.x - _tl.x);
     this.horizontal = abs(_tl.y - _bl.y);
+    this.id = _id;
   }
 
   draw() {
     fill(this.color);
     rect( this.tl.x, this.tl.y, this.vertical, this.horizontal );
+
+    if (this.id == "outside") {
+      fill(255,255,255);
+      rect(5,275,70,20);
+      rect(5,5,75,20);
+      fill(50);
+      text("Intracellular", 10, 290);
+      text("Extracellular", 10, 20);
+    }
+    // else {
+    // }
   }
 
   moveNoCollision(p) {

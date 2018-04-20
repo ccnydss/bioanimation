@@ -33,7 +33,7 @@ function makeLayout() {
     xmlhttp.open("GET", theUrl, false);
     xmlhttp.send();
   }
-  text_url = "https://raw.githubusercontent.com/alexmat2on/bioanimation/master/js/questions.txt?token=AIFGvc5jU8QpQ25v3TiVEopqtdjj5ZZ_ks5a2hV4wA%3D%3D";
+  text_url = "https://raw.githubusercontent.com/alexmat2on/bioanimation/master/js/questions.txt?token=AIFGvR-d8l4EIi7O2kck0gS_llf5KrSLks5a42aZwA%3D%3D";
   httpGet(text_url);
 
     var qmax = questions.length - 1;
@@ -115,6 +115,7 @@ function makeLayout() {
   canvas = createCanvas(canWidth, canHeight);
   canvas.class('can');
   canvas.parent('sim');
+  canvas.background('#6E6658');
 
   simulatorInput = createDiv('');
   simulatorInput.id('simInput');
@@ -176,10 +177,10 @@ function makeNeqMML() {
   msub0.id('msub0');
   msub0.parent("mrow0");
 
-  mi0 = createElement("mi", "V");
+  mi0 = createElement("mi", "E");
   mi0.parent("msub0");
 
-  mi1 = createElement("mi", "Eq.");
+  mi1 = createElement("mi", "ion");
   mi1.parent("msub0");
 
   eqSign = createElement("mo", "=");
@@ -235,8 +236,12 @@ function makeNeqMML() {
   sem0.id("sem0");
   sem0.parent("mfrac1");
 
-  anno0 = createElement("annotation-xml");
-  anno0.attribute("encoding", "application/xhtml+xml");
+  // anno0 = createElement("annotation-xml");
+  // anno0.attribute("encoding", "application/xhtml+xml");
+  // anno0.parent("sem0");
+  // anno0.id("neq-top");
+
+  anno0 = createElement("mi", "Ion Out");
   anno0.parent("sem0");
   anno0.id("neq-top");
 
@@ -244,8 +249,13 @@ function makeNeqMML() {
   sem1.id("sem1");
   sem1.parent("mfrac1");
 
-  anno1 = createElement("annotation-xml");
-  anno1.attribute("encoding", "application/xhtml+xml");
+  // anno1 = createElement("annotation-xml");
+  // anno1.attribute("encoding", "application/xhtml+xml");
+  // anno1.parent("sem1");
+  // anno1.id("neq-bot");
+  anno1 = createElement("mi", "Ion In");
   anno1.parent("sem1");
   anno1.id("neq-bot");
+
+
 }
