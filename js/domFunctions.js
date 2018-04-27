@@ -10,14 +10,14 @@ function makeLayout() {
   leftBox = createDiv("");
   leftBox.id('leftbar');
   leftBox.parent('stage');
-  leftBox.size(0.25 * windowWidth, windowHeight - 8);  // subtract stage 4px border from top and bottom to remove scrollbars in the parent iframe. (so, 8px total)
+  leftBox.size(0.25 * 0, windowHeight - 8);  // subtract stage 4px border from top and bottom to remove scrollbars in the parent iframe. (so, 8px total)
 
   // Create the div to actually contain the questions.
-  questions = createDiv("");
-  questions.id('questionsdiv');
-  questions.parent('leftbar');
-  questions.size(0.25 * windowWidth, windowHeight - 8);
-  createElement("h3", "Questions").parent('questionsdiv');
+  // questions = createDiv("");
+  // questions.id('questionsdiv');
+  // questions.parent('leftbar');
+  // questions.size(0.25 * windowWidth, windowHeight - 8);
+  // createElement("h3", "Questions").parent('questionsdiv');
   //
   // var questions
   // function httpGet(theUrl){
@@ -95,18 +95,11 @@ function makeLayout() {
   // single_question.parent('questionsdiv');
 
 
-  // Div to contain the equation
-  equation = createDiv("");
-  equation.id('equationdiv');
-  equation.parent('leftbar');
-  equation.size(leftBox.size().width, 0.20 * leftBox.size().height);
-
-  makeNeqMML();
 
   simulator = createDiv("");
   simulator.id('sim');
-  simulator.parent('stage');
-  simulator.size(0.75 * windowWidth, windowHeight - 8);
+  simulator.parent('leftbar');
+  simulator.size(windowWidth, windowHeight - 8);
 
   // Define the global canWidth & canHeight variables~
   canWidth = simulator.size().width;
@@ -122,15 +115,38 @@ function makeLayout() {
   simulatorInput.parent('sim');
   simulatorInput.size(canWidth, 0.25 * canHeight);
 
+    simulatorInputSub0 = createDiv('');
+    simulatorInputSub0.id('simInputSub0');
+    simulatorInputSub0.parent('simInput');
+
+    simulatorInputSub1 = createDiv('');
+    simulatorInputSub1.id('simInputSub1');
+    simulatorInputSub1.parent('simInput');
+      simulatorInputSub2 = createDiv('');
+      simulatorInputSub2.id('simInputSub2');
+      simulatorInputSub2.parent('simInputSub1');
+      simulatorInputSub3 = createDiv('');
+      simulatorInputSub3.id('simInputSub3');
+      simulatorInputSub3.parent('simInputSub1');
+
+
+    // Div to contain the equation
+    equation = createDiv("");
+    equation.id('equationdiv');
+    equation.parent('simInputSub0');
+    equation.size(leftBox.size().width, 0.20 * leftBox.size().height);
+
+    makeNeqMML();
+
   //Control UI ----------------------------
   controlsLeft = createDiv('');
   controlsLeft.class('controls');
-  controlsLeft.parent('simInput');
+  controlsLeft.parent('simInputSub2');
   controlsLeft.size(canWidth / 2, 0.25 * canHeight);
 
   controlsRight = createDiv('');
   controlsRight.class('controls');
-  controlsRight.parent('simInput');
+  controlsRight.parent('simInputSub2');
   controlsRight.size(canWidth / 2, 0.25 * canHeight);
 
   control0 = createDiv('');
@@ -159,8 +175,12 @@ function makeLayout() {
 
   particleControl = createDiv('');
   particleControl.id('particleControl');
-  particleControl.parent('sim');
+  particleControl.parent('simInputSub3');
   particleControl.size(canWidth, 0.1 * canHeight);
+  simulatorInputSub4 = createDiv('');
+  simulatorInputSub4.id('simInputSub4');
+  
+  simulatorInputSub4.parent('simInputSub0');
 }
 
 function makeNeqMML() {

@@ -346,7 +346,7 @@ function makeUIs() {
 
   equi = createButton('Equilibrate');
   equi.id('equilibrate-button');
-  equi.parent('leftbar');
+  equi.parent('simInputSub4');
   equi.mousePressed(startEquilibrate);
   var row = 4;
   for (var k = 0; k < Object.keys(containers).length*row; k++) {
