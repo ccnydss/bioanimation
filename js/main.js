@@ -8,9 +8,9 @@ inEquilbrateState[particleTypes[0]] = false;
 inEquilbrateState[particleTypes[1]] = false;
 
 var particlesProperties = {
-  "Na":{"color":"#F5CE28","radius":15,"id":0,"display":true,"charge":1},
-  "Cl":{"color":"#CD5C5C","radius":15,"id":1,"display":true,"charge":-1},
-  "K" :{"color":"#35B235","radius":15,"id":2,"display":true,"charge":1}
+  "Na":{"color":"#F5CE28","radius":15,"id":0,"display":true,"charge":1, "inside":2, "outside":14},
+  "Cl":{"color":"#CD5C5C","radius":15,"id":1,"display":true,"charge":-1, "inside":13, "outside":1},
+  "K" :{"color":"#35B235","radius":15,"id":2,"display":true,"charge":1, "inside":1, "outside":12}
 };
 
 var velocityRange = [-1,-1.25,1.25,1];
@@ -74,10 +74,8 @@ function setup() {
    for (var particle in particles[location]) {
      xRange = containers[location].tr.x - containers[location].tl.x - 100;
      yRange = containers[location].br.y - containers[location].tr.y - 100;
-     var amount = Math.random()*10;
+     var amount = particlesProperties[particle][location];
      for (var i=0; i<amount; i++) {
-       //velocities = [-4,-3,3,4];
-       //velocities = [-2,-1,1,2];
        velocities = velocityRange;
        var x_vel = Math.floor(Math.random() * (velocities.length-1)) + 0;
        var y_vel = Math.floor(Math.random() * (velocities.length-1)) + 0;
@@ -91,6 +89,7 @@ function setup() {
   }
 
   makeUIs();
+  NernstFormulaInput(particleTypes[0]);
 }
 
 function draw() {
