@@ -442,8 +442,8 @@ function NernstFormulaInput(particleType) {
       var Xin = particles["inside"][particleType].length;
     }
     else {
-      var Xout = 0;
-      var Xin = 0;
+      equations[1].html('Answer: N/A - Particle Disabled');
+      return;
     }
     var F = 96485.3329;//0.096485;
     var answer = (R*T)/(z*F)*Math.log(Xout/Xin);
