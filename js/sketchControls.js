@@ -267,6 +267,7 @@ function checkedEvent(evt) {
   else {
     enableInputForParticle(particleType);
   }
+  NernstFormulaInput(particleType)
 }
 
 function makeUIs() {
@@ -436,8 +437,14 @@ function NernstFormulaInput(particleType) {
     var R = 8.314;
     var T = 37 + 273.13
     var z = particlesProperties[particleType]["charge"];
-    Xout = particles["outside"][particleType].length;
-    Xin = particles["inside"][particleType].length;
+    if (particlesProperties[particleType]["display"]) {
+      var Xout = particles["outside"][particleType].length;
+      var Xin = particles["inside"][particleType].length;
+    }
+    else {
+      var Xout = 0;
+      var Xin = 0;
+    }
     var F = 96485.3329;//0.096485;
     var answer = (R*T)/(z*F)*Math.log(Xout/Xin);
     equations[1].html('Answer: '+answer.toFixed(4)+'V');
