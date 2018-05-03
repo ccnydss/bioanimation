@@ -16,10 +16,10 @@ class Container {
 
     if (this.id == "outside") {
       fill(255,255,255);
-      rect(5,275,70,20);
+      rect(5,this.bl.y+60,70,20);
       rect(5,5,75,20);
       fill(50);
-      text("Intracellular", 10, 290);
+      text("Intracellular", 10, this.bl.y+75);
       text("Extracellular", 10, 20);
     }
     // else {
