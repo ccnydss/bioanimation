@@ -162,11 +162,6 @@ function makeNeqMML() {
   sem0.id("sem0");
   sem0.parent("mfrac1");
 
-  // anno0 = createElement("annotation-xml");
-  // anno0.attribute("encoding", "application/xhtml+xml");
-  // anno0.parent("sem0");
-  // anno0.id("neq-top");
-
   anno0 = createElement("mi", "Ion Out");
   anno0.parent("sem0");
   anno0.id("neq-top");
@@ -175,10 +170,6 @@ function makeNeqMML() {
   sem1.id("sem1");
   sem1.parent("mfrac1");
 
-  // anno1 = createElement("annotation-xml");
-  // anno1.attribute("encoding", "application/xhtml+xml");
-  // anno1.parent("sem1");
-  // anno1.id("neq-bot");
   anno1 = createElement("mi", "Ion In");
   anno1.parent("sem1");
   anno1.id("neq-bot");
