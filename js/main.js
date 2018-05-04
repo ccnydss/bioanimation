@@ -8,10 +8,15 @@ inEquilbrateState[particleTypes[0]] = false;
 inEquilbrateState[particleTypes[1]] = false;
 
 var particlesProperties = {
-  "Na":{"color":"#F5CE28","radius":15,"id":0,"display":true,"charge":1, "inside":2, "outside":14},
+  "Na":{"color":"#FFC800","radius":15,"id":0,"display":true,"charge":1, "inside":2, "outside":14},
   "Cl":{"color":"#CD5C5C","radius":15,"id":1,"display":true,"charge":-1, "inside":13, "outside":1},
   "K" :{"color":"#35B235","radius":15,"id":2,"display":true,"charge":1, "inside":1, "outside":12}
 };
+
+var containerProperties = {
+  "inside": {"color":"#fffbea"},
+  "outside": {"color":"#e3f8fc"}
+}
 
 var velocityRange = [-1,-1.25,1.25,1];
 
@@ -44,7 +49,7 @@ function setup() {
 
   //Relative to parent coordinate
 
-  containers["outside"] = new Container(topLeft, topRight, botRight, botLeft, "#8e8e8e","outside");
+  containers["outside"] = new Container(topLeft, topRight, botRight, botLeft, containerProperties["outside"]["color"],"outside");
   //containers["outside"].draw();
 
 
@@ -60,7 +65,7 @@ function setup() {
   var botRight = new Point( canWidth, canHeight );
   var botLeft = new Point( 0, canHeight );
 
-  containers["inside"] = new Container(topLeft, topRight, botRight, botLeft, "#e3f8fc","inside");
+  containers["inside"] = new Container(topLeft, topRight, botRight, botLeft, containerProperties["inside"]["color"],"inside");
   //containers["inside"].draw();
 
   var topLeft = new Point( 0, canHeight/2 );
