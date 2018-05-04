@@ -11,7 +11,7 @@ function makeLayout() {
   simulator.size(windowWidth, windowHeight - 8);
 
   // Define the global canWidth & canHeight variables~
-  canWidth = simulator.size().width;
+  canWidth = simulator.size().width-5;
   canHeight = 0.90 * (simulator.size().height - 8);
 
   // Now to create the canvas!!
