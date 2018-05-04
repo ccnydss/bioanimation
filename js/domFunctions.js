@@ -4,97 +4,6 @@ function makeLayout() {
   stage.id('stage');
   stage.class('flex-container');
   stage.size(windowWidth, windowHeight);
-  // stage.style('background-color',color(0));
-
-  // The right sidebar for displaying questions.
-  // leftBox = createDiv("");
-  // leftBox.id('leftbar');
-  // leftBox.parent('stage');
-  // leftBox.size(0.25 * 0, windowHeight - 8);  // subtract stage 4px border from top and bottom to remove scrollbars in the parent iframe. (so, 8px total)
-
-  // Create the div to actually contain the questions.
-  // questions = createDiv("");
-  // questions.id('questionsdiv');
-  // questions.parent('leftbar');
-  // questions.size(0.25 * windowWidth, windowHeight - 8);
-  // createElement("h3", "Questions").parent('questionsdiv');
-  //
-  // var questions
-  // function httpGet(theUrl){
-  //   if (window.XMLHttpRequest) {
-  //       xmlhttp=new XMLHttpRequest();
-  //   } else {
-  //       xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-  //   }
-  //   xmlhttp.onreadystatechange=function() {
-  //       if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-  //           questions = xmlhttp.responseText.split("\n").slice(0, 10);
-  //       }
-  //   }
-  //   xmlhttp.open("GET", theUrl, false);
-  //   xmlhttp.send();
-  // }
-  // text_url = "https://raw.githubusercontent.com/alexmat2on/bioanimation/master/js/questions.txt?token=AIFGvR-d8l4EIi7O2kck0gS_llf5KrSLks5a42aZwA%3D%3D";
-  // httpGet(text_url);
-  //
-  //   var qmax = questions.length - 1;
-  //   var q = 0;
-  //   var question = createElement("p",questions[q]).parent('questionsdiv');
-  //   question.class("questions");
-  //   question.id("q1");
-  //
-  //
-  //   questionBotton = createDiv("");
-  //   questionBotton.id('questionBotton');
-  //   questionBotton.class('questionButton');
-  //   questionBotton.parent('questionsdiv');
-  //
-  //   questionNext = createButton('Previous');
-  //   questionNext.id('questionPrev');
-  //   questionNext.parent('questionBotton');
-  //   questionNext.size(leftBox.size().width, 0.075 * leftBox.size().height);
-  //   questionNext.mousePressed(quesPrev);
-  //   document.getElementById("questionPrev").style.display= "none";
-  //
-  //   questionPrev = createButton('Next');
-  //   questionPrev.id('questionNext');
-  //   questionPrev.parent('questionBotton');
-  //   questionPrev.size(leftBox.size().width, 0.075 * leftBox.size().height);
-  //   questionPrev.mousePressed(quesNext);
-  //
-  //
-  //   function quesNext(evt) {
-  //     if (q>=qmax-1) {
-  //       //alert(q+" "+qmax)
-  //       document.getElementById("questionNext").style.display= "none";
-  //       q = qmax;
-  //     } else {
-  //     q = q+1;
-  //         document.getElementById("questionPrev").style.display= "";
-  //       }
-  //         document.getElementById("q1").innerHTML = questions[q];
-  //   }
-  //
-  //   function quesPrev(evt) {
-  //     if (q<=1) {
-  //       document.getElementById("questionPrev").style.display= "none";
-  //       q = 0;
-  //     } else {
-  //     q = q-1;
-  //         document.getElementById("questionNext").style.display= "";
-  //       }
-  //         document.getElementById("q1").innerHTML = questions[q];
-  //   }
-  // for (var i=0; i<questions.length; i++){
-  //   var q = questions[i];
-  //   var question = createElement("p",q).parent('questionsdiv');
-  //   question.class("questions");
-  //   question.id("q" + (i+1));
-  // }
-  // single_question.id("q0");
-  // single_question.parent('questionsdiv');
-
-
 
   simulator = createDiv("");
   simulator.id('sim');
@@ -125,9 +34,6 @@ function makeLayout() {
   simulatorInputSub2 = createDiv('');
   simulatorInputSub2.id('simInputSub2');
   simulatorInputSub2.parent('simInputSub1');
-  // simulatorInputSub3 = createDiv('');
-  // simulatorInputSub3.id('simInputSub3');
-  // simulatorInputSub3.parent('simInputSub1');
 
   // Div to contain the equation
   equation = createDiv("");
