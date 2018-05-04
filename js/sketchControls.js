@@ -47,7 +47,6 @@ var transferParticle = function(particleType,location) {
     var OriX = Math.floor(OriParticle.x);
     var OriY = Math.floor(OriParticle.y);
     var diam = Math.floor(OriParticle.diam);
-    //velocities = [-4,-3,3,4];
     velocities = velocityRange;
     var x_vel = Math.floor(Math.random() * (velocities.length-1)) + 0;
     var y_vel = Math.floor(Math.random() * (velocities.length-1)) + 0;
@@ -59,7 +58,7 @@ var transferParticle = function(particleType,location) {
     oldInput.value(particles[location[particleType]][particleType].length);
     transferArray.push(new factory[particleType](OriX,OriY,diam,velocity,true));
     transferInput.value(particles[transferLocation][particleType].length);
-    if (particleType == document.getElementById('4').value) {
+    if (particleType == document.getElementById('particleSelect').value) {
       NernstFormulaInput(particleType);
     }
   }, 1200)
@@ -177,7 +176,7 @@ function increase(evt) {
 
   particleArray.push(new factory[particleType](randomX,randomY,particlesProperties[particleType].radius,velocity, true));
   var updatedParticleAmount = particleArray.length;
-  if (particleType == document.getElementById('4').value) {
+  if (particleType == document.getElementById('particleSelect').value) {
     NernstFormulaInput(particleType);
   }
   input[eventID].value(updatedParticleAmount);
@@ -201,7 +200,7 @@ function decrease(evt) {
   particleArray.splice(particleArray.length - 1, 1);
 
   var updatedParticleAmount = particleArray.length;
-  if (particleType == document.getElementById('4').value) {
+  if (particleType == document.getElementById('particleSelect').value) {
     NernstFormulaInput(particleType);
   }
   input[eventID].value(updatedParticleAmount);
@@ -237,7 +236,7 @@ function ChangeNumParticles(evt) {
       randomY = containers[particleLocation].tl.y + particlesProperties[particleType].radius + (Math.floor(Math.random() * yRange));
       var velocity = createVector(-3, -3);
       particleArray.push(new factory[particleType](randomX,randomY,particlesProperties[particleType].radius,velocity, true));
-      if (particleType == document.getElementById('4').value) {
+      if (particleType == document.getElementById('particleSelect').value) {
         NernstFormulaInput(particleType);
       }
     }
@@ -245,7 +244,7 @@ function ChangeNumParticles(evt) {
   else if (updatedAmount < particleArray.length) {
     for (var i=0; i<difference; i++) {
       particleArray.splice(particleArray.length - 1, 1);
-      if (particleType == document.getElementById('4').value) {
+      if (particleType == document.getElementById('particleSelect').value) {
         NernstFormulaInput(particleType);
       }
     }
@@ -291,49 +290,17 @@ function makeUIs() {
   // Set up the section where answers are displayed
   var answer = 0;
 
-
-  // equations[2] = createSelect();
-  // equations[2].id(2);
-  // equations[2].attribute("xmlns", "http://www.w3.org/1999/xhtml")
-  // equations[2].class('eqninput');
-  // equations[2].parent('neq-top');
-  // for (var i=0; i<particleTypes.length; i++){
-  //   equations[2].option(particleTypes[i]);
-  // }
-  //
-  // equations[2].changed(NernstFormula);
-  //
-  // equations[3] = createSelect();
-  // equations[3].id(3);
-  // equations[3].attribute("xmlns", "http://www.w3.org/1999/xhtml")
-  // equations[3].class('eqninput');
-  // equations[3].parent('neq-bot');
-  // for (var i=0; i<particleTypes.length; i++){
-  //   equations[3].option(particleTypes[i]);
-  // }
-  // equations[3].changed(NernstFormula);
-
   equations[4] = createSelect();
-  equations[4].id(4);
+  equations[4].id("particleSelect");
   for (var i=0; i<particleTypes.length; i++){
     equations[4].option(particleTypes[i]);
   }
   equations[4].class('qoptions');
-  equations[4].parent('equationdiv');
+  equations[4].parent('selectDiv');
   equations[4].changed(NernstFormula);
   equations[1] = createElement('h3', 'Answer: '+answer+'V');
   equations[1].class('qoptions');
   equations[1].parent('equationdiv');
-  // equations[4] = createSelect();
-  // equations[4].id(4);
-  // equations[4].attribute("xmlns", "http://www.w3.org/1999/xhtml")
-  // equations[4].class('eqninput');
-  // equations[4].parent('neq-ion');
-  // for (var i=0; i<particleTypes.length; i++){
-  //   equations[4].option(particleTypes[i]);
-  // }
-  //
-  // equations[4].changed(NernstFormula);
 
   // Radio buttons to select ions to include
   for (var i=0; i<particleTypes.length; i++) {

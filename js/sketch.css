@@ -177,3 +177,8 @@ body {
   font-size: 0.9em;
   padding:5px 20px;
 }
+
+#particleSelect {
+  flex-direction: column;
+  padding:10px;
+}

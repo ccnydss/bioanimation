@@ -43,6 +43,11 @@ function makeLayout() {
 
   makeNeqMML();
 
+  // Div to contain selector
+  selectDiv = createDiv("");
+  selectDiv.id("selectDiv");
+  selectDiv.parent("equationdiv");
+
   //Control UI ----------------------------
   controlsLeft = createDiv('');
   controlsLeft.class('controls');
@@ -173,6 +178,5 @@ function makeNeqMML() {
   anno1 = createElement("mi", "Ion In");
   anno1.parent("sem1");
   anno1.id("neq-bot");
-
 
 }
