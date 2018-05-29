@@ -296,7 +296,7 @@ function makeUIs() {
     equations[4].option(particleTypes[i]);
   }
   equations[4].class('qoptions');
-  equations[4].parent('selectDiv');
+  equations[4].parent('equationdiv');
   equations[4].changed(NernstFormula);
   equations[1] = createElement('h3', 'Answer: '+answer+'V');
   equations[1].class('qoptions');
@@ -313,7 +313,7 @@ function makeUIs() {
 
   equi = createButton('Equilibrate');
   equi.id('equilibrate-button');
-  equi.parent('simInputSub4');
+  equi.parent('leftbar');
   equi.mousePressed(startEquilibrate);
   var row = 4;
   for (var k = 0; k < Object.keys(containers).length*row; k++) {

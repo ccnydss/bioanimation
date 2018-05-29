@@ -4,15 +4,110 @@ function makeLayout() {
   stage.id('stage');
   stage.class('flex-container');
   stage.size(windowWidth, windowHeight);
+  // stage.style('background-color',color(0));
+
+  // The right sidebar for displaying questions.
+  leftBox = createDiv("");
+  leftBox.id('leftbar');
+  leftBox.parent('stage');
+  leftBox.size(0.35 * windowWidth, windowHeight - 8);  // subtract stage 4px border from top and bottom to remove scrollbars in the parent iframe. (so, 8px total)
+
+  // Create the div to actually contain the questions.
+  questions = createDiv("");
+  questions.id('questionsdiv');
+  questions.parent('leftbar');
+  questions.size(0.35 * windowWidth, 0.75 *  windowHeight - 8);
+  createElement("h3", "Goldman-Hodgkin-Katz").parent('questionsdiv');
+
+  var questions
+  questions = "Calculate the equilibrium potential for Na and K using the Nernst equation for the following conditions"
+    var question = createElement("p",questions).parent('questionsdiv');
+    question.class("questions");
+    question.id("q1");
+  // function httpGet(theUrl){
+  //   if (window.XMLHttpRequest) {
+  //       xmlhttp=new XMLHttpRequest();
+  //   } else {
+  //       xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  //   }
+  //   xmlhttp.onreadystatechange=function() {
+  //       if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+  //           questions = xmlhttp.responseText.split("\n").slice(0, 10);
+  //       }
+  //   }
+  //   xmlhttp.open("GET", theUrl, false);
+  //   xmlhttp.send();
+  // }
+  // text_url = "https://raw.githubusercontent.com/alexmat2on/bioanimation/master/js/questions.txt?token=AIFGvR-d8l4EIi7O2kck0gS_llf5KrSLks5a42aZwA%3D%3D";
+  // httpGet(text_url);
+  //
+  //   var qmax = questions.length - 1;
+  //   var q = 0;
+  //   var question = createElement("p",questions[q]).parent('questionsdiv');
+  //   question.class("questions");
+  //   question.id("q1");
+
+
+    // questionBotton = createDiv("");
+    // questionBotton.id('questionBotton');
+    // questionBotton.class('questionButton');
+    // questionBotton.parent('questionsdiv');
+    //
+    // questionNext = createButton('Previous');
+    // questionNext.id('questionPrev');
+    // questionNext.parent('questionBotton');
+    // questionNext.size(leftBox.size().width, 0.075 * leftBox.size().height);
+    // questionNext.mousePressed(quesPrev);
+    // document.getElementById("questionPrev").style.display= "none";
+    //
+    // questionPrev = createButton('Next');
+    // questionPrev.id('questionNext');
+    // questionPrev.parent('questionBotton');
+    // questionPrev.size(leftBox.size().width, 0.075 * leftBox.size().height);
+    // questionPrev.mousePressed(quesNext);
+    //
+    //
+    // function quesNext(evt) {
+    //   if (q>=qmax-1) {
+    //     //alert(q+" "+qmax)
+    //     document.getElementById("questionNext").style.display= "none";
+    //     q = qmax;
+    //   } else {
+    //   q = q+1;
+    //       document.getElementById("questionPrev").style.display= "";
+    //     }
+    //       document.getElementById("q1").innerHTML = questions[q];
+    // }
+    //
+    // function quesPrev(evt) {
+    //   if (q<=1) {
+    //     document.getElementById("questionPrev").style.display= "none";
+    //     q = 0;
+    //   } else {
+    //   q = q-1;
+    //       document.getElementById("questionNext").style.display= "";
+    //     }
+    //       document.getElementById("q1").innerHTML = questions[q];
+    // }
+
+
+
+  // Div to contain the equation
+  equation = createDiv("");
+  equation.id('equationdiv');
+  equation.parent('leftbar');
+  equation.size(leftBox.size().width, 0.20 * leftBox.size().height);
+
+  makeNeqMML();
 
   simulator = createDiv("");
   simulator.id('sim');
   simulator.parent('stage');
-  simulator.size(windowWidth, windowHeight - 8);
+  simulator.size(0.75 * windowWidth, windowHeight - 8);
 
   // Define the global canWidth & canHeight variables~
-  canWidth = simulator.size().width-5;
-  canHeight = 0.90 * (simulator.size().height - 8);
+  canWidth = simulator.size().width;
+  canHeight = 0.75 * (simulator.size().height - 8);
 
   // Now to create the canvas!!
   canvas = createCanvas(canWidth, canHeight);
@@ -22,41 +117,17 @@ function makeLayout() {
   simulatorInput = createDiv('');
   simulatorInput.id('simInput');
   simulatorInput.parent('sim');
-  simulatorInput.size(canWidth, 0.33 * canHeight);
-
-  simulatorInputSub0 = createDiv('');
-  simulatorInputSub0.id('simInputSub0');
-  simulatorInputSub0.parent('simInput');
-
-  simulatorInputSub1 = createDiv('');
-  simulatorInputSub1.id('simInputSub1');
-  simulatorInputSub1.parent('simInput');
-  simulatorInputSub2 = createDiv('');
-  simulatorInputSub2.id('simInputSub2');
-  simulatorInputSub2.parent('simInputSub1');
-
-  // Div to contain the equation
-  equation = createDiv("");
-  equation.id('equationdiv');
-  equation.parent('simInputSub0');
-  equation.size(canWidth, 0.20 * canHeight);
-
-  makeNeqMML();
-
-  // Div to contain selector
-  selectDiv = createDiv("");
-  selectDiv.id("selectDiv");
-  selectDiv.parent("equationdiv");
+  simulatorInput.size(canWidth, 0.25 * canHeight);
 
   //Control UI ----------------------------
   controlsLeft = createDiv('');
   controlsLeft.class('controls');
-  controlsLeft.parent('simInputSub2');
+  controlsLeft.parent('simInput');
   controlsLeft.size(canWidth / 2, 0.25 * canHeight);
 
   controlsRight = createDiv('');
   controlsRight.class('controls');
-  controlsRight.parent('simInputSub2');
+  controlsRight.parent('simInput');
   controlsRight.size(canWidth / 2, 0.25 * canHeight);
 
   control0 = createDiv('');
@@ -85,13 +156,98 @@ function makeLayout() {
 
   particleControl = createDiv('');
   particleControl.id('particleControl');
-  particleControl.parent('simInputSub1');
+  particleControl.parent('sim');
   particleControl.size(canWidth, 0.1 * canHeight);
 
-  simulatorInputSub4 = createDiv('');
-  simulatorInputSub4.id('simInputSub4');
+  //table questions
+    qtable = createElement("table");
+    qtable.id('qtable');
+    qtable.class('qtable');
+    qtable.parent('q1');
 
-  simulatorInputSub4.parent('simInputSub0');
+    qtr1 = createElement("tr");
+    qtr1.id("qtr1");
+    qtr1.parent("qtable");
+
+    qth1 = createElement("th", "[Na]out");
+    qth1.id("qth1");
+    qth1.parent("qtr1");
+
+    qth2 = createElement("th", "[Na]in");
+    qth2.id("qth2");
+    qth2.parent("qtr1");
+
+    qth3 = createElement("th", "[K]out");
+    qth3.id("qth3");
+    qth3.parent("qtr1");
+
+    qth4 = createElement("th", "[K]in");
+    qth4.id("qth4");
+    qth4.parent("qtr1");
+//
+    qtr2 = createElement("tr");
+    qtr2.id("qtr2");
+    qtr2.parent("qtable");
+
+    qth5 = createElement("th", "150");
+    qth5.id("qth5");
+    qth5.parent("qtr2");
+
+    qth6 = createElement("th", "15");
+    qth6.id("qth6");
+    qth6.parent("qtr2");
+
+    qth7 = createElement("th", "5");
+    qth7.id("qth7");
+    qth7.parent("qtr2");
+
+    qth8 = createElement("th", "120");
+    qth8.id("qth8");
+    qth8.parent("qtr2");
+//
+    qtr3 = createElement("tr");
+    qtr3.id("qtr3");
+    qtr3.parent("qtable");
+
+    qth9 = createElement("th", "150");
+    qth9.id("qth9");
+    qth9.parent("qtr3");
+
+    qth10 = createElement("th", "15");
+    qth10.id("qth10");
+    qth10.parent("qtr3");
+
+    qth11 = createElement("th", "7.5");
+    qth11.id("qth11");
+    qth11.parent("qtr3");
+
+    qth12 = createElement("th", "120");
+    qth12.id("qth12");
+    qth12.parent("qtr3");
+//
+    qtr4 = createElement("tr");
+    qtr4.id("qtr4");
+    qtr4.parent("qtable");
+
+    qth13 = createElement("th", "150");
+    qth13.id("qth13");
+    qth13.parent("qtr4");
+
+    qth14 = createElement("th", "15");
+    qth14.id("qth14");
+    qth14.parent("qtr4");
+
+    qth15 = createElement("th", "2.5");
+    qth15.id("qth15");
+    qth15.parent("qtr4");
+
+    qth16 = createElement("th", "120");
+    qth16.id("qth16");
+    qth16.parent("qtr4");
+
+      qtext2 = createElement("p", "These changes in [K]out concentration are real examples of pathological conditions that can lead to seizures and renal failure.");
+      qtext2.id('qtext2');
+      qtext2.parent('q1');
 }
 
 function makeNeqMML() {
