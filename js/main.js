@@ -93,7 +93,26 @@ function setup() {
    }
   }
 
-  makeUIs();
+  makeUIs(true);
+  startNernst();
+
+  //Only show one particle at the beginning
+  disableInputForParticle("Cl");
+  disableInputForParticle("K");
+
+  for (var i = 0; i < particles["inside"]["Cl"].length; i++) {
+    setDisplay(particles["inside"]["Cl"][i], false);
+  }
+  for (var i = 0; i < particles["outside"]["Cl"].length; i++) {
+    setDisplay(particles["outside"]["Cl"][i], false);
+  }
+  for (var i = 0; i < particles["inside"]["K"].length; i++) {
+    setDisplay(particles["inside"]["K"][i], false);
+  }
+  for (var i = 0; i < particles["outside"]["K"].length; i++) {
+    setDisplay(particles["outside"]["K"][i], false);
+  }
+
   NernstFormulaInput(particleTypes[0]);
 }
 

@@ -39,12 +39,22 @@ margin-bottom: 10%;
 
 #stage {
   display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
   border-style: solid;
   border-color: #88BDBC;
   border-width: 5px;
   overflow:hidden;
+}
+
+#topBox, #botBox {
+  display: flex;
+}
+
+#simulatorInputContainer, #equationsContainer {
+  display: flex;
+  flex-direction: column;
 }
 
 .flex-container {
@@ -57,14 +67,14 @@ margin-bottom: 10%;
   flex-direction: column;
   background-color: #88BDBC;
   height: 100vh;
-  padding-right:10px;
+  /* padding-right:10px; */
 }
 
 #questionsdiv {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding-right: 10px;
+  /* padding-right: 10px; */
   overflow-y: scroll;
 }
 
@@ -72,10 +82,19 @@ margin-bottom: 10%;
   align-self: center;
 }
 
+#hidebar {
+  padding:5px;
+}
+
 .questions {
   height: 80%;
   padding:10px;
   font-size: 0.95em;
+}
+
+#equationdiv{
+  padding: 5px;
+  background-color: #4F4A41;
 }
 
 #equationdiv img {
@@ -85,7 +104,7 @@ margin-bottom: 10%;
 }
 
 #equationdiv select {
-  width: 36px;
+  width: 45px;
   height: 25px;
   text-align: center;
 }
@@ -171,7 +190,20 @@ margin-bottom: 10%;
 #particleControl {
   background-color: #4F4A41;
   display:flex;
-  justify-content: flex-start;
+  /* justify-content: flex-start; */
+  justify-content: center;
+}
+
+#NernstButton, #GoldmanButton {
+
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  /* padding:10px; */
+  width: 20%;
+  height: 36px;
+  margin-left: 20px;
+  background-color: #dfe6e9;
 }
 
 #equilibrate-button {
@@ -182,8 +214,29 @@ margin-bottom: 10%;
   text-decoration: none;
   font-size: 0.9em;
   padding:10px;
+  width: 100%;
 }
 
 #ion-selector {
   display: block;
+}
+
+/*  CC  */
+#hidebar {
+display:flex;
+align-items: center;
+vertical-align: middle;
+  justify-content: center;
+}
+
+#hidebarText {
+/* width:1%; */
+word-wrap: break-word;
+font-family: monospace; /* Placed letter "i" in the center */
+white-space:pre-wrap; /* this is for displaying whitespaces including Moz-FF.*/
+font-size: 18px;
+/* align-items: center;
+vertical-align: middle;
+  justify-content: center;
+    align-self: center; */
 }

@@ -93,6 +93,24 @@ function equilibrate(particleType) {
 
 }
 
+var NernstButtonStatus;
+var GoldmanButtonStatus;
+
+function startNernst(evt) {
+
+  var NernstButtonStatus = document.getElementById("NernstButton");
+  var GoldmanButtonStatus = document.getElementById("GoldmanButton")
+  NernstButtonStatus.style.backgroundColor = "#74b9ff";
+  GoldmanButtonStatus.style.backgroundColor = "#dfe6e9";
+}
+function startGoldman(evt) {
+
+  var NernstButtonStatus = document.getElementById("NernstButton");
+  var GoldmanButtonStatus = document.getElementById("GoldmanButton")
+    GoldmanButtonStatus.style.backgroundColor = "#74b9ff";
+    NernstButtonStatus.style.backgroundColor = "#dfe6e9";
+}
+
 function startEquilibrate(evt) {
   for (var i=0; i<particleTypes.length; i++) {
     if (!inEquilbrateState[particleTypes[i]] && particlesProperties[particleTypes[i]]["display"]) {
@@ -269,7 +287,7 @@ function checkedEvent(evt) {
   NernstFormulaInput(particleType)
 }
 
-function makeUIs() {
+function makeUIs(creation) {
   // Channel
   var topLeft = new Point( canWidth/2-thickness, canHeight/2-thickness );
   var topRight = new Point( canWidth/2+thickness, canHeight/2-thickness );
@@ -288,6 +306,7 @@ function makeUIs() {
   }
 
   // Set up the section where answers are displayed
+  if (creation==true) {
   var answer = 0;
 
   equations[4] = createSelect();
@@ -304,16 +323,31 @@ function makeUIs() {
 
   // Radio buttons to select ions to include
   for (var i=0; i<particleTypes.length; i++) {
-    var checkbox = createCheckbox(particleTypes[i],true);
+
+    if (i==0) {
+      var checkbox = createCheckbox(particleTypes[i],true);
+    } else {
+      var checkbox = createCheckbox(particleTypes[i],false);
+    }
     checkbox.class('checkboxes')
     checkbox.id('checkbox'+particleTypes[i])
     checkbox.parent('particleControl');
     checkbox.changed(checkedEvent);
   }
 
+    NernstButton = createButton('Nernst');
+    NernstButton.id('NernstButton');
+    NernstButton.parent('particleControl');
+    NernstButton.mousePressed(startNernst);
+    GoldmanButton = createButton('Goldman');
+    GoldmanButton.id('GoldmanButton');
+    GoldmanButton.parent('particleControl');
+    GoldmanButton.mousePressed(startGoldman);
+
+
   equi = createButton('Equilibrate');
   equi.id('equilibrate-button');
-  equi.parent('leftbar');
+  equi.parent('equationContainer');
   equi.mousePressed(startEquilibrate);
   var row = 4;
   for (var k = 0; k < Object.keys(containers).length*row; k++) {
@@ -388,6 +422,7 @@ function makeUIs() {
       var td3 = createElement('td');
       minusButton[k].parent(td3);
       td3.parent(trow);
+      }
     }
   }
 }

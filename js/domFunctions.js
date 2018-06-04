@@ -6,22 +6,60 @@ function makeLayout() {
   stage.size(windowWidth, windowHeight);
   // stage.style('background-color',color(0));
 
+  topBox = createDiv("");
+  topBox.id('topBox');
+  topBox.parent('stage');
+  topBox.size(windowWidth, 0.75 *  windowHeight);  // subtract stage 4px border from top and bottom to remove scrollbars in the parent iframe. (so, 8px total)
+
+  botBox = createDiv("");
+  botBox.id('botBox');
+  botBox.parent('stage');
+  botBox.size(windowWidth, 0.25 *  windowHeight);  // subtract stage 4px border from top and bottom to remove scrollbars in the parent iframe. (so, 8px total)
+
+
   // The right sidebar for displaying questions.
   leftBox = createDiv("");
   leftBox.id('leftbar');
-  leftBox.parent('stage');
-  leftBox.size(0.35 * windowWidth, windowHeight - 8);  // subtract stage 4px border from top and bottom to remove scrollbars in the parent iframe. (so, 8px total)
+  leftBox.parent('topBox');
+  leftBox.size(0.35 * windowWidth, 0.75 *  windowHeight - 8);  // subtract stage 4px border from top and bottom to remove scrollbars in the parent iframe. (so, 8px total)
+
+    var leftbarStatus = document.getElementById("leftbar");
+    leftbarStatus.style.display = "flex";
+
+
+  // The right sidebar for displaying questions.
+  hideBar = createDiv("");
+  hideBar.id('hidebar');
+  hideBar.parent('topBox');
+  hideBar.mousePressed(hideQuestion);
+
+  function hideQuestion(evt) {
+    if (leftbarStatus.style.display == "flex") {
+      leftbarStatus.style.display = "none";
+      document.getElementById("hidebarText").innerText = ">"
+        redrawUI(false);
+    } else {
+      leftbarStatus.style.display = "flex";
+      document.getElementById("hidebarText").innerText = "<"
+        redrawUI(true);
+    }
+
+  }
+
+  hideBarText = createElement("div", "<");
+  hideBarText.id('hidebarText');
+  hideBarText.parent("hidebar");
 
   // Create the div to actually contain the questions.
   questions = createDiv("");
   questions.id('questionsdiv');
   questions.parent('leftbar');
-  questions.size(0.35 * windowWidth, 0.75 *  windowHeight - 8);
+  questions.size(0.35 * windowWidth - 20, 0.75 *  windowHeight);
   createElement("h3", "Goldman-Hodgkin-Katz").parent('questionsdiv');
 
-  var questions
-  questions = "Calculate the equilibrium potential for Na and K using the Nernst equation for the following conditions"
-    var question = createElement("p",questions).parent('questionsdiv');
+  var questionsText
+  questionsText = "Calculate the equilibrium potential for Na and K using the Nernst equation for the following conditions"
+    var question = createElement("p",questionsText).parent('questionsdiv');
     question.class("questions");
     question.id("q1");
   // function httpGet(theUrl){
@@ -91,44 +129,66 @@ function makeLayout() {
     // }
 
 
-
   // Div to contain the equation
+  equationContainer = createDiv("");
+  equationContainer.id('equationContainer');
+  equationContainer.parent('botBox');
+  equationContainer.size(0.35 * windowWidth, 0.25 * windowHeight);
+
   equation = createDiv("");
   equation.id('equationdiv');
-  equation.parent('leftbar');
-  equation.size(leftBox.size().width, 0.20 * leftBox.size().height);
+  equation.parent('equationContainer');
+  equation.size(0.35 * windowWidth, 0.25 * windowHeight - 36);
 
   makeNeqMML();
 
   simulator = createDiv("");
   simulator.id('sim');
-  simulator.parent('stage');
-  simulator.size(0.75 * windowWidth, windowHeight - 8);
+  simulator.parent('topBox');
+  simulator.size(0.75 * windowWidth, 0.75 *  windowHeight);
 
   // Define the global canWidth & canHeight variables~
   canWidth = simulator.size().width;
-  canHeight = 0.75 * (simulator.size().height - 8);
+  //canHeight = 0.75 * (simulator.size().height - 8);
+  canHeight = 1 * (simulator.size().height - 8);
 
   // Now to create the canvas!!
   canvas = createCanvas(canWidth, canHeight);
   canvas.class('can');
   canvas.parent('sim');
 
+  window.onresize = function() {
+
+    if (leftbarStatus.style.display == "flex") {
+        redrawUI(true);
+    } else {
+        redrawUI(false);
+    }
+  }
+
+  // Div to contain the simulatorInput
+  simulatorInputContainer = createDiv("");
+  simulatorInputContainer.id('simulatorInputContainer');
+  simulatorInputContainer.parent('botBox');
+  simulatorInputContainer.size(0.75 * windowWidth, 0.25 * windowHeight);
+
+  simuWidth = 0.75 * windowWidth;
+
   simulatorInput = createDiv('');
   simulatorInput.id('simInput');
-  simulatorInput.parent('sim');
-  simulatorInput.size(canWidth, 0.25 * canHeight);
+  simulatorInput.parent('simulatorInputContainer');
+  simulatorInput.size(simuWidth, 0.25 * canHeight);
 
   //Control UI ----------------------------
   controlsLeft = createDiv('');
   controlsLeft.class('controls');
   controlsLeft.parent('simInput');
-  controlsLeft.size(canWidth / 2, 0.25 * canHeight);
+  controlsLeft.size(simuWidth / 2, 0.25 * canHeight);
 
   controlsRight = createDiv('');
   controlsRight.class('controls');
   controlsRight.parent('simInput');
-  controlsRight.size(canWidth / 2, 0.25 * canHeight);
+  controlsRight.size(simuWidth / 2, 0.25 * canHeight);
 
   control0 = createDiv('');
   control0.class('control');
@@ -156,10 +216,10 @@ function makeLayout() {
 
   particleControl = createDiv('');
   particleControl.id('particleControl');
-  particleControl.parent('sim');
-  particleControl.size(canWidth, 0.1 * canHeight);
+  particleControl.parent('simulatorInputContainer');
+  particleControl.size(simuWidth, 0.1 * canHeight);
 
-  //table questions
+//   table questions
     qtable = createElement("table");
     qtable.id('qtable');
     qtable.class('qtable');
@@ -335,4 +395,77 @@ function makeNeqMML() {
   anno1.parent("sem1");
   anno1.id("neq-bot");
 
+}
+
+var simulatorWidthMul = 0.65;
+function redrawUI(questionBox) {
+
+simulatorWidthMul = 1;
+
+  stage.size(windowWidth, windowHeight);
+    if(questionBox == true) {
+    leftBox.size(0.35 * windowWidth, 0.75 *  windowHeight - 8);  // subtract stage 4px border from top and bottom to remove scrollbars in the parent iframe. (so, 8px total)
+    questions.size(0.35 * windowWidth, 0.75 *  windowHeight);
+    simulatorWidthMul = 0.65;
+    }
+
+    topBox.size(windowWidth, 0.75 *  windowHeight);
+    botBox.size(windowWidth, 0.25 *  windowHeight);
+
+    equationContainer.size(0.35 * windowWidth, 0.25 * windowHeight);
+    simulatorInputContainer.size(simulatorWidthMul * windowWidth, 0.25 * windowHeight);
+
+
+    simulator.size(simulatorWidthMul * windowWidth, 0.75 *  windowHeight);
+
+      if(questionBox == false) {
+    simulator.size(simulatorWidthMul * windowWidth, 0.75 *  windowHeight);
+      }
+
+    canWidth = simulatorWidthMul * windowWidth - 20; //20 is the new offset for collision
+    canHeight = 1 * (simulator.size().height - 8);
+
+      simuWidth = 0.75 * windowWidth;
+    canvas.size(canWidth, canHeight);
+    simulatorInput.size(simuWidth, 0.25 * canHeight);
+    particleControl.size(simuWidth, 0.1 * canHeight);
+    controlsRight.size(simuWidth / 2, 0.25 * canHeight);
+    controlsLeft.size(simuWidth / 2, 0.25 * canHeight);
+    equation.size(0.35 * windowWidth, 0.25 * windowHeight - 36);
+
+    var topLeft = new Point( 0, 0 );
+    var topRight = new Point( canWidth, 0 );
+    var botRight = new Point( canWidth, canHeight/2-thickness );
+    var botLeft = new Point( 0, ( canHeight/2-thickness ) );
+
+    //Relative to parent coordinate
+
+    containers["outside"] = new Container(topLeft, topRight, botRight, botLeft, containerProperties["outside"]["color"],"outside");
+    containers["outside"].draw();
+
+
+    var topLeft = new Point( 0, 0 );
+    var topRight = new Point( canWidth, 0 );
+    var botRight = new Point( canWidth, canHeight/2 );
+    var botLeft = new Point( 0, canHeight/2 );
+    UIBoxs[0] = new UIBox( topLeft, topRight, botRight, botLeft );
+    UIBoxs[0].draw();
+
+    var topLeft = new Point( 0, canHeight/2+thickness );
+    var topRight = new Point( canWidth, canHeight/2+thickness );
+    var botRight = new Point( canWidth, canHeight );
+    var botLeft = new Point( 0, canHeight );
+
+    containers["inside"] = new Container(topLeft, topRight, botRight, botLeft, containerProperties["inside"]["color"],"inside");
+    //containers["inside"].draw();
+
+    var topLeft = new Point( 0, canHeight/2 );
+    var topRight = new Point( canWidth, canHeight/2 );
+    var botRight = new Point( canWidth, canHeight );
+    var botLeft = new Point( 0, canHeight );
+    UIBoxs[1] = new UIBox( topLeft, topRight, botRight, botLeft );
+    UIBoxs[1].draw();
+    containers["inside"].draw();
+
+        makeUIs(false)
 }
