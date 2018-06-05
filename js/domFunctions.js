@@ -34,12 +34,15 @@ function makeLayout() {
   hideBar.mousePressed(hideQuestion);
 
   function hideQuestion(evt) {
+    // if (leftbarStatus.style.width != "0px") {
     if (leftbarStatus.style.display == "flex") {
-      leftbarStatus.style.display = "none";
+        // leftbarStatus.style.width = "0px";
+          leftbarStatus.style.display = "none";
       document.getElementById("hidebarText").innerText = ">"
         redrawUI(false);
     } else {
-      leftbarStatus.style.display = "flex";
+        // leftbarStatus.style.width = (0.35 * windowWidth);
+          leftbarStatus.style.display = "flex";
       document.getElementById("hidebarText").innerText = "<"
         redrawUI(true);
     }
@@ -55,7 +58,8 @@ function makeLayout() {
   questions.id('questionsdiv');
   questions.parent('leftbar');
   questions.size(0.35 * windowWidth - 20, 0.75 *  windowHeight);
-  createElement("h3", "Goldman-Hodgkin-Katz").parent('questionsdiv');
+  questionTitle = createElement("h3", "Goldman-Hodgkin-Katz").parent('questionsdiv');
+  questionTitle.id('questionTitle');
 
   var questionsText
   questionsText = "Calculate the equilibrium potential for Na and K using the Nernst equation for the following conditions"
@@ -140,7 +144,8 @@ function makeLayout() {
   equation.parent('equationContainer');
   equation.size(0.35 * windowWidth, 0.25 * windowHeight - 36);
 
-  makeNeqMML();
+    makeNeqMML();
+    makeGoldmanEqn();
 
   simulator = createDiv("");
   simulator.id('sim');
@@ -308,6 +313,8 @@ function makeLayout() {
       qtext2 = createElement("p", "These changes in [K]out concentration are real examples of pathological conditions that can lead to seizures and renal failure.");
       qtext2.id('qtext2');
       qtext2.parent('q1');
+
+    questionText[0] = document.getElementById('q1').innerHTML;
 }
 
 function makeNeqMML() {
@@ -395,6 +402,291 @@ function makeNeqMML() {
   anno1.parent("sem1");
   anno1.id("neq-bot");
 
+}
+
+function makeGoldmanEqn() {
+
+  // math1 = createElement("math");
+  // math1.attribute("xmlns", "http://www.w3.org/1998/Math/MathML");
+  // math1.id('math1');
+  // math1.parent('equationdiv');
+  // mi34 = createElement("mi", "Goldman-Hodgkin-Katz");
+  // mi34.parent("math1");
+
+  mathGoldman = createElement("math");
+  mathGoldman.attribute("xmlns", "http://www.w3.org/1998/Math/MathML");
+  mathGoldman.id('mathGoldman');
+  mathGoldman.parent('equationdiv');
+
+  msub0Goldman = createElement("msub");
+  msub0Goldman.id('msub0Goldman');
+  msub0Goldman.parent('mathGoldman');
+
+  mi0Goldman = createElement("mi", "V");
+  mi0Goldman.parent("msub0Goldman");
+
+  mi1Goldman = createElement("mi", "rest");
+  mi1Goldman.parent("msub0Goldman");
+
+  eqSignGoldman = createElement("mo", "=");
+  eqSignGoldman.parent("mathGoldman");
+
+  // -------------------------------------
+  // RT/F
+  mrow1Goldman = createElement("mrow");
+  mrow1Goldman.id("mrow1Goldman");
+  mrow1Goldman.parent("mathGoldman");
+
+  mfrac0Goldman = createElement("mfrac");
+  mfrac0Goldman.id("mfrac0Goldman");
+  mfrac0Goldman.parent("mrow1Goldman");
+
+  mrow2pGoldman = createElement("mrow");
+  mrow2pGoldman.id("mrow2pGoldman");
+  mrow2pGoldman.parent("mfrac0Goldman");
+  mi2Goldman = createElement("mi", "R");
+  mi2Goldman.parent("mrow2pGoldman");
+  mi2pGoldman = createElement("mi", "T");
+  mi2pGoldman.parent("mrow2pGoldman");
+
+  mrow2Goldman = createElement("mrow");
+  mrow2Goldman.id("mrow2Goldman");
+  mrow2Goldman.parent("mfrac0Goldman");
+
+  mi3Goldman = createElement("mi", "F");
+  mi3Goldman.parent("mrow2Goldman");
+
+  // -------------------------------------
+  mi4Goldman = createElement("mi", "ln");
+  mi4Goldman.parent("mathGoldman");
+
+  // -------------------------------------
+  mrow3Goldman = createElement("mrow");
+  mrow3Goldman.id("mrow3Goldman");
+  mrow3Goldman.parent("mathGoldman");
+
+  mfrac1Goldman = createElement("mfrac");
+  mfrac1Goldman.id("mfrac1Goldman");
+  mfrac1Goldman.parent("mrow3Goldman");
+
+  mrow4Goldman = createElement("mrow");
+  mrow4Goldman.id("mrow4Goldman");
+  mrow4Goldman.parent("mfrac1Goldman");
+
+  // Na+
+  msub1Goldman = createElement("msub");
+  msub1Goldman.id("msub1Goldman");
+  msub1Goldman.parent("mrow4Goldman");
+
+  mi6Goldman= createElement("mi", "P");
+  mi6Goldman.parent("msub1Goldman");
+
+  mi7Goldman = createElement("mi", "Na");
+  mi7Goldman.parent("msub1Goldman");
+
+  mi8Goldman = createElement("mi", "[N");
+  mi8Goldman.parent("mrow4Goldman");
+
+  msup0Goldman = createElement("msup");
+  msup0Goldman.id("msup0Goldman");
+  msup0Goldman.parent("mrow4Goldman");
+
+  mi9Goldman = createElement("mi", "a");
+  mi9Goldman.parent("msup0Goldman");
+  mo0Goldman = createElement("mo", "+");
+  mo0Goldman.parent("msup0Goldman");
+
+  msub2Goldman = createElement("msub");
+  msub2Goldman.id("msub2Goldman");
+  msub2Goldman.parent("mrow4Goldman");
+  mo1Goldman = createElement("mo", "]");
+  mo1Goldman.parent("msub2Goldman");
+  mi10Goldman = createElement("mi", "out");
+  mi10Goldman.parent("msub2Goldman");
+
+
+  mo1Goldman = createElement("mo", "+");
+  mo1Goldman.parent("mrow4Goldman");
+  // -------------------------------------
+  //Top
+
+  // Cl
+
+  msub3Goldman = createElement("msub");
+  msub3Goldman.id("msub3Goldman");
+  msub3Goldman.parent("mrow4Goldman");
+
+  mi11Goldman= createElement("mi", "P");
+  mi11Goldman.parent("msub3Goldman");
+
+  mi12Goldman = createElement("mi", "Cl");
+  mi12Goldman.parent("msub3Goldman");
+
+  mi13Goldman = createElement("mi", "[C");
+  mi13Goldman.parent("mrow4Goldman");
+
+  msup1Goldman = createElement("msup");
+  msup1Goldman.id("msup1Goldman");
+  msup1Goldman.parent("mrow4Goldman");
+
+  mi14Goldman = createElement("mi", "l");
+  mi14Goldman.parent("msup1Goldman");
+  mo2Goldman = createElement("mo", "-");
+  mo2Goldman.parent("msup1Goldman");
+
+  msub4Goldman = createElement("msub");
+  msub4Goldman.id("msub4Goldman");
+  msub4Goldman.parent("mrow4Goldman");
+  mo3Goldman = createElement("mo", "]");
+  mo3Goldman.parent("msub4Goldman");
+  mi14Goldman = createElement("mi", "in");
+  mi14Goldman.parent("msub4Goldman");
+
+  mo2Goldman = createElement("mo", "+");
+  mo2Goldman.parent("mrow4Goldman");
+
+  // K
+
+  msub5Goldman = createElement("msub");
+  msub5Goldman.id("msub5Goldman");
+  msub5Goldman.parent("mrow4Goldman");
+
+  mi15Goldman= createElement("mi", "P");
+  mi15Goldman.parent("msub5Goldman");
+
+  mi16Goldman = createElement("mi", "K");
+  mi16Goldman.parent("msub5Goldman");
+
+  mo3Goldman = createElement("mo", "[");
+  mo3Goldman.parent("mrow4Goldman");
+
+  msup2 = createElement("msup");
+  msup2.id("msup2Goldman");
+  msup2.parent("mrow4Goldman");
+
+  mi18Goldman = createElement("mi", "K");
+  mi18Goldman.parent("msup2Goldman");
+  mo3Goldman = createElement("mo", "-");
+  mo3Goldman.parent("msup2Goldman");
+
+  msub6Goldman = createElement("msub");
+  msub6Goldman.id("msub6Goldman");
+  msub6Goldman.parent("mrow4Goldman");
+  mo4Goldman = createElement("mo", "]");
+  mo4Goldman.parent("msub6Goldman");
+  mi19Goldman = createElement("mi", "out");
+  mi19Goldman.parent("msub6Goldman");
+
+  // -------------------------------------
+  //Bottom
+
+    mrow5Goldman = createElement("mrow");
+    mrow5Goldman.id("mrow5Goldman");
+    mrow5Goldman.parent("mfrac1Goldman");
+
+
+    // Na+
+    msub7Goldman = createElement("msub");
+    msub7Goldman.id("msub7Goldman");
+    msub7Goldman.parent("mrow5Goldman");
+
+    mi20Goldman= createElement("mi", "P");
+    mi20Goldman.parent("msub7Goldman");
+
+    mi21Goldman = createElement("mi", "Na");
+    mi21Goldman.parent("msub7Goldman");
+
+    mi22Goldman = createElement("mi", "[N");
+    mi22Goldman.parent("mrow5Goldman");
+
+    msup3Goldman = createElement("msup");
+    msup3Goldman.id("msup3Goldman");
+    msup3Goldman.parent("mrow5Goldman");
+
+    mi23Goldman = createElement("mi", "a");
+    mi23Goldman.parent("msup3Goldman");
+    mo5Goldman = createElement("mo", "+");
+    mo5Goldman.parent("msup3Goldman");
+
+    msub8 = createElement("msub");
+    msub8.id("msub8Goldman");
+    msub8.parent("mrow5Goldman");
+    mo6Goldman = createElement("mo", "]");
+    mo6Goldman.parent("msub8Goldman");
+    mi24Goldman = createElement("mi", "in");
+    mi24Goldman.parent("msub8Goldman");
+
+    mo7Goldman = createElement("mo", "+");
+    mo7Goldman.parent("mrow5Goldman");
+
+    // Cl
+
+    msub9Goldman = createElement("msub");
+    msub9Goldman.id("msub9Goldman");
+    msub9Goldman.parent("mrow5Goldman");
+
+    mi25Goldman= createElement("mi", "P");
+    mi25Goldman.parent("msub9Goldman");
+
+    mi26Goldman = createElement("mi", "Cl");
+    mi26Goldman.parent("msub9Goldman");
+
+    mi27Goldman = createElement("mi", "[C");
+    mi27Goldman.parent("mrow5Goldman");
+
+    msup4Goldman = createElement("msup");
+    msup4Goldman.id("msup4Goldman");
+    msup4Goldman.parent("mrow5Goldman");
+
+    mi28Goldman = createElement("mi", "l");
+    mi28Goldman.parent("msup4Goldman");
+    mo8Goldman = createElement("mo", "-");
+    mo8Goldman.parent("msup4Goldman");
+
+    msub10Goldman = createElement("msub");
+    msub10Goldman.id("msub10Goldman");
+    msub10Goldman.parent("mrow5Goldman");
+
+    mo9Goldman = createElement("mo", "]");
+    mo9Goldman.parent("msub10Goldman");
+    mi29Goldman = createElement("mi", "out");
+    mi29Goldman.parent("msub10Goldman");
+
+    mo7Goldman = createElement("mo", "+");
+    mo7Goldman.parent("mrow5Goldman");
+
+
+    // K
+
+    msub11Goldman = createElement("msub");
+    msub11Goldman.id("msub11Goldman");
+    msub11Goldman.parent("mrow5Goldman");
+
+    mi30Goldman= createElement("mi", "P");
+    mi30Goldman.parent("msub11Goldman");
+
+    mi31Goldman = createElement("mi", "K");
+    mi31Goldman.parent("msub11Goldman");
+
+    mo8Goldman = createElement("mo", "[");
+    mo8Goldman.parent("mrow5Goldman");
+
+    msup5Goldman = createElement("msup");
+    msup5Goldman.id("msup5Goldman");
+    msup5Goldman.parent("mrow5Goldman");
+
+    mi32Goldman = createElement("mi", "K");
+    mi32Goldman.parent("msup5Goldman");
+    mo9Goldman = createElement("mo", "-");
+    mo9Goldman.parent("msup5Goldman");
+
+    msub12Goldman = createElement("msub");
+    msub12Goldman.id("msub12Goldman");
+    msub12Goldman.parent("mrow5Goldman");
+    mo10Goldman = createElement("mo", "]");
+    mo10Goldman.parent("msub12Goldman");
+    mi33Goldman = createElement("mi", "in");
+    mi33Goldman.parent("msub12Goldman");
 }
 
 var simulatorWidthMul = 0.65;

@@ -8,9 +8,9 @@ inEquilbrateState[particleTypes[0]] = false;
 inEquilbrateState[particleTypes[1]] = false;
 
 var particlesProperties = {
-  "Na":{"color":"#FFC800","radius":15,"id":0,"display":true,"charge":1, "inside":2, "outside":14},
-  "Cl":{"color":"#CD5C5C","radius":15,"id":1,"display":true,"charge":-1, "inside":13, "outside":1},
-  "K" :{"color":"#35B235","radius":15,"id":2,"display":true,"charge":1, "inside":1, "outside":12}
+  "Na":{"color":"#F5CE28","radius":15,"id":0,"display":true,"charge":1, "permeability":0.03, "inside":2, "outside":14},
+  "Cl":{"color":"#CD5C5C","radius":15,"id":1,"display":true,"charge":-1, "permeability":0.1, "inside":13, "outside":1},
+  "K" :{"color":"#35B235","radius":15,"id":2,"display":true,"charge":1, "permeability":1, "inside":1, "outside":12}
 };
 
 var containerProperties = {
@@ -35,6 +35,9 @@ var UIBoxs = [], equations = [];
 var canWidth;
 var canHeight;
 var thickness = 25; // Make channel a square for now...
+
+var lastNernstParticle = "Na";
+var questionText = [];
 
 function setup() {
   noFill();
@@ -93,6 +96,7 @@ function setup() {
    }
   }
 
+
   makeUIs(true);
   startNernst();
 
@@ -114,6 +118,20 @@ function setup() {
   }
 
   NernstFormulaInput(particleTypes[0]);
+
+          //Load all the equatoin at begin, otherelse will cause bug
+          //For some reason, MathJax-Element will be create after few millisecond
+          //Remove the Goldman preset equation
+Initializor = setTimeout(
+  function(){
+
+        if(document.getElementById('MathJax-Element-1-Frame')) {
+        document.getElementById('MathJax-Element-2-Frame').style.display= "inline";
+        document.getElementById('MathJax-Element-1-Frame').style.display="none";
+        }
+           clearTimeout(Initializor);
+ }, 300);
+
 }
 
 function draw() {

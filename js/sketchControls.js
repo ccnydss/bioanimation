@@ -58,9 +58,9 @@ var transferParticle = function(particleType,location) {
     oldInput.value(particles[location[particleType]][particleType].length);
     transferArray.push(new factory[particleType](OriX,OriY,diam,velocity,true));
     transferInput.value(particles[transferLocation][particleType].length);
-    if (particleType == document.getElementById('particleSelect').value) {
+    // if (particleType == document.getElementById('particleSelect').value) {
       NernstFormulaInput(particleType);
-    }
+    // }
   }, 1200)
 }
 
@@ -95,20 +95,114 @@ function equilibrate(particleType) {
 
 var NernstButtonStatus;
 var GoldmanButtonStatus;
+var simulatorMode;
 
 function startNernst(evt) {
 
+    //Remove old text
+    if(document.getElementById('MathJax-Element-1-Frame')) {
+document.getElementById('MathJax-Element-2-Frame').style.display= "none";
+document.getElementById('MathJax-Element-1-Frame').style.display= "inline";
+    }
+
+    //Add new text
+document.getElementById('questionTitle').innerHTML= "Nernst Equation";
+document.getElementById('q1').innerHTML=questionText[0];
+
+
+  simulatorMode = "Nernst";
   var NernstButtonStatus = document.getElementById("NernstButton");
   var GoldmanButtonStatus = document.getElementById("GoldmanButton")
   NernstButtonStatus.style.backgroundColor = "#74b9ff";
   GoldmanButtonStatus.style.backgroundColor = "#dfe6e9";
+
+  //enable last selected  Ions
+    for (var j = 0; j < particleTypes.length; j++) {
+          var checkBoxParticle = document.getElementById('checkbox'+particleTypes[j]).innerText;
+      if (checkBoxParticle == lastNernstParticle) {
+
+      //Just enable it by default?
+      // if (!checkboxes[i].checked()) {
+
+      //enable its particles
+      checkboxes[j].checked(true)
+      particlesProperties[checkBoxParticle]["display"] = true;
+        enableInputForParticle(checkBoxParticle);
+
+        for (var i = 0; i < particles["inside"][checkBoxParticle].length; i++) {
+          setDisplay(particles["inside"][checkBoxParticle][i], true);
+        }
+        for (var i = 0; i < particles["outside"][checkBoxParticle].length; i++) {
+          setDisplay(particles["outside"][checkBoxParticle][i],true);
+        }
+          NernstFormulaInput(checkBoxParticle);
+              //disable other ions if they are on?
+      } else if (checkBoxParticle != lastNernstParticle & checkboxes[j].checked()) {
+
+      //disable others particles
+      checkboxes[j].checked(false)
+      particlesProperties[checkBoxParticle]["display"] = false;
+        disableInputForParticle(checkBoxParticle);
+
+        for (var i = 0; i < particles["inside"][checkBoxParticle].length; i++) {
+          setDisplay(particles["inside"][checkBoxParticle][i], false);
+        }
+        for (var i = 0; i < particles["outside"][checkBoxParticle].length; i++) {
+          setDisplay(particles["outside"][checkBoxParticle][i],false);
+        }
+      }
+    }
+
 }
 function startGoldman(evt) {
 
+  //Graphics & Text
+
+  //Remove old text
+  if(document.getElementById('MathJax-Element-1-Frame')) {
+  document.getElementById('MathJax-Element-1-Frame').style.display= "none";
+  document.getElementById('MathJax-Element-2-Frame').style.display="inline";
+  }
+
+  //Add new text
+  document.getElementById('questionTitle').innerHTML= "Goldman Equation";
+  document.getElementById('q1').innerHTML= "<section>1) Assume that in a neuron, the plasma membrane permeability values for potassium (K + )," +
+"sodium (Na + ), and Cl − are the following: p K = 1, p Na = 12, and p Cl = 0.5 Based on physiological concentrations of K + , Na +"+
+" , and Cl − determine the membrane potential in this neuron </section>" +
+"<section>2) Calculate the resting membrane potential under these conditions. Think about how these different conditions would affect normal cellular function.</section>" +
+"<table><tr><th>PNa</th><th>[Na]out</th><th>[Na]in</th><th>PK</th><th>[K]out</th><th>[K]in</th></tr><tr><td>1</td><td>150</td>" +
+    "<td>15</td><td>200</td><td>7.5</td><td>120</td></tr><tr><td>1</td><td>150</td><td>15</td><td>400</td><td>2.5</td><td>120</td></tr>" +
+  "<tr><td>1</td><td>150</td><td>15</td><td>100</td><td>5</td><td>120</td></tr><tr><td>1</td><td>150</td><td>15</td>" +
+    "<td>20</td><td>7.5</td><td>120</td></tr><tr><td>1</td><td>150</td><td>15</td><td>40</td><td>5</td><td>120</td></tr>" +
+  "<tr><td>1</td><td>150</td><td>15</td><td>10</td><td>2.5</td><td>120</td></tr></table>";
+
+  //Particles & functionality
+  simulatorMode = "Goldman";
   var NernstButtonStatus = document.getElementById("NernstButton");
   var GoldmanButtonStatus = document.getElementById("GoldmanButton")
     GoldmanButtonStatus.style.backgroundColor = "#74b9ff";
     NernstButtonStatus.style.backgroundColor = "#dfe6e9";
+
+  //enable all Ions
+    for (var j = 0; j < particleTypes.length; j++) {
+      var checkBoxParticle = document.getElementById('checkbox'+particleTypes[j]).innerText;
+
+      if (!checkboxes[j].checked()) {
+
+      //enable those particles
+      checkboxes[j].checked(true)
+      particlesProperties[checkBoxParticle]["display"] = true;
+        enableInputForParticle(checkBoxParticle);
+
+      for (var i = 0; i < particles["inside"][checkBoxParticle].length; i++) {
+        setDisplay(particles["inside"][checkBoxParticle][i], true);
+      }
+      for (var i = 0; i < particles["outside"][checkBoxParticle].length; i++) {
+        setDisplay(particles["outside"][checkBoxParticle][i],true);
+      }
+    }
+  }
+    NernstFormulaInput();
 }
 
 function startEquilibrate(evt) {
@@ -194,9 +288,9 @@ function increase(evt) {
 
   particleArray.push(new factory[particleType](randomX,randomY,particlesProperties[particleType].radius,velocity, true));
   var updatedParticleAmount = particleArray.length;
-  if (particleType == document.getElementById('particleSelect').value) {
+  // if (particleType == document.getElementById('particleSelect').value) {
     NernstFormulaInput(particleType);
-  }
+  // }
   input[eventID].value(updatedParticleAmount);
 }
 
@@ -218,9 +312,9 @@ function decrease(evt) {
   particleArray.splice(particleArray.length - 1, 1);
 
   var updatedParticleAmount = particleArray.length;
-  if (particleType == document.getElementById('particleSelect').value) {
+  // if (particleType == document.getElementById('particleSelect').value) {
     NernstFormulaInput(particleType);
-  }
+  // }
   input[eventID].value(updatedParticleAmount);
 }
 
@@ -254,22 +348,25 @@ function ChangeNumParticles(evt) {
       randomY = containers[particleLocation].tl.y + particlesProperties[particleType].radius + (Math.floor(Math.random() * yRange));
       var velocity = createVector(-3, -3);
       particleArray.push(new factory[particleType](randomX,randomY,particlesProperties[particleType].radius,velocity, true));
-      if (particleType == document.getElementById('particleSelect').value) {
+      // if (particleType == document.getElementById('particleSelect').value) {
         NernstFormulaInput(particleType);
-      }
+      // }
     }
   }
   else if (updatedAmount < particleArray.length) {
     for (var i=0; i<difference; i++) {
       particleArray.splice(particleArray.length - 1, 1);
-      if (particleType == document.getElementById('particleSelect').value) {
+      // if (particleType == document.getElementById('particleSelect').value) {
         NernstFormulaInput(particleType);
-      }
+      // }
     }
   }
 }
 
 function checkedEvent(evt) {
+if (simulatorMode == "Goldman") {
+  this.checked(true); //Left checkbox checked by default
+} else {
   var particleType = this.elt.innerText;
   particlesProperties[particleType]["display"] = this.checked();
   for (var i = 0; i < particles["inside"][particleType].length; i++) {
@@ -283,9 +380,44 @@ function checkedEvent(evt) {
   }
   else {
     enableInputForParticle(particleType);
+
+        //Nernst Mode, only allow enable of one particle
+        if (simulatorMode == "Nernst") {
+
+          lastNernstParticle = this.elt.innerText;
+
+          for (var j = 0; j < particleTypes.length; j++) {
+
+          // var checkBox = document.getElementById('checkbox'+particleTypes[i])
+          var checkBoxParticle = document.getElementById('checkbox'+particleTypes[j]).innerText;
+
+          // console.log(checkBox+ " " + checkBoxParticle+ " " + particlesProperties[checkBoxParticle]["display"] + " ")
+
+          if (checkboxes[j].checked() & checkBoxParticle != particleType & particlesProperties[checkBoxParticle]["display"] == true) {
+
+          //Disable those particles
+          checkboxes[j].checked(false)
+          particlesProperties[checkBoxParticle]["display"] = false;
+            disableInputForParticle(checkBoxParticle);
+
+          for (var i = 0; i < particles["inside"][checkBoxParticle].length; i++) {
+            setDisplay(particles["inside"][checkBoxParticle][i], false);
+          }
+          for (var i = 0; i < particles["outside"][checkBoxParticle].length; i++) {
+            setDisplay(particles["outside"][checkBoxParticle][i],false);
+          }
+        }
+
+      }
+    }
+
   }
   NernstFormulaInput(particleType)
+ }
 }
+
+//Store as global array, so we can checked and unchecked later
+var checkboxes = [];
 
 function makeUIs(creation) {
   // Channel
@@ -309,14 +441,14 @@ function makeUIs(creation) {
   if (creation==true) {
   var answer = 0;
 
-  equations[4] = createSelect();
-  equations[4].id("particleSelect");
-  for (var i=0; i<particleTypes.length; i++){
-    equations[4].option(particleTypes[i]);
-  }
-  equations[4].class('qoptions');
-  equations[4].parent('equationdiv');
-  equations[4].changed(NernstFormula);
+  // equations[4] = createSelect();
+  // equations[4].id("particleSelect");
+  // for (var i=0; i<particleTypes.length; i++){
+  //   equations[4].option(particleTypes[i]);
+  // }
+  // equations[4].class('qoptions');
+  // equations[4].parent('equationdiv');
+  // equations[4].changed(NernstFormula);
   equations[1] = createElement('h3', 'Answer: '+answer+'V');
   equations[1].class('qoptions');
   equations[1].parent('equationdiv');
@@ -324,15 +456,15 @@ function makeUIs(creation) {
   // Radio buttons to select ions to include
   for (var i=0; i<particleTypes.length; i++) {
 
-    if (i==0) {
-      var checkbox = createCheckbox(particleTypes[i],true);
-    } else {
-      var checkbox = createCheckbox(particleTypes[i],false);
-    }
-    checkbox.class('checkboxes')
-    checkbox.id('checkbox'+particleTypes[i])
-    checkbox.parent('particleControl');
-    checkbox.changed(checkedEvent);
+    // if (i==0) {
+    //   checkboxes[i] = createCheckbox(particleTypes[i],true);
+    // } else {
+      checkboxes[i] = createCheckbox(particleTypes[i],false);
+    // }
+    checkboxes[i].class('checkboxes')
+    checkboxes[i].id('checkbox'+particleTypes[i])
+    checkboxes[i].parent('particleControl');
+    checkboxes[i].changed(checkedEvent);
   }
 
     NernstButton = createButton('Nernst');
@@ -428,7 +560,6 @@ function makeUIs(creation) {
 }
 
 function NernstFormula(evt) {
-  console.log("called");
   var eventID = evt.target.id;
   var newParticleType = equations[eventID].value();
   var particleType = newParticleType;
@@ -436,6 +567,8 @@ function NernstFormula(evt) {
 }
 
 function NernstFormulaInput(particleType) {
+
+  if (simulatorMode == "Nernst") {
     var R = 8.314;
     var T = 37 + 273.13
     var z = particlesProperties[particleType]["charge"];
@@ -449,6 +582,31 @@ function NernstFormulaInput(particleType) {
     }
     var F = 96485.3329;//0.096485;
     var answer = (R*T)/(z*F)*Math.log(Xout/Xin);
+  } else {
+       var R = 8.314; // ideal gas constant
+        var T = 37 + 273.13; // 37 is the Human Body temperature
+        var F = 96485.3329; // Faraday's constant
+        var numerator = 0;
+        var denominator = 0;
+        // Accumulate sums for numerator and denominator
+        for (var i = 0; i < particleTypes.length; i++) {
+          var particleType = particleTypes[i];
+          // console.log(particleType, ": ", particlesProperties[particleType]["display"]);
+          if (particlesProperties[particleType]["display"]) {
+            if (particlesProperties[particleType]["charge"] > 0) {
+              numerator += particlesProperties[particleType]["permeability"] * particles["outside"][particleType].length;
+              denominator += particlesProperties[particleType]["permeability"] * particles["inside"][particleType].length;
+            }
+            else {
+              numerator += particlesProperties[particleType]["permeability"] * particles["inside"][particleType].length;
+              denominator += particlesProperties[particleType]["permeability"] * particles["outside"][particleType].length;
+            }
+          }
+        }
+        var answer = ((R*T)/F)*Math.log(numerator/denominator);
+        }
+
+
     equations[1].html('Answer: '+answer.toFixed(4)+'V');
 }
 

@@ -31,12 +31,6 @@ th {
     text-align: left;
 }
 
-#qtable {
-width: 100%;
-margin-top: 10%;
-margin-bottom: 10%;
-}
-
 #stage {
   display: flex;
   flex-direction: column;
@@ -66,9 +60,10 @@ margin-bottom: 10%;
   display: flex;
   flex-direction: column;
   background-color: #88BDBC;
-  height: 100vh;
+  /* transition:width 1.0s ease-out; */
   /* padding-right:10px; */
 }
+
 
 #questionsdiv {
   display: flex;
@@ -82,6 +77,16 @@ margin-bottom: 10%;
   align-self: center;
 }
 
+
+#qtable {
+width: 100%;
+margin-top: 20px;
+margin-bottom: 20px;
+}
+
+#q1 section {
+  padding-bottom: 20px;
+}
 #hidebar {
   padding:5px;
 }
