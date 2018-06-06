@@ -1,63 +1,33 @@
+
+equationContainerHeighthMul = 0.35;
+
 function makeLayout() {
   // Make the entire stage. This represents the entire, outer box containing the simulator, sidebar, and controls.
   stage = createDiv('');
   stage.id('stage');
   stage.class('flex-container');
-  stage.size(windowWidth, windowHeight);
   // stage.style('background-color',color(0));
 
-  topBox = createDiv("");
-  topBox.id('topBox');
-  topBox.parent('stage');
-  topBox.size(windowWidth, 0.75 *  windowHeight);  // subtract stage 4px border from top and bottom to remove scrollbars in the parent iframe. (so, 8px total)
+  firstBox = createDiv("");
+  firstBox.id('firstBox');
+  firstBox.parent('stage');
 
-  botBox = createDiv("");
-  botBox.id('botBox');
-  botBox.parent('stage');
-  botBox.size(windowWidth, 0.25 *  windowHeight);  // subtract stage 4px border from top and bottom to remove scrollbars in the parent iframe. (so, 8px total)
-
+  secondBox = createDiv("");
+  secondBox.id('secondBox');
+  secondBox.parent('stage');
 
   // The right sidebar for displaying questions.
   leftBox = createDiv("");
   leftBox.id('leftbar');
-  leftBox.parent('topBox');
-  leftBox.size(0.35 * windowWidth, 0.75 *  windowHeight - 8);  // subtract stage 4px border from top and bottom to remove scrollbars in the parent iframe. (so, 8px total)
+  leftBox.parent('firstBox');
 
     var leftbarStatus = document.getElementById("leftbar");
     leftbarStatus.style.display = "flex";
-
-
-  // The right sidebar for displaying questions.
-  hideBar = createDiv("");
-  hideBar.id('hidebar');
-  hideBar.parent('topBox');
-  hideBar.mousePressed(hideQuestion);
-
-  function hideQuestion(evt) {
-    // if (leftbarStatus.style.width != "0px") {
-    if (leftbarStatus.style.display == "flex") {
-        // leftbarStatus.style.width = "0px";
-          leftbarStatus.style.display = "none";
-      document.getElementById("hidebarText").innerText = ">"
-        redrawUI(false);
-    } else {
-        // leftbarStatus.style.width = (0.35 * windowWidth);
-          leftbarStatus.style.display = "flex";
-      document.getElementById("hidebarText").innerText = "<"
-        redrawUI(true);
-    }
-
-  }
-
-  hideBarText = createElement("div", "<");
-  hideBarText.id('hidebarText');
-  hideBarText.parent("hidebar");
 
   // Create the div to actually contain the questions.
   questions = createDiv("");
   questions.id('questionsdiv');
   questions.parent('leftbar');
-  questions.size(0.35 * windowWidth - 20, 0.75 *  windowHeight);
   questionTitle = createElement("h3", "Goldman-Hodgkin-Katz").parent('questionsdiv');
   questionTitle.id('questionTitle');
 
@@ -136,21 +106,52 @@ function makeLayout() {
   // Div to contain the equation
   equationContainer = createDiv("");
   equationContainer.id('equationContainer');
-  equationContainer.parent('botBox');
-  equationContainer.size(0.35 * windowWidth, 0.25 * windowHeight);
+  equationContainer.parent('firstBox');
+
+  // The right sidebar for displaying questions.
+  hideBar = createDiv("");
+  hideBar.id('hidebar');
+  hideBar.parent('equationContainer');
+  hideBar.mousePressed(hideQuestion);
+
+  function hideQuestion(evt) {
+    // if (leftbarStatus.style.width != "0px") {
+    // if (leftbarStatus.style.display == "flex") {
+    if (equationContainerHeighthMul == 0.35) {
+        // leftbarStatus.style.width = "0px";
+          // leftbarStatus.style.display = "none";
+      document.getElementById("hidebarText").innerText = ">"
+        redrawUI(false);
+    } else {
+        // leftbarStatus.style.width = (0.35 * windowWidth);
+          // leftbarStatus.style.display = "flex";
+      document.getElementById("hidebarText").innerText = "<"
+        redrawUI(true);
+    }
+
+  }
+
+  hideBarText = createElement("div", "<");
+  hideBarText.id('hidebarText');
+  hideBarText.parent("hidebar");
 
   equation = createDiv("");
   equation.id('equationdiv');
   equation.parent('equationContainer');
-  equation.size(0.35 * windowWidth, 0.25 * windowHeight - 36);
+
+    equi = createButton('Equilibrate');
+    equi.id('equilibrate-button');
+    equi.parent('equationContainer');
+    equi.mousePressed(startEquilibrate);
+
 
     makeNeqMML();
     makeGoldmanEqn();
 
   simulator = createDiv("");
   simulator.id('sim');
-  simulator.parent('topBox');
-  simulator.size(0.75 * windowWidth, 0.75 *  windowHeight);
+  simulator.parent('secondBox');
+  simulator.size(0.65 * windowWidth, 0.65 *  windowHeight);
 
   // Define the global canWidth & canHeight variables~
   canWidth = simulator.size().width;
@@ -164,7 +165,8 @@ function makeLayout() {
 
   window.onresize = function() {
 
-    if (leftbarStatus.style.display == "flex") {
+    // if (leftbarStatus.style.display == "flex") {
+    if (equationContainerHeighthMul == 0.35) {
         redrawUI(true);
     } else {
         redrawUI(false);
@@ -174,26 +176,22 @@ function makeLayout() {
   // Div to contain the simulatorInput
   simulatorInputContainer = createDiv("");
   simulatorInputContainer.id('simulatorInputContainer');
-  simulatorInputContainer.parent('botBox');
-  simulatorInputContainer.size(0.75 * windowWidth, 0.25 * windowHeight);
+  simulatorInputContainer.parent('secondBox');
 
-  simuWidth = 0.75 * windowWidth;
+  simuWidth = 0.65 * windowWidth;
 
   simulatorInput = createDiv('');
   simulatorInput.id('simInput');
   simulatorInput.parent('simulatorInputContainer');
-  simulatorInput.size(simuWidth, 0.25 * canHeight);
 
   //Control UI ----------------------------
   controlsLeft = createDiv('');
   controlsLeft.class('controls');
   controlsLeft.parent('simInput');
-  controlsLeft.size(simuWidth / 2, 0.25 * canHeight);
 
   controlsRight = createDiv('');
   controlsRight.class('controls');
   controlsRight.parent('simInput');
-  controlsRight.size(simuWidth / 2, 0.25 * canHeight);
 
   control0 = createDiv('');
   control0.class('control');
@@ -222,7 +220,9 @@ function makeLayout() {
   particleControl = createDiv('');
   particleControl.id('particleControl');
   particleControl.parent('simulatorInputContainer');
-  particleControl.size(simuWidth, 0.1 * canHeight);
+
+  adjustUISize(0.35);
+
 
 //   table questions
     qtable = createElement("table");
@@ -689,41 +689,17 @@ function makeGoldmanEqn() {
     mi33Goldman.parent("msub12Goldman");
 }
 
-var simulatorWidthMul = 0.65;
 function redrawUI(questionBox) {
 
-simulatorWidthMul = 1;
 
-  stage.size(windowWidth, windowHeight);
     if(questionBox == true) {
-    leftBox.size(0.35 * windowWidth, 0.75 *  windowHeight - 8);  // subtract stage 4px border from top and bottom to remove scrollbars in the parent iframe. (so, 8px total)
-    questions.size(0.35 * windowWidth, 0.75 *  windowHeight);
-    simulatorWidthMul = 0.65;
-    }
+    equationContainerHeighthMul = 0.35;
+  } else {
+  equationContainerHeighthMul = 1;
+  }
 
-    topBox.size(windowWidth, 0.75 *  windowHeight);
-    botBox.size(windowWidth, 0.25 *  windowHeight);
-
-    equationContainer.size(0.35 * windowWidth, 0.25 * windowHeight);
-    simulatorInputContainer.size(simulatorWidthMul * windowWidth, 0.25 * windowHeight);
-
-
-    simulator.size(simulatorWidthMul * windowWidth, 0.75 *  windowHeight);
-
-      if(questionBox == false) {
-    simulator.size(simulatorWidthMul * windowWidth, 0.75 *  windowHeight);
-      }
-
-    canWidth = simulatorWidthMul * windowWidth - 20; //20 is the new offset for collision
-    canHeight = 1 * (simulator.size().height - 8);
-
-      simuWidth = 0.75 * windowWidth;
-    canvas.size(canWidth, canHeight);
-    simulatorInput.size(simuWidth, 0.25 * canHeight);
-    particleControl.size(simuWidth, 0.1 * canHeight);
-    controlsRight.size(simuWidth / 2, 0.25 * canHeight);
-    controlsLeft.size(simuWidth / 2, 0.25 * canHeight);
-    equation.size(0.35 * windowWidth, 0.25 * windowHeight - 36);
+      adjustUISize(equationContainerHeighthMul);
+      canvas.size(canWidth, canHeight);
 
     var topLeft = new Point( 0, 0 );
     var topRight = new Point( canWidth, 0 );
@@ -760,4 +736,31 @@ simulatorWidthMul = 1;
     containers["inside"].draw();
 
         makeUIs(false)
+}
+
+function adjustUISize(multiple) {
+
+        simuWidth = 0.65 * windowWidth;
+  stage.size(windowWidth, windowHeight);
+  firstBox.size(0.35 * windowWidth, windowHeight);
+  secondBox.size(0.65 * windowWidth, windowHeight);
+  questions.size(0.35 * windowWidth, (1 - multiple) *  windowHeight);
+
+  equationContainer.size(0.35 * windowWidth, multiple * windowHeight);
+  leftBox.size(0.35 * windowWidth, (1 - multiple) * windowHeight);
+  hideBar.size(0.35 * windowWidth, 20);
+  equi.size(0.35 * windowWidth, 40);
+  equation.size(0.35 * windowWidth, multiple * windowHeight - 40 - 20);
+  simulator.size(0.65 * windowWidth, 0.65 *  windowHeight);
+          // Define the global canWidth & canHeight variables~
+          canWidth = simulator.size().width;
+          //canHeight = 0.75 * (simulator.size().height - 8);
+          canHeight = 1 * (simulator.size().height - 4);
+
+  simulatorInputContainer.size(0.65 * windowWidth, 0.35 * windowHeight);
+  simulatorInput.size(simuWidth, 0.35 * 0.90 * windowHeight);
+  controlsLeft.size(simuWidth / 2, 0.35 * canHeight);
+  controlsRight.size(simuWidth / 2, 0.35 * canHeight);
+  particleControl.size(simuWidth, 0.1 * 0.80 * windowHeight);
+  canvas.size(canWidth, canHeight);
 }

@@ -16,10 +16,10 @@ class Container {
     if (this.id == "outside") {
       fill(255,255,255);
       rect(5,this.bl.y+60,70,20);
-      rect(5,5,75,20);
+      rect(5,15,75,20);
       fill(50);
       text("Intracellular", 10, this.bl.y+75);
-      text("Extracellular", 10, 20);
+      text("Extracellular", 10, 20+8);
     }
   }
 
@@ -95,11 +95,16 @@ class Container {
     var pastLeft = p.x - p.r - 1 <= this.bl.x;
     //p.x + p.move_velocity.x - p.r - 0.5 < this.bl.x;
 
+    var reflectionRange = [0.5, 1.2];
+    var mul = ((Math.random() * reflectionRange[1]) + reflectionRange[0]).toFixed(3);
+    // var mul = Math.sin(45*Math.PI/360);
+
     if ( pastBottom ) {
       // Create new velocity vector based off of reflection
       write("bottom", p.y + p.r, this.bl.y,p);
+
       var newx = p.orig_velocity.x;
-      var newy = -1 * p.orig_velocity.y;
+      var newy = -1*mul/p.velocity_mul.y * p.orig_velocity.y;
 
       p.move_velocity = createVector (newx, newy);
       p.orig_velocity = createVector (newx, newy);
@@ -107,12 +112,14 @@ class Container {
       // Begin moving the particle in the new direction
       p.x += p.move_velocity.x;
       p.y += p.move_velocity.y;
+      p.velocity_mul.y = mul;
 
     } if ( pastTop ) {
       // Create new velocity vector based off of reflection
       write("top", p.y - p.r, this.tl.y,p);
+
       var newx = p.orig_velocity.x;
-      var newy = -1 * p.orig_velocity.y;
+      var newy = -1*mul/p.velocity_mul.y * p.orig_velocity.y;
 
       p.orig_velocity = createVector (newx, newy);
       p.move_velocity = createVector (newx, newy);
@@ -120,11 +127,13 @@ class Container {
       // Begin moving the particle in new direction
       p.x += p.move_velocity.x;
       p.y += p.move_velocity.y;
+      p.velocity_mul.y = mul;
 
     } if ( pastRight ) {
       // Create new velocity vector based off of reflection
       write("right", p.x + p.r, this.br.x,p);
-      var newx = -1 * p.orig_velocity.x;
+
+      var newx = -1*mul/p.velocity_mul.x * p.orig_velocity.x;
       var newy = p.orig_velocity.y;
 
       p.orig_velocity = createVector (newx, newy);
@@ -133,11 +142,13 @@ class Container {
       // Move particle
       p.x += p.move_velocity.x;
       p.y += p.move_velocity.y;
+      p.velocity_mul.x = mul;
 
     } if ( pastLeft ) {
       // Create new velocity vector based off of reflection
       write("left", p.x - p.r, this.bl.x,p);
-      var newx = -1 * p.orig_velocity.x;
+
+      var newx = -1*mul/p.velocity_mul.x * p.orig_velocity.x;
       var newy = p.orig_velocity.y;
 
       p.orig_velocity = createVector (newx, newy);
@@ -146,6 +157,7 @@ class Container {
       // Move particle
       p.x += p.move_velocity.x;
       p.y += p.move_velocity.y;
+      p.velocity_mul.x = mul;
     }
   }
 }

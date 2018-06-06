@@ -346,7 +346,11 @@ function ChangeNumParticles(evt) {
     for (var i=0; i<difference; i++) {
       randomX = containers[particleLocation].tl.x + particlesProperties[particleType].radius + (Math.floor(Math.random() * xRange));
       randomY = containers[particleLocation].tl.y + particlesProperties[particleType].radius + (Math.floor(Math.random() * yRange));
-      var velocity = createVector(-3, -3);
+      // var velocity = createVector(-3, -3);
+        velocities = velocityRange;
+        var x_vel = Math.floor(Math.random() * (velocities.length-1)) + 0;
+        var y_vel = Math.floor(Math.random() * (velocities.length-1)) + 0;
+        var velocity = createVector(velocities[x_vel],velocities[y_vel]);
       particleArray.push(new factory[particleType](randomX,randomY,particlesProperties[particleType].radius,velocity, true));
       // if (particleType == document.getElementById('particleSelect').value) {
         NernstFormulaInput(particleType);
@@ -477,22 +481,20 @@ function makeUIs(creation) {
     GoldmanButton.mousePressed(startGoldman);
 
 
-  equi = createButton('Equilibrate');
-  equi.id('equilibrate-button');
-  equi.parent('equationContainer');
-  equi.mousePressed(startEquilibrate);
   var row = 4;
   for (var k = 0; k < Object.keys(containers).length*row; k++) {
     if (k==0) {
-      var text = 'Number of particles outside the cell';
+      var text = 'Extracellular Control:';
     } else if(k==row) {
-      var text = 'Number of particles inside the cell';
+      var text = 'Intracellular Control:';
     } else {
       var id = (k % row)-1;
       var particleType = particleTypes[id];
       var particleLocation = (k <= 3) ? "outside" : "inside";
       var particleArray = particles[particleLocation][particleType];
-      var text = particleType + ' Ions:&nbsp;';
+
+      var particleSuffix = (k <= 3) ? "out" : "in";
+      var text = '['+ particleType + ']'+'<sub>'+particleSuffix+'</sub>&nbsp;';
       var Value = particleArray.length;
     }
     if (k == 0 || k == row) {

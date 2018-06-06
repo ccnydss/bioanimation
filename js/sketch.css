@@ -33,7 +33,7 @@ th {
 
 #stage {
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   width: 100%;
   height: 100%;
   border-style: solid;
@@ -42,8 +42,9 @@ th {
   overflow:hidden;
 }
 
-#topBox, #botBox {
+#firstBox, #secondBox {
   display: flex;
+  flex-direction: column;
 }
 
 #simulatorInputContainer, #equationsContainer {
@@ -151,6 +152,10 @@ margin-bottom: 20px;
   font-size: 16px;
 }
 
+#equationContainer, #leftbar, #equationdiv, #q1 {
+  transition: height 0.3s ease-in;
+}
+
 .control {
   display: flex;
   justify-content: flex-start;
@@ -211,6 +216,11 @@ margin-bottom: 20px;
   background-color: #dfe6e9;
 }
 
+#NernstButton:hover, #GoldmanButton:hover, input:hover, button:hover {
+
+      box-shadow:0px 0px 15px lightgrey;
+}
+
 #equilibrate-button {
   background-color: #112D32;
   border: none;
@@ -218,8 +228,12 @@ margin-bottom: 20px;
   text-align: center;
   text-decoration: none;
   font-size: 0.9em;
-  padding:10px;
-  width: 100%;
+  /* padding:10px; */
+  width: 35%;
+}
+#equilibrate-button:hover, #equilibrate-button:active, #equilibrate-button:focus {
+  background-color: #353b48;
+        box-shadow:0px 0px 0px lightgrey;
 }
 
 #ion-selector {
@@ -232,6 +246,12 @@ display:flex;
 align-items: center;
 vertical-align: middle;
   justify-content: center;
+  background-color: #60a3bc;
+}
+
+#hidebar:hover {
+background-color: #82ccdd;
+
 }
 
 #hidebarText {
@@ -240,6 +260,7 @@ word-wrap: break-word;
 font-family: monospace; /* Placed letter "i" in the center */
 white-space:pre-wrap; /* this is for displaying whitespaces including Moz-FF.*/
 font-size: 18px;
+    transform: rotate(90deg);
 /* align-items: center;
 vertical-align: middle;
   justify-content: center;

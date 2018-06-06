@@ -9,6 +9,7 @@ class Particle {
     // Store the original vector to remember it after modifying move_velocity.
     this.orig_velocity = createVector(_vel.x, _vel.y);
     this.move_velocity = createVector(_vel.x, _vel.y);
+    this.velocity_mul = createVector(1, 1);
     this.display = true;
   }
 
