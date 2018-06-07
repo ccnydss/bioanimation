@@ -121,11 +121,25 @@ function makeLayout() {
         // leftbarStatus.style.width = "0px";
           // leftbarStatus.style.display = "none";
       document.getElementById("hidebarText").innerText = ">"
+      document.getElementById('simulatorSetting').style.display = "flex";
+
+      if (simulatorMode == "Nernst") {
+      document.getElementById('NernstSetting').style.display = "initial";
+      } else {
+      document.getElementById('GoldmanSetting').style.display = "initial";
+      }
         redrawUI(false);
     } else {
         // leftbarStatus.style.width = (0.35 * windowWidth);
           // leftbarStatus.style.display = "flex";
       document.getElementById("hidebarText").innerText = "<"
+      document.getElementById('simulatorSetting').style.display = "none";
+
+      if (simulatorMode == "Nernst") {
+      document.getElementById('NernstSetting').style.display = "none";
+      } else {
+      document.getElementById('GoldmanSetting').style.display = "none";
+      }
         redrawUI(true);
     }
 
@@ -148,15 +162,89 @@ function makeLayout() {
     makeNeqMML();
     makeGoldmanEqn();
 
+
+    simulatorSetting = createElement("div", "Simulation Setting");
+    simulatorSetting.id('simulatorSetting');
+    simulatorSetting.parent("equationdiv");
+    document.getElementById('simulatorSetting').style.display = "none";
+
+    var previousLength = 0;
+    for (var j=0; j<2; j++) {
+        var table = createElement('table')
+
+        if (j==0) {
+        table.id("NernstSetting");
+        table.parent("equationdiv");
+
+      // var content = ["T","z","[X]<sub>out</sub>","[X]<sub>in</sub>"]
+      // var contentUnit = ["K","","mM","mM"]
+      var content = ["T"]
+      var contentUnit = ["K"]
+      var contentDefaultValue = [tempSetting,particlesProperties["Na"].charge]
+
+      } else {
+      table.id("GoldmanSetting");
+      table.parent("equationdiv");
+
+      // var content = ["T","p<sub>k</sub>","p<sub>Na</sub>","p<sub>Cl</sub>","[K<sup>+</sup>]<sub>out</sub>","[K<sup>+</sup>]<sub>in</sub>"
+      // ,"[Na<sup>+</sup>]<sub>out</sub>","[Na<sup>+</sup>]<sub>in</sub>","[Cl<sup>-</sup>]<sub>out</sub>","[Cl<sup>-</sup>]<sub>in</sub>"]
+      // var contentUnit = ["K","","","","mM","mM","mM","mM","mM","mM"]
+      var content = ["T","p<sub>Na</sub>","p<sub>Cl</sub>","p<sub>K</sub>"]
+      var contentUnit = ["K","","",""]
+      var contentDefaultValue = [tempSetting,particlesProperties["Na"].permeability,particlesProperties["Cl"].permeability,particlesProperties["K"].permeability]
+
+      }
+      var tableRow = content.length;
+      if (previousLength == 0) {
+      var previousLength = content.length;
+      }
+      document.getElementById(table.id()).style.display = "none";
+
+    for (var i=0; i<tableRow; i++) {
+
+        var trow = createElement('tr');
+            trow.parent(table);
+
+                var td0 = createElement('td');
+                td0.parent(trow);
+                var td1 = createElement('td');
+                td1.parent(trow);
+    simSettingText = createElement('h4', content[i]);
+    simSettingText.parent(td0);
+
+    if(j>0) {
+      k = i + previousLength;
+    } else {
+      k = i;
+    }
+    simSetting[k] = createInput();
+    simSetting[k].parent('equationdiv');
+    simSetting[k].value(contentDefaultValue[i])
+    simSetting[k].parent(td1);
+    simSetting[k].id(k);
+    simSetting[k].input(ChangesimulatorSetting);
+
+    var td3 = createElement('td',contentUnit[i]);
+    td3.parent(trow);
+  }
+}
+    // input[k].id(k);
+
   simulator = createDiv("");
   simulator.id('sim');
   simulator.parent('secondBox');
-  simulator.size(0.65 * windowWidth, 0.65 *  windowHeight);
+  simulator.size(0.65 * windowWidth, 0.65 *  (windowHeight - 36));
 
   // Define the global canWidth & canHeight variables~
   canWidth = simulator.size().width;
   //canHeight = 0.75 * (simulator.size().height - 8);
   canHeight = 1 * (simulator.size().height - 8);
+
+
+  simCanvasPause = createElement("div","Paused");
+  simCanvasPause.id('simCanvasPause');
+  simCanvasPause.parent('sim');
+  document.getElementById('simCanvasPause').style.display = "none";
 
   // Now to create the canvas!!
   canvas = createCanvas(canWidth, canHeight);
@@ -741,26 +829,26 @@ function redrawUI(questionBox) {
 function adjustUISize(multiple) {
 
         simuWidth = 0.65 * windowWidth;
-  stage.size(windowWidth, windowHeight);
-  firstBox.size(0.35 * windowWidth, windowHeight);
-  secondBox.size(0.65 * windowWidth, windowHeight);
-  questions.size(0.35 * windowWidth, (1 - multiple) *  windowHeight);
+  stage.size(windowWidth, (windowHeight - 36));
+  firstBox.size(0.35 * windowWidth, (windowHeight - 36));
+  secondBox.size(0.65 * windowWidth, (windowHeight - 36));
+  questions.size(0.35 * windowWidth, (1 - multiple) *  (windowHeight - 36));
 
-  equationContainer.size(0.35 * windowWidth, multiple * windowHeight);
-  leftBox.size(0.35 * windowWidth, (1 - multiple) * windowHeight);
+  equationContainer.size(0.35 * windowWidth, multiple * (windowHeight - 36));
+  leftBox.size(0.35 * windowWidth, (1 - multiple) * (windowHeight - 36));
   hideBar.size(0.35 * windowWidth, 20);
   equi.size(0.35 * windowWidth, 40);
-  equation.size(0.35 * windowWidth, multiple * windowHeight - 40 - 20);
-  simulator.size(0.65 * windowWidth, 0.65 *  windowHeight);
+  equation.size(0.35 * windowWidth, multiple * (windowHeight - 36) - 40 - 20);
+  simulator.size(0.65 * windowWidth, 0.65 *  (windowHeight - 36));
           // Define the global canWidth & canHeight variables~
           canWidth = simulator.size().width;
           //canHeight = 0.75 * (simulator.size().height - 8);
           canHeight = 1 * (simulator.size().height - 4);
 
-  simulatorInputContainer.size(0.65 * windowWidth, 0.35 * windowHeight);
-  simulatorInput.size(simuWidth, 0.35 * 0.90 * windowHeight);
+  simulatorInputContainer.size(0.65 * windowWidth, 0.35 * (windowHeight - 36));
+  simulatorInput.size(simuWidth, 0.35 * 0.90 * (windowHeight - 36));
   controlsLeft.size(simuWidth / 2, 0.35 * canHeight);
   controlsRight.size(simuWidth / 2, 0.35 * canHeight);
-  particleControl.size(simuWidth, 0.1 * 0.80 * windowHeight);
+  particleControl.size(simuWidth, 0.1 * 0.80 * (windowHeight - 36));
   canvas.size(canWidth, canHeight);
 }

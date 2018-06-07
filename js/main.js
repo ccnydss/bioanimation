@@ -29,7 +29,7 @@ var channels = {"Na":[],"Cl":[], "K":[]};
 var radius = 20;
 
 var numContainer = 2;
-var plusButton = [], minusButton = [], textboard = [], input = [];
+var plusButton = [], minusButton = [], textboard = [], input = [], simSetting = [];
 var UIBoxs = [], equations = [];
 
 var canWidth;
@@ -38,6 +38,8 @@ var thickness = 25; // Make channel a square for now...
 
 var lastNernstParticle = "Na";
 var questionText = [];
+
+var tempSetting = (37 + 273.13);
 
 function setup() {
   noFill();
@@ -116,6 +118,8 @@ function setup() {
   for (var i = 0; i < particles["outside"]["K"].length; i++) {
     setDisplay(particles["outside"]["K"][i], false);
   }
+  particlesProperties["Cl"]["display"] = "false";
+  particlesProperties["K"]["display"] = "false";
 
   NernstFormulaInput(particleTypes[0]);
 

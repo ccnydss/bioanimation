@@ -103,6 +103,11 @@ function startNernst(evt) {
     if(document.getElementById('MathJax-Element-1-Frame')) {
 document.getElementById('MathJax-Element-2-Frame').style.display= "none";
 document.getElementById('MathJax-Element-1-Frame').style.display= "inline";
+
+  if (equationContainerHeighthMul != 0.35) { //Only appear setting when question box disappear
+  document.getElementById('GoldmanSetting').style.display = "none";
+  document.getElementById('NernstSetting').style.display = "initial";
+  }
     }
 
     //Add new text
@@ -162,6 +167,11 @@ function startGoldman(evt) {
   if(document.getElementById('MathJax-Element-1-Frame')) {
   document.getElementById('MathJax-Element-1-Frame').style.display= "none";
   document.getElementById('MathJax-Element-2-Frame').style.display="inline";
+
+    if (equationContainerHeighthMul != 0.35) { //Only appear setting when question box disappear
+  document.getElementById('NernstSetting').style.display = "none";
+  document.getElementById('GoldmanSetting').style.display = "initial";
+    }
   }
 
   //Add new text
@@ -225,9 +235,13 @@ function toggleLoop() {
   if (togLoop) {
     loop();
     togLoop = false;
+
+    document.getElementById('simCanvasPause').style.display = "none";
   } else {
     noLoop();
     togLoop = true;
+
+    document.getElementById('simCanvasPause').style.display = "flex";
   }
 }
 
@@ -367,6 +381,47 @@ function ChangeNumParticles(evt) {
   }
 }
 
+function ChangesimulatorSetting(evt) {
+  var eventID = evt.target.id;
+  //0 = temperature
+  //1 = charge *Removed*
+  //1 = temperature
+  //2 = Pna
+  //3 = Pcl
+  //4 = Pk
+  var updatedAmount = simSetting[eventID].value();
+
+    if (eventID == 0 || eventID ==1) {
+      tempSetting = updatedAmount;
+      simSetting[0].value(updatedAmount);
+      simSetting[1].value(updatedAmount);
+        }
+    if (eventID == 2) {
+      particlesProperties["Na"]["permeability"] = updatedAmount;
+      NernstFormulaInput();
+        }
+    if (eventID == 3) {
+      particlesProperties["Cl"]["permeability"] = updatedAmount;
+      NernstFormulaInput();
+        }
+    if (eventID == 4) {
+      particlesProperties["K"]["permeability"] = updatedAmount;
+      NernstFormulaInput();
+        }
+
+        if (simulatorMode == "Goldman") {
+        NernstFormulaInput();
+        } else {
+            if (particlesProperties["Na"]["display"] == true) {
+              NernstFormulaInput("Na");
+            } else if (particlesProperties["Cl"]["display"] == true) {
+              NernstFormulaInput("Cl");
+            } else if (particlesProperties["K"]["display"] == true) {
+              NernstFormulaInput("K");
+            }
+        }
+}
+
 function checkedEvent(evt) {
 if (simulatorMode == "Goldman") {
   this.checked(true); //Left checkbox checked by default
@@ -494,7 +549,8 @@ function makeUIs(creation) {
       var particleArray = particles[particleLocation][particleType];
 
       var particleSuffix = (k <= 3) ? "out" : "in";
-      var text = '['+ particleType + ']'+'<sub>'+particleSuffix+'</sub>&nbsp;';
+      var particleCharge = (particlesProperties[particleType].charge == 1) ? "+" : "-";
+      var text = '['+ particleType + '<sup>'+particleCharge+'</sup>]'+'<sub>'+particleSuffix+'</sub>&nbsp;';
       var Value = particleArray.length;
     }
     if (k == 0 || k == row) {
@@ -572,7 +628,7 @@ function NernstFormulaInput(particleType) {
 
   if (simulatorMode == "Nernst") {
     var R = 8.314;
-    var T = 37 + 273.13
+    var T = tempSetting;
     var z = particlesProperties[particleType]["charge"];
     if (particlesProperties[particleType]["display"]) {
       var Xout = particles["outside"][particleType].length;
@@ -586,7 +642,7 @@ function NernstFormulaInput(particleType) {
     var answer = (R*T)/(z*F)*Math.log(Xout/Xin);
   } else {
        var R = 8.314; // ideal gas constant
-        var T = 37 + 273.13; // 37 is the Human Body temperature
+        var T = tempSetting; // 37 is the Human Body temperature
         var F = 96485.3329; // Faraday's constant
         var numerator = 0;
         var denominator = 0;
