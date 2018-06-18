@@ -117,7 +117,7 @@ function makeLayout() {
   function hideQuestion(evt) {
     // if (leftbarStatus.style.width != "0px") {
     // if (leftbarStatus.style.display == "flex") {
-    if (equationContainerHeighthMul == 0.35) {
+    if (equationContainerHeighthMul == 0.35) { //Turn the question menu off
         // leftbarStatus.style.width = "0px";
           // leftbarStatus.style.display = "none";
       document.getElementById("hidebarText").innerText = ">"
@@ -128,8 +128,10 @@ function makeLayout() {
       } else {
       document.getElementById('GoldmanSetting').style.display = "initial";
       }
+      document.getElementById('helpQuestion').style.display = "none";
+      document.getElementById('helpSetting').style.height = "100%";
         redrawUI(false);
-    } else {
+    } else { //Turn the question menu on
         // leftbarStatus.style.width = (0.35 * windowWidth);
           // leftbarStatus.style.display = "flex";
       document.getElementById("hidebarText").innerText = "<"
@@ -140,6 +142,8 @@ function makeLayout() {
       } else {
       document.getElementById('GoldmanSetting').style.display = "none";
       }
+      document.getElementById('helpQuestion').style.display = "initial";
+      document.getElementById('helpSetting').style.height = "35%";
         redrawUI(true);
     }
 
@@ -235,6 +239,10 @@ function makeLayout() {
   simulator.parent('secondBox');
   simulator.size(0.65 * windowWidth, 0.65 *  (windowHeight - 36));
 
+    // pauseButton = createDiv("");
+    // pauseButton.id('pauseButton');
+    // pauseButton.parent('sim');
+
   // Define the global canWidth & canHeight variables~
   canWidth = simulator.size().width;
   //canHeight = 0.75 * (simulator.size().height - 8);
@@ -313,96 +321,96 @@ function makeLayout() {
 
 
 //   table questions
-    qtable = createElement("table");
-    qtable.id('qtable');
-    qtable.class('qtable');
-    qtable.parent('q1');
-
-    qtr1 = createElement("tr");
-    qtr1.id("qtr1");
-    qtr1.parent("qtable");
-
-    qth1 = createElement("th", "[Na]out");
-    qth1.id("qth1");
-    qth1.parent("qtr1");
-
-    qth2 = createElement("th", "[Na]in");
-    qth2.id("qth2");
-    qth2.parent("qtr1");
-
-    qth3 = createElement("th", "[K]out");
-    qth3.id("qth3");
-    qth3.parent("qtr1");
-
-    qth4 = createElement("th", "[K]in");
-    qth4.id("qth4");
-    qth4.parent("qtr1");
+//     qtable = createElement("table");
+//     qtable.id('qtable');
+//     qtable.class('qtable');
+//     qtable.parent('q1');
 //
-    qtr2 = createElement("tr");
-    qtr2.id("qtr2");
-    qtr2.parent("qtable");
-
-    qth5 = createElement("th", "150");
-    qth5.id("qth5");
-    qth5.parent("qtr2");
-
-    qth6 = createElement("th", "15");
-    qth6.id("qth6");
-    qth6.parent("qtr2");
-
-    qth7 = createElement("th", "5");
-    qth7.id("qth7");
-    qth7.parent("qtr2");
-
-    qth8 = createElement("th", "120");
-    qth8.id("qth8");
-    qth8.parent("qtr2");
+//     qtr1 = createElement("tr");
+//     qtr1.id("qtr1");
+//     qtr1.parent("qtable");
 //
-    qtr3 = createElement("tr");
-    qtr3.id("qtr3");
-    qtr3.parent("qtable");
-
-    qth9 = createElement("th", "150");
-    qth9.id("qth9");
-    qth9.parent("qtr3");
-
-    qth10 = createElement("th", "15");
-    qth10.id("qth10");
-    qth10.parent("qtr3");
-
-    qth11 = createElement("th", "7.5");
-    qth11.id("qth11");
-    qth11.parent("qtr3");
-
-    qth12 = createElement("th", "120");
-    qth12.id("qth12");
-    qth12.parent("qtr3");
+//     qth1 = createElement("th", "[Na]out");
+//     qth1.id("qth1");
+//     qth1.parent("qtr1");
 //
-    qtr4 = createElement("tr");
-    qtr4.id("qtr4");
-    qtr4.parent("qtable");
-
-    qth13 = createElement("th", "150");
-    qth13.id("qth13");
-    qth13.parent("qtr4");
-
-    qth14 = createElement("th", "15");
-    qth14.id("qth14");
-    qth14.parent("qtr4");
-
-    qth15 = createElement("th", "2.5");
-    qth15.id("qth15");
-    qth15.parent("qtr4");
-
-    qth16 = createElement("th", "120");
-    qth16.id("qth16");
-    qth16.parent("qtr4");
-
-      qtext2 = createElement("p", "These changes in [K]out concentration are real examples of pathological conditions that can lead to seizures and renal failure.");
-      qtext2.id('qtext2');
-      qtext2.parent('q1');
-
-    questionText[0] = document.getElementById('q1').innerHTML;
+//     qth2 = createElement("th", "[Na]in");
+//     qth2.id("qth2");
+//     qth2.parent("qtr1");
+//
+//     qth3 = createElement("th", "[K]out");
+//     qth3.id("qth3");
+//     qth3.parent("qtr1");
+//
+//     qth4 = createElement("th", "[K]in");
+//     qth4.id("qth4");
+//     qth4.parent("qtr1");
+// //
+//     qtr2 = createElement("tr");
+//     qtr2.id("qtr2");
+//     qtr2.parent("qtable");
+//
+//     qth5 = createElement("th", "150");
+//     qth5.id("qth5");
+//     qth5.parent("qtr2");
+//
+//     qth6 = createElement("th", "15");
+//     qth6.id("qth6");
+//     qth6.parent("qtr2");
+//
+//     qth7 = createElement("th", "5");
+//     qth7.id("qth7");
+//     qth7.parent("qtr2");
+//
+//     qth8 = createElement("th", "120");
+//     qth8.id("qth8");
+//     qth8.parent("qtr2");
+// //
+//     qtr3 = createElement("tr");
+//     qtr3.id("qtr3");
+//     qtr3.parent("qtable");
+//
+//     qth9 = createElement("th", "150");
+//     qth9.id("qth9");
+//     qth9.parent("qtr3");
+//
+//     qth10 = createElement("th", "15");
+//     qth10.id("qth10");
+//     qth10.parent("qtr3");
+//
+//     qth11 = createElement("th", "7.5");
+//     qth11.id("qth11");
+//     qth11.parent("qtr3");
+//
+//     qth12 = createElement("th", "120");
+//     qth12.id("qth12");
+//     qth12.parent("qtr3");
+// //
+//     qtr4 = createElement("tr");
+//     qtr4.id("qtr4");
+//     qtr4.parent("qtable");
+//
+//     qth13 = createElement("th", "150");
+//     qth13.id("qth13");
+//     qth13.parent("qtr4");
+//
+//     qth14 = createElement("th", "15");
+//     qth14.id("qth14");
+//     qth14.parent("qtr4");
+//
+//     qth15 = createElement("th", "2.5");
+//     qth15.id("qth15");
+//     qth15.parent("qtr4");
+//
+//     qth16 = createElement("th", "120");
+//     qth16.id("qth16");
+//     qth16.parent("qtr4");
+//
+//       qtext2 = createElement("p", "These changes in [K]out concentration are real examples of pathological conditions that can lead to seizures and renal failure.");
+//       qtext2.id('qtext2');
+//       qtext2.parent('q1');
+//
+//     questionText[0] = document.getElementById('q1').innerHTML;
 }
 
 function makeNeqMML() {

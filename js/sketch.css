@@ -216,8 +216,17 @@ margin-bottom: 20px;
   background-color: #dfe6e9;
 }
 
-#NernstButton:hover, #GoldmanButton:hover, input:hover, button:hover {
+input:hover {
+    cursor: text;
+      box-shadow:0px 0px 15px lightgrey;
+}
 
+.checkboxes input{
+    cursor: pointer;
+}
+#NernstButton:hover, #GoldmanButton:hover, button:hover {
+
+  cursor: pointer;
       box-shadow:0px 0px 15px lightgrey;
 }
 
@@ -234,6 +243,7 @@ margin-bottom: 20px;
 #equilibrate-button:hover, #equilibrate-button:active, #equilibrate-button:focus {
   background-color: #353b48;
         box-shadow:0px 0px 0px lightgrey;
+        cursor: pointer;
 }
 
 #ion-selector {
@@ -251,7 +261,7 @@ vertical-align: middle;
 
 #hidebar:hover {
 background-color: #82ccdd;
-
+cursor: pointer;
 }
 
 #hidebarText {
@@ -334,6 +344,7 @@ align-items: center;
 #containerHeader li:hover {
     background-color: #111111;
     width: 30%;
+    cursor: pointer;
 }
 
 #helpPage {
@@ -343,7 +354,7 @@ align-items: center;
   display: flex;
   /* padding:16px; */
       width: calc(100% - 8px);
-      height: calc(94% - 4px);;
+      height: calc(94% - 0px);
   position: absolute;;
   top: calc(36px + 4px);
   left: 4px;
@@ -353,7 +364,13 @@ align-items: center;
   flex-wrap: wrap;
 }
 
-#helpPage li {
+#helpPage div {
+  /* background-color: blue; */
+    display: flex;
+    flex-direction: column;
+}
+
+#helpPage div li {
   /* background-color: blue; */
     border: 1px solid white;
     padding: 10px;
@@ -361,4 +378,20 @@ align-items: center;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+#pauseButton {
+  z-index: 1;
+  background-color: gray;
+  padding: 3%;
+  position: absolute;
+  top: calc(65% - 20px);
+
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+}
+
+input:disabled, button:disabled {
+    cursor: not-allowed;
 }

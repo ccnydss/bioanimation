@@ -111,8 +111,9 @@ document.getElementById('MathJax-Element-1-Frame').style.display= "inline";
     }
 
     //Add new text
-document.getElementById('questionTitle').innerHTML= "Nernst Equation";
-document.getElementById('q1').innerHTML=questionText[0];
+    createText("questions.json","nernst_1");
+// document.getElementById('questionTitle').innerHTML= "Nernst Equation";
+// document.getElementById('q1').innerHTML=questionText[0];
 
 
   simulatorMode = "Nernst";
@@ -175,16 +176,7 @@ function startGoldman(evt) {
   }
 
   //Add new text
-  document.getElementById('questionTitle').innerHTML= "Goldman Equation";
-  document.getElementById('q1').innerHTML= "<section>1) Assume that in a neuron, the plasma membrane permeability values for potassium (K + )," +
-"sodium (Na + ), and Cl − are the following: p K = 1, p Na = 12, and p Cl = 0.5 Based on physiological concentrations of K + , Na +"+
-" , and Cl − determine the membrane potential in this neuron </section>" +
-"<section>2) Calculate the resting membrane potential under these conditions. Think about how these different conditions would affect normal cellular function.</section>" +
-"<table><tr><th>PNa</th><th>[Na]out</th><th>[Na]in</th><th>PK</th><th>[K]out</th><th>[K]in</th></tr><tr><td>1</td><td>150</td>" +
-    "<td>15</td><td>200</td><td>7.5</td><td>120</td></tr><tr><td>1</td><td>150</td><td>15</td><td>400</td><td>2.5</td><td>120</td></tr>" +
-  "<tr><td>1</td><td>150</td><td>15</td><td>100</td><td>5</td><td>120</td></tr><tr><td>1</td><td>150</td><td>15</td>" +
-    "<td>20</td><td>7.5</td><td>120</td></tr><tr><td>1</td><td>150</td><td>15</td><td>40</td><td>5</td><td>120</td></tr>" +
-  "<tr><td>1</td><td>150</td><td>15</td><td>10</td><td>2.5</td><td>120</td></tr></table>";
+  createText("questions.json","goldman_1");
 
   //Particles & functionality
   simulatorMode = "Goldman";
@@ -698,4 +690,17 @@ function euclideanDistance(x1,y1,x2,y2) {
   var xdiff = x2 - x1;
   var ydiff = y2 - y1;
   return Math.sqrt(xdiff*xdiff + ydiff*ydiff);
+}
+
+function createText(url,tag) {
+
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+          var myArr = JSON.parse(this.responseText)
+          document.getElementById("q1").innerHTML = myArr[tag].join('');;
+      }
+  };
+  xmlhttp.open("GET", url, true);
+  xmlhttp.send();
 }
