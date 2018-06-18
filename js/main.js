@@ -9,8 +9,8 @@ inEquilbrateState[particleTypes[1]] = false;
 
 var particlesProperties = {
   "Na":{"color":"#F5CE28","radius":15,"id":0,"display":true,"charge":1, "permeability":0.03, "inside":2, "outside":14},
-  "Cl":{"color":"#CD5C5C","radius":15,"id":1,"display":true,"charge":-1, "permeability":0.1, "inside":13, "outside":1},
-  "K" :{"color":"#35B235","radius":15,"id":2,"display":true,"charge":1, "permeability":1, "inside":1, "outside":12}
+  "Cl":{"color":"#CD5C5C","radius":15,"id":1,"display":false,"charge":-1, "permeability":0.1, "inside":13, "outside":1},
+  "K" :{"color":"#35B235","radius":15,"id":2,"display":false,"charge":1, "permeability":1, "inside":1, "outside":12}
 };
 
 var containerProperties = {
@@ -118,8 +118,6 @@ function setup() {
   for (var i = 0; i < particles["outside"]["K"].length; i++) {
     setDisplay(particles["outside"]["K"][i], false);
   }
-  particlesProperties["Cl"]["display"] = "false";
-  particlesProperties["K"]["display"] = "false";
 
   NernstFormulaInput(particleTypes[0]);
 
