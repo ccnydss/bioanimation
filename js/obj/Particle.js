@@ -3,7 +3,7 @@ class Particle {
     this.x = _x;
     this.y = _y;
     this.diam = _diam;
-    this.r = int(_diam/2);
+    this.r = int(_diam / 2);
     this.collidable = _collidable;
 
     // Store the original vector to remember it after modifying move_velocity.
@@ -15,34 +15,30 @@ class Particle {
 
   draw(xc = this.x, yc = this.y, rc = this.r) {
     if (this.display) {
-      ellipse( xc, yc, rc );
-    }
-    else {
+      ellipse(xc, yc, rc);
+    } else {
       //console.log(display);
     }
   }
 
-
-  move(container_context,channels) {
+  move(container_context, channels) {
     // Pass in a Container object the particle should be constrained inside.
     //channel.transfers(this);
     if (this.collidable) {
       container_context.clips(this);
       container_context.hit(this);
-    }
-    else {
+    } else {
       container_context.moveNoCollision(this)
     }
 
     container_context.clips(this);
     container_context.hit(this);
     if (this.display) {
-     ellipse( this.x, this.y, this.diam );
+      ellipse(this.x, this.y, this.diam);
     }
 
   }
 }
-
 
 class Na extends Particle {
   color() {
@@ -66,9 +62,9 @@ class K extends Particle {
 }
 
 var factory = {
-    "Na": Na,
-    "Cl": Cl,
-    "K": K,
+  "Na": Na,
+  "Cl": Cl,
+  "K": K
 }
 
 class AnimatedParticle {
@@ -76,7 +72,7 @@ class AnimatedParticle {
     this.x = _x;
     this.y = _y;
     this.diam = _diam;
-    this.r = int(_diam/2);
+    this.r = int(_diam / 2);
     this.collidable = _collidable;
     this.particle = _particle;
     // Store the original vector to remember it after modifying move_velocity.
@@ -85,7 +81,7 @@ class AnimatedParticle {
   }
 
   draw(xc = this.x, yc = this.y, rc = this.r) {
-      ellipse( xc, yc, rc );
+    ellipse(xc, yc, rc);
   }
 
   color() {
@@ -96,10 +92,10 @@ class AnimatedParticle {
   move() {
     // Pass in a Container object the particle should be constrained inside.
     this.y = this.y + this.move_velocity.y;
-    ellipse( this.x, this.y, this.diam );
+    ellipse(this.x, this.y, this.diam);
   }
 }
 
-var setDisplay = function(particle,value) {
+var setDisplay = function(particle, value) {
   particle.display = value;
 }

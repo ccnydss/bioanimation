@@ -1,11 +1,10 @@
-
 equationContainerHeighthMul = 0.35;
 
 function makeLayout() {
   // Make the entire stage. This represents the entire, outer box containing the simulator, sidebar, and controls.
   stage = createDiv('');
   stage.id('stage');
-  stage.class('flex-container');
+  stage.class ('flex-container');
   // stage.style('background-color',color(0));
 
   firstBox = createDiv("");
@@ -21,8 +20,8 @@ function makeLayout() {
   leftBox.id('leftbar');
   leftBox.parent('firstBox');
 
-    var leftbarStatus = document.getElementById("leftbar");
-    leftbarStatus.style.display = "flex";
+  var leftbarStatus = document.getElementById("leftbar");
+  leftbarStatus.style.display = "flex";
 
   // Create the div to actually contain the questions.
   questions = createDiv("");
@@ -33,9 +32,9 @@ function makeLayout() {
 
   var questionsText
   questionsText = "Calculate the equilibrium potential for Na and K using the Nernst equation for the following conditions"
-    var question = createElement("p",questionsText).parent('questionsdiv');
-    question.class("questions");
-    question.id("q1");
+  var question = createElement("p", questionsText).parent('questionsdiv');
+  question.class ("questions");
+  question.id("q1");
   // function httpGet(theUrl){
   //   if (window.XMLHttpRequest) {
   //       xmlhttp=new XMLHttpRequest();
@@ -59,49 +58,47 @@ function makeLayout() {
   //   question.class("questions");
   //   question.id("q1");
 
-
-    // questionBotton = createDiv("");
-    // questionBotton.id('questionBotton');
-    // questionBotton.class('questionButton');
-    // questionBotton.parent('questionsdiv');
-    //
-    // questionNext = createButton('Previous');
-    // questionNext.id('questionPrev');
-    // questionNext.parent('questionBotton');
-    // questionNext.size(leftBox.size().width, 0.075 * leftBox.size().height);
-    // questionNext.mousePressed(quesPrev);
-    // document.getElementById("questionPrev").style.display= "none";
-    //
-    // questionPrev = createButton('Next');
-    // questionPrev.id('questionNext');
-    // questionPrev.parent('questionBotton');
-    // questionPrev.size(leftBox.size().width, 0.075 * leftBox.size().height);
-    // questionPrev.mousePressed(quesNext);
-    //
-    //
-    // function quesNext(evt) {
-    //   if (q>=qmax-1) {
-    //     //alert(q+" "+qmax)
-    //     document.getElementById("questionNext").style.display= "none";
-    //     q = qmax;
-    //   } else {
-    //   q = q+1;
-    //       document.getElementById("questionPrev").style.display= "";
-    //     }
-    //       document.getElementById("q1").innerHTML = questions[q];
-    // }
-    //
-    // function quesPrev(evt) {
-    //   if (q<=1) {
-    //     document.getElementById("questionPrev").style.display= "none";
-    //     q = 0;
-    //   } else {
-    //   q = q-1;
-    //       document.getElementById("questionNext").style.display= "";
-    //     }
-    //       document.getElementById("q1").innerHTML = questions[q];
-    // }
-
+  // questionBotton = createDiv("");
+  // questionBotton.id('questionBotton');
+  // questionBotton.class('questionButton');
+  // questionBotton.parent('questionsdiv');
+  //
+  // questionNext = createButton('Previous');
+  // questionNext.id('questionPrev');
+  // questionNext.parent('questionBotton');
+  // questionNext.size(leftBox.size().width, 0.075 * leftBox.size().height);
+  // questionNext.mousePressed(quesPrev);
+  // document.getElementById("questionPrev").style.display= "none";
+  //
+  // questionPrev = createButton('Next');
+  // questionPrev.id('questionNext');
+  // questionPrev.parent('questionBotton');
+  // questionPrev.size(leftBox.size().width, 0.075 * leftBox.size().height);
+  // questionPrev.mousePressed(quesNext);
+  //
+  //
+  // function quesNext(evt) {
+  //   if (q>=qmax-1) {
+  //     alert(q+" "+qmax)
+  //     document.getElementById("questionNext").style.display= "none";
+  //     q = qmax;
+  //   } else {
+  //   q = q+1;
+  //       document.getElementById("questionPrev").style.display= "";
+  //     }
+  //       document.getElementById("q1").innerHTML = questions[q];
+  // }
+  //
+  // function quesPrev(evt) {
+  //   if (q<=1) {
+  //     document.getElementById("questionPrev").style.display= "none";
+  //     q = 0;
+  //   } else {
+  //   q = q-1;
+  //       document.getElementById("questionNext").style.display= "";
+  //     }
+  //       document.getElementById("q1").innerHTML = questions[q];
+  // }
 
   // Div to contain the equation
   equationContainer = createDiv("");
@@ -118,33 +115,33 @@ function makeLayout() {
     // if (leftbarStatus.style.width != "0px") {
     // if (leftbarStatus.style.display == "flex") {
     if (equationContainerHeighthMul == 0.35) { //Turn the question menu off
-        // leftbarStatus.style.width = "0px";
-          // leftbarStatus.style.display = "none";
+      // leftbarStatus.style.width = "0px";
+      // leftbarStatus.style.display = "none";
       document.getElementById("hidebarText").innerText = ">"
       document.getElementById('simulatorSetting').style.display = "flex";
 
       if (simulatorMode == "Nernst") {
-      document.getElementById('NernstSetting').style.display = "initial";
+        document.getElementById('NernstSetting').style.display = "initial";
       } else {
-      document.getElementById('GoldmanSetting').style.display = "initial";
+        document.getElementById('GoldmanSetting').style.display = "initial";
       }
       document.getElementById('helpQuestion').style.display = "none";
       document.getElementById('helpSetting').style.height = "100%";
-        redrawUI(false);
+      redrawUI(false);
     } else { //Turn the question menu on
-        // leftbarStatus.style.width = (0.35 * windowWidth);
-          // leftbarStatus.style.display = "flex";
+      // leftbarStatus.style.width = (0.35 * windowWidth);
+      // leftbarStatus.style.display = "flex";
       document.getElementById("hidebarText").innerText = "<"
       document.getElementById('simulatorSetting').style.display = "none";
 
       if (simulatorMode == "Nernst") {
-      document.getElementById('NernstSetting').style.display = "none";
+        document.getElementById('NernstSetting').style.display = "none";
       } else {
-      document.getElementById('GoldmanSetting').style.display = "none";
+        document.getElementById('GoldmanSetting').style.display = "none";
       }
       document.getElementById('helpQuestion').style.display = "initial";
       document.getElementById('helpSetting').style.height = "35%";
-        redrawUI(true);
+      redrawUI(true);
     }
 
   }
@@ -157,115 +154,118 @@ function makeLayout() {
   equation.id('equationdiv');
   equation.parent('equationContainer');
 
-    equi = createButton('Equilibrate');
-    equi.id('equilibrate-button');
-    equi.parent('equationContainer');
-    equi.mousePressed(startEquilibrate);
+  equi = createButton('Equilibrate');
+  equi.id('equilibrate-button');
+  equi.parent('equationContainer');
+  equi.mousePressed(startEquilibrate);
 
+  makeNeqMML();
+  makeGoldmanEqn();
 
-    makeNeqMML();
-    makeGoldmanEqn();
+  simulatorSetting = createElement("div", "Simulation Setting");
+  simulatorSetting.id('simulatorSetting');
+  simulatorSetting.parent("equationdiv");
+  document.getElementById('simulatorSetting').style.display = "none";
 
+  var previousLength = 0;
+  for (var j = 0; j < 2; j++) {
+    var table = createElement('table')
 
-    simulatorSetting = createElement("div", "Simulation Setting");
-    simulatorSetting.id('simulatorSetting');
-    simulatorSetting.parent("equationdiv");
-    document.getElementById('simulatorSetting').style.display = "none";
-
-    var previousLength = 0;
-    for (var j=0; j<2; j++) {
-        var table = createElement('table')
-
-        if (j==0) {
-        table.id("NernstSetting");
-        table.parent("equationdiv");
+    if (j == 0) {
+      table.id("NernstSetting");
+      table.parent("equationdiv");
 
       // var content = ["T","z","[X]<sub>out</sub>","[X]<sub>in</sub>"]
       // var contentUnit = ["K","","mM","mM"]
       var content = ["T"]
       var contentUnit = ["K"]
-      var contentDefaultValue = [tempSetting,particlesProperties["Na"].charge]
+      var contentDefaultValue = [
+        tempSetting, particlesProperties["Na"].charge
+      ]
 
-      } else {
+    } else {
       table.id("GoldmanSetting");
       table.parent("equationdiv");
 
       // var content = ["T","p<sub>k</sub>","p<sub>Na</sub>","p<sub>Cl</sub>","[K<sup>+</sup>]<sub>out</sub>","[K<sup>+</sup>]<sub>in</sub>"
       // ,"[Na<sup>+</sup>]<sub>out</sub>","[Na<sup>+</sup>]<sub>in</sub>","[Cl<sup>-</sup>]<sub>out</sub>","[Cl<sup>-</sup>]<sub>in</sub>"]
       // var contentUnit = ["K","","","","mM","mM","mM","mM","mM","mM"]
-      var content = ["T","p<sub>Na</sub>","p<sub>Cl</sub>","p<sub>K</sub>"]
-      var contentUnit = ["K","","",""]
-      var contentDefaultValue = [tempSetting,particlesProperties["Na"].permeability,particlesProperties["Cl"].permeability,particlesProperties["K"].permeability]
+      var content = ["T", "p<sub>Na</sub>", "p<sub>Cl</sub>", "p<sub>K</sub>"]
+      var contentUnit = ["K", "", "", ""]
+      var contentDefaultValue = [
+        tempSetting, particlesProperties["Na"].permeability,
+        particlesProperties["Cl"].permeability,
+        particlesProperties["K"].permeability
+      ]
 
-      }
-      var tableRow = content.length;
-      if (previousLength == 0) {
-      var previousLength = content.length;
-      }
-      document.getElementById(table.id()).style.display = "none";
-
-    for (var i=0; i<tableRow; i++) {
-
-        var trow = createElement('tr');
-            trow.parent(table);
-
-                var td0 = createElement('td');
-                td0.parent(trow);
-                var td1 = createElement('td');
-                td1.parent(trow);
-    simSettingText = createElement('h4', content[i]);
-    simSettingText.parent(td0);
-
-    if(j>0) {
-      k = i + previousLength;
-    } else {
-      k = i;
     }
-    simSetting[k] = createInput();
-    simSetting[k].parent('equationdiv');
-    simSetting[k].value(contentDefaultValue[i])
-    simSetting[k].parent(td1);
-    simSetting[k].id(k);
-    simSetting[k].input(ChangesimulatorSetting);
+    var tableRow = content.length;
+    if (previousLength == 0) {
+      var previousLength = content.length;
+    }
+    document.getElementById(table.id()).style.display = "none";
 
-    var td3 = createElement('td',contentUnit[i]);
-    td3.parent(trow);
+    for (var i = 0; i < tableRow; i++) {
+
+      var trow = createElement('tr');
+      trow.parent(table);
+
+      var td0 = createElement('td');
+      td0.parent(trow);
+      var td1 = createElement('td');
+      td1.parent(trow);
+      simSettingText = createElement('h4', content[i]);
+      simSettingText.parent(td0);
+
+      if (j > 0) {
+        k = i + previousLength;
+      } else {
+        k = i;
+      }
+      simSetting[k] = createInput();
+      simSetting[k].parent('equationdiv');
+      simSetting[k].value(contentDefaultValue[i])
+      simSetting[k].parent(td1);
+      simSetting[k].id(k);
+      simSetting[k].input(ChangesimulatorSetting);
+
+      var td3 = createElement('td', contentUnit[i]);
+      td3.parent(trow);
+    }
   }
-}
-    // input[k].id(k);
+  // input[k].id(k);
 
   simulator = createDiv("");
   simulator.id('sim');
   simulator.parent('secondBox');
-  simulator.size(0.65 * windowWidth, 0.65 *  (windowHeight - 36));
+  simulator.size(0.65 * windowWidth, 0.65 * (windowHeight - 36));
 
-    // pauseButton = createDiv("");
-    // pauseButton.id('pauseButton');
-    // pauseButton.parent('sim');
+  // pauseButton = createDiv("");
+  // pauseButton.id('pauseButton');
+  // pauseButton.parent('sim');
 
   // Define the global canWidth & canHeight variables~
   canWidth = simulator.size().width;
   //canHeight = 0.75 * (simulator.size().height - 8);
   canHeight = 1 * (simulator.size().height - 8);
 
-
-  simCanvasPause = createElement("div","Paused");
+  simCanvasPause = createElement("div", "Paused");
   simCanvasPause.id('simCanvasPause');
   simCanvasPause.parent('sim');
   document.getElementById('simCanvasPause').style.display = "none";
 
   // Now to create the canvas!!
   canvas = createCanvas(canWidth, canHeight);
-  canvas.class('can');
+  canvas.class ('can');
   canvas.parent('sim');
 
   window.onresize = function() {
 
     // if (leftbarStatus.style.display == "flex") {
     if (equationContainerHeighthMul == 0.35) {
-        redrawUI(true);
+      redrawUI(true);
     } else {
-        redrawUI(false);
+      redrawUI(false);
     }
   }
 
@@ -282,35 +282,35 @@ function makeLayout() {
 
   //Control UI ----------------------------
   controlsLeft = createDiv('');
-  controlsLeft.class('controls');
+  controlsLeft.class ('controls');
   controlsLeft.parent('simInput');
 
   controlsRight = createDiv('');
-  controlsRight.class('controls');
+  controlsRight.class ('controls');
   controlsRight.parent('simInput');
 
   control0 = createDiv('');
-  control0.class('control');
+  control0.class ('control');
   control0.parent(controlsLeft);
 
   control1 = createDiv('');
-  control1.class('control');
+  control1.class ('control');
   control1.parent(controlsLeft);
 
   control2 = createDiv('');
-  control2.class('control');
+  control2.class ('control');
   control2.parent(controlsLeft);
 
   control3 = createDiv('');
-  control3.class('control');
+  control3.class ('control');
   control3.parent(controlsRight);
 
   control4 = createDiv('');
-  control4.class('control');
+  control4.class ('control');
   control4.parent(controlsRight);
 
   control5 = createDiv('');
-  control5.class('control');
+  control5.class ('control');
   control5.parent(controlsRight);
 
   particleControl = createDiv('');
@@ -319,98 +319,97 @@ function makeLayout() {
 
   adjustUISize(0.35);
 
-
-//   table questions
-//     qtable = createElement("table");
-//     qtable.id('qtable');
-//     qtable.class('qtable');
-//     qtable.parent('q1');
-//
-//     qtr1 = createElement("tr");
-//     qtr1.id("qtr1");
-//     qtr1.parent("qtable");
-//
-//     qth1 = createElement("th", "[Na]out");
-//     qth1.id("qth1");
-//     qth1.parent("qtr1");
-//
-//     qth2 = createElement("th", "[Na]in");
-//     qth2.id("qth2");
-//     qth2.parent("qtr1");
-//
-//     qth3 = createElement("th", "[K]out");
-//     qth3.id("qth3");
-//     qth3.parent("qtr1");
-//
-//     qth4 = createElement("th", "[K]in");
-//     qth4.id("qth4");
-//     qth4.parent("qtr1");
-// //
-//     qtr2 = createElement("tr");
-//     qtr2.id("qtr2");
-//     qtr2.parent("qtable");
-//
-//     qth5 = createElement("th", "150");
-//     qth5.id("qth5");
-//     qth5.parent("qtr2");
-//
-//     qth6 = createElement("th", "15");
-//     qth6.id("qth6");
-//     qth6.parent("qtr2");
-//
-//     qth7 = createElement("th", "5");
-//     qth7.id("qth7");
-//     qth7.parent("qtr2");
-//
-//     qth8 = createElement("th", "120");
-//     qth8.id("qth8");
-//     qth8.parent("qtr2");
-// //
-//     qtr3 = createElement("tr");
-//     qtr3.id("qtr3");
-//     qtr3.parent("qtable");
-//
-//     qth9 = createElement("th", "150");
-//     qth9.id("qth9");
-//     qth9.parent("qtr3");
-//
-//     qth10 = createElement("th", "15");
-//     qth10.id("qth10");
-//     qth10.parent("qtr3");
-//
-//     qth11 = createElement("th", "7.5");
-//     qth11.id("qth11");
-//     qth11.parent("qtr3");
-//
-//     qth12 = createElement("th", "120");
-//     qth12.id("qth12");
-//     qth12.parent("qtr3");
-// //
-//     qtr4 = createElement("tr");
-//     qtr4.id("qtr4");
-//     qtr4.parent("qtable");
-//
-//     qth13 = createElement("th", "150");
-//     qth13.id("qth13");
-//     qth13.parent("qtr4");
-//
-//     qth14 = createElement("th", "15");
-//     qth14.id("qth14");
-//     qth14.parent("qtr4");
-//
-//     qth15 = createElement("th", "2.5");
-//     qth15.id("qth15");
-//     qth15.parent("qtr4");
-//
-//     qth16 = createElement("th", "120");
-//     qth16.id("qth16");
-//     qth16.parent("qtr4");
-//
-//       qtext2 = createElement("p", "These changes in [K]out concentration are real examples of pathological conditions that can lead to seizures and renal failure.");
-//       qtext2.id('qtext2');
-//       qtext2.parent('q1');
-//
-//     questionText[0] = document.getElementById('q1').innerHTML;
+  //   table questions
+  //     qtable = createElement("table");
+  //     qtable.id('qtable');
+  //     qtable.class('qtable');
+  //     qtable.parent('q1');
+  //
+  //     qtr1 = createElement("tr");
+  //     qtr1.id("qtr1");
+  //     qtr1.parent("qtable");
+  //
+  //     qth1 = createElement("th", "[Na]out");
+  //     qth1.id("qth1");
+  //     qth1.parent("qtr1");
+  //
+  //     qth2 = createElement("th", "[Na]in");
+  //     qth2.id("qth2");
+  //     qth2.parent("qtr1");
+  //
+  //     qth3 = createElement("th", "[K]out");
+  //     qth3.id("qth3");
+  //     qth3.parent("qtr1");
+  //
+  //     qth4 = createElement("th", "[K]in");
+  //     qth4.id("qth4");
+  //     qth4.parent("qtr1");
+  //
+  //     qtr2 = createElement("tr");
+  //     qtr2.id("qtr2");
+  //     qtr2.parent("qtable");
+  //
+  //     qth5 = createElement("th", "150");
+  //     qth5.id("qth5");
+  //     qth5.parent("qtr2");
+  //
+  //     qth6 = createElement("th", "15");
+  //     qth6.id("qth6");
+  //     qth6.parent("qtr2");
+  //
+  //     qth7 = createElement("th", "5");
+  //     qth7.id("qth7");
+  //     qth7.parent("qtr2");
+  //
+  //     qth8 = createElement("th", "120");
+  //     qth8.id("qth8");
+  //     qth8.parent("qtr2");
+  //
+  //     qtr3 = createElement("tr");
+  //     qtr3.id("qtr3");
+  //     qtr3.parent("qtable");
+  //
+  //     qth9 = createElement("th", "150");
+  //     qth9.id("qth9");
+  //     qth9.parent("qtr3");
+  //
+  //     qth10 = createElement("th", "15");
+  //     qth10.id("qth10");
+  //     qth10.parent("qtr3");
+  //
+  //     qth11 = createElement("th", "7.5");
+  //     qth11.id("qth11");
+  //     qth11.parent("qtr3");
+  //
+  //     qth12 = createElement("th", "120");
+  //     qth12.id("qth12");
+  //     qth12.parent("qtr3");
+  //
+  //     qtr4 = createElement("tr");
+  //     qtr4.id("qtr4");
+  //     qtr4.parent("qtable");
+  //
+  //     qth13 = createElement("th", "150");
+  //     qth13.id("qth13");
+  //     qth13.parent("qtr4");
+  //
+  //     qth14 = createElement("th", "15");
+  //     qth14.id("qth14");
+  //     qth14.parent("qtr4");
+  //
+  //     qth15 = createElement("th", "2.5");
+  //     qth15.id("qth15");
+  //     qth15.parent("qtr4");
+  //
+  //     qth16 = createElement("th", "120");
+  //     qth16.id("qth16");
+  //     qth16.parent("qtr4");
+  //
+  //       qtext2 = createElement("p", "These changes in [K]out concentration are real examples of pathological conditions that can lead to seizures and renal failure.");
+  //       qtext2.id('qtext2');
+  //       qtext2.parent('q1');
+  //
+  //     questionText[0] = document.getElementById('q1').innerHTML;
 }
 
 function makeNeqMML() {
@@ -574,7 +573,7 @@ function makeGoldmanEqn() {
   msub1Goldman.id("msub1Goldman");
   msub1Goldman.parent("mrow4Goldman");
 
-  mi6Goldman= createElement("mi", "P");
+  mi6Goldman = createElement("mi", "P");
   mi6Goldman.parent("msub1Goldman");
 
   mi7Goldman = createElement("mi", "Na");
@@ -600,7 +599,6 @@ function makeGoldmanEqn() {
   mi10Goldman = createElement("mi", "out");
   mi10Goldman.parent("msub2Goldman");
 
-
   mo1Goldman = createElement("mo", "+");
   mo1Goldman.parent("mrow4Goldman");
   // -------------------------------------
@@ -612,7 +610,7 @@ function makeGoldmanEqn() {
   msub3Goldman.id("msub3Goldman");
   msub3Goldman.parent("mrow4Goldman");
 
-  mi11Goldman= createElement("mi", "P");
+  mi11Goldman = createElement("mi", "P");
   mi11Goldman.parent("msub3Goldman");
 
   mi12Goldman = createElement("mi", "Cl");
@@ -647,7 +645,7 @@ function makeGoldmanEqn() {
   msub5Goldman.id("msub5Goldman");
   msub5Goldman.parent("mrow4Goldman");
 
-  mi15Goldman= createElement("mi", "P");
+  mi15Goldman = createElement("mi", "P");
   mi15Goldman.parent("msub5Goldman");
 
   mi16Goldman = createElement("mi", "K");
@@ -676,182 +674,178 @@ function makeGoldmanEqn() {
   // -------------------------------------
   //Bottom
 
-    mrow5Goldman = createElement("mrow");
-    mrow5Goldman.id("mrow5Goldman");
-    mrow5Goldman.parent("mfrac1Goldman");
+  mrow5Goldman = createElement("mrow");
+  mrow5Goldman.id("mrow5Goldman");
+  mrow5Goldman.parent("mfrac1Goldman");
 
+  // Na+
+  msub7Goldman = createElement("msub");
+  msub7Goldman.id("msub7Goldman");
+  msub7Goldman.parent("mrow5Goldman");
 
-    // Na+
-    msub7Goldman = createElement("msub");
-    msub7Goldman.id("msub7Goldman");
-    msub7Goldman.parent("mrow5Goldman");
+  mi20Goldman = createElement("mi", "P");
+  mi20Goldman.parent("msub7Goldman");
 
-    mi20Goldman= createElement("mi", "P");
-    mi20Goldman.parent("msub7Goldman");
+  mi21Goldman = createElement("mi", "Na");
+  mi21Goldman.parent("msub7Goldman");
 
-    mi21Goldman = createElement("mi", "Na");
-    mi21Goldman.parent("msub7Goldman");
+  mi22Goldman = createElement("mi", "[N");
+  mi22Goldman.parent("mrow5Goldman");
 
-    mi22Goldman = createElement("mi", "[N");
-    mi22Goldman.parent("mrow5Goldman");
+  msup3Goldman = createElement("msup");
+  msup3Goldman.id("msup3Goldman");
+  msup3Goldman.parent("mrow5Goldman");
 
-    msup3Goldman = createElement("msup");
-    msup3Goldman.id("msup3Goldman");
-    msup3Goldman.parent("mrow5Goldman");
+  mi23Goldman = createElement("mi", "a");
+  mi23Goldman.parent("msup3Goldman");
+  mo5Goldman = createElement("mo", "+");
+  mo5Goldman.parent("msup3Goldman");
 
-    mi23Goldman = createElement("mi", "a");
-    mi23Goldman.parent("msup3Goldman");
-    mo5Goldman = createElement("mo", "+");
-    mo5Goldman.parent("msup3Goldman");
+  msub8 = createElement("msub");
+  msub8.id("msub8Goldman");
+  msub8.parent("mrow5Goldman");
+  mo6Goldman = createElement("mo", "]");
+  mo6Goldman.parent("msub8Goldman");
+  mi24Goldman = createElement("mi", "in");
+  mi24Goldman.parent("msub8Goldman");
 
-    msub8 = createElement("msub");
-    msub8.id("msub8Goldman");
-    msub8.parent("mrow5Goldman");
-    mo6Goldman = createElement("mo", "]");
-    mo6Goldman.parent("msub8Goldman");
-    mi24Goldman = createElement("mi", "in");
-    mi24Goldman.parent("msub8Goldman");
+  mo7Goldman = createElement("mo", "+");
+  mo7Goldman.parent("mrow5Goldman");
 
-    mo7Goldman = createElement("mo", "+");
-    mo7Goldman.parent("mrow5Goldman");
+  // Cl
 
-    // Cl
+  msub9Goldman = createElement("msub");
+  msub9Goldman.id("msub9Goldman");
+  msub9Goldman.parent("mrow5Goldman");
 
-    msub9Goldman = createElement("msub");
-    msub9Goldman.id("msub9Goldman");
-    msub9Goldman.parent("mrow5Goldman");
+  mi25Goldman = createElement("mi", "P");
+  mi25Goldman.parent("msub9Goldman");
 
-    mi25Goldman= createElement("mi", "P");
-    mi25Goldman.parent("msub9Goldman");
+  mi26Goldman = createElement("mi", "Cl");
+  mi26Goldman.parent("msub9Goldman");
 
-    mi26Goldman = createElement("mi", "Cl");
-    mi26Goldman.parent("msub9Goldman");
+  mi27Goldman = createElement("mi", "[C");
+  mi27Goldman.parent("mrow5Goldman");
 
-    mi27Goldman = createElement("mi", "[C");
-    mi27Goldman.parent("mrow5Goldman");
+  msup4Goldman = createElement("msup");
+  msup4Goldman.id("msup4Goldman");
+  msup4Goldman.parent("mrow5Goldman");
 
-    msup4Goldman = createElement("msup");
-    msup4Goldman.id("msup4Goldman");
-    msup4Goldman.parent("mrow5Goldman");
+  mi28Goldman = createElement("mi", "l");
+  mi28Goldman.parent("msup4Goldman");
+  mo8Goldman = createElement("mo", "-");
+  mo8Goldman.parent("msup4Goldman");
 
-    mi28Goldman = createElement("mi", "l");
-    mi28Goldman.parent("msup4Goldman");
-    mo8Goldman = createElement("mo", "-");
-    mo8Goldman.parent("msup4Goldman");
+  msub10Goldman = createElement("msub");
+  msub10Goldman.id("msub10Goldman");
+  msub10Goldman.parent("mrow5Goldman");
 
-    msub10Goldman = createElement("msub");
-    msub10Goldman.id("msub10Goldman");
-    msub10Goldman.parent("mrow5Goldman");
+  mo9Goldman = createElement("mo", "]");
+  mo9Goldman.parent("msub10Goldman");
+  mi29Goldman = createElement("mi", "out");
+  mi29Goldman.parent("msub10Goldman");
 
-    mo9Goldman = createElement("mo", "]");
-    mo9Goldman.parent("msub10Goldman");
-    mi29Goldman = createElement("mi", "out");
-    mi29Goldman.parent("msub10Goldman");
+  mo7Goldman = createElement("mo", "+");
+  mo7Goldman.parent("mrow5Goldman");
 
-    mo7Goldman = createElement("mo", "+");
-    mo7Goldman.parent("mrow5Goldman");
+  // K
 
+  msub11Goldman = createElement("msub");
+  msub11Goldman.id("msub11Goldman");
+  msub11Goldman.parent("mrow5Goldman");
 
-    // K
+  mi30Goldman = createElement("mi", "P");
+  mi30Goldman.parent("msub11Goldman");
 
-    msub11Goldman = createElement("msub");
-    msub11Goldman.id("msub11Goldman");
-    msub11Goldman.parent("mrow5Goldman");
+  mi31Goldman = createElement("mi", "K");
+  mi31Goldman.parent("msub11Goldman");
 
-    mi30Goldman= createElement("mi", "P");
-    mi30Goldman.parent("msub11Goldman");
+  mo8Goldman = createElement("mo", "[");
+  mo8Goldman.parent("mrow5Goldman");
 
-    mi31Goldman = createElement("mi", "K");
-    mi31Goldman.parent("msub11Goldman");
+  msup5Goldman = createElement("msup");
+  msup5Goldman.id("msup5Goldman");
+  msup5Goldman.parent("mrow5Goldman");
 
-    mo8Goldman = createElement("mo", "[");
-    mo8Goldman.parent("mrow5Goldman");
+  mi32Goldman = createElement("mi", "K");
+  mi32Goldman.parent("msup5Goldman");
+  mo9Goldman = createElement("mo", "-");
+  mo9Goldman.parent("msup5Goldman");
 
-    msup5Goldman = createElement("msup");
-    msup5Goldman.id("msup5Goldman");
-    msup5Goldman.parent("mrow5Goldman");
-
-    mi32Goldman = createElement("mi", "K");
-    mi32Goldman.parent("msup5Goldman");
-    mo9Goldman = createElement("mo", "-");
-    mo9Goldman.parent("msup5Goldman");
-
-    msub12Goldman = createElement("msub");
-    msub12Goldman.id("msub12Goldman");
-    msub12Goldman.parent("mrow5Goldman");
-    mo10Goldman = createElement("mo", "]");
-    mo10Goldman.parent("msub12Goldman");
-    mi33Goldman = createElement("mi", "in");
-    mi33Goldman.parent("msub12Goldman");
+  msub12Goldman = createElement("msub");
+  msub12Goldman.id("msub12Goldman");
+  msub12Goldman.parent("mrow5Goldman");
+  mo10Goldman = createElement("mo", "]");
+  mo10Goldman.parent("msub12Goldman");
+  mi33Goldman = createElement("mi", "in");
+  mi33Goldman.parent("msub12Goldman");
 }
 
 function redrawUI(questionBox) {
 
-
-    if(questionBox == true) {
+  if (questionBox == true) {
     equationContainerHeighthMul = 0.35;
   } else {
-  equationContainerHeighthMul = 1;
+    equationContainerHeighthMul = 1;
   }
 
-      adjustUISize(equationContainerHeighthMul);
-      canvas.size(canWidth, canHeight);
+  adjustUISize(equationContainerHeighthMul);
+  canvas.size(canWidth, canHeight);
 
-    var topLeft = new Point( 0, 0 );
-    var topRight = new Point( canWidth, 0 );
-    var botRight = new Point( canWidth, canHeight/2-thickness );
-    var botLeft = new Point( 0, ( canHeight/2-thickness ) );
+  var topLeft = new Point(0, 0);
+  var topRight = new Point(canWidth, 0);
+  var botRight = new Point(canWidth, canHeight / 2 - thickness);
+  var botLeft = new Point(0, (canHeight / 2 - thickness));
 
-    //Relative to parent coordinate
+  //Relative to parent coordinate
 
-    containers["outside"] = new Container(topLeft, topRight, botRight, botLeft, containerProperties["outside"]["color"],"outside");
-    containers["outside"].draw();
+  containers["outside"] = new Container(topLeft, topRight, botRight, botLeft, containerProperties["outside"]["color"], "outside");
+  containers["outside"].draw();
 
+  var topLeft = new Point(0, 0);
+  var topRight = new Point(canWidth, 0);
+  var botRight = new Point(canWidth, canHeight / 2);
+  var botLeft = new Point(0, canHeight / 2);
+  UIBoxs[0] = new UIBox(topLeft, topRight, botRight, botLeft);
+  UIBoxs[0].draw();
 
-    var topLeft = new Point( 0, 0 );
-    var topRight = new Point( canWidth, 0 );
-    var botRight = new Point( canWidth, canHeight/2 );
-    var botLeft = new Point( 0, canHeight/2 );
-    UIBoxs[0] = new UIBox( topLeft, topRight, botRight, botLeft );
-    UIBoxs[0].draw();
+  var topLeft = new Point(0, canHeight / 2 + thickness);
+  var topRight = new Point(canWidth, canHeight / 2 + thickness);
+  var botRight = new Point(canWidth, canHeight);
+  var botLeft = new Point(0, canHeight);
 
-    var topLeft = new Point( 0, canHeight/2+thickness );
-    var topRight = new Point( canWidth, canHeight/2+thickness );
-    var botRight = new Point( canWidth, canHeight );
-    var botLeft = new Point( 0, canHeight );
+  containers["inside"] = new Container(topLeft, topRight, botRight, botLeft, containerProperties["inside"]["color"], "inside");
+  //containers["inside"].draw();
 
-    containers["inside"] = new Container(topLeft, topRight, botRight, botLeft, containerProperties["inside"]["color"],"inside");
-    //containers["inside"].draw();
+  var topLeft = new Point(0, canHeight / 2);
+  var topRight = new Point(canWidth, canHeight / 2);
+  var botRight = new Point(canWidth, canHeight);
+  var botLeft = new Point(0, canHeight);
+  UIBoxs[1] = new UIBox(topLeft, topRight, botRight, botLeft);
+  UIBoxs[1].draw();
+  containers["inside"].draw();
 
-    var topLeft = new Point( 0, canHeight/2 );
-    var topRight = new Point( canWidth, canHeight/2 );
-    var botRight = new Point( canWidth, canHeight );
-    var botLeft = new Point( 0, canHeight );
-    UIBoxs[1] = new UIBox( topLeft, topRight, botRight, botLeft );
-    UIBoxs[1].draw();
-    containers["inside"].draw();
-
-        makeUIs(false)
+  makeUIs(false)
 }
 
 function adjustUISize(multiple) {
 
-        simuWidth = 0.65 * windowWidth;
+  simuWidth = 0.65 * windowWidth;
   stage.size(windowWidth, (windowHeight - 36));
   firstBox.size(0.35 * windowWidth, (windowHeight - 36));
   secondBox.size(0.65 * windowWidth, (windowHeight - 36));
-  questions.size(0.35 * windowWidth, (1 - multiple) *  (windowHeight - 36));
+  questions.size(0.35 * windowWidth, (1 - multiple) * (windowHeight - 36));
 
   equationContainer.size(0.35 * windowWidth, multiple * (windowHeight - 36));
   leftBox.size(0.35 * windowWidth, (1 - multiple) * (windowHeight - 36));
   hideBar.size(0.35 * windowWidth, 20);
   equi.size(0.35 * windowWidth, 40);
   equation.size(0.35 * windowWidth, multiple * (windowHeight - 36) - 40 - 20);
-  simulator.size(0.65 * windowWidth, 0.65 *  (windowHeight - 36));
-          // Define the global canWidth & canHeight variables~
-          canWidth = simulator.size().width;
-          //canHeight = 0.75 * (simulator.size().height - 8);
-          canHeight = 1 * (simulator.size().height - 4);
+  simulator.size(0.65 * windowWidth, 0.65 * (windowHeight - 36));
+  // Define the global canWidth & canHeight variables~
+  canWidth = simulator.size().width;
+  //canHeight = 0.75 * (simulator.size().height - 8);
+  canHeight = 1 * (simulator.size().height - 4);
 
   simulatorInputContainer.size(0.65 * windowWidth, 0.35 * (windowHeight - 36));
   simulatorInput.size(simuWidth, 0.35 * 0.90 * (windowHeight - 36));

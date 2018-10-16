@@ -22,13 +22,15 @@ body {
 }
 
 table, th, td {
-    border-collapse: collapse;
+  border-collapse: collapse;
 }
+
 th, td {
-    padding: 5px;
+  padding: 5px;
 }
+
 th {
-    text-align: left;
+  text-align: left;
 }
 
 #stage {
@@ -39,7 +41,7 @@ th {
   border-style: solid;
   border-color: #88BDBC;
   border-width: 5px;
-  overflow:hidden;
+  overflow: hidden;
 }
 
 #firstBox, #secondBox {
@@ -65,7 +67,6 @@ th {
   /* padding-right:10px; */
 }
 
-
 #questionsdiv {
   display: flex;
   flex-direction: column;
@@ -78,27 +79,27 @@ th {
   align-self: center;
 }
 
-
 #qtable {
-width: 100%;
-margin-top: 20px;
-margin-bottom: 20px;
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 #q1 section {
   padding-bottom: 20px;
 }
+
 #hidebar {
-  padding:5px;
+  padding: 5px;
 }
 
 .questions {
   height: 80%;
-  padding:10px;
+  padding: 10px;
   font-size: 0.95em;
 }
 
-#equationdiv{
+#equationdiv {
   padding: 5px;
   background-color: #4F4A41;
 }
@@ -119,14 +120,12 @@ margin-bottom: 20px;
   background-color: #4F4A41;
   display: flex;
   flex-direction: row;
-
 }
 
 .can {
   margin-left: auto;
   margin-right: auto;
 }
-
 
 .controls {
   padding: 5px;
@@ -174,38 +173,34 @@ margin-bottom: 20px;
 .control input {
   width: 20px;
   height: 20px;
-
   text-align: center;
 }
 
 .control button {
   height: 20px;
   width: 20px;
-
-
   border-radius: 5px;
   border: none;
-
   font-size: 20px;
   text-align: center;
 }
 
 .checkboxes {
-  margin:5px;
+  margin: 5px;
 }
-.checkboxes label{
-  margin-left:5px;
+
+.checkboxes label {
+  margin-left: 5px;
 }
 
 #particleControl {
   background-color: #4F4A41;
-  display:flex;
+  display: flex;
   /* justify-content: flex-start; */
   justify-content: center;
 }
 
 #NernstButton, #GoldmanButton {
-
   border: none;
   text-align: center;
   text-decoration: none;
@@ -217,17 +212,17 @@ margin-bottom: 20px;
 }
 
 input:hover {
-    cursor: text;
-      box-shadow:0px 0px 15px lightgrey;
+  cursor: text;
+  box-shadow: 0px 0px 15px lightgrey;
 }
 
-.checkboxes input{
-    cursor: pointer;
-}
-#NernstButton:hover, #GoldmanButton:hover, button:hover {
-
+.checkboxes input {
   cursor: pointer;
-      box-shadow:0px 0px 15px lightgrey;
+}
+
+#NernstButton:hover, #GoldmanButton:hover, button:hover {
+  cursor: pointer;
+  box-shadow: 0px 0px 15px lightgrey;
 }
 
 #equilibrate-button {
@@ -240,10 +235,11 @@ input:hover {
   /* padding:10px; */
   width: 35%;
 }
+
 #equilibrate-button:hover, #equilibrate-button:active, #equilibrate-button:focus {
   background-color: #353b48;
-        box-shadow:0px 0px 0px lightgrey;
-        cursor: pointer;
+  box-shadow: 0px 0px 0px lightgrey;
+  cursor: pointer;
 }
 
 #ion-selector {
@@ -252,41 +248,43 @@ input:hover {
 
 /*  CC  */
 #hidebar {
-display:flex;
-align-items: center;
-vertical-align: middle;
+  display: flex;
+  align-items: center;
+  vertical-align: middle;
   justify-content: center;
   background-color: #60a3bc;
 }
 
 #hidebar:hover {
-background-color: #82ccdd;
-cursor: pointer;
+  background-color: #82ccdd;
+  cursor: pointer;
 }
 
 #hidebarText {
-/* width:1%; */
-word-wrap: break-word;
-font-family: monospace; /* Placed letter "i" in the center */
-white-space:pre-wrap; /* this is for displaying whitespaces including Moz-FF.*/
-font-size: 18px;
-    transform: rotate(90deg);
-/* align-items: center;
+  /* width:1%; */
+  word-wrap: break-word;
+  font-family: monospace;
+  /* Placed letter "i" in the center */
+  white-space: pre-wrap;
+  /* this is for displaying whitespaces including Moz-FF.*/
+  font-size: 18px;
+  transform: rotate(90deg);
+  /* align-items: center;
 vertical-align: middle;
   justify-content: center;
     align-self: center; */
 }
 
 #simulatorSetting {
-display:flex;
-align-items: center;
+  display: flex;
+  align-items: center;
   justify-content: center;
-padding-top: 20px;
-padding-bottom: 10px;
+  padding-top: 20px;
+  padding-bottom: 10px;
 }
 
 #NernstSetting, #GoldmanSetting {
-/* display:flex;
+  /* display:flex;
 flex-direction: column;
 align-items: center;
   justify-content: center; */
@@ -295,89 +293,85 @@ align-items: center;
 #simCanvasPause {
   z-index: 1;
   background-color: gray;
-    opacity: 0.9;
+  opacity: 0.9;
   /* padding:16px; */
   font-size: 24px;
   top: calc(36px + 5px);
-      width: calc(65% - 5px);
-      height: calc(65% - 36px + 8px);
+  width: calc(65% - 5px);
+  height: calc(65% - 36px + 8px);
   position: absolute;
   color: white;
-
-  display:flex;
+  display: flex;
   align-items: center;
   justify-content: center;
 }
 
 /* Header */
 #simulator iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    overflow: hidden;
+  width: 100%;
+  height: 100%;
+  border: none;
+  overflow: hidden;
 }
 
 #containerHeader {
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
 }
 
 #containerHeader li {
-
-      display: flex;
-    list-style-type: none;
-    border: none;
-    text-decoration: none;
-    /* padding:16px; */
-    color: white;
-    width: 20%;
-    height: 36px;
-    /* margin-left: 20px; */
-    background-color: #333333;
-
-    justify-content: center;
-    align-items: center;
-    transition: 1s width ease;
+  display: flex;
+  list-style-type: none;
+  border: none;
+  text-decoration: none;
+  /* padding:16px; */
+  color: white;
+  width: 20%;
+  height: 36px;
+  /* margin-left: 20px; */
+  background-color: #333333;
+  justify-content: center;
+  align-items: center;
+  transition: 1s width ease;
 }
 
 #containerHeader li:hover {
-    background-color: #111111;
-    width: 30%;
-    cursor: pointer;
+  background-color: #111111;
+  width: 30%;
+  cursor: pointer;
 }
 
 #helpPage {
   z-index: 10;
   background-color: gray;
-    opacity: 0.9;
+  opacity: 0.9;
   display: flex;
   /* padding:16px; */
-      width: calc(100% - 8px);
-      height: calc(94% - 0px);
-  position: absolute;;
+  width: calc(100% - 8px);
+  height: calc(94% - 0px);
+  position: absolute;
+  ;
   top: calc(36px + 4px);
   left: 4px;
   color: white;
-
   display: flex;
   flex-wrap: wrap;
 }
 
 #helpPage div {
   /* background-color: blue; */
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 #helpPage div li {
   /* background-color: blue; */
-    border: 1px solid white;
-    padding: 10px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  border: 1px solid white;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #pauseButton {
@@ -386,12 +380,11 @@ align-items: center;
   padding: 3%;
   position: absolute;
   top: calc(65% - 20px);
-
   /* display: flex;
   justify-content: center;
   align-items: center; */
 }
 
 input:disabled, button:disabled {
-    cursor: not-allowed;
+  cursor: not-allowed;
 }

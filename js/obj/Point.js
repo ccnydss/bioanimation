@@ -4,8 +4,8 @@ class Point {
     this.y = _y;
   }
 
-  draw(){
-  	stroke(255);
-  	point(this.x,this.y);
+  draw() {
+    stroke(255);
+    point(this.x, this.y);
   }
 }
