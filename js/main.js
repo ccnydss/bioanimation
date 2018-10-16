@@ -169,7 +169,7 @@ function setup() {
 
   NernstFormulaInput(particleTypes[0]);
 
-  //Load all the equatoin at begin, otherelse will cause bug
+  //Load all the equation at begin, otherelse will cause bug
   //For some reason, MathJax-Element will be create after few millisecond
   //Remove the Goldman preset equation
   Initializor = setTimeout(function() {

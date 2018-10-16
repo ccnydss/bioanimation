@@ -18,7 +18,7 @@ var transferParticle = function(particleType, location) {
   }
   // If the particle is in the top division
   if (location[particleType][particleType] == "outside") {
-    var targetChannel = channels[id].// If the particle is in the bottom division
+    var targetChannel = channels[id]. // If the particle is in the bottom division
     tl;
   } else {
     var targetChannel = channels[id].bl;
@@ -521,8 +521,7 @@ function makeUIs(creation) {
       // } else {
       checkboxes[i] = createCheckbox(particleTypes[i], false);
       // }
-      checkboxes[i].class ('checkboxes')
-      checkboxes[i].id('checkbox' + particleTypes[i])
+      checkboxes[i].class ('checkboxes')checkboxes[i].id('checkbox' + particleTypes[i])
       checkboxes[i].parent('particleControl');
       checkboxes[i].changed(checkedEvent);
     }
