@@ -171,14 +171,14 @@ th {
 }
 
 .control input {
-  width: 20px;
+  width: 40px;
   height: 20px;
   text-align: center;
 }
 
 .control button {
-  height: 20px;
-  width: 20px;
+  height: 30px;
+  width: 30px;
   border-radius: 5px;
   border: none;
   font-size: 20px;
@@ -318,6 +318,7 @@ align-items: center;
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
+  background-color: #333333;
 }
 
 #containerHeader li {
