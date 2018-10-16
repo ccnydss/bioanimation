@@ -521,7 +521,8 @@ function makeUIs(creation) {
       // } else {
       checkboxes[i] = createCheckbox(particleTypes[i], false);
       // }
-      checkboxes[i].class ('checkboxes')checkboxes[i].id('checkbox' + particleTypes[i])
+      checkboxes[i].class ('checkboxes');
+      checkboxes[i].id('checkbox' + particleTypes[i]);
       checkboxes[i].parent('particleControl');
       checkboxes[i].changed(checkedEvent);
     }
