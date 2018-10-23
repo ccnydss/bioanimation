@@ -5,40 +5,54 @@ var transferParticle = function(particleType, location) {
   var yMul = 100;
   var id = particlesProperties[particleType]["id"];
   var row = 4;
+
   // Set names of current array is in and array to transfer particle into
-  var currentArray = particles[location[particleType]][particleType]; // eval(particle+"Particles"+currentNum);
+  var currentArray = particles[location[particleType]][particleType];
+  // NOTE: What does current array represent?
+
   var transferLocation = (location[particleType] == "outside")
     ? "inside"
     : "outside";
+
   var transferArray = particles[transferLocation][particleType];
   var offset = Math.floor(channels[0].width / 2 + 1);
 
   if (currentArray.length == 0) {
     return;
   }
+
   // If the particle is in the top division
   if (location[particleType][particleType] == "outside") {
-    var targetChannel = channels[id]. // If the particle is in the bottom division
-    tl;
+    var targetChannel = channels[id].tl;
   } else {
+    // If the particle is in the bottom division
     var targetChannel = channels[id].bl;
   }
+
   // Change move velocity to get particle to target channel
   var v = (targetChannel.x + offset - currentArray[0].x) / xMul;
   var u = (targetChannel.y - currentArray[0].y) / yMul;
+
   currentArray[0].orig_velocity = createVector(v, u);
   currentArray[0].move_velocity = createVector(v, u);
+
   var dist = euclideanDistance(currentArray[0].x, currentArray[0].y, targetChannel.x, targetChannel.y);
+
   var timeToGetToChannel = dist * 3;
+
   // Move particle through channel
   setTimeout(function() {
     var OriX = Math.floor(currentArray[0].x);
     var OriY = Math.floor(currentArray[0].y);
     var diam = currentArray[0].diam;
+
+    // NOTE: Why splice?
     currentArray.splice(0, 1);
+
     var yVector = (location[particleType] == "outside")
       ? 3
       : -3;
+
     var velocity = createVector(0, yVector);
     currentArray.push(new AnimatedParticle(OriX, OriY, diam, velocity, false, particleType));
   }, 800)
@@ -50,24 +64,28 @@ var transferParticle = function(particleType, location) {
     var OriX = Math.floor(OriParticle.x);
     var OriY = Math.floor(OriParticle.y);
     var diam = Math.floor(OriParticle.diam);
+
     velocities = velocityRange;
+
     var x_vel = Math.floor(Math.random() * (velocities.length - 1)) + 0;
     var y_vel = Math.floor(Math.random() * (velocities.length - 1)) + 0;
     var velocity = createVector(velocities[x_vel], Math.abs(velocities[y_vel]));
+
     currentArray.splice(particleIndex, 1);
 
     var oldInput = location[particleType] == "outside"
       ? input[id + 1]
       : input[id + row + 1];
+
     var transferInput = location[particleType] == "outside"
       ? input[id + row + 1]
       : input[id + 1];
+
     oldInput.value(particles[location[particleType]][particleType].length);
     transferArray.push(new factory[particleType](OriX, OriY, diam, velocity, true));
     transferInput.value(particles[transferLocation][particleType].length);
-    // if (particleType == document.getElementById('particleSelect').value) {
+
     NernstFormulaInput(particleType);
-    // }
   }, 1200)
 }
 
@@ -77,17 +95,21 @@ function equilibrate(particleType) {
   insideArray = particles["inside"][particleType];
 
   particleAmount = outsideArray.length + insideArray.length;
+
   equiAmount = Math.floor(particleAmount / 2);
+
   // if either top or bottom has equilibrium amount, we can return
   if (outsideArray.length == equiAmount || insideArray.length == equiAmount) {
     return;
   }
+
   largerArrayLocation = outsideArray.length > insideArray.length
     ? "outside"
     : "inside";
 
   var transfers = particles[largerArrayLocation][particleType].length - equiAmount;
   inEquilbrateState[particleType] = true;
+
   setTimeout(function() {
     inEquilbrateState[particleType] = false;
   }, 1000 * transfers);
@@ -97,9 +119,7 @@ function equilibrate(particleType) {
     setTimeout(function() {
       transferParticle(particleType, largerArrayLocations);
     }, 1000 * i);
-
   }
-
 }
 
 var NernstButtonStatus;
@@ -107,7 +127,6 @@ var GoldmanButtonStatus;
 var simulatorMode;
 
 function startNernst(evt) {
-
   //Remove old text
   if (document.getElementById('MathJax-Element-1-Frame')) {
     document.getElementById('MathJax-Element-2-Frame').style.display = "none";
@@ -126,11 +145,12 @@ function startNernst(evt) {
 
   simulatorMode = "Nernst";
   var NernstButtonStatus = document.getElementById("NernstButton");
-  var GoldmanButtonStatus = document.getElementById("GoldmanButton")
+  var GoldmanButtonStatus = document.getElementById("GoldmanButton");
+
   NernstButtonStatus.style.backgroundColor = "#74b9ff";
   GoldmanButtonStatus.style.backgroundColor = "#dfe6e9";
 
-  //enable last selected  Ions
+  //enable last selected Ions
   for (var j = 0; j < particleTypes.length; j++) {
     var checkBoxParticle = document.getElementById('checkbox' + particleTypes[j]).innerText;
     if (checkBoxParticle == lastNernstParticle) {
@@ -146,13 +166,14 @@ function startNernst(evt) {
       for (var i = 0; i < particles["inside"][checkBoxParticle].length; i++) {
         setDisplay(particles["inside"][checkBoxParticle][i], true);
       }
+
       for (var i = 0; i < particles["outside"][checkBoxParticle].length; i++) {
         setDisplay(particles["outside"][checkBoxParticle][i], true);
       }
+
       NernstFormulaInput(checkBoxParticle);
       //disable other ions if they are on?
     } else if (checkBoxParticle != lastNernstParticle & checkboxes[j].checked()) {
-
       //disable others particles
       checkboxes[j].checked(false)
       particlesProperties[checkBoxParticle]["display"] = false;
@@ -161,15 +182,15 @@ function startNernst(evt) {
       for (var i = 0; i < particles["inside"][checkBoxParticle].length; i++) {
         setDisplay(particles["inside"][checkBoxParticle][i], false);
       }
+
       for (var i = 0; i < particles["outside"][checkBoxParticle].length; i++) {
         setDisplay(particles["outside"][checkBoxParticle][i], false);
       }
     }
   }
-
 }
-function startGoldman(evt) {
 
+function startGoldman(evt) {
   //Graphics & Text
 
   //Remove old text
@@ -207,11 +228,13 @@ function startGoldman(evt) {
       for (var i = 0; i < particles["inside"][checkBoxParticle].length; i++) {
         setDisplay(particles["inside"][checkBoxParticle][i], true);
       }
+
       for (var i = 0; i < particles["outside"][checkBoxParticle].length; i++) {
         setDisplay(particles["outside"][checkBoxParticle][i], true);
       }
     }
   }
+  // NOTE: Why NernstFormulaInput for Goldman mode?
   NernstFormulaInput();
 }
 
@@ -226,9 +249,11 @@ function startEquilibrate(evt) {
 function disableButton() {
   document.getElementById('equilibrate-button').disabled = true;
 }
+
 function enableButton() {
   document.getElementById('equilibrate-button').disabled = false;
 }
+
 // Pause / unpause the animation (debug purposes)
 var togLoop = false;
 function toggleLoop() {
@@ -247,6 +272,7 @@ function toggleLoop() {
 
 function keyPressed() {
   var spacebar = 32;
+
   var Q_key = 81;
   var W_key = 87;
   var A_key = 65;
@@ -288,6 +314,7 @@ function increase(evt) {
   var particleLocation = (eventID < row)
     ? "outside"
     : "inside";
+
   var particleArray = particles[particleLocation][particleType];
 
   randomX = containers[particleLocation].tl.x + particlesProperties[particleType].radius + (Math.floor(Math.random() * xRange));
@@ -646,6 +673,7 @@ function NernstFormulaInput(particleType) {
     }
     var F = 96485.3329; //0.096485;
     var answer = (R * T) / (z * F) * Math.log(Xout / Xin);
+
   } else {
     var R = 8.314; // ideal gas constant
     var T = tempSetting; // 37 is the Human Body temperature
