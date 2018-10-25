@@ -36,12 +36,15 @@ QUnit.test("constructor", function(assert) {
   assert.deepEqual(testCh1.bl, botleft, "Bottom Left Point is correct");
 });
 
-QUnit.test("isInTransferRange", function(assert) {
-  assert.ok(1, "Pass");
-});
+QUnit.test("createChannels", function(assert) {
+  var topleft = new Point(0, 0);
+  var topright = new Point(10, 0);
+  var botleft = new Point(0, 10);
+  var botright = new Point(10, 10);
 
-QUnit.test("transfers", function(assert) {
-  assert.ok(1, "Pass");
+  // NOTE: In the future, we may wish to test the content of chans as well.
+  chans = createChannels(topleft, topright, botleft, botright, 3);
+  assert.deepEqual(chans.length, 3, "Array length is correct");
 });
 
 // =============================================================================

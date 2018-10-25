@@ -5,6 +5,7 @@ function makeLayout() {
   stage = createDiv('');
   stage.id('stage');
   stage.class ('flex-container');
+  stage.parent('root');
 
   firstBox = createDiv("");
   firstBox.id('firstBox');
