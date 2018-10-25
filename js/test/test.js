@@ -2,6 +2,7 @@
 // https://qunitjs.com/cookbook/
 // https://api.qunitjs.com/
 
+
 QUnit.module("Point Tests");
 
 QUnit.test("constructor", function(assert) {
@@ -22,8 +23,17 @@ QUnit.test("constructor", function(assert) {
 QUnit.module("Channel Tests");
 
 QUnit.test("constructor", function(assert) {
-  var testCh1 = new Channel(5, 10, 15, 20, "string");
-  assert.deepEqual(testCh1.tl, 5, "Top Left");
+  var topleft = new Point(0, 0);
+  var topright = new Point(10, 0);
+  var botleft = new Point(0, 10);
+  var botright = new Point(10, 10);
+
+  var testCh1 = new Channel(topleft, topright, botright, botleft, "string");
+
+  assert.deepEqual(testCh1.tl, topleft, "Top Left Point is correct");
+  assert.deepEqual(testCh1.tr, topright, "Top Right Point is correct");
+  assert.deepEqual(testCh1.br, botright, "Bottom Right Point is correct");
+  assert.deepEqual(testCh1.bl, botleft, "Bottom Left Point is correct");
 });
 
 QUnit.test("isInTransferRange", function(assert) {

@@ -1,6 +1,9 @@
 var largerArrayLocations = {}; // global dictionary used to prevent equilibrating one particle type from interrupting another.
 
 var transferParticle = function(particleType, location) {
+  // input: string, array
+  // transfers a particle from top to bottom
+
   var xMul = 100;
   var yMul = 100;
   var id = particlesProperties[particleType]["id"];

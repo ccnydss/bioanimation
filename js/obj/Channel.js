@@ -1,5 +1,7 @@
 class Channel {
   constructor(_tl, _tr, _br, _bl, _particle) {
+    // NOTE: Add verification later to make sure that top left, top right, bot right, bot left form a rectangle
+
     this.tl = _tl;
     this.tr = _tr;
     this.br = _br;
@@ -14,39 +16,41 @@ class Channel {
     rect(this.tl.x, this.tl.y, this.height, this.width)
   }
 
-  isInTransferRange(p) {
-    // Test if a given particle is close to the Channel.
+  // NOTE: DETERMINE IF THIS FUNCTION IS STILL BEING USED
+  // isInTransferRange(p) {
+  //   // Test if a given particle is close to the Channel.
+  //
+  //   // Precondition:  Particle P(x, y)
+  //   // Postcondition: True or False if coordinates are close to channel
+  //
+  //   var thickness = 25;
+  //   var entranceGap = 15;
+  //
+  //   var gapTL = new Point(this.tl.x, this.tl.y - entranceGap);
+  //   var gapTR = new Point(this.tl.x - 2 * thickness + 2 * this.width, this.tl.y - entranceGap);
+  //   var gapBR = new Point(this.tl.x - 2 * thickness + 2 * this.width, this.tl.y + this.height + entranceGap);
+  //   var gapBL = new Point(this.tl.x, this.tl.y + this.height + entranceGap);
+  //
+  //   gapTL.draw();
+  //   gapTR.draw();
+  //   gapBR.draw();
+  //   gapBL.draw();
+  //
+  //   var pastyRange = (p.y + p.r >= gapTL.y) && (p.y - p.r <= gapBL.y);
+  //   var pastxRange = (p.x + p.r >= gapTL.x) && (p.x - p.r <= gapTR.x);
+  //
+  //   return pastxRange && pastyRange;
+  // }
 
-    // Precondition:  Particle P(x, y)
-    // Postcondition: True or False if coordinates are close to channel
-
-    var thickness = 25;
-    var entranceGap = 15;
-
-    var gapTL = new Point(this.tl.x, this.tl.y - entranceGap);
-    var gapTR = new Point(this.tl.x - 2 * thickness + 2 * this.width, this.tl.y - entranceGap);
-    var gapBR = new Point(this.tl.x - 2 * thickness + 2 * this.width, this.tl.y + this.height + entranceGap);
-    var gapBL = new Point(this.tl.x, this.tl.y + this.height + entranceGap);
-
-    gapTL.draw();
-    gapTR.draw();
-    gapBR.draw();
-    gapBL.draw();
-
-    var pastyRange = (p.y + p.r >= gapTL.y) && (p.y - p.r <= gapBL.y);
-    var pastxRange = (p.x + p.r >= gapTL.x) && (p.x - p.r <= gapTR.x);
-
-    return pastxRange && pastyRange;
-  }
-
-  transfers(p) {
-    var isInTransferRange = this.isInTransferRange(p);
-
-    rect(this.tl.x - thickness, this.tl.y, this.height + 2 * thickness, this.width); //Gap
-    fill('rgba(100,155,200, 0.9)')
-    rect(this.tl.x - thickness, this.tl.y, this.height / 2, this.width); //Border left
-    rect(this.tl.x + 2 * thickness, this.tl.y, this.height / 2, this.width); //Border Right
-  }
+  // NOTE: DETERMINE IF THIS FUNCTION IS STILL BEING USED
+  // transfers(p) {
+  //   var isInTransferRange = this.isInTransferRange(p);
+  //
+  //   rect(this.tl.x - thickness, this.tl.y, this.height + 2 * thickness, this.width); //Gap
+  //   fill('rgba(100,155,200, 0.9)')
+  //   rect(this.tl.x - thickness, this.tl.y, this.height / 2, this.width); //Border left
+  //   rect(this.tl.x + 2 * thickness, this.tl.y, this.height / 2, this.width); //Border Right
+  // }
 }
 
 class UIBox {

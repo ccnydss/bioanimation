@@ -13,20 +13,22 @@ class Container {
   draw() {
     fill(this.color);
     rect(this.tl.x, this.tl.y, this.vertical, this.horizontal);
+
     if (this.id == "outside") {
       fill(255, 255, 255);
-      rect(5, this.bl.y + 60, 70, 20);
-      rect(5, 15, 75, 20);
+      rect(5, this.bl.y + 60, textWidth("Intracellular") + 10, 20);
+      rect(5, 15, textWidth("Extracellular") + 10, 20);
       fill(50);
       text("Intracellular", 10, this.bl.y + 75);
       text("Extracellular", 10, 20 + 8);
     }
   }
 
-  moveNoCollision(p) {
-    p.x += p.move_velocity.x;
-    p.y += p.move_velocity.y;
-  }
+  // NOTE: DETERMINE IF THIS FUNCTION IS STILL BEING USED
+  // moveNoCollision(p) {
+  //   p.x += p.move_velocity.x;
+  //   p.y += p.move_velocity.y;
+  // }
 
   clips(p) {
     // Test if the next movement the particle makes would result in a part of it clipping past container
