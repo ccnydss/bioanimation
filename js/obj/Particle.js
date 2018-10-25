@@ -1,5 +1,7 @@
 class Particle {
   constructor(_x, _y, _diam, _vel, _collidable) {
+    // Input: int, int, int, p5 vector, boolean
+    // Function: Instantiate a Particle object
     this.x = _x;
     this.y = _y;
     this.diam = _diam;
@@ -9,7 +11,7 @@ class Particle {
     // Store the original vector to remember it after modifying move_velocity.
     this.orig_velocity = createVector(_vel.x, _vel.y);
     this.move_velocity = createVector(_vel.x, _vel.y);
-    this.velocity_mul = createVector(1, 1);
+    this.velocity_mul = createVector(1, 1); // NOTE: Still using this attribute?
     this.display = true;
   }
 

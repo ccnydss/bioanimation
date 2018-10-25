@@ -1,5 +1,7 @@
 class Container {
   constructor(_tl, _tr, _br, _bl, _color, _id) {
+    // Input: 4 points, a P5 color string, and "inside" | "outside"
+    // Function: Generate a new Container object with its properties.
     this.tl = _tl;
     this.tr = _tr;
     this.br = _br;
@@ -24,25 +26,32 @@ class Container {
     }
   }
 
-  // NOTE: DETERMINE IF THIS FUNCTION IS STILL BEING USED
-  // moveNoCollision(p) {
-  //   p.x += p.move_velocity.x;
-  //   p.y += p.move_velocity.y;
-  // }
+  // NOTE: Gets used in Particle.js
+  //        Migrate this to Particle class because it only modifies "p"s values.
+  moveNoCollision(p) {
+    p.x += p.move_velocity.x;
+    p.y += p.move_velocity.y;
+  }
 
   clips(p) {
-    // Test if the next movement the particle makes would result in a part of it clipping past container
+    // NOTE: Might make more sense to put this inside the Particle class,
+    //      because this function modifies "p"s values.
+
+    // Input: Particle
+    // Function: Decelerate a particle as it approaches this container
+
     var write = function(direction, particle, wall, p) {
-      // if (direction == "left" || direction == "right") {
-      //   console.log("CLIPS!")
-      //   console.log("direction: ", direction);
-      //   console.log("particle: ", particle);
-      //   console.log(direction, "wall: ", wall);
-      //   console.log('velocity: (',p.move_velocity.x,p.move_velocity.y,')');
-      //   console.log("leftball:",p.x - p.r);
-      //   console.log("rightball:",p.x + p.r);
-      // }
+      if (direction == "left" || direction == "right") {
+        console.log("CLIPS!")
+        console.log("direction: ", direction);
+        console.log("particle: ", particle);
+        console.log(direction, "wall: ", wall);
+        console.log('velocity: (',p.move_velocity.x,p.move_velocity.y,')');
+        console.log("leftball:",p.x - p.r);
+        console.log("rightball:",p.x + p.r);
+      }
     }
+
     var nextPastBottom = p.y + p.move_velocity.y + p.r + 0.5 > this.bl.y;
     var nextPastTop = p.y + p.move_velocity.y - p.r - 0.5 < this.tl.y;
     var nextPastRight = p.x + p.move_velocity.x + p.r + 0.5 > this.br.x;
@@ -51,46 +60,58 @@ class Container {
     while (nextPastBottom) {
       // For as long as the next position increment will bring the particle
       // outside of the container, then... decelerate the particle.
-      write("bottom", p.y + p.r, this.bl.y, p);
+
+      // write("bottom", p.y + p.r, this.bl.y, p);
       p.move_velocity.y -= 1;
+
       // Recheck condition
       nextPastBottom = p.y + p.move_velocity.y + p.r > this.bl.y;
     }
 
     while (nextPastTop) {
-      write("top", p.y - p.r, this.tl.y, p);
+      // write("top", p.y - p.r, this.tl.y, p);
       p.move_velocity.y += 1;
+
+      // Recheck condition
       nextPastTop = p.y + p.move_velocity.y - p.r < this.tl.y;
     }
 
     while (nextPastRight) {
-      write("right", p.x + p.r, this.br.x, p);
+      // write("right", p.x + p.r, this.br.x, p);
       p.move_velocity.x -= 1;
+
+      // Recheck condition
       nextPastRight = p.x + p.move_velocity.x + p.r > this.br.x;
     }
 
     while (nextPastLeft) {
-      write("left", p.x - p.r, this.bl.x, p);
+      // write("left", p.x - p.r, this.bl.x, p);
       p.move_velocity.x += 1;
+
+      // Recheck condition
       nextPastLeft = p.x + p.move_velocity.x - p.r < this.bl.x;
     }
   }
 
   hit(p) {
+    // Input: Particle
+    // Function: Make the particle bounce away (reflect velocity vector) when it comes into contact with a container
+
     var write = function(direction, particle, wall) {
-      // if (direction == "left" || direction == "right") {
-      //   console.log("HITS!")
-      //   console.log("direction: ", direction);
-      //   console.log("particle: ", particle);
-      //   console.log(direction, " wall: ", wall);
-      //   console.log('velocity: (',p.move_velocity.x,p.move_velocity.y,')');
-      //   console.log("leftball:",p.x - p.r);
-      //   console.log("rightball:",p.x + p.r);
-      // }
+      if (direction == "left" || direction == "right") {
+        console.log("HITS!")
+        console.log("direction: ", direction);
+        console.log("particle: ", particle);
+        console.log(direction, " wall: ", wall);
+        console.log('velocity: (',p.move_velocity.x,p.move_velocity.y,')');
+        console.log("leftball:",p.x - p.r);
+        console.log("rightball:",p.x + p.r);
+      }
     }
 
     p.x += p.move_velocity.x;
     p.y += p.move_velocity.y;
+
     var pastBottom = p.y + p.r + 1 >= this.bl.y - 1;
     var pastTop = p.y - p.r - 1 <= this.tl.y + 1;
     var pastRight = p.x + p.r + 1 >= this.br.x;
@@ -103,7 +124,7 @@ class Container {
 
     if (pastBottom) {
       // Create new velocity vector based off of reflection
-      write("bottom", p.y + p.r, this.bl.y, p);
+      // write("bottom", p.y + p.r, this.bl.y, p);
 
       var newx = p.orig_velocity.x;
       var newy = -1 * mul / p.velocity_mul.y * p.orig_velocity.y;
@@ -117,9 +138,10 @@ class Container {
       p.velocity_mul.y = mul;
 
     }
+
     if (pastTop) {
       // Create new velocity vector based off of reflection
-      write("top", p.y - p.r, this.tl.y, p);
+      // write("top", p.y - p.r, this.tl.y, p);
 
       var newx = p.orig_velocity.x;
       var newy = -1 * mul / p.velocity_mul.y * p.orig_velocity.y;
@@ -133,9 +155,10 @@ class Container {
       p.velocity_mul.y = mul;
 
     }
+
     if (pastRight) {
       // Create new velocity vector based off of reflection
-      write("right", p.x + p.r, this.br.x, p);
+      // write("right", p.x + p.r, this.br.x, p);
 
       var newx = -1 * mul / p.velocity_mul.x * p.orig_velocity.x;
       var newy = p.orig_velocity.y;
@@ -149,9 +172,10 @@ class Container {
       p.velocity_mul.x = mul;
 
     }
+
     if (pastLeft) {
       // Create new velocity vector based off of reflection
-      write("left", p.x - p.r, this.bl.x, p);
+      // write("left", p.x - p.r, this.bl.x, p);
 
       var newx = -1 * mul / p.velocity_mul.x * p.orig_velocity.x;
       var newy = p.orig_velocity.y;
