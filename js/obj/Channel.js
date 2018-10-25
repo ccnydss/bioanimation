@@ -5,8 +5,8 @@ class Channel {
     this.br = _br;
     this.bl = _bl;
     this.particle = _particle;
-    this.height = abs(_tr.x - _tl.x);
-    this.width = abs(_tl.y - _bl.y);
+    this.height = Math.abs(_tr.x - _tl.x);
+    this.width = Math.abs(_tl.y - _bl.y);
   }
 
   draw() {
@@ -15,6 +15,11 @@ class Channel {
   }
 
   isInTransferRange(p) {
+    // Test if a given particle is close to the Channel.
+
+    // Precondition:  Particle P(x, y)
+    // Postcondition: True or False if coordinates are close to channel
+
     var thickness = 25;
     var entranceGap = 15;
 
@@ -32,7 +37,6 @@ class Channel {
     var pastxRange = (p.x + p.r >= gapTL.x) && (p.x - p.r <= gapTR.x);
 
     return pastxRange && pastyRange;
-
   }
 
   transfers(p) {
@@ -46,6 +50,7 @@ class Channel {
 }
 
 class UIBox {
+  // NOTE: What is a UIBox and what does it do?
   constructor(_tl, _tr, _br, _bl) {
     this.tl = _tl;
     this.tr = _tr;
