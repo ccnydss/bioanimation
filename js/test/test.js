@@ -1,9 +1,44 @@
-QUnit.test( "hello test", function( assert ) {
-  assert.ok( 2 == "1", "Passed!" );
+// QUnit References:
+// https://qunitjs.com/cookbook/
+// https://api.qunitjs.com/
+
+QUnit.module("Channel Tests");
+
+QUnit.test( "isInTransferRange", function ( assert ) {
+  assert.ok( 1, "Pass");
 });
 
-QUnit.test( "other file", function( assert ) {
-  sum = qtest(3, 4);
+// =============================================================================
+QUnit.module("Container Tests");
 
-  assert.deepEqual( sum, 8, "Sum is equal");
-})
+QUnit.test( "moveNoCollision", function ( assert ) {
+  assert.ok( 1, "Pass");
+});
+
+// =============================================================================
+QUnit.module("Particle Tests");
+
+QUnit.test( "move", function ( assert ) {
+  assert.ok( 1, "Pass");
+});
+
+// =============================================================================
+QUnit.module("Point Tests");
+
+QUnit.test( "constructor", function ( assert ) {
+  assert.ok( 1, "Pass");
+});
+
+// =============================================================================
+QUnit.module("domFunctions");
+
+QUnit.test( "make layout", function ( assert ) {
+  assert.ok( 1, "Pass");
+});
+
+// =============================================================================
+QUnit.module("sketchControls");
+
+QUnit.test( "transferParticle", function ( assert ) {
+  assert.ok( 1, "Pass");
+});
