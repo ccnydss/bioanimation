@@ -28,7 +28,7 @@ QUnit.test("constructor", function(assert) {
   var botleft = new Point(0, 10);
   var botright = new Point(10, 10);
 
-  var testCh1 = new Channel(topleft, topright, botright, botleft, "string");
+  var testCh1 = new Channel(topleft, topright, botright, botleft, "Na");
 
   assert.deepEqual(testCh1.tl, topleft, "Top Left Point is correct");
   assert.deepEqual(testCh1.tr, topright, "Top Right Point is correct");
