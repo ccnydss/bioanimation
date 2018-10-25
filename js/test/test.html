@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>QUnit Example</title>
+  <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.7.1.css">
+</head>
+<body>
+
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+
+  <!-- Load the script for the unit testing framework -->
+  <script src="https://code.jquery.com/qunit/qunit-2.7.1.js"></script>
+
+  <!-- Load the classes we've defined so we can use them in our tests -->
+  <script language="javascript" type="text/javascript" src="obj/Point.js"></script>
+  <script language="javascript" type="text/javascript" src="obj/Container.js"></script>
+  <script language="javascript" type="text/javascript" src="obj/Particle.js"></script>
+  <script language="javascript" type="text/javascript" src="obj/Channel.js"></script>
+
+  <!-- Load the scripts we've created with functions we want to test -->
+  <script src="../domFunctions.js"></script>
+  <script src="../sketchControls.js"></script>
+
+  <!-- Load the test suite that we've created -->
+  <script src="test.js"></script>
+</body>
+</html>
