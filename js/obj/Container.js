@@ -86,9 +86,6 @@ class Container {
 
     while (nextPastRight) {
       write("right", p.x + p.r, this.br.x, p);
-      if (p.x == 6 && p.y == 5 && this.br.x == 10) {
-        console.log("Current mov_vel is", p.move_velocity.x);
-      }
       p.move_velocity.x = p.move_velocity.x - 1;
 
       // Recheck condition
@@ -141,7 +138,7 @@ class Container {
       var reflectionRange = [0.5, 1.2];
       var mul = ((Math.random() * reflectionRange[1]) + reflectionRange[0]).toFixed(3);
     }
-    
+
     // NOTE: Try to DRY these if statements
     if (pastBottom) {
       // Create new velocity vector based off of reflection
