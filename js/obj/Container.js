@@ -104,12 +104,14 @@ class Container {
     }
   }
 
-  hit(p) {
-    // Input: Particle
-    // Function: Make the particle bounce away (reflect velocity vector) when it comes into contact with a container
+  hit(p, mul = -1) {
+    // Input:     Particle
+    // Function:  Make the particle bounce away (reflect velocity vector) when it comes into contact with a container
 
+    // NOTE: Extract debug function to reuse for hit and clips
     var write = function(direction, particle, wall) {
-      if (direction == "left" || direction == "right") {
+      var debug = false;
+      if ((direction == "left" || direction == "right") && debug) {
         console.log("HITS!")
         console.log("direction: ", direction);
         console.log("particle: ", particle);
@@ -120,22 +122,30 @@ class Container {
       }
     }
 
+    // Move particle forward -- we should know it is safe to do so and remain within Container_Context, because of clips()
     p.x += p.move_velocity.x;
     p.y += p.move_velocity.y;
 
-    var pastBottom = p.y + p.r + 1 >= this.bl.y - 1;
-    var pastTop = p.y - p.r - 1 <= this.tl.y + 1;
-    var pastRight = p.x + p.r + 1 >= this.br.x;
-    var pastLeft = p.x - p.r - 1 <= this.bl.x;
-    //p.x + p.move_velocity.x - p.r - 0.5 < this.bl.x;
 
-    var reflectionRange = [0.5, 1.2];
-    var mul = ((Math.random() * reflectionRange[1]) + reflectionRange[0]).toFixed(3);
-    // var mul = Math.sin(45*Math.PI/360);
+    var errorCorrection = 1;  // Sometimes the sum has rounding errors (i.e, 1.00001)
 
+    var pastBottom = p.y + p.r + errorCorrection >= this.bl.y - errorCorrection;
+    var pastTop = p.y - p.r - errorCorrection <= this.tl.y + errorCorrection;
+    var pastRight = p.x + p.r + errorCorrection >= this.br.x;
+    var pastLeft = p.x - p.r - errorCorrection <= this.bl.x;
+
+    // Choose random angle of reflection
+    // NOTE: Where do these constants come from?
+    if (mul == -1) {
+      // NOTE: This is a temporary step of refactoring the multiplier to come from outside
+      var reflectionRange = [0.5, 1.2];
+      var mul = ((Math.random() * reflectionRange[1]) + reflectionRange[0]).toFixed(3);
+    }
+    
+    // NOTE: Try to DRY these if statements
     if (pastBottom) {
       // Create new velocity vector based off of reflection
-      // write("bottom", p.y + p.r, this.bl.y, p);
+      write("bottom", p.y + p.r, this.bl.y, p);
 
       var newx = p.orig_velocity.x;
       var newy = -1 * mul / p.velocity_mul.y * p.orig_velocity.y;
@@ -146,13 +156,14 @@ class Container {
       // Begin moving the particle in the new direction
       p.x += p.move_velocity.x;
       p.y += p.move_velocity.y;
-      p.velocity_mul.y = mul;
 
+      // NOTE: Why do we need to store the previous multiplier?
+      p.velocity_mul.y = mul;
     }
 
     if (pastTop) {
       // Create new velocity vector based off of reflection
-      // write("top", p.y - p.r, this.tl.y, p);
+      write("top", p.y - p.r, this.tl.y, p);
 
       var newx = p.orig_velocity.x;
       var newy = -1 * mul / p.velocity_mul.y * p.orig_velocity.y;
@@ -163,13 +174,13 @@ class Container {
       // Begin moving the particle in new direction
       p.x += p.move_velocity.x;
       p.y += p.move_velocity.y;
-      p.velocity_mul.y = mul;
 
+      p.velocity_mul.y = mul;
     }
 
     if (pastRight) {
       // Create new velocity vector based off of reflection
-      // write("right", p.x + p.r, this.br.x, p);
+      write("right", p.x + p.r, this.br.x, p);
 
       var newx = -1 * mul / p.velocity_mul.x * p.orig_velocity.x;
       var newy = p.orig_velocity.y;
@@ -186,7 +197,7 @@ class Container {
 
     if (pastLeft) {
       // Create new velocity vector based off of reflection
-      // write("left", p.x - p.r, this.bl.x, p);
+      write("left", p.x - p.r, this.bl.x, p);
 
       var newx = -1 * mul / p.velocity_mul.x * p.orig_velocity.x;
       var newy = p.orig_velocity.y;

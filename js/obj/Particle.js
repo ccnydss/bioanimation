@@ -66,12 +66,14 @@ class K extends Particle {
   }
 }
 
+// NOTE: Is this the best name for this object?
 var factory = {
   "Na": Na,
   "Cl": Cl,
   "K": K
 }
 
+// NOTE: This should be a child class of Particle
 class AnimatedParticle {
   constructor(_x, _y, _diam, _vel, _collidable, _particle) {
     this.x = _x;
