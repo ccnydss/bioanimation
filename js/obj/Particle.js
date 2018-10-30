@@ -25,7 +25,7 @@ class Particle {
 
   move(container_context, channels) {
     // Pass in a Container object the particle should be constrained inside.
-    //channel.transfers(this);
+    // channel.transfers(this);
     if (this.collidable) {
       container_context.clips(this);
       container_context.hit(this);
@@ -33,8 +33,11 @@ class Particle {
       container_context.moveNoCollision(this)
     }
 
+    // NOTE: Why is this repeated even though it is done above, in the "if"-statement?
     container_context.clips(this);
     container_context.hit(this);
+
+    // NOTE: Shouldn't we just call the "draw" method directly?
     if (this.display) {
       ellipse(this.x, this.y, this.diam);
     }

@@ -1,7 +1,8 @@
 class Container {
   constructor(_tl, _tr, _br, _bl, _color, _id) {
-    // Input: 4 points, a P5 color string, and "inside" | "outside"
-    // Function: Generate a new Container object with its properties.
+    // Input:     4 points, a P5 color string, and "inside" | "outside"
+    // Function:  Generate a new Container object with its properties.
+
     this.tl = _tl;
     this.tr = _tr;
     this.br = _br;
@@ -38,38 +39,45 @@ class Container {
     //      because this function modifies "p"s values.
 
     // Input: Particle
-    // Function: Decelerate a particle as it approaches this container
+    // Function: Decelerate the Particle as it approaches this container
 
     var write = function(direction, particle, wall, p) {
-      if (direction == "left" || direction == "right") {
+      var debug = false;
+      if ((direction == "left" || direction == "right") && debug) {
         console.log("CLIPS!")
         console.log("direction: ", direction);
         console.log("particle: ", particle);
         console.log(direction, "wall: ", wall);
-        console.log('velocity: (',p.move_velocity.x,p.move_velocity.y,')');
-        console.log("leftball:",p.x - p.r);
-        console.log("rightball:",p.x + p.r);
+        console.log('velocity: (', p.move_velocity.x, p.move_velocity.y, ')');
+        console.log("leftball:", p.x - p.r);
+        console.log("rightball:", p.x + p.r);
       }
     }
 
-    var nextPastBottom = p.y + p.move_velocity.y + p.r + 0.5 > this.bl.y;
-    var nextPastTop = p.y + p.move_velocity.y - p.r - 0.5 < this.tl.y;
-    var nextPastRight = p.x + p.move_velocity.x + p.r + 0.5 > this.br.x;
-    var nextPastLeft = p.x + p.move_velocity.x - p.r - 0.5 < this.bl.x;
+    // Boolean expressions
+    // Detect if the particle will cross any container walls if it moves forward by its current velocity.
 
+    var nextPastBottom = p.y + p.move_velocity.y + p.r > this.bl.y; // Crosses bottom wall?
+    var nextPastTop = p.y + p.move_velocity.y - p.r < this.tl.y; // Crosses top wall?
+    var nextPastRight = p.x + p.move_velocity.x + p.r > this.br.x; // Crosses right wall?
+    var nextPastLeft = p.x + p.move_velocity.x - p.r < this.bl.x; // Crosses left wall?
+
+    // console.log(p);
+    // NOTE: Perhaps turn this single while loop into a function for reuse
     while (nextPastBottom) {
       // For as long as the next position increment will bring the particle
       // outside of the container, then... decelerate the particle.
 
-      // write("bottom", p.y + p.r, this.bl.y, p);
+      write("bottom", p.y + p.r, this.bl.y, p);
       p.move_velocity.y -= 1;
 
       // Recheck condition
+      // NOTE: Find a way to avoid repeating this expression from the beginning
       nextPastBottom = p.y + p.move_velocity.y + p.r > this.bl.y;
     }
 
     while (nextPastTop) {
-      // write("top", p.y - p.r, this.tl.y, p);
+      write("top", p.y - p.r, this.tl.y, p);
       p.move_velocity.y += 1;
 
       // Recheck condition
@@ -77,15 +85,18 @@ class Container {
     }
 
     while (nextPastRight) {
-      // write("right", p.x + p.r, this.br.x, p);
-      p.move_velocity.x -= 1;
+      write("right", p.x + p.r, this.br.x, p);
+      if (p.x == 6 && p.y == 5 && this.br.x == 10) {
+        console.log("Current mov_vel is", p.move_velocity.x);
+      }
+      p.move_velocity.x = p.move_velocity.x - 1;
 
       // Recheck condition
       nextPastRight = p.x + p.move_velocity.x + p.r > this.br.x;
     }
 
     while (nextPastLeft) {
-      // write("left", p.x - p.r, this.bl.x, p);
+      write("left", p.x - p.r, this.bl.x, p);
       p.move_velocity.x += 1;
 
       // Recheck condition
@@ -103,9 +114,9 @@ class Container {
         console.log("direction: ", direction);
         console.log("particle: ", particle);
         console.log(direction, " wall: ", wall);
-        console.log('velocity: (',p.move_velocity.x,p.move_velocity.y,')');
-        console.log("leftball:",p.x - p.r);
-        console.log("rightball:",p.x + p.r);
+        console.log('velocity: (', p.move_velocity.x, p.move_velocity.y, ')');
+        console.log("leftball:", p.x - p.r);
+        console.log("rightball:", p.x + p.r);
       }
     }
 
