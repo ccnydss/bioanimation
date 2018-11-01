@@ -88,7 +88,7 @@ var transferParticle = function(particleType, location) {
     transferArray.push(new factory[particleType](OriX, OriY, diam, velocity, true));
     transferInput.value(particles[transferLocation][particleType].length);
 
-    NernstFormulaInput(particleType);
+    FormulaInputCalculation(particleType);
   }, 1200)
 }
 
@@ -179,7 +179,7 @@ function startNernst(evt) {
         setDisplay(particles["outside"][checkBoxParticle][i], true);
       }
 
-      NernstFormulaInput(checkBoxParticle);
+      FormulaInputCalculation(checkBoxParticle);
       //disable other ions if they are on?
     } else if (checkBoxParticle != lastNernstParticle & checkboxes[j].checked()) {
       //disable others particles
@@ -244,9 +244,8 @@ function startGoldman(evt) {
       }
     }
   }
-  // NOTE: Why NernstFormulaInput for Goldman mode?
-  // NernstFormulaInput calculate both Nernest (if there is a input) and Goldman (if input is null)
-  NernstFormulaInput();
+
+  FormulaInputCalculation();
 }
 
 function startEquilibrate(evt) {
@@ -347,7 +346,7 @@ function increase(evt) {
   particleArray.push(new factory[particleType](randomX, randomY, particlesProperties[particleType].radius, velocity, true));
   var updatedParticleAmount = particleArray.length;
   // if (particleType == document.getElementById('particleSelect').value) {
-  NernstFormulaInput(particleType);
+  FormulaInputCalculation(particleType);
   // }
   input[eventID].value(updatedParticleAmount);
 }
@@ -375,7 +374,7 @@ function decrease(evt) {
 
   var updatedParticleAmount = particleArray.length;
   // if (particleType == document.getElementById('particleSelect').value) {
-  NernstFormulaInput(particleType);
+  FormulaInputCalculation(particleType);
   // }
   input[eventID].value(updatedParticleAmount);
 }
@@ -416,14 +415,14 @@ function ChangeNumParticles(evt) {
       var velocity = createVector(velocities[x_vel], velocities[y_vel]);
       particleArray.push(new factory[particleType](randomX, randomY, particlesProperties[particleType].radius, velocity, true));
       // if (particleType == document.getElementById('particleSelect').value) {
-      NernstFormulaInput(particleType);
+      FormulaInputCalculation(particleType);
       // }
     }
   } else if (updatedAmount < particleArray.length) {
     for (var i = 0; i < difference; i++) {
       particleArray.splice(particleArray.length - 1, 1);
       // if (particleType == document.getElementById('particleSelect').value) {
-      NernstFormulaInput(particleType);
+      FormulaInputCalculation(particleType);
       // }
     }
   }
@@ -448,26 +447,26 @@ function ChangesimulatorSetting(evt) {
   }
   if (eventID == 2) {
     particlesProperties["Na"]["permeability"] = updatedAmount;
-    NernstFormulaInput();
+    FormulaInputCalculation();
   }
   if (eventID == 3) {
     particlesProperties["Cl"]["permeability"] = updatedAmount;
-    NernstFormulaInput();
+    FormulaInputCalculation();
   }
   if (eventID == 4) {
     particlesProperties["K"]["permeability"] = updatedAmount;
-    NernstFormulaInput();
+    FormulaInputCalculation();
   }
 
   if (simulatorMode == "Goldman") {
-    NernstFormulaInput();
+    FormulaInputCalculation();
   } else {
     if (particlesProperties["Na"]["display"] == true) {
-      NernstFormulaInput("Na");
+      FormulaInputCalculation("Na");
     } else if (particlesProperties["Cl"]["display"] == true) {
-      NernstFormulaInput("Cl");
+      FormulaInputCalculation("Cl");
     } else if (particlesProperties["K"]["display"] == true) {
-      NernstFormulaInput("K");
+      FormulaInputCalculation("K");
     }
   }
 }
@@ -522,7 +521,7 @@ function checkedEvent(evt) {
       }
 
     }
-    NernstFormulaInput(particleType)
+    FormulaInputCalculation(particleType)
   }
 }
 
@@ -683,10 +682,10 @@ function NernstFormula(evt) {
   var eventID = evt.target.id;
   var newParticleType = equations[eventID].value();
   var particleType = newParticleType;
-  NernstFormulaInput(particleType);
+  FormulaInputCalculation(particleType);
 }
 
-function NernstFormulaInput(particleType) {
+function FormulaInputCalculation(particleType) {
   // input: string;
   // usage: "Na", "Cl", "K"
 

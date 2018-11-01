@@ -174,7 +174,7 @@ function setup() {
     setDisplay(particles["outside"]["K"][i], false);
   }
 
-  NernstFormulaInput(particleTypes[0]);
+  FormulaInputCalculation(particleTypes[0]);
 
   //Load all the equation at begin, otherelse will cause bug
   //For some reason, MathJax-Element will be create after few millisecond
