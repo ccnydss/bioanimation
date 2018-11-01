@@ -94,6 +94,9 @@ var transferParticle = function(particleType, location) {
 
 // Brings outside and inside into equilibrium
 function equilibrate(particleType) {
+  // input: string;
+  // usage: "Na", "Cl", "K"
+
   outsideArray = particles["outside"][particleType];
   insideArray = particles["inside"][particleType];
 
@@ -130,6 +133,8 @@ var GoldmanButtonStatus;
 var simulatorMode;
 
 function startNernst(evt) {
+  // input: the event DOM object; however this input is unused in this function
+
   //Remove old text
   if (document.getElementById('MathJax-Element-1-Frame')) {
     document.getElementById('MathJax-Element-2-Frame').style.display = "none";
@@ -194,6 +199,8 @@ function startNernst(evt) {
 }
 
 function startGoldman(evt) {
+  // input: the element that triggered the event; however this input is unused in this function
+
   //Graphics & Text
 
   //Remove old text
@@ -238,10 +245,13 @@ function startGoldman(evt) {
     }
   }
   // NOTE: Why NernstFormulaInput for Goldman mode?
+  // NernstFormulaInput calculate both Nernest (if there is a input) and Goldman (if input is null)
   NernstFormulaInput();
 }
 
 function startEquilibrate(evt) {
+  // input: the element that triggered the event; however this input is unused in this function
+
   for (var i = 0; i < particleTypes.length; i++) {
     if (!inEquilbrateState[particleTypes[i]] && particlesProperties[particleTypes[i]]["display"]) {
       equilibrate(particleTypes[i]);
@@ -310,6 +320,8 @@ function keyPressed() {
 }
 
 function increase(evt) {
+  // input: the element that triggered the event (Input buttons);
+
   var eventID = evt.target.id;
   var row = 4;
   var id = (eventID % row) - 1;
@@ -341,6 +353,8 @@ function increase(evt) {
 }
 
 function decrease(evt) {
+  // input: the element that triggered the event (Input buttons);
+
   var eventID = evt.target.id;
   var row = 4;
   var id = (eventID % row) - 1;
@@ -367,6 +381,8 @@ function decrease(evt) {
 }
 
 function ChangeNumParticles(evt) {
+  // input: the element that triggered the event (Input buttons);
+
   var eventID = evt.target.id;
   var row = 4;
   var id = (eventID % row) - 1;
@@ -414,6 +430,8 @@ function ChangeNumParticles(evt) {
 }
 
 function ChangesimulatorSetting(evt) {
+  // input: the element that triggered the event (Input buttons);
+
   var eventID = evt.target.id;
   //0 = temperature
   //1 = charge *Removed*
@@ -455,6 +473,8 @@ function ChangesimulatorSetting(evt) {
 }
 
 function checkedEvent(evt) {
+  // input: the element that triggered the event (Input buttons);
+
   if (simulatorMode == "Goldman") {
     this.checked(true); //Left checkbox checked by default
   } else {
@@ -510,6 +530,9 @@ function checkedEvent(evt) {
 var checkboxes = [];
 
 function makeUIs(creation) {
+  // input: Boolean;
+  // usage: True is for initializing the UI; False is for recreating UI when browser window is resized (responsive UI)
+
   // Channel
   var topLeft = new Point(canWidth / 2 - thickness, canHeight / 2 - thickness);
   var topRight = new Point(canWidth / 2 + thickness, canHeight / 2 - thickness);
@@ -655,6 +678,8 @@ function makeUIs(creation) {
 }
 
 function NernstFormula(evt) {
+  // input: the element that triggered the event (Input buttons);
+
   var eventID = evt.target.id;
   var newParticleType = equations[eventID].value();
   var particleType = newParticleType;
@@ -662,6 +687,8 @@ function NernstFormula(evt) {
 }
 
 function NernstFormulaInput(particleType) {
+  // input: string;
+  // usage: "Na", "Cl", "K"
 
   if (simulatorMode == "Nernst") {
     var R = 8.314;
@@ -704,6 +731,9 @@ function NernstFormulaInput(particleType) {
 }
 
 function disableInputForParticle(particleType) {
+  // input: string;
+  // usage: "Na", "Cl", "K"
+
   var row = 4;
   var particle_id = particlesProperties[particleType]["id"];
   inside_id = particle_id + 1;
@@ -717,6 +747,9 @@ function disableInputForParticle(particleType) {
 }
 
 function enableInputForParticle(particleType) {
+  // input: string;
+  // usage: "Na", "Cl", "K"
+
   var row = 4;
   var particle_id = particlesProperties[particleType]["id"];
   inside_id = particle_id + 1;
@@ -730,12 +763,18 @@ function enableInputForParticle(particleType) {
 }
 
 function euclideanDistance(x1, y1, x2, y2) {
+  // input: integer;
+
   var xdiff = x2 - x1;
   var ydiff = y2 - y1;
   return Math.sqrt(xdiff * xdiff + ydiff * ydiff);
 }
 
 function createText(url, tag) {
+  // input1: string;
+  // usage: 'questions.json' (filename)
+  // input2: string
+  // usage: 'goldman_1', 'nernst_1' (Data.name)
 
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function() {

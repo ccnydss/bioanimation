@@ -89,7 +89,7 @@ var createChannels = function(tl, tr, br, bl, numOfChannels) {
     var channelTR = new Point(center + offset, tr.y);
     var channelBR = new Point(center + offset, br.y);
     var channelBL = new Point(center - offset, bl.y);
-    
+
     // Add new channel to channels array
     channels.push(new Channel(channelTL, channelTR, channelBR, channelBL, particleTypes[i - 1]));
   }

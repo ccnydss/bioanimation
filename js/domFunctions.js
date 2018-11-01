@@ -49,6 +49,8 @@ function makeLayout() {
 
   // NOTE: Split this into a separate function
   function hideQuestion(evt) {
+    // input: the element that triggered the event (hide buttons [arrow]);
+
     if (equationContainerHeighthMul == 0.35) { //Turn the question menu off
       document.getElementById("hidebarText").innerText = ">"
       document.getElementById('simulatorSetting').style.display = "flex";
@@ -610,6 +612,8 @@ function makeGoldmanEqn() {
 }
 
 function redrawUI(questionBox) {
+  // input: Boolean
+  // usage: True is for initializing the UI; False is for recreating UI when browser window is resized (responsive UI)
 
   if (questionBox == true) {
     equationContainerHeighthMul = 0.35;
@@ -657,6 +661,9 @@ function redrawUI(questionBox) {
 }
 
 function adjustUISize(multiple) {
+  // input: Floats
+  // usage: Resizing the question/equation window; 0.35 (including question), 1 (excluding question)
+
   simuWidth = 0.65 * windowWidth;
   stage.size(windowWidth, (windowHeight - 36));
   firstBox.size(0.35 * windowWidth, (windowHeight - 36));
