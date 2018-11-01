@@ -88,6 +88,8 @@ function makeLayout() {
   equi = createButton('Equilibrate');
   equi.id('equilibrate-button');
   equi.parent('equationContainer');
+
+  // NOTE: Is there a nicer way to attach event handlers?
   equi.mousePressed(startEquilibrate);
 
   makeNeqMML();
@@ -139,6 +141,7 @@ function makeLayout() {
     if (previousLength == 0) {
       var previousLength = content.length;
     }
+
     document.getElementById(table.id()).style.display = "none";
 
     for (var i = 0; i < tableRow; i++) {
@@ -158,6 +161,7 @@ function makeLayout() {
       } else {
         k = i;
       }
+
       simSetting[k] = createInput();
       simSetting[k].parent('equationdiv');
       simSetting[k].value(contentDefaultValue[i])
@@ -189,6 +193,7 @@ function makeLayout() {
   canvas.class ('can');
   canvas.parent('sim');
 
+  // NOTE: Better place to attach event handlers? (see before)
   window.onresize = function() {
     if (equationContainerHeighthMul == 0.35) {
       redrawUI(true);
@@ -609,8 +614,11 @@ function makeGoldmanEqn() {
   mi33Goldman.parent("msub12Goldman");
 }
 
+// NOTE: Might want to rename this function
 function redrawUI(questionBox) {
-
+  // NOTE: Might want to rename parameter
+  // Input: Boolean
+  // 
   if (questionBox == true) {
     equationContainerHeighthMul = 0.35;
   } else {

@@ -66,7 +66,7 @@ class K extends Particle {
   }
 }
 
-// NOTE: Is this the best name for this object?
+// NOTE: Is this the best name (and place) for this object?
 var factory = {
   "Na": Na,
   "Cl": Cl,
