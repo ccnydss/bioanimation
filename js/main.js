@@ -75,8 +75,8 @@ var channels = {
 var numContainer = 2;
 var plusButton = [],
   minusButton = [],
-  textboard = [],   // NOTE: More specific variable name
-  input = [],       // NOTE: above
+  textboard = [], // NOTE: More specific variable name
+  input = [], // NOTE: above
   simSetting = [];
 
 var UIBoxs = [],
@@ -99,37 +99,48 @@ function setup() {
   // Defines the simulator's layout as well as "canWidth", "canHeight"
   makeLayout();
 
-  var topLeft = new Point(0, 0);
-  var topRight = new Point(canWidth, 0);
-  var botRight = new Point(canWidth, canHeight / 2 - thickness);
-  var botLeft = new Point(0, (canHeight / 2 - thickness));
-
   //Relative to parent coordinate
 
-  containers["outside"] = new Container(topLeft, topRight, botRight, botLeft, containerProperties["outside"]["color"], "outside");
-  //containers["outside"].draw();
+  containers["outside"] = new Container(
+    new Rectangle(
+      new Point(0, 0),
+      new Point(canWidth, 0),
+      new Point(canWidth, canHeight / 2 - thickness),
+      new Point(0, (canHeight / 2 - thickness))
+    ),
+    containerProperties["outside"]["color"],
+    "outside"
+  );
 
-  var topLeft = new Point(0, 0);
-  var topRight = new Point(canWidth, 0);
-  var botRight = new Point(canWidth, canHeight / 2);
-  var botLeft = new Point(0, canHeight / 2);
-
-  UIBoxs[0] = new UIBox(topLeft, topRight, botRight, botLeft);
+  UIBoxs[0] = new UIBox(
+    new Rectangle(
+      new Point(0, 0),
+      new Point(canWidth, 0),
+      new Point(canWidth, canHeight / 2),
+      new Point(0, canHeight / 2)
+    )
+  );
   UIBoxs[0].draw();
 
-  var topLeft = new Point(0, canHeight / 2 + thickness);
-  var topRight = new Point(canWidth, canHeight / 2 + thickness);
-  var botRight = new Point(canWidth, canHeight);
-  var botLeft = new Point(0, canHeight);
+  containers["inside"] = new Container(
+    new Rectangle(
+      new Point(0, canHeight / 2 + thickness),
+      new Point(canWidth, canHeight / 2 + thickness),
+      new Point(canWidth, canHeight),
+      new Point(0, canHeight)
+    ),
+    containerProperties["inside"]["color"],
+    "inside"
+  );
 
-  containers["inside"] = new Container(topLeft, topRight, botRight, botLeft, containerProperties["inside"]["color"], "inside");
-
-  var topLeft = new Point(0, canHeight / 2);
-  var topRight = new Point(canWidth, canHeight / 2);
-  var botRight = new Point(canWidth, canHeight);
-  var botLeft = new Point(0, canHeight);
-
-  UIBoxs[1] = new UIBox(topLeft, topRight, botRight, botLeft);
+  UIBoxs[1] = new UIBox(
+    new Rectangle(
+      new Point(0, canHeight / 2),
+      new Point(canWidth, canHeight / 2),
+      new Point(canWidth, canHeight),
+      new Point(0, canHeight)
+    )
+  );
   UIBoxs[1].draw();
 
   for (var location in particles) {

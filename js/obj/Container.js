@@ -1,15 +1,15 @@
 class Container {
-  constructor(_tl, _tr, _br, _bl, _color, _id) {
-    // Input:     4 points, a P5 color string, and "inside" | "outside"
+  constructor(_rect, _color, _id) {
+    // Input:     Rectangle, a P5 color string, and "inside" | "outside"
     // Function:  Generate a new Container object with its properties.
 
-    this.tl = _tl;
-    this.tr = _tr;
-    this.br = _br;
-    this.bl = _bl;
+    this.tl = _rect.tl;
+    this.tr = _rect.tr;
+    this.br = _rect.br;
+    this.bl = _rect.bl;
     this.color = _color;
-    this.vertical = abs(_tr.x - _tl.x);
-    this.horizontal = abs(_tl.y - _bl.y);
+    this.vertical = _rect.height;
+    this.horizontal = _rect.width;
     this.id = _id;
   }
 

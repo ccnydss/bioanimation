@@ -1,12 +1,30 @@
 QUnit.module("Container Tests");
 
 QUnit.test("constructor", function(assert) {
-  var cont1 = new Container(topleft_test, topright_test, botright_test, botleft_test, "ffeedd", "inside");
+  var cont1 = new Container(
+    new Rectangle(
+      topleft_test,
+      topright_test,
+      botright_test,
+      botleft_test
+    ),
+    "ffeedd",
+    "inside"
+  );
   assert.ok(cont1, "Object created");
 });
 
 QUnit.test("moveNoCollision", function(assert) {
-  var cont1 = new Container(topleft_test, topright_test, botright_test, botleft_test, "ffeedd", "inside");
+  var cont1 = new Container(
+    new Rectangle(
+      topleft_test,
+      topright_test,
+      botright_test,
+      botleft_test
+    ),
+    "ffeedd",
+    "inside"
+  );
   var test_particle = new Particle(12, 15, 3, {
     x: 1,
     y: 1
@@ -19,7 +37,16 @@ QUnit.test("moveNoCollision", function(assert) {
 });
 
 QUnit.test("clips", function(assert) {
-  var cont1 = new Container(topleft_test, topright_test, botright_test, botleft_test, "ffeedd", "inside");
+  var cont1 = new Container(
+    new Rectangle(
+      topleft_test,
+      topright_test,
+      botright_test,
+      botleft_test
+    ),
+    "ffeedd",
+    "inside"
+  );
 
   // Test that particle stops at bottom wall
   var vel1 = new Point(0, 4);
@@ -51,7 +78,16 @@ QUnit.test("clips", function(assert) {
 });
 
 QUnit.test("hit", function(assert) {
-  var cont1 = new Container(topleft_test, topright_test, botright_test, botleft_test, "ffeedd", "inside");
+  var cont1 = new Container(
+    new Rectangle(
+      topleft_test,
+      topright_test,
+      botright_test,
+      botleft_test
+    ),
+    "ffeedd",
+    "inside"
+  );
 
   // Test that particle reflects at bottom wall
   var vel1 = new Point(0, 4);

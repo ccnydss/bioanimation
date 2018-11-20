@@ -55,14 +55,25 @@ class Channel {
 
 class UIBox {
   // NOTE: What is a UIBox and what does it do?
-  constructor(_tl, _tr, _br, _bl) {
-    this.tl = _tl;
-    this.tr = _tr;
-    this.br = _br;
-    this.bl = _bl;
+  // deprecated constructor
+  // constructor(_tl, _tr, _br, _bl) {
+  //   this.tl = _tl;
+  //   this.tr = _tr;
+  //   this.br = _br;
+  //   this.bl = _bl;
+  //
+  //   this.height = abs(_tr.x - _tl.x);
+  //   this.width = abs(_tl.y - _bl.y);
+  // }
 
-    this.height = abs(_tr.x - _tl.x);
-    this.width = abs(_tl.y - _bl.y);
+  constructor(_rect) {
+    this.tl = _rect.tl;
+    this.tr = _rect.tr;
+    this.br = _rect.br;
+    this.bl = _rect.bl;
+
+    this.height = _rect.height;
+    this.width = _rect.width;
   }
 
   draw() {
