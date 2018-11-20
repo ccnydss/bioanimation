@@ -45,8 +45,8 @@ class Container extends Rectangle {
         console.log("particle: ", particle);
         console.log(direction, "wall: ", wall);
         console.log('velocity: (', p.move_velocity.x, p.move_velocity.y, ')');
-        console.log("leftball:", p.x - p.r);
-        console.log("rightball:", p.x + p.r);
+        console.log("leftball:", p.center.x - p.r);
+        console.log("rightball:", p.center.x + p.r);
       }
     }
 
@@ -64,36 +64,36 @@ class Container extends Rectangle {
       // For as long as the next position increment will bring the particle
       // outside of the container, then... decelerate the particle.
 
-      write("bottom", p.y + p.r, this.bl.y, p);
+      write("bottom", p.center.y + p.r, this.bl.y, p);
       p.move_velocity.y -= 1;
 
       // Recheck condition
       // NOTE: Find a way to avoid repeating this expression from the beginning
-      nextPastBottom = p.y + p.move_velocity.y + p.r > this.bl.y;
+      nextPastBottom = p.center.y + p.move_velocity.y + p.r > this.bl.y;
     }
 
     while (nextPastTop) {
-      write("top", p.y - p.r, this.tl.y, p);
+      write("top", p.center.y - p.r, this.tl.y, p);
       p.move_velocity.y += 1;
 
       // Recheck condition
-      nextPastTop = p.y + p.move_velocity.y - p.r < this.tl.y;
+      nextPastTop = p.center.y + p.move_velocity.y - p.r < this.tl.y;
     }
 
     while (nextPastRight) {
-      write("right", p.x + p.r, this.br.x, p);
+      write("right", p.center.x + p.r, this.br.x, p);
       p.move_velocity.x = p.move_velocity.x - 1;
 
       // Recheck condition
-      nextPastRight = p.x + p.move_velocity.x + p.r > this.br.x;
+      nextPastRight = p.center.x + p.move_velocity.x + p.r > this.br.x;
     }
 
     while (nextPastLeft) {
-      write("left", p.x - p.r, this.bl.x, p);
+      write("left", p.center.x - p.r, this.bl.x, p);
       p.move_velocity.x += 1;
 
       // Recheck condition
-      nextPastLeft = p.x + p.move_velocity.x - p.r < this.bl.x;
+      nextPastLeft = p.center.x + p.move_velocity.x - p.r < this.bl.x;
     }
   }
 
@@ -110,22 +110,22 @@ class Container extends Rectangle {
         console.log("particle: ", particle);
         console.log(direction, " wall: ", wall);
         console.log('velocity: (', p.move_velocity.x, p.move_velocity.y, ')');
-        console.log("leftball:", p.x - p.r);
-        console.log("rightball:", p.x + p.r);
+        console.log("leftball:", p.center.x - p.r);
+        console.log("rightball:", p.center.x + p.r);
       }
     }
 
     // Move particle forward -- we should know it is safe to do so and remain within Container_Context, because of clips()
-    p.x += p.move_velocity.x;
-    p.y += p.move_velocity.y;
+    p.center.x += p.move_velocity.x;
+    p.center.y += p.move_velocity.y;
 
 
     var errorCorrection = 1;  // Sometimes the sum has rounding errors (i.e, 1.00001)
 
-    var pastBottom = p.y + p.r + errorCorrection >= this.bl.y - errorCorrection;
-    var pastTop = p.y - p.r - errorCorrection <= this.tl.y + errorCorrection;
-    var pastRight = p.x + p.r + errorCorrection >= this.br.x;
-    var pastLeft = p.x - p.r - errorCorrection <= this.bl.x;
+    var pastBottom = p.center.y + p.r + errorCorrection >= this.bl.y - errorCorrection;
+    var pastTop = p.center.y - p.r - errorCorrection <= this.tl.y + errorCorrection;
+    var pastRight = p.center.x + p.r + errorCorrection >= this.br.x;
+    var pastLeft = p.center.x - p.r - errorCorrection <= this.bl.x;
 
     // Choose random angle of reflection
     // NOTE: Where do these constants come from?
@@ -138,7 +138,7 @@ class Container extends Rectangle {
     // NOTE: Try to DRY these if statements
     if (pastBottom) {
       // Create new velocity vector based off of reflection
-      write("bottom", p.y + p.r, this.bl.y, p);
+      write("bottom", p.center.y + p.r, this.bl.y, p);
 
       var newx = p.orig_velocity.x;
       var newy = -1 * mul / p.velocity_mul.y * p.orig_velocity.y;
@@ -147,8 +147,8 @@ class Container extends Rectangle {
       p.orig_velocity = createVector(newx, newy);
 
       // Begin moving the particle in the new direction
-      p.x += p.move_velocity.x;
-      p.y += p.move_velocity.y;
+      p.center.x += p.move_velocity.x;
+      p.center.y += p.move_velocity.y;
 
       // NOTE: Why do we need to store the previous multiplier?
       p.velocity_mul.y = mul;
@@ -156,7 +156,7 @@ class Container extends Rectangle {
 
     if (pastTop) {
       // Create new velocity vector based off of reflection
-      write("top", p.y - p.r, this.tl.y, p);
+      write("top", p.center.y - p.r, this.tl.y, p);
 
       var newx = p.orig_velocity.x;
       var newy = -1 * mul / p.velocity_mul.y * p.orig_velocity.y;
@@ -165,15 +165,15 @@ class Container extends Rectangle {
       p.move_velocity = createVector(newx, newy);
 
       // Begin moving the particle in new direction
-      p.x += p.move_velocity.x;
-      p.y += p.move_velocity.y;
+      p.center.x += p.move_velocity.x;
+      p.center.y += p.move_velocity.y;
 
       p.velocity_mul.y = mul;
     }
 
     if (pastRight) {
       // Create new velocity vector based off of reflection
-      write("right", p.x + p.r, this.br.x, p);
+      write("right", p.center.x + p.r, this.br.x, p);
 
       var newx = -1 * mul / p.velocity_mul.x * p.orig_velocity.x;
       var newy = p.orig_velocity.y;
@@ -182,15 +182,15 @@ class Container extends Rectangle {
       p.move_velocity = createVector(newx, newy);
 
       // Move particle
-      p.x += p.move_velocity.x;
-      p.y += p.move_velocity.y;
+      p.center.x += p.move_velocity.x;
+      p.center.y += p.move_velocity.y;
       p.velocity_mul.x = mul;
 
     }
 
     if (pastLeft) {
       // Create new velocity vector based off of reflection
-      write("left", p.x - p.r, this.bl.x, p);
+      write("left", p.center.x - p.r, this.bl.x, p);
 
       var newx = -1 * mul / p.velocity_mul.x * p.orig_velocity.x;
       var newy = p.orig_velocity.y;
@@ -199,8 +199,8 @@ class Container extends Rectangle {
       p.move_velocity = createVector(newx, newy);
 
       // Move particle
-      p.x += p.move_velocity.x;
-      p.y += p.move_velocity.y;
+      p.center.x += p.move_velocity.x;
+      p.center.y += p.move_velocity.y;
       p.velocity_mul.x = mul;
     }
   }

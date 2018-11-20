@@ -1,9 +1,8 @@
 class Particle {
-  constructor(_x, _y, _diam, _vel, _collidable) {
+  constructor(_center, _diam, _vel, _collidable) {
     // Input: int, int, int, p5 vector, boolean
     // Function: Instantiate a Particle object
-    this.x = _x;
-    this.y = _y;
+    this.center = _center;
     this.diam = _diam;
     this.r = int(_diam / 2);
     this.collidable = _collidable;
@@ -15,12 +14,9 @@ class Particle {
     this.display = true;
   }
 
-  draw(xc = this.x, yc = this.y, rc = this.r) {
-    if (this.display) {
+  draw(xc = this.center.x, yc = this.center.y, rc = this.r) {
+    if (this.display)
       ellipse(xc, yc, rc);
-    } else {
-      //console.log(display);
-    }
   }
 
   move(container_context, channels) {
@@ -39,13 +35,17 @@ class Particle {
 
     // NOTE: Shouldn't we just call the "draw" method directly?
     if (this.display) {
-      ellipse(this.x, this.y, this.diam);
+      ellipse(this.center.x, this.center.y, this.diam);
     }
 
   }
 }
 
 class Na extends Particle {
+  constructor(_center, _diam, _vel, _collidable) {
+    super(_center, _diam, _vel, _collidable);
+  }
+
   color() {
     noStroke();
     fill(particlesProperties["Na"].color);
@@ -53,6 +53,10 @@ class Na extends Particle {
 }
 
 class Cl extends Particle {
+  constructor(_center, _diam, _vel, _collidable) {
+    super(_center, _diam, _vel, _collidable);
+  }
+
   color() {
     noStroke();
     fill(particlesProperties["Cl"].color);
@@ -60,6 +64,10 @@ class Cl extends Particle {
 }
 
 class K extends Particle {
+  constructor(_center, _diam, _vel, _collidable) {
+    super(_center, _diam, _vel, _collidable);
+  }
+
   color() {
     noStroke();
     fill(particlesProperties["K"].color);

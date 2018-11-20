@@ -60,7 +60,15 @@ var transferParticle = function(particleType, location) {
       : -3;
 
     var velocity = createVector(0, yVector);
-    currentArray.push(new AnimatedParticle(OriX, OriY, diam, velocity, false, particleType));
+    currentArray.push(
+      new AnimatedParticle(
+        OriX, OriY,
+        diam,
+        velocity,
+        false,
+        particleType
+      )
+    );
   }, 800)
 
   // Remove particle from its old division and create particle in the new division
@@ -88,7 +96,14 @@ var transferParticle = function(particleType, location) {
       : input[id + 1];
 
     oldInput.value(particles[location[particleType]][particleType].length);
-    transferArray.push(new factory[particleType](OriX, OriY, diam, velocity, true));
+    transferArray.push(
+      new factory[particleType](
+        new Point(OriX, OriY),
+        diam,
+        velocity,
+        true
+      )
+    );
     transferInput.value(particles[transferLocation][particleType].length);
 
     FormulaInputCalculation(particleType);
@@ -352,7 +367,14 @@ function increase(evt) {
     return;
   }
 
-  particleArray.push(new factory[particleType](randomX, randomY, particlesProperties[particleType].radius, velocity, true));
+  particleArray.push(
+    new factory[particleType](
+      new Point(randomX, randomY),
+      particlesProperties[particleType].radius,
+      velocity,
+      true
+    )
+  );
   var updatedParticleAmount = particleArray.length;
   // if (particleType == document.getElementById('particleSelect').value) {
   FormulaInputCalculation(particleType);
@@ -422,7 +444,14 @@ function ChangeNumParticles(evt) {
       var x_vel = Math.floor(Math.random() * (velocities.length - 1)) + 0;
       var y_vel = Math.floor(Math.random() * (velocities.length - 1)) + 0;
       var velocity = createVector(velocities[x_vel], velocities[y_vel]);
-      particleArray.push(new factory[particleType](randomX, randomY, particlesProperties[particleType].radius, velocity, true));
+      particleArray.push(
+        new factory[particleType](
+          new Point(randomX, randomY),
+          particlesProperties[particleType].radius,
+          velocity,
+          true
+        )
+      );
       // if (particleType == document.getElementById('particleSelect').value) {
       FormulaInputCalculation(particleType);
       // }

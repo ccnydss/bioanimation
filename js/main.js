@@ -148,7 +148,14 @@ function setup() {
         // Get random location
         randomX = containers[location].tl.x + particlesProperties[particle]["radius"] + (Math.floor(Math.random() * xRange));
         randomY = containers[location].tl.y + particlesProperties[particle]["radius"] + (Math.floor(Math.random() * yRange));
-        particles[location][particle].push(new factory[particle](randomX, randomY, particlesProperties[particle]["radius"], velocity, true));
+        particles[location][particle].push(
+          new factory[particle](
+            new Point(randomX, randomY),
+            particlesProperties[particle]["radius"],
+            velocity,
+            true
+          )
+        );
       }
     }
   }
