@@ -3,15 +3,12 @@ class Container extends Rectangle {
     // Input:     Rectangle, a P5 color string, and "inside" | "outside"
     // Function:  Generate a new Container object with its properties.
 
-    super(_points);
-
-    this.color = _color;
+    super(_points, _color);
     this.id = _id;
   }
 
   draw() {
-    fill(this.color);
-    rect(this.tl.x, this.tl.y, this.height, this.width);
+    super.draw();
 
     if (this.id == "outside") {
       fill(255, 255, 255);

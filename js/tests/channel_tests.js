@@ -6,7 +6,15 @@ var botright_test = new Point(10, 10);
 QUnit.module("Channel Tests");
 
 QUnit.test("constructor", function(assert) {
-  var testCh1 = new Channel(topleft_test, topright_test, botright_test, botleft_test, "Na");
+  var testCh1 = new Channel(
+    {
+      _tl: topleft_test,
+      _tr: topright_test,
+      _br: botright_test,
+      _bl: botleft_test
+    },
+    "Na"
+  );
 
   assert.deepEqual(testCh1.tl, topleft_test, "Top Left Point is correct");
   assert.deepEqual(testCh1.tr, topright_test, "Top Right Point is correct");
