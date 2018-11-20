@@ -40,15 +40,6 @@ var particlesProperties = {
   }
 };
 
-var containerProperties = {
-  "inside": {
-    "color": "#fffbea"
-  },
-  "outside": {
-    "color": "#e3f8fc"
-  }
-}
-
 var velocityRange = [-1, -1.25, 1.25, 1];
 
 //For local particles on each box
@@ -108,7 +99,7 @@ function setup() {
       _br: new Point(canWidth, canHeight / 2 - thickness),
       _bl: new Point(0, (canHeight / 2 - thickness))
     },
-    containerProperties["outside"]["color"],
+    Container.OUTSIDE_COLOR(),
     "outside"
   );
 
@@ -129,7 +120,7 @@ function setup() {
       _br: new Point(canWidth, canHeight),
       _bl: new Point(0, canHeight)
     },
-    containerProperties["inside"]["color"],
+    Container.INSIDE_COLOR(),
     "inside"
   );
 

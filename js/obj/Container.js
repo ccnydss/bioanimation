@@ -1,4 +1,7 @@
 class Container extends Rectangle {
+  static INSIDE_COLOR() { return "#fffbea" };
+  static OUTSIDE_COLOR() { return "#e3f8fc"};
+
   constructor(_points, _color, _id) {
     // Input:     Rectangle, a P5 color string, and "inside" | "outside"
     // Function:  Generate a new Container object with its properties.
