@@ -102,44 +102,44 @@ function setup() {
   //Relative to parent coordinate
 
   containers["outside"] = new Container(
-    new Rectangle(
-      new Point(0, 0),
-      new Point(canWidth, 0),
-      new Point(canWidth, canHeight / 2 - thickness),
-      new Point(0, (canHeight / 2 - thickness))
-    ),
+    {
+      _tl: new Point(0, 0),
+      _tr: new Point(canWidth, 0),
+      _br: new Point(canWidth, canHeight / 2 - thickness),
+      _bl: new Point(0, (canHeight / 2 - thickness))
+    },
     containerProperties["outside"]["color"],
     "outside"
   );
 
   UIBoxs[0] = new UIBox(
-    new Rectangle(
-      new Point(0, 0),
-      new Point(canWidth, 0),
-      new Point(canWidth, canHeight / 2),
-      new Point(0, canHeight / 2)
-    )
+    {
+      _tl: new Point(0, 0),
+      _tr: new Point(canWidth, 0),
+      _br: new Point(canWidth, canHeight / 2),
+      _bl: new Point(0, canHeight / 2)
+    }
   );
   UIBoxs[0].draw();
 
   containers["inside"] = new Container(
-    new Rectangle(
-      new Point(0, canHeight / 2 + thickness),
-      new Point(canWidth, canHeight / 2 + thickness),
-      new Point(canWidth, canHeight),
-      new Point(0, canHeight)
-    ),
+    {
+      _tl: new Point(0, canHeight / 2 + thickness),
+      _tr: new Point(canWidth, canHeight / 2 + thickness),
+      _br: new Point(canWidth, canHeight),
+      _bl: new Point(0, canHeight)
+    },
     containerProperties["inside"]["color"],
     "inside"
   );
 
   UIBoxs[1] = new UIBox(
-    new Rectangle(
-      new Point(0, canHeight / 2),
-      new Point(canWidth, canHeight / 2),
-      new Point(canWidth, canHeight),
-      new Point(0, canHeight)
-    )
+    {
+      _tl: new Point(0, canHeight / 2),
+      _tr: new Point(canWidth, canHeight / 2),
+      _br: new Point(canWidth, canHeight),
+      _bl: new Point(0, canHeight)
+    }
   );
   UIBoxs[1].draw();
 

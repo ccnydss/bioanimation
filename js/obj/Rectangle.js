@@ -1,16 +1,20 @@
 class Rectangle {
-  constructor(_tl, _tr, _br, _bl) {
+  constructor(_points) {
     // Add verification to make sure that top left, top right, bot right, bot left form a proper rectangle
+    var {_tl, _tr, _bl, _br} = _points;  // Destructure points object
+
+    // Test multiple conditions to see if rectangle is valid. 
     var lefts = (_tl.x < _tr.x) && (_bl.x < _br.x);
     var bottoms = (_bl.y > _tl.y) && (_br.y > _tr.y);
     var leftAligned = _bl.x == _tl.x;
     var rightAligned = _br.x == _tr.x;
     var topAligned = _tl.y == _tr.y;
     var botAligned = _bl.y == _br.y;
+    var validNumber = Object.keys(_points).length == 4;  // Count the number of points being sent in.
 
-    var validRect = lefts && bottoms && leftAligned && rightAligned && topAligned && botAligned;
+    var validRect = lefts && bottoms && leftAligned && rightAligned && topAligned && botAligned && validNumber;
 
-    if (!validRect) throw new Error("Invalid point inputs do not form rectangle");
+    if (!validRect) throw new Error("Invalid point inputs do not form rectangle", points);
 
     this.tl = _tl;
     this.tr = _tr;

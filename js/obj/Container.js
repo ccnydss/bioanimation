@@ -1,21 +1,17 @@
-class Container {
-  constructor(_rect, _color, _id) {
+class Container extends Rectangle {
+  constructor(_points, _color, _id) {
     // Input:     Rectangle, a P5 color string, and "inside" | "outside"
     // Function:  Generate a new Container object with its properties.
 
-    this.tl = _rect.tl;
-    this.tr = _rect.tr;
-    this.br = _rect.br;
-    this.bl = _rect.bl;
+    super(_points);
+
     this.color = _color;
-    this.vertical = _rect.height;
-    this.horizontal = _rect.width;
     this.id = _id;
   }
 
   draw() {
     fill(this.color);
-    rect(this.tl.x, this.tl.y, this.vertical, this.horizontal);
+    rect(this.tl.x, this.tl.y, this.height, this.width);
 
     if (this.id == "outside") {
       fill(255, 255, 255);

@@ -2,12 +2,12 @@ QUnit.module("Container Tests");
 
 QUnit.test("constructor", function(assert) {
   var cont1 = new Container(
-    new Rectangle(
-      topleft_test,
-      topright_test,
-      botright_test,
-      botleft_test
-    ),
+    {
+      _tl: topleft_test,
+      _tr: topright_test,
+      _br: botright_test,
+      _bl: botleft_test
+    },
     "ffeedd",
     "inside"
   );
@@ -16,12 +16,12 @@ QUnit.test("constructor", function(assert) {
 
 QUnit.test("moveNoCollision", function(assert) {
   var cont1 = new Container(
-    new Rectangle(
-      topleft_test,
-      topright_test,
-      botright_test,
-      botleft_test
-    ),
+    {
+      _tl: topleft_test,
+      _tr: topright_test,
+      _br: botright_test,
+      _bl: botleft_test
+    },
     "ffeedd",
     "inside"
   );
@@ -38,12 +38,12 @@ QUnit.test("moveNoCollision", function(assert) {
 
 QUnit.test("clips", function(assert) {
   var cont1 = new Container(
-    new Rectangle(
-      topleft_test,
-      topright_test,
-      botright_test,
-      botleft_test
-    ),
+    {
+      _tl: topleft_test,
+      _tr: topright_test,
+      _br: botright_test,
+      _bl: botleft_test
+    },
     "ffeedd",
     "inside"
   );
@@ -79,12 +79,12 @@ QUnit.test("clips", function(assert) {
 
 QUnit.test("hit", function(assert) {
   var cont1 = new Container(
-    new Rectangle(
-      topleft_test,
-      topright_test,
-      botright_test,
-      botleft_test
-    ),
+    {
+      _tl: topleft_test,
+      _tr: topright_test,
+      _br: botright_test,
+      _bl: botleft_test
+    },
     "ffeedd",
     "inside"
   );
