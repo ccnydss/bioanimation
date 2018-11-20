@@ -4,26 +4,24 @@ var transferParticle = function(particleType, location) {
   // input: string, array
   // transfers a particle from top to bottom
 
-  var xMul = 100;
-  var yMul = 100;
   var id = particlesProperties[particleType]["id"];
   var row = 4;
 
   // Set names of current array is in and array to transfer particle into
   var currentArray = particles[location[particleType]][particleType];
-  // NOTE: What does current array represent?
 
+  // Set destination container to opposite of the denser container
   var transferLocation = (location[particleType] == "outside")
     ? "inside"
     : "outside";
 
   var transferArray = particles[transferLocation][particleType];
-  var offset = Math.floor(channels[0].width / 2 + 1);
 
   if (currentArray.length == 0) {
     return;
   }
 
+  // Determine which cell channel the particle should move towards.
   // If the particle is in the top division
   if (location[particleType][particleType] == "outside") {
     var targetChannel = channels[id].tl;
@@ -31,6 +29,11 @@ var transferParticle = function(particleType, location) {
     // If the particle is in the bottom division
     var targetChannel = channels[id].bl;
   }
+
+  // Get the offset from corner of the channel to its center.
+  var offset = Math.floor(channels[0].width / 2 + 1);
+  var xMul = 100;
+  var yMul = 100;
 
   // Change move velocity to get particle to target channel
   var v = (targetChannel.x + offset - currentArray[0].x) / xMul;
@@ -49,7 +52,7 @@ var transferParticle = function(particleType, location) {
     var OriY = Math.floor(currentArray[0].y);
     var diam = currentArray[0].diam;
 
-    // NOTE: Why splice?
+    // Remove the first particle from the array
     currentArray.splice(0, 1);
 
     var yVector = (location[particleType] == "outside")
@@ -102,6 +105,7 @@ function equilibrate(particleType) {
 
   particleAmount = outsideArray.length + insideArray.length;
 
+  // The equilibrium function: how top and bottom should be split.
   equiAmount = Math.floor(particleAmount / 2);
 
   // if either top or bottom has equilibrium amount, we can return
@@ -113,13 +117,16 @@ function equilibrate(particleType) {
     ? "outside"
     : "inside";
 
+  // The number of particles that need to be transferred to each equilibrium
   var transfers = particles[largerArrayLocation][particleType].length - equiAmount;
+
   inEquilbrateState[particleType] = true;
 
   setTimeout(function() {
     inEquilbrateState[particleType] = false;
   }, 1000 * transfers);
 
+  // Perform N transfers from the denser container to the sparser container.
   largerArrayLocations[particleType] = largerArrayLocation;
   for (var i = 0; i < transfers; i++) {
     setTimeout(function() {
@@ -296,6 +303,7 @@ function keyPressed() {
       toggleLoop();
       break;
 
+    // NOTE: These no longer work because second param should be array
     case Q_key:
       transferParticle(particleTypes[0], "outside");
       break;
@@ -313,6 +321,7 @@ function keyPressed() {
       break;
 
     case E_key:
+    // NOTE: "E" key breaks when pushed in Nernst mode -- it transfers the Cl particles too
       equilibrate(particleTypes[0]);
       equilibrate(particleTypes[1]);
   }

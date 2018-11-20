@@ -72,9 +72,6 @@ var channels = {
   "K": []
 };
 
-// NOTE: What is this radius for??
-var radius = 20;
-
 var numContainer = 2;
 var plusButton = [],
   minusButton = [],

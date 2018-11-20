@@ -1,4 +1,5 @@
-equationContainerHeighthMul = 0.35;
+const equationHeightPercent = 0.35;
+equationContainerHeighthMul = equationHeightPercent;
 
 function makeLayout() {
   // Make the entire stage. This represents the entire, outer box containing the simulator, sidebar, and controls.
@@ -51,7 +52,7 @@ function makeLayout() {
   function hideQuestion(evt) {
     // input: the element that triggered the event (hide buttons [arrow]);
 
-    if (equationContainerHeighthMul == 0.35) { //Turn the question menu off
+    if (equationContainerHeighthMul == equationHeightPercent) { //Turn the question menu off
       document.getElementById("hidebarText").innerText = ">"
       document.getElementById('simulatorSetting').style.display = "flex";
 
@@ -135,7 +136,6 @@ function makeLayout() {
         particlesProperties["Cl"].permeability,
         particlesProperties["K"].permeability
       ]
-
     }
 
     var tableRow = content.length;
@@ -252,7 +252,7 @@ function makeLayout() {
   particleControl.id('particleControl');
   particleControl.parent('simulatorInputContainer');
 
-  adjustUISize(0.35);
+  adjustUISize(equationHeightPercent);
 }
 
 function makeNeqMML() {
@@ -622,7 +622,7 @@ function redrawUI(questionBox) {
   // usage: True is for initializing the UI; False is for recreating UI when browser window is resized (responsive UI)
 
   if (questionBox == true) {
-    equationContainerHeighthMul = 0.35;
+    equationContainerHeighthMul = equationHeightPercent;
   } else {
     equationContainerHeighthMul = 1;
   }
@@ -644,6 +644,7 @@ function redrawUI(questionBox) {
   var topRight = new Point(canWidth, 0);
   var botRight = new Point(canWidth, canHeight / 2);
   var botLeft = new Point(0, canHeight / 2);
+
   UIBoxs[0] = new UIBox(topLeft, topRight, botRight, botLeft);
   UIBoxs[0].draw();
 
@@ -653,7 +654,6 @@ function redrawUI(questionBox) {
   var botLeft = new Point(0, canHeight);
 
   containers["inside"] = new Container(topLeft, topRight, botRight, botLeft, containerProperties["inside"]["color"], "inside");
-  //containers["inside"].draw();
 
   var topLeft = new Point(0, canHeight / 2);
   var topRight = new Point(canWidth, canHeight / 2);
@@ -663,6 +663,7 @@ function redrawUI(questionBox) {
   UIBoxs[1].draw();
   containers["inside"].draw();
 
+  // NOTE: does this still do anything? When uncommented, it seems to have no effect.
   makeUIs(false)
 }
 
@@ -682,8 +683,10 @@ function adjustUISize(multiple) {
   equi.size(0.35 * windowWidth, 40);
   equation.size(0.35 * windowWidth, multiple * (windowHeight - 36) - 40 - 20);
   simulator.size(0.65 * windowWidth, 0.65 * (windowHeight - 36));
-  // Define the global canWidth & canHeight variables~
+
+  // Define the global canWidth & canHeight variables
   canWidth = simulator.size().width;
+
   //canHeight = 0.75 * (simulator.size().height - 8);
   canHeight = 1 * (simulator.size().height - 4);
 

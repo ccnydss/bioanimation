@@ -76,10 +76,14 @@ QUnit.test("makeGoldmanEqn", function(assert) {
 });
 
 QUnit.test("redrawUI", function(assert) {
+  // NOTE: Depends on external factors like window Width and Height.
+  //        not easily testable.
   assert.ok(1, "Pass");
 });
 
 QUnit.test("adjustUISize", function(assert) {
+  // NOTE: Depends on external factors like window Width and Height.
+  //        not easily testable.
   assert.ok(1, "Pass");
 });
 
@@ -151,7 +155,7 @@ QUnit.test("NernstFormula", function(assert) {
   assert.ok(1, "Pass");
 });
 
-QUnit.test("NernstFormulaInput", function(assert) {
+QUnit.test("FormulaInputCalculation", function(assert) {
   assert.ok(1, "Pass");
 });
 

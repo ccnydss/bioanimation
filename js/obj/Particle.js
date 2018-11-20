@@ -67,6 +67,7 @@ class K extends Particle {
 }
 
 // NOTE: Is this the best name (and place) for this object?
+// Used to instantiate a particle child class dynamically (without knowing if it will be a Na, Cl, or K)
 var factory = {
   "Na": Na,
   "Cl": Cl,
