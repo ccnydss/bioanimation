@@ -36,20 +36,20 @@ var transferParticle = function(particleType, location) {
   var yMul = 100;
 
   // Change move velocity to get particle to target channel
-  var v = (targetChannel.x + offset - currentArray[0].x) / xMul;
-  var u = (targetChannel.y - currentArray[0].y) / yMul;
+  var v = (targetChannel.x + offset - currentArray[0].center.x) / xMul;
+  var u = (targetChannel.y - currentArray[0].center.y) / yMul;
 
   currentArray[0].orig_velocity = createVector(v, u);
   currentArray[0].move_velocity = createVector(v, u);
 
-  var dist = euclideanDistance(currentArray[0].x, currentArray[0].y, targetChannel.x, targetChannel.y);
+  var dist = euclideanDistance(currentArray[0].center.x, currentArray[0].center.y, targetChannel.x, targetChannel.y);
 
   var timeToGetToChannel = dist * 3;
 
   // Move particle through channel
   setTimeout(function() {
-    var OriX = Math.floor(currentArray[0].x);
-    var OriY = Math.floor(currentArray[0].y);
+    var OriX = Math.floor(currentArray[0].center.x);
+    var OriY = Math.floor(currentArray[0].center.y);
     var diam = currentArray[0].diam;
 
     // Remove the first particle from the array
@@ -62,7 +62,7 @@ var transferParticle = function(particleType, location) {
     var velocity = createVector(0, yVector);
     currentArray.push(
       new AnimatedParticle(
-        OriX, OriY,
+        new Point(OriX, OriY),
         diam,
         velocity,
         false,
@@ -75,8 +75,8 @@ var transferParticle = function(particleType, location) {
   setTimeout(function() {
     var particleIndex = particles[location[particleType]][particleType].length - 1;
     var OriParticle = currentArray[particleIndex];
-    var OriX = Math.floor(OriParticle.x);
-    var OriY = Math.floor(OriParticle.y);
+    var OriX = Math.floor(OriParticle.center.x);
+    var OriY = Math.floor(OriParticle.center.y);
     var diam = Math.floor(OriParticle.diam);
 
     velocities = velocityRange;

@@ -26,8 +26,8 @@ class Container extends Rectangle {
   // NOTE: Gets used in Particle.js
   //        Migrate this to Particle class because it only modifies "p"s values.
   moveNoCollision(p) {
-    p.x += p.move_velocity.x;
-    p.y += p.move_velocity.y;
+    p.center.x += p.move_velocity.x;
+    p.center.y += p.move_velocity.y;
   }
 
   clips(p) {
@@ -53,10 +53,10 @@ class Container extends Rectangle {
     // Boolean expressions
     // Detect if the particle will cross any container walls if it moves forward by its current velocity.
 
-    var nextPastBottom = p.y + p.move_velocity.y + p.r > this.bl.y; // Crosses bottom wall?
-    var nextPastTop = p.y + p.move_velocity.y - p.r < this.tl.y; // Crosses top wall?
-    var nextPastRight = p.x + p.move_velocity.x + p.r > this.br.x; // Crosses right wall?
-    var nextPastLeft = p.x + p.move_velocity.x - p.r < this.bl.x; // Crosses left wall?
+    var nextPastBottom = p.center.y + p.move_velocity.y + p.r > this.bl.y; // Crosses bottom wall?
+    var nextPastTop = p.center.y + p.move_velocity.y - p.r < this.tl.y; // Crosses top wall?
+    var nextPastRight = p.center.x + p.move_velocity.x + p.r > this.br.x; // Crosses right wall?
+    var nextPastLeft = p.center.x + p.move_velocity.x - p.r < this.bl.x; // Crosses left wall?
 
     // console.log(p);
     // NOTE: Perhaps turn this single while loop into a function for reuse

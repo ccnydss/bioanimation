@@ -84,9 +84,10 @@ var factory = {
 
 // NOTE: This should be a child class of Particle
 class AnimatedParticle {
-  constructor(_x, _y, _diam, _vel, _collidable, _particle) {
-    this.x = _x;
-    this.y = _y;
+  constructor(_center, _diam, _vel, _collidable, _particle) {
+    // this.x = _x;
+    // this.y = _y;
+    this.center = _center;
     this.diam = _diam;
     this.r = int(_diam / 2);
     this.collidable = _collidable;
@@ -97,7 +98,7 @@ class AnimatedParticle {
     this.move_velocity = createVector(_vel.x, _vel.y);
   }
 
-  draw(xc = this.x, yc = this.y, rc = this.r) {
+  draw(xc = this.center.x, yc = this.center.y, rc = this.r) {
     ellipse(xc, yc, rc);
   }
 
@@ -108,8 +109,8 @@ class AnimatedParticle {
 
   move() {
     // Pass in a Container object the particle should be constrained inside.
-    this.y = this.y + this.move_velocity.y;
-    ellipse(this.x, this.y, this.diam);
+    this.center.y = this.center.y + this.move_velocity.y;
+    ellipse(this.center.x, this.center.y, this.diam);
   }
 }
 
