@@ -1,5 +1,5 @@
 class Particle {
-  constructor(_center, _diam, _vel, _collidable, _color) {
+  constructor(_center, _diam, _vel, _collidable, _color, _display=true) {
     // Input: int, int, int, p5 vector, boolean
     // Function: Instantiate a Particle object
     this.center = _center;
@@ -7,13 +7,13 @@ class Particle {
     this.r = int(_diam / 2);
     this.collidable = _collidable;
 
+    this.display = _display;
     this.m_color = _color;
 
     // Store the original vector to remember it after modifying move_velocity.
     this.orig_velocity = createVector(_vel.x, _vel.y);
     this.move_velocity = createVector(_vel.x, _vel.y);
     this.velocity_mul = createVector(1, 1); // NOTE: Still using this attribute?
-    this.display = true;
   }
 
   color() {
@@ -91,13 +91,13 @@ var factory = {
 
 // NOTE: This should be a child class of Particle
 class AnimatedParticle extends Particle {
-  constructor(_center, _diam, _vel, _collidable, _color) {
-    super(_center, _diam, _vel, _collidable, _color);
+  constructor(_center, _diam, _vel, _collidable, _color, _display) {
+    super(_center, _diam, _vel, _collidable, _color, _display);
   }
 
-  draw(xc = this.center.x, yc = this.center.y, rc = this.r) {
-    ellipse(xc, yc, rc);
-  }
+  // draw(xc = this.center.x, yc = this.center.y, rc = this.r) {
+  //   ellipse(xc, yc, rc);
+  // }
 
   move() {
     // Force the animated particle to move straight down.

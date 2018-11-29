@@ -46,6 +46,7 @@ var transferParticle = function(particleType, location) {
 
   var timeToGetToChannel = dist * 3;
 
+  var active = isParticleActive(particleType);
   // Move particle through channel
   setTimeout(function() {
     var OriX = Math.floor(currentArray[0].center.x);
@@ -62,15 +63,19 @@ var transferParticle = function(particleType, location) {
     : -3;
 
     var velocity = createVector(0, yVector);
-    currentArray.push(
-      new AnimatedParticle(
-        new Point(OriX, OriY),
-        diam,
-        velocity,
-        false,
-        particle_color
-      )
+
+    var animParticle = new AnimatedParticle(
+      new Point(OriX, OriY),
+      diam,
+      velocity,
+      false,
+      particle_color,
+      active
     );
+
+    animParticle.setDisplay(active);
+
+    currentArray.push(animParticle);
   }, 800)
 
   // Remove particle from its old division and create particle in the new division
@@ -106,7 +111,7 @@ var transferParticle = function(particleType, location) {
       true
     );
 
-    newParticle.setDisplay(true);
+    newParticle.setDisplay(isParticleActive(particleType));
 
     transferArray.push(newParticle);
 
@@ -833,3 +838,16 @@ function makeUIs(creation) {
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
   }
+
+function isParticleActive(particleType) {
+  var checkboxes = document.getElementsByClassName('checkboxes');
+
+  var particleIsActive = false;
+  for (check of checkboxes) {
+    if (check.innerText == particleType) {
+      particleIsActive = check.firstChild.checked;
+      console.log("the bool is", check.firstChild.checked);
+    }
+  }
+  return particleIsActive;
+}
