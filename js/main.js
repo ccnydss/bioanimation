@@ -167,17 +167,20 @@ function setup() {
   disableInputForParticle("Cl");
   disableInputForParticle("K");
 
-  for (var i = 0; i < particles["inside"]["Cl"].length; i++) {
-    setDisplay(particles["inside"]["Cl"][i], false);
+  for (const particle of particles["inside"]["Cl"]) {
+    particle.setDisplay(false);
   }
-  for (var i = 0; i < particles["outside"]["Cl"].length; i++) {
-    setDisplay(particles["outside"]["Cl"][i], false);
+
+  for (const particle of particles["outside"]["Cl"]) {
+    particle.setDisplay(false);
   }
-  for (var i = 0; i < particles["inside"]["K"].length; i++) {
-    setDisplay(particles["inside"]["K"][i], false);
+
+  for (const particle of particles["inside"]["K"]) {
+    particle.setDisplay(false);
   }
-  for (var i = 0; i < particles["outside"]["K"].length; i++) {
-    setDisplay(particles["outside"]["K"][i], false);
+
+  for (const particle of particles["outside"]["K"]) {
+    particle.setDisplay(false);
   }
 
   FormulaInputCalculation(particleTypes[0]);

@@ -1,11 +1,13 @@
 class Particle {
-  constructor(_center, _diam, _vel, _collidable) {
+  constructor(_center, _diam, _vel, _collidable, _color) {
     // Input: int, int, int, p5 vector, boolean
     // Function: Instantiate a Particle object
     this.center = _center;
     this.diam = _diam;
     this.r = int(_diam / 2);
     this.collidable = _collidable;
+
+    this.m_color = _color;
 
     // Store the original vector to remember it after modifying move_velocity.
     this.orig_velocity = createVector(_vel.x, _vel.y);
@@ -14,13 +16,18 @@ class Particle {
     this.display = true;
   }
 
+  color() {
+    noStroke();
+    fill(this.m_color);
+  }
+
   draw(xc = this.center.x, yc = this.center.y, rc = this.r) {
-    if (this.display)
-      ellipse(xc, yc, rc);
+    if (this.display) ellipse(xc, yc, rc);
   }
 
   move(container_context, channels) {
     // Pass in a Container object the particle should be constrained inside.
+
     // channel.transfers(this);
     if (this.collidable) {
       container_context.clips(this);
@@ -37,40 +44,40 @@ class Particle {
     if (this.display) {
       ellipse(this.center.x, this.center.y, this.diam);
     }
+  }
 
+  setDisplay(disp) {
+    this.display = disp;
   }
 }
 
 class Na extends Particle {
   constructor(_center, _diam, _vel, _collidable) {
-    super(_center, _diam, _vel, _collidable);
-  }
+    super(_center, _diam, _vel, _collidable, "#F5CE28");
 
-  color() {
-    noStroke();
-    fill(particlesProperties["Na"].color);
+    this.display = true;
+    this.charge = 1;
+    this.permeability = 0.03;
   }
 }
 
 class Cl extends Particle {
   constructor(_center, _diam, _vel, _collidable) {
-    super(_center, _diam, _vel, _collidable);
-  }
+    super(_center, _diam, _vel, _collidable, "#CD5C5C");
 
-  color() {
-    noStroke();
-    fill(particlesProperties["Cl"].color);
+    this.display = false;
+    this.charge = -1;
+    this.permeability = 0.1;
   }
 }
 
 class K extends Particle {
   constructor(_center, _diam, _vel, _collidable) {
-    super(_center, _diam, _vel, _collidable);
-  }
+    super(_center, _diam, _vel, _collidable, "#35B235");
 
-  color() {
-    noStroke();
-    fill(particlesProperties["K"].color);
+    this.display = false;
+    this.charge = 1;
+    this.permeability = 1;
   }
 }
 
@@ -83,37 +90,18 @@ var factory = {
 }
 
 // NOTE: This should be a child class of Particle
-class AnimatedParticle {
-  constructor(_center, _diam, _vel, _collidable, _particle) {
-    // this.x = _x;
-    // this.y = _y;
-    this.center = _center;
-    this.diam = _diam;
-    this.r = int(_diam / 2);
-    this.collidable = _collidable;
-    this.particle = _particle;
-
-    // Store the original vector to remember it after modifying move_velocity.
-    this.orig_velocity = createVector(_vel.x, _vel.y);
-    this.move_velocity = createVector(_vel.x, _vel.y);
+class AnimatedParticle extends Particle {
+  constructor(_center, _diam, _vel, _collidable, _color) {
+    super(_center, _diam, _vel, _collidable, _color);
   }
 
   draw(xc = this.center.x, yc = this.center.y, rc = this.r) {
     ellipse(xc, yc, rc);
   }
 
-  color() {
-    noStroke();
-    fill(particlesProperties[this.particle].color);
-  }
-
   move() {
-    // Pass in a Container object the particle should be constrained inside.
+    // Force the animated particle to move straight down.
     this.center.y = this.center.y + this.move_velocity.y;
     ellipse(this.center.x, this.center.y, this.diam);
   }
-}
-
-var setDisplay = function(particle, value) {
-  particle.display = value;
 }
