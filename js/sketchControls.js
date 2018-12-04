@@ -5,120 +5,103 @@ var transferParticle = function(particleType, location) {
   // transfers a particle from top to bottom
 
   var id = particlesProperties[particleType]["id"];
-  var row = 4;
 
   // Set names of current array is in and array to transfer particle into
   var currentArray = particles[location[particleType]][particleType];
+  if (currentArray.length == 0) return;
 
   // Set destination container to opposite of the denser container
-  var transferLocation = (location[particleType] == "outside")
-  ? "inside"
-  : "outside";
+  var transferLocation = (location[particleType] == "outside") ?
+    "inside" :
+    "outside";
 
   var transferArray = particles[transferLocation][particleType];
 
-  if (currentArray.length == 0) {
-    return;
-  }
 
   // Determine which cell channel the particle should move towards.
   // If the particle is in the top division
-  if (location[particleType][particleType] == "outside") {
+  var targetY = 0;
+  var yOffset = 25;
+
+  if (location[particleType] == "outside") {
+    console.log("in numero 1")
     var targetChannel = channels[id].tl;
+    targetY = targetChannel.y - yOffset;
   } else {
+    console.log("in numero 2", location);
     // If the particle is in the bottom division
     var targetChannel = channels[id].bl;
+    targetY = targetChannel.y + yOffset;
   }
 
   // Get the offset from corner of the channel to its center.
-  var offset = Math.floor(channels[0].width / 2 + 1);
-  var xMul = 100;
-  var yMul = 100;
+  var cWidth = channels[0].width;
+  var cHeight = channels[0].height;
 
-  // Change move velocity to get particle to target channel
-  var v = (targetChannel.x + offset - currentArray[0].center.x) / xMul;
-  var u = (targetChannel.y - currentArray[0].center.y) / yMul;
+  var horizontalOffset = Math.floor(cWidth / 2 + 1);
+  var verticalOffset = Math.floor(cHeight / 2 + 1);
 
-  currentArray[0].orig_velocity = createVector(v, u);
-  currentArray[0].move_velocity = createVector(v, u);
+  // Choose the particle to move to other side.
+  var movePcl = currentArray[0];
 
-  var dist = euclideanDistance(currentArray[0].center.x, currentArray[0].center.y, targetChannel.x, targetChannel.y);
+  // Calculate angle to move particle towards channel center.
+  var newDirection = atan2(
+    targetY - movePcl.center.y,
+    targetChannel.x + horizontalOffset - movePcl.center.x
+  );
 
-  var timeToGetToChannel = dist * 3;
+  movePcl.collidable = false;
 
-  var active = isParticleActive(particleType);
-  // Move particle through channel
-  setTimeout(function() {
-    var OriX = Math.floor(currentArray[0].center.x);
-    var OriY = Math.floor(currentArray[0].center.y);
-    var diam = currentArray[0].diam;
-    var particle_color = currentArray[0].m_color;
-    console.log("The color is", particle_color);
+  // Change velocity of particle to move in the direction of the channel.
+  movePcl.orig_velocity = p5.Vector.fromAngle(newDirection);
+  movePcl.orig_velocity.setMag(3);
 
-    // Remove the first particle from the array
-    currentArray.splice(0, 1);
+  movePcl.move_velocity = p5.Vector.fromAngle(newDirection);
+  movePcl.move_velocity.setMag(3);
 
-    var yVector = (location[particleType] == "outside")
-    ? 3
-    : -3;
+  movePcl.onContainerChange = function(newX, newY) {
+    console.log("test test", targetChannel.y, newX, newY);
 
-    var velocity = createVector(0, yVector);
+    if (
+      newY <= targetY &&
+      newX > targetChannel.x &&
+      newX < targetChannel.x + cWidth &&
+      location[particleType] == "inside"
+    ) {
+      movePcl.setVelocity(createVector(0, -3));
+    } else if (
+      newY >= targetY &&
+      newX > targetChannel.x &&
+      newX < targetChannel.x + cWidth &&
+      location[particleType] == "outside"
+    ) {
+      movePcl.setVelocity(createVector(0, 3));
+    }
 
-    var animParticle = new AnimatedParticle(
-      new Point(OriX, OriY),
-      diam,
-      velocity,
-      false,
-      particle_color,
-      active
-    );
+    var cond1 = (location[particleType] == "outside" && newY > targetChannel.y + cHeight);
+    var cond2 = (location[particleType] == "inside" && newY < targetChannel.y - cHeight);
 
-    animParticle.setDisplay(active);
+    if (cond1 || cond2) {
+      console.log("IN number 1")
+      // Modify the particle
+      // movePcl.color("#ff0000");
 
-    currentArray.push(animParticle);
-  }, 800)
+      // Copy the particle to create a clone of the instance
+      var newPart = clone(movePcl);
+      newPart.collidable = true;
+      newPart.setVelocity();
+      console.log(movePcl, newPart);
 
-  // Remove particle from its old division and create particle in the new division
-  setTimeout(function() {
-    var particleIndex = particles[location[particleType]][particleType].length - 1;
-    var OriParticle = currentArray[particleIndex];
-    var OriX = Math.floor(OriParticle.center.x);
-    var OriY = Math.floor(OriParticle.center.y);
-    var diam = Math.floor(OriParticle.diam);
+      // Remove the first particle in the array, aka movePcl
+      currentArray.splice(0, 1);
+      transferArray.push(newPart);
 
-    velocities = velocityRange;
+      updateInputs(particleType, location[particleType], id);
 
-    var x_vel = Math.floor(Math.random() * (velocities.length - 1)) + 0;
-    var y_vel = Math.floor(Math.random() * (velocities.length - 1)) + 0;
-    var velocity = createVector(velocities[x_vel], Math.abs(velocities[y_vel]));
-
-    currentArray.splice(particleIndex, 1);
-
-    var oldInput = location[particleType] == "outside"
-    ? input[id + 1]
-    : input[id + row + 1];
-
-    var transferInput = location[particleType] == "outside"
-    ? input[id + row + 1]
-    : input[id + 1];
-
-    oldInput.value(particles[location[particleType]][particleType].length);
-
-    var newParticle = new factory[particleType](
-      new Point(OriX, OriY),
-      diam,
-      velocity,
-      true
-    );
-
-    newParticle.setDisplay(isParticleActive(particleType));
-
-    transferArray.push(newParticle);
-
-    transferInput.value(particles[transferLocation][particleType].length);
-
-    FormulaInputCalculation(particleType);
-  }, 1200)
+      // Repeatedly call equilibrate until all particles have transferred over.
+      equilibrate(particleType);
+    }
+  }
 }
 
 // Brings outside and inside into equilibrium
@@ -139,9 +122,9 @@ function equilibrate(particleType) {
     return;
   }
 
-  largerArrayLocation = outsideArray.length > insideArray.length
-  ? "outside"
-  : "inside";
+  largerArrayLocation = outsideArray.length > insideArray.length ?
+    "outside" :
+    "inside";
 
   // The number of particles that need to be transferred to each equilibrium
   var transfers = particles[largerArrayLocation][particleType].length - equiAmount;
@@ -154,11 +137,7 @@ function equilibrate(particleType) {
 
   // Perform N transfers from the denser container to the sparser container.
   largerArrayLocations[particleType] = largerArrayLocation;
-  for (var i = 0; i < transfers; i++) {
-    setTimeout(function() {
-      transferParticle(particleType, largerArrayLocations);
-    }, 1000 * i);
-  }
+  transferParticle(particleType, largerArrayLocations);
 }
 
 var NernstButtonStatus;
@@ -301,6 +280,7 @@ function enableButton() {
 
 // Pause / unpause the animation (debug purposes)
 var togLoop = false;
+
 function toggleLoop() {
   if (togLoop) {
     loop();
@@ -326,30 +306,30 @@ function keyPressed() {
 
   switch (keyCode) {
     case spacebar:
-    toggleLoop();
-    break;
+      toggleLoop();
+      break;
 
-    // NOTE: These no longer work because second param should be array
+      // NOTE: These no longer work because second param should be array
     case Q_key:
-    transferParticle(particleTypes[0], "outside");
-    break;
+      transferParticle(particleTypes[0], "outside");
+      break;
 
     case W_key:
-    transferParticle(particleTypes[1], "outside");
-    break;
+      transferParticle(particleTypes[1], "outside");
+      break;
 
     case A_key:
-    transferParticle(particleTypes[0], "inside");
-    break;
+      transferParticle(particleTypes[0], "inside");
+      break;
 
     case S_key:
-    transferParticle(particleTypes[1], "inside");
-    break;
+      transferParticle(particleTypes[1], "inside");
+      break;
 
     case E_key:
-    // NOTE: "E" key breaks when pushed in Nernst mode -- it transfers the Cl particles too
-    equilibrate(particleTypes[0]);
-    equilibrate(particleTypes[1]);
+      // NOTE: "E" key breaks when pushed in Nernst mode -- it transfers the Cl particles too
+      equilibrate(particleTypes[0]);
+      equilibrate(particleTypes[1]);
   }
 }
 
@@ -361,9 +341,9 @@ function increase(evt) {
   var row = 4;
   var id = (eventID % row) - 1;
   var particleType = particleTypes[id];
-  var particleLocation = (eventID < row)
-  ? "outside"
-  : "inside";
+  var particleLocation = (eventID < row) ?
+    "outside" :
+    "inside";
 
   var particleArray = particles[particleLocation][particleType];
 
@@ -386,7 +366,7 @@ function increase(evt) {
     true
   );
   newParticle.setDisplay(true);
-  particleArray.push( newParticle );
+  particleArray.push(newParticle);
 
   var updatedParticleAmount = particleArray.length;
   // if (particleType == document.getElementById('particleSelect').value) {
@@ -402,9 +382,9 @@ function decrease(evt) {
   var row = 4;
   var id = (eventID % row) - 1;
   var particleType = particleTypes[id];
-  var particleLocation = (eventID < row)
-  ? "outside"
-  : "inside";
+  var particleLocation = (eventID < row) ?
+    "outside" :
+    "inside";
   var particleArray = particles[particleLocation][particleType];
 
   randomX = containers[particleLocation].tl.x + particlesProperties[particleType].radius + (Math.floor(Math.random() * xRange));
@@ -430,9 +410,9 @@ function ChangeNumParticles(evt) {
   var row = 4;
   var id = (eventID % row) - 1;
   var particleType = particleTypes[id];
-  var particleLocation = (eventID < row)
-  ? "outside"
-  : "inside";
+  var particleLocation = (eventID < row) ?
+    "outside" :
+    "inside";
   var particleArray = particles[particleLocation][particleType];
   var updatedAmount = input[eventID].value();
   // If the amount entered is invalid, alert user
@@ -615,7 +595,7 @@ function makeUIs(creation) {
     // equations[4].parent('equationdiv');
     // equations[4].changed(NernstFormula);
     equations[1] = createElement('h3', 'Answer: ' + answer + 'V');
-    equations[1].class ('qoptions');
+    equations[1].class('qoptions');
     equations[1].parent('equationdiv');
 
     // Radio buttons to select ions to include
@@ -626,7 +606,7 @@ function makeUIs(creation) {
       // } else {
       checkboxes[i] = createCheckbox(particleTypes[i], false);
       // }
-      checkboxes[i].class ('checkboxes');
+      checkboxes[i].class('checkboxes');
       checkboxes[i].id('checkbox' + particleTypes[i]);
       checkboxes[i].parent('particleControl');
       checkboxes[i].changed(checkedEvent);
@@ -650,194 +630,192 @@ function makeUIs(creation) {
       } else {
         var id = (k % row) - 1;
         var particleType = particleTypes[id];
-        var particleLocation = (k <= 3)
-        ? "outside"
-        : "inside";
+        var particleLocation = (k <= 3) ? "outside" : "inside";
         var particleArray = particles[particleLocation][particleType];
 
-        var particleSuffix = (k <= 3)
-        ? "out"
-        : "in";
-        var particleCharge = (particlesProperties[particleType].charge == 1)
-        ? "+"
-        : "-";
+        var particleSuffix = (k <= 3) ?
+          "out" :
+          "in";
+        var particleCharge = (particlesProperties[particleType].charge == 1) ?
+          "+" :
+          "-";
         var text = '[' + particleType + '<sup>' + particleCharge + '</sup>]' + '<sub>' + particleSuffix + '</sub>&nbsp;';
         var Value = particleArray.length;
       }
       if (k == 0 || k == row) {
         textboard[k] = createElement('h4', text);
-        textboard[k].class ('qoptions');
+        textboard[k].class('qoptions');
         textboard[k].parent(eval("control" + k));
 
         createElement('br').parent(eval("control" + k));
 
         var table = createElement('table')
-        table.class ("table qoptions");
+        table.class("table qoptions");
         table.id("table" + k);
         table.parent(eval("control" + (
           k + 1)));
-        } else {
-          var trow = createElement('tr');
-          if (k < row) {
-            trow.parent("table0");
-          } else {
-            trow.parent("table" + row);
-          }
-
-          textboard[k] = createElement('h4', text);
-          textboard[k].class ('qoptions');
-
-          var td0 = createElement('td');
-          textboard[k].parent(td0);
-          td0.parent(trow);
-          input[k] = createInput();
-          input[k].value(Value)
-          input[k].id(k);
-          input[k].class ('qoptions');
-          var td1 = createElement('td');
-          input[k].parent(td1);
-          td1.parent(trow);
-          input[k].input(ChangeNumParticles);
-
-          plusButton[k] = createButton('+');
-          plusButton[k].id(k);
-
-          plusButton[k].attribute("data-ptype", particleType);
-          plusButton[k].attribute("data-location", particleLocation);
-          plusButton[k].style("background-color", particlesProperties[particleType].color)
-          plusButton[k].mousePressed(increase);
-          plusButton[k].class ('qoptions');
-
-          var td2 = createElement('td');
-          plusButton[k].parent(td2);
-          td2.parent(trow);
-
-          minusButton[k] = createButton('-');
-          minusButton[k].id(k);
-
-          minusButton[k].attribute("data-ptype", particleType);
-          minusButton[k].attribute("data-location", particleLocation);
-          minusButton[k].style("background-color", particlesProperties[particleType].color)
-          minusButton[k].mousePressed(decrease);
-          minusButton[k].class ('qoptions');
-
-          var td3 = createElement('td');
-          minusButton[k].parent(td3);
-          td3.parent(trow);
-        }
-      }
-    }
-  }
-
-  function NernstFormula(evt) {
-    // input: the element that triggered the event (Input buttons);
-
-    var eventID = evt.target.id;
-    var newParticleType = equations[eventID].value();
-    var particleType = newParticleType;
-    FormulaInputCalculation(particleType);
-  }
-
-  function FormulaInputCalculation(particleType) {
-    // input: string;
-    // usage: "Na", "Cl", "K"
-
-    if (simulatorMode == "Nernst") {
-      var R = 8.314;
-      var T = tempSetting;
-      var z = particlesProperties[particleType]["charge"];
-      if (particlesProperties[particleType]["display"]) {
-        var Xout = particles["outside"][particleType].length;
-        var Xin = particles["inside"][particleType].length;
       } else {
-        equations[1].html('Answer: N/A - Particle Disabled');
-        return;
-      }
-      var F = 96485.3329; //0.096485;
-      var answer = (R * T) / (z * F) * Math.log(Xout / Xin);
+        var trow = createElement('tr');
+        if (k < row) {
+          trow.parent("table0");
+        } else {
+          trow.parent("table" + row);
+        }
 
+        textboard[k] = createElement('h4', text);
+        textboard[k].class('qoptions');
+
+        var td0 = createElement('td');
+        textboard[k].parent(td0);
+        td0.parent(trow);
+        input[k] = createInput();
+        input[k].value(Value)
+        input[k].id(k);
+        input[k].class('qoptions');
+        var td1 = createElement('td');
+        input[k].parent(td1);
+        td1.parent(trow);
+        input[k].input(ChangeNumParticles);
+
+        plusButton[k] = createButton('+');
+        plusButton[k].id(k);
+
+        plusButton[k].attribute("data-ptype", particleType);
+        plusButton[k].attribute("data-location", particleLocation);
+        plusButton[k].style("background-color", particlesProperties[particleType].color)
+        plusButton[k].mousePressed(increase);
+        plusButton[k].class('qoptions');
+
+        var td2 = createElement('td');
+        plusButton[k].parent(td2);
+        td2.parent(trow);
+
+        minusButton[k] = createButton('-');
+        minusButton[k].id(k);
+
+        minusButton[k].attribute("data-ptype", particleType);
+        minusButton[k].attribute("data-location", particleLocation);
+        minusButton[k].style("background-color", particlesProperties[particleType].color)
+        minusButton[k].mousePressed(decrease);
+        minusButton[k].class('qoptions');
+
+        var td3 = createElement('td');
+        minusButton[k].parent(td3);
+        td3.parent(trow);
+      }
+    }
+  }
+}
+
+function NernstFormula(evt) {
+  // input: the element that triggered the event (Input buttons);
+
+  var eventID = evt.target.id;
+  var newParticleType = equations[eventID].value();
+  var particleType = newParticleType;
+  FormulaInputCalculation(particleType);
+}
+
+function FormulaInputCalculation(particleType) {
+  // input: string;
+  // usage: "Na", "Cl", "K"
+
+  if (simulatorMode == "Nernst") {
+    var R = 8.314;
+    var T = tempSetting;
+    var z = particlesProperties[particleType]["charge"];
+    if (particlesProperties[particleType]["display"]) {
+      var Xout = particles["outside"][particleType].length;
+      var Xin = particles["inside"][particleType].length;
     } else {
-      var R = 8.314; // ideal gas constant
-      var T = tempSetting; // 37 is the Human Body temperature
-      var F = 96485.3329; // Faraday's constant
-      var numerator = 0;
-      var denominator = 0;
-      // Accumulate sums for numerator and denominator
-      for (var i = 0; i < particleTypes.length; i++) {
-        var particleType = particleTypes[i];
-        // console.log(particleType, ": ", particlesProperties[particleType]["display"]);
-        if (particlesProperties[particleType]["display"]) {
-          if (particlesProperties[particleType]["charge"] > 0) {
-            numerator += particlesProperties[particleType]["permeability"] * particles["outside"][particleType].length;
-            denominator += particlesProperties[particleType]["permeability"] * particles["inside"][particleType].length;
-          } else {
-            numerator += particlesProperties[particleType]["permeability"] * particles["inside"][particleType].length;
-            denominator += particlesProperties[particleType]["permeability"] * particles["outside"][particleType].length;
-          }
+      equations[1].html('Answer: N/A - Particle Disabled');
+      return;
+    }
+    var F = 96485.3329; //0.096485;
+    var answer = (R * T) / (z * F) * Math.log(Xout / Xin);
+
+  } else {
+    var R = 8.314; // ideal gas constant
+    var T = tempSetting; // 37 is the Human Body temperature
+    var F = 96485.3329; // Faraday's constant
+    var numerator = 0;
+    var denominator = 0;
+    // Accumulate sums for numerator and denominator
+    for (var i = 0; i < particleTypes.length; i++) {
+      var particleType = particleTypes[i];
+      // console.log(particleType, ": ", particlesProperties[particleType]["display"]);
+      if (particlesProperties[particleType]["display"]) {
+        if (particlesProperties[particleType]["charge"] > 0) {
+          numerator += particlesProperties[particleType]["permeability"] * particles["outside"][particleType].length;
+          denominator += particlesProperties[particleType]["permeability"] * particles["inside"][particleType].length;
+        } else {
+          numerator += particlesProperties[particleType]["permeability"] * particles["inside"][particleType].length;
+          denominator += particlesProperties[particleType]["permeability"] * particles["outside"][particleType].length;
         }
       }
-      var answer = ((R * T) / F) * Math.log(numerator / denominator);
     }
-
-    equations[1].html('Answer: ' + answer.toFixed(4) + 'V');
+    var answer = ((R * T) / F) * Math.log(numerator / denominator);
   }
 
-  function disableInputForParticle(particleType) {
-    // input: string;
-    // usage: "Na", "Cl", "K"
+  equations[1].html('Answer: ' + answer.toFixed(4) + 'V');
+}
 
-    var row = 4;
-    var particle_id = particlesProperties[particleType]["id"];
-    inside_id = particle_id + 1;
-    outside_id = particle_id + 1 + row;
-    input[inside_id].attribute('disabled', '');
-    input[outside_id].attribute('disabled', '');
-    plusButton[inside_id].attribute('disabled', '');
-    minusButton[inside_id].attribute('disabled', '');
-    plusButton[outside_id].attribute('disabled', '');
-    minusButton[outside_id].attribute('disabled', '');
-  }
+function disableInputForParticle(particleType) {
+  // input: string;
+  // usage: "Na", "Cl", "K"
 
-  function enableInputForParticle(particleType) {
-    // input: string;
-    // usage: "Na", "Cl", "K"
+  var row = 4;
+  var particle_id = particlesProperties[particleType]["id"];
+  inside_id = particle_id + 1;
+  outside_id = particle_id + 1 + row;
+  input[inside_id].attribute('disabled', '');
+  input[outside_id].attribute('disabled', '');
+  plusButton[inside_id].attribute('disabled', '');
+  minusButton[inside_id].attribute('disabled', '');
+  plusButton[outside_id].attribute('disabled', '');
+  minusButton[outside_id].attribute('disabled', '');
+}
 
-    var row = 4;
-    var particle_id = particlesProperties[particleType]["id"];
-    inside_id = particle_id + 1;
-    outside_id = particle_id + 1 + row;
-    input[inside_id].removeAttribute('disabled');
-    input[outside_id].removeAttribute('disabled');
-    plusButton[inside_id].removeAttribute('disabled');
-    minusButton[inside_id].removeAttribute('disabled');
-    plusButton[outside_id].removeAttribute('disabled');
-    minusButton[outside_id].removeAttribute('disabled');
-  }
+function enableInputForParticle(particleType) {
+  // input: string;
+  // usage: "Na", "Cl", "K"
 
-  function euclideanDistance(x1, y1, x2, y2) {
-    // input: integer;
+  var row = 4;
+  var particle_id = particlesProperties[particleType]["id"];
+  inside_id = particle_id + 1;
+  outside_id = particle_id + 1 + row;
+  input[inside_id].removeAttribute('disabled');
+  input[outside_id].removeAttribute('disabled');
+  plusButton[inside_id].removeAttribute('disabled');
+  minusButton[inside_id].removeAttribute('disabled');
+  plusButton[outside_id].removeAttribute('disabled');
+  minusButton[outside_id].removeAttribute('disabled');
+}
 
-    var xdiff = x2 - x1;
-    var ydiff = y2 - y1;
-    return Math.sqrt(xdiff * xdiff + ydiff * ydiff);
-  }
+function euclideanDistance(x1, y1, x2, y2) {
+  // input: integer;
 
-  function createText(url, tag) {
-    // input1: string;
-    // usage: 'questions.json' (filename)
-    // input2: string
-    // usage: 'goldman_1', 'nernst_1' (Data.name)
+  var xdiff = x2 - x1;
+  var ydiff = y2 - y1;
+  return Math.sqrt(xdiff * xdiff + ydiff * ydiff);
+}
 
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-        var myArr = JSON.parse(this.responseText)
-        document.getElementById("q1").innerHTML = myArr[tag].join('');;
-      }
-    };
-    xmlhttp.open("GET", url, true);
-    xmlhttp.send();
-  }
+function createText(url, tag) {
+  // input1: string;
+  // usage: 'questions.json' (filename)
+  // input2: string
+  // usage: 'goldman_1', 'nernst_1' (Data.name)
+
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var myArr = JSON.parse(this.responseText)
+      document.getElementById("q1").innerHTML = myArr[tag].join('');;
+    }
+  };
+  xmlhttp.open("GET", url, true);
+  xmlhttp.send();
+}
 
 function isParticleActive(particleType) {
   var checkboxes = document.getElementsByClassName('checkboxes');
@@ -850,4 +828,31 @@ function isParticleActive(particleType) {
     }
   }
   return particleIsActive;
+}
+
+function clone(obj) {
+  return Object.create(
+    Object.getPrototypeOf(obj),
+    Object.getOwnPropertyDescriptors(obj)
+  );
+}
+
+function updateInputs(particleType, location, id) {
+  var row = 4;
+  var transferLocation = (location[particleType] == "outside") ?
+    "inside" :
+    "outside";
+
+  var oldInput = location[particleType] == "outside"
+    ? input[id + 1]
+    : input[id + row + 1];
+
+  var transferInput = location[particleType] == "outside"
+    ? input[id + row + 1]
+    : input[id + 1];
+
+  console.log("Hgsgsgs", particles, location, particles[location]);
+
+  oldInput.value(particles[location][particleType].length);
+  transferInput.value(particles[transferLocation][particleType].length);
 }

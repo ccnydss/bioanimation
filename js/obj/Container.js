@@ -23,13 +23,6 @@ class Container extends Rectangle {
     }
   }
 
-  // NOTE: Gets used in Particle.js
-  //        Migrate this to Particle class because it only modifies "p"s values.
-  moveNoCollision(p) {
-    p.center.x += p.move_velocity.x;
-    p.center.y += p.move_velocity.y;
-  }
-
   clips(p) {
     // NOTE: Might make more sense to put this inside the Particle class,
     //      because this function modifies "p"s values.
@@ -98,6 +91,7 @@ class Container extends Rectangle {
   }
 
   hit(p, mul = -1) {
+    // console.log("P data", p);
     // Input:     Particle
     // Function:  Make the particle bounce away (reflect velocity vector) when it comes into contact with a container
 

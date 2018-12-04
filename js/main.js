@@ -15,8 +15,10 @@ var particlesProperties = {
     "display": true,
     "charge": 1,
     "permeability": 0.03,
-    "inside": 2,
-    "outside": 14
+    // "inside": 2,
+    "inside": 1,
+    // "outside": 14
+    "outside": 0
   },
   "Cl": {
     "id": 1,
@@ -25,8 +27,10 @@ var particlesProperties = {
     "display": false,
     "charge": -1,
     "permeability": 0.1,
-    "inside": 13,
-    "outside": 1
+    "inside": 0,
+    "outside": 0
+    // "inside": 13,
+    // "outside": 1
   },
   "K": {
     "id": 2,
@@ -35,8 +39,10 @@ var particlesProperties = {
     "display": false,
     "charge": 1,
     "permeability": 1,
-    "inside": 1,
-    "outside": 12
+    "inside": 0,
+    "outside": 0
+    // "inside": 1,
+    // "outside": 12
   }
 };
 
@@ -148,14 +154,14 @@ function setup() {
         // Get random location
         randomX = containers[location].tl.x + particlesProperties[particle]["radius"] + (Math.floor(Math.random() * xRange));
         randomY = containers[location].tl.y + particlesProperties[particle]["radius"] + (Math.floor(Math.random() * yRange));
-        particles[location][particle].push(
-          new factory[particle](
-            new Point(randomX, randomY),
-            particlesProperties[particle]["radius"],
-            velocity,
-            true
-          )
+
+        var newPart = new factory[particle](
+          new Point(randomX, randomY),
+          particlesProperties[particle]["radius"],
+          velocity,
+          true
         );
+        particles[location][particle].push(newPart);
       }
     }
   }
@@ -219,9 +225,9 @@ function draw() {
   //       Turn this into a function perhaps
   for (var location in particles) {
     for (var particle in particles[location]) {
-      for (var i = 0; i < particles[location][particle].length; i++) {
-        particles[location][particle][i].color();
-        particles[location][particle][i].move(containers[location]);
+      for (const p of particles[location][particle]) {
+        p.color();
+        p.move(containers[location]);
       }
     }
   }

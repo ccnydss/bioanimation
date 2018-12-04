@@ -13,19 +13,38 @@ class Particle {
     // Store the original vector to remember it after modifying move_velocity.
     this.orig_velocity = createVector(_vel.x, _vel.y);
     this.move_velocity = createVector(_vel.x, _vel.y);
+
+    // Temporary fix for the speed issue
+    this.m_speed = 3;
+    this.speedUp(3);
+
     this.velocity_mul = createVector(1, 1); // NOTE: Still using this attribute?
   }
 
-  color() {
+  color(c = this.m_color) {
+    this.m_color = c;
     noStroke();
-    fill(this.m_color);
+    fill(c);
   }
 
-  draw(xc = this.center.x, yc = this.center.y, rc = this.r) {
-    if (this.display) ellipse(xc, yc, rc);
+  draw(xc = this.center.x, yc = this.center.y, d = this.diam) {
+    if (this.display) ellipse(xc, yc, d);
   }
 
-  move(container_context, channels) {
+  speedUp(factor) {
+    // Speed or slow the particle by a multiplier, called factor
+    var {x, y} = this.orig_velocity;
+
+    this.orig_velocity = createVector(
+      factor * x, factor * y
+    );
+
+    this.move_velocity = createVector(
+      factor * x, factor * y
+    );
+  }
+
+  move(container_context) {
     // Pass in a Container object the particle should be constrained inside.
 
     // channel.transfers(this);
@@ -33,21 +52,28 @@ class Particle {
       container_context.clips(this);
       container_context.hit(this);
     } else {
-      container_context.moveNoCollision(this)
+      this.center.x += this.move_velocity.x;
+      this.center.y += this.move_velocity.y;
+      // this.onContainerChange(this.center.x, this.center.y, this.doOnCC);
+      this.onContainerChange(this.center.x, this.center.y);
     }
 
-    // NOTE: Why is this repeated even though it is done above, in the "if"-statement?
-    container_context.clips(this);
-    container_context.hit(this);
+    this.draw();
+  };
 
-    // NOTE: Shouldn't we just call the "draw" method directly?
-    if (this.display) {
-      ellipse(this.center.x, this.center.y, this.diam);
-    }
-  }
+  onContainerChange(newX, newY, cb) {
+    cb.call(newX, newY);
+    // console.log("howdy do");
+    // this.color("#FF0000");
+  };
 
   setDisplay(disp) {
     this.display = disp;
+  }
+
+  setVelocity(in_vector = p5.Vector.random2D()) {
+    this.orig_velocity = in_vector.setMag(this.m_speed);
+    this.move_velocity = in_vector.setMag(this.m_speed);
   }
 }
 
@@ -94,10 +120,6 @@ class AnimatedParticle extends Particle {
   constructor(_center, _diam, _vel, _collidable, _color, _display) {
     super(_center, _diam, _vel, _collidable, _color, _display);
   }
-
-  // draw(xc = this.center.x, yc = this.center.y, rc = this.r) {
-  //   ellipse(xc, yc, rc);
-  // }
 
   move() {
     // Force the animated particle to move straight down.
