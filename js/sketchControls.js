@@ -60,8 +60,6 @@ var transferParticle = function(particleType, location) {
   movePcl.move_velocity.setMag(3);
 
   movePcl.onContainerChange = function(newX, newY) {
-    console.log("test test", targetChannel.y, newX, newY);
-
     if (
       newY <= targetY &&
       newX > targetChannel.x &&
@@ -82,7 +80,6 @@ var transferParticle = function(particleType, location) {
     var cond2 = (location[particleType] == "inside" && newY < targetChannel.y - cHeight);
 
     if (cond1 || cond2) {
-      console.log("IN number 1")
       // Modify the particle
       // movePcl.color("#ff0000");
 
@@ -839,20 +836,21 @@ function clone(obj) {
 
 function updateInputs(particleType, location, id) {
   var row = 4;
-  var transferLocation = (location[particleType] == "outside") ?
-    "inside" :
-    "outside";
+  var transferLocation = (location == "outside")
+  ? "inside"
+  : "outside";
 
-  var oldInput = location[particleType] == "outside"
+  var oldInput = location == "outside"
     ? input[id + 1]
     : input[id + row + 1];
 
-  var transferInput = location[particleType] == "outside"
+  var transferInput = location == "outside"
     ? input[id + row + 1]
     : input[id + 1];
 
-  console.log("Hgsgsgs", particles, location, particles[location]);
+  var oldAmount = particles[location][particleType].length;
+  var transferAmount = particles[transferLocation][particleType].length;
 
-  oldInput.value(particles[location][particleType].length);
-  transferInput.value(particles[transferLocation][particleType].length);
+  oldInput.value(oldAmount);
+  transferInput.value(transferAmount);
 }

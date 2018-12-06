@@ -64,7 +64,6 @@ class Particle {
   onContainerChange(newX, newY, cb) {
     cb.call(newX, newY);
     // console.log("howdy do");
-    // this.color("#FF0000");
   };
 
   setDisplay(disp) {
