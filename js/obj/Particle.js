@@ -61,11 +61,6 @@ class Particle {
     this.draw();
   };
 
-  onContainerChange(newX, newY, cb) {
-    cb.call(newX, newY);
-    // console.log("howdy do");
-  };
-
   setDisplay(disp) {
     this.display = disp;
   }
