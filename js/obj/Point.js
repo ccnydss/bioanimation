@@ -8,4 +8,12 @@ class Point {
     stroke(255);
     point(this.x, this.y);
   }
+
+  distance(p) {
+    // input: another Point;
+    // output: compute how far away P is from this
+    var xdiff = this.x - p.x;
+    var ydiff = this.y - p.y;
+    return Math.sqrt(xdiff * xdiff + ydiff * ydiff);
+  }
 }

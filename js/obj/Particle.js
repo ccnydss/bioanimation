@@ -2,6 +2,8 @@ class Particle {
   constructor(_center, _diam, _vel, _collidable, _color, _display=true) {
     // Input: int, int, int, p5 vector, boolean
     // Function: Instantiate a Particle object
+
+    // NOTE: Eventually re-name all member variables to be prefaced with "m_varname"
     this.center = _center;
     this.diam = _diam;
     this.r = int(_diam / 2);
@@ -10,15 +12,9 @@ class Particle {
     this.display = _display;
     this.m_color = _color;
 
-    // Store the original vector to remember it after modifying move_velocity.
-    this.orig_velocity = createVector(_vel.x, _vel.y);
-    this.move_velocity = createVector(_vel.x, _vel.y);
-
-    // Temporary fix for the speed issue
-    this.m_speed = 3;
-    this.speedUp(3);
-
-    this.velocity_mul = createVector(1, 1); // NOTE: Still using this attribute?
+    this.m_speed = 5;
+    this.m_velocity = createVector(_vel.x, _vel.y);
+    this.setVelocity(this.m_velocity);
   }
 
   color(c = this.m_color) {
@@ -31,43 +27,68 @@ class Particle {
     if (this.display) ellipse(xc, yc, d);
   }
 
-  speedUp(factor) {
-    // Speed or slow the particle by a multiplier, called factor
-    var {x, y} = this.orig_velocity;
-
-    this.orig_velocity = createVector(
-      factor * x, factor * y
-    );
-
-    this.move_velocity = createVector(
-      factor * x, factor * y
-    );
+  moveCenter() {
+    this.center.x += this.m_velocity.x;
+    this.center.y += this.m_velocity.y;
   }
 
   move(container_context) {
     // Pass in a Container object the particle should be constrained inside.
 
-    // channel.transfers(this);
     if (this.collidable) {
-      container_context.clips(this);
-      container_context.hit(this);
+      container_context.bounce(this);
     } else {
-      this.center.x += this.move_velocity.x;
-      this.center.y += this.move_velocity.y;
-      // this.onContainerChange(this.center.x, this.center.y, this.doOnCC);
-      this.onContainerChange(this.center.x, this.center.y);
+      this.moveCenter();
+      this.onContainerChange (
+        this.center.x,
+        this.center.y
+      );
     }
 
     this.draw();
-  };
+  }
+
+  computeNewDirection(collisionDetector, reverseX, reverseY) {
+    // Boolean function, and two bools
+    // Check if the particle is about to collide and modify velocity appropriately
+    if (collisionDetector()) {
+      var newx = this.m_velocity.x;
+      var newy = this.m_velocity.y;
+
+      if (reverseX) newx = newx * -1;
+      if (reverseY) newy = newy * -1;
+
+      var newVector = createVector(newx, newy);
+
+      // Create slight random variation in the reflected angle to prevent
+      //  particles from travelling along parallel paths (looks unnatural)
+      var currentRadian = newVector.heading();
+      var radianVariation = random(0, 0.2);
+      if ( random([0, 1]) ) {
+        radianVariation = radianVariation * -1;
+      }
+
+      if (abs(currentRadian + radianVariation) < 0.25) {
+        console.log(newVector.heading());
+        if (currentRadian >= 0) {
+          radianVariation += 0.15;
+        } else {
+          radianVariation -= 0.15;
+        }
+      };
+
+      newVector.rotate(radianVariation);
+
+      this.setVelocity(newVector);
+    }
+  }
 
   setDisplay(disp) {
     this.display = disp;
   }
 
   setVelocity(in_vector = p5.Vector.random2D()) {
-    this.orig_velocity = in_vector.setMag(this.m_speed);
-    this.move_velocity = in_vector.setMag(this.m_speed);
+    this.m_velocity = in_vector.setMag(this.m_speed);
   }
 }
 
@@ -107,17 +128,4 @@ var factory = {
   "Na": Na,
   "Cl": Cl,
   "K": K
-}
-
-// NOTE: This should be a child class of Particle
-class AnimatedParticle extends Particle {
-  constructor(_center, _diam, _vel, _collidable, _color, _display) {
-    super(_center, _diam, _vel, _collidable, _color, _display);
-  }
-
-  move() {
-    // Force the animated particle to move straight down.
-    this.center.y = this.center.y + this.move_velocity.y;
-    ellipse(this.center.x, this.center.y, this.diam);
-  }
 }

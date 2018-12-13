@@ -368,7 +368,7 @@ function removeParticle(evt) {
     "outside" :
     "inside";
 
-  var particleArray = getParticleArrayFromEvt(evt);
+  var particleArray = particles[particleLocation][particleType];
 
   if (particleArray.length <= 0) return;
 
@@ -744,14 +744,6 @@ function enableInputForParticle(particleType) {
   minusButton[outside_id].removeAttribute('disabled');
 }
 
-function euclideanDistance(x1, y1, x2, y2) {
-  // input: integer;
-
-  var xdiff = x2 - x1;
-  var ydiff = y2 - y1;
-  return Math.sqrt(xdiff * xdiff + ydiff * ydiff);
-}
-
 function createText(url, tag) {
   // input1: string;
   // usage: 'questions.json' (filename)
@@ -767,19 +759,6 @@ function createText(url, tag) {
   };
   xmlhttp.open("GET", url, true);
   xmlhttp.send();
-}
-
-function isParticleActive(particleType) {
-  var checkboxes = document.getElementsByClassName('checkboxes');
-
-  var particleIsActive = false;
-  for (check of checkboxes) {
-    if (check.innerText == particleType) {
-      particleIsActive = check.firstChild.checked;
-      console.log("the bool is", check.firstChild.checked);
-    }
-  }
-  return particleIsActive;
 }
 
 function clone(obj) {

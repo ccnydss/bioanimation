@@ -167,10 +167,6 @@ QUnit.test("enableInputForParticle", function(assert) {
   assert.ok(1, "Pass");
 });
 
-QUnit.test("euclideanDistance", function(assert) {
-  assert.ok(1, "Pass");
-});
-
 QUnit.test("createText", function(assert) {
   assert.ok(1, "Pass");
 });

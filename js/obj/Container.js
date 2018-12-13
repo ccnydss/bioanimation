@@ -23,179 +23,43 @@ class Container extends Rectangle {
     }
   }
 
-  clips(p) {
+  bounce(p) {
     // NOTE: Might make more sense to put this inside the Particle class,
     //      because this function modifies "p"s values.
 
     // Input: Particle
-    // Function: Decelerate the Particle as it approaches this container
+    // Function: Reverse velocity components when particle collides with wall
 
-    var write = function(direction, particle, wall, p) {
-      var debug = false;
-      if ((direction == "left" || direction == "right") && debug) {
-        console.log("CLIPS!")
-        console.log("direction: ", direction);
-        console.log("particle: ", particle);
-        console.log(direction, "wall: ", wall);
-        console.log('velocity: (', p.move_velocity.x, p.move_velocity.y, ')');
-        console.log("leftball:", p.center.x - p.r);
-        console.log("rightball:", p.center.x + p.r);
-      }
+    var bl = this.bl;
+    var br = this.br;
+    var tl = this.tl;
+
+    var nextPastBottom = function() {
+      // Will particle cross bottom wall in next frame?
+      return p.center.y + p.m_velocity.y + p.r > bl.y;
     }
 
-    // Boolean expressions
-    // Detect if the particle will cross any container walls if it moves forward by its current velocity.
-
-    var nextPastBottom = p.center.y + p.move_velocity.y + p.r > this.bl.y; // Crosses bottom wall?
-    var nextPastTop = p.center.y + p.move_velocity.y - p.r < this.tl.y; // Crosses top wall?
-    var nextPastRight = p.center.x + p.move_velocity.x + p.r > this.br.x; // Crosses right wall?
-    var nextPastLeft = p.center.x + p.move_velocity.x - p.r < this.bl.x; // Crosses left wall?
-
-    // console.log(p);
-    // NOTE: Perhaps turn this single while loop into a function for reuse
-    while (nextPastBottom) {
-      // For as long as the next position increment will bring the particle
-      // outside of the container, then... decelerate the particle.
-
-      write("bottom", p.center.y + p.r, this.bl.y, p);
-      p.move_velocity.y -= 1;
-
-      // Recheck condition
-      // NOTE: Find a way to avoid repeating this expression from the beginning
-      nextPastBottom = p.center.y + p.move_velocity.y + p.r > this.bl.y;
+    var nextPastTop = function() {
+      // Will particle cross top wall in next frame?
+      return p.center.y + p.m_velocity.y - p.r < tl.y;
     }
 
-    while (nextPastTop) {
-      write("top", p.center.y - p.r, this.tl.y, p);
-      p.move_velocity.y += 1;
-
-      // Recheck condition
-      nextPastTop = p.center.y + p.move_velocity.y - p.r < this.tl.y;
+    var nextPastRight = function() {
+      // Will particle cross right wall in next frame?
+      return p.center.x + p.m_velocity.x + p.r > br.x;
     }
 
-    while (nextPastRight) {
-      write("right", p.center.x + p.r, this.br.x, p);
-      p.move_velocity.x = p.move_velocity.x - 1;
-
-      // Recheck condition
-      nextPastRight = p.center.x + p.move_velocity.x + p.r > this.br.x;
+    var nextPastLeft = function() {
+      // Will particle cross left wall in next frame?
+      return p.center.x + p.m_velocity.x - p.r < bl.x;
     }
 
-    while (nextPastLeft) {
-      write("left", p.center.x - p.r, this.bl.x, p);
-      p.move_velocity.x += 1;
+    p.computeNewDirection(nextPastBottom, false, true);
+    p.computeNewDirection(nextPastTop, false, true);
+    p.computeNewDirection(nextPastRight, true, false);
+    p.computeNewDirection(nextPastLeft, true, false);
 
-      // Recheck condition
-      nextPastLeft = p.center.x + p.move_velocity.x - p.r < this.bl.x;
-    }
-  }
-
-  hit(p, mul = -1) {
-    // console.log("P data", p);
-    // Input:     Particle
-    // Function:  Make the particle bounce away (reflect velocity vector) when it comes into contact with a container
-
-    // NOTE: Extract debug function to reuse for hit and clips
-    var write = function(direction, particle, wall) {
-      var debug = false;
-      if ((direction == "left" || direction == "right") && debug) {
-        console.log("HITS!")
-        console.log("direction: ", direction);
-        console.log("particle: ", particle);
-        console.log(direction, " wall: ", wall);
-        console.log('velocity: (', p.move_velocity.x, p.move_velocity.y, ')');
-        console.log("leftball:", p.center.x - p.r);
-        console.log("rightball:", p.center.x + p.r);
-      }
-    }
-
-    // Move particle forward -- we should know it is safe to do so and remain within Container_Context, because of clips()
-    p.center.x += p.move_velocity.x;
-    p.center.y += p.move_velocity.y;
-
-
-    var errorCorrection = 1;  // Sometimes the sum has rounding errors (i.e, 1.00001)
-
-    var pastBottom = p.center.y + p.r + errorCorrection >= this.bl.y - errorCorrection;
-    var pastTop = p.center.y - p.r - errorCorrection <= this.tl.y + errorCorrection;
-    var pastRight = p.center.x + p.r + errorCorrection >= this.br.x;
-    var pastLeft = p.center.x - p.r - errorCorrection <= this.bl.x;
-
-    // Choose random angle of reflection
-    // NOTE: Where do these constants come from?
-    if (mul == -1) {
-      // NOTE: This is a temporary step of refactoring the multiplier to come from outside
-      var reflectionRange = [0.5, 1.2];
-      var mul = ((Math.random() * reflectionRange[1]) + reflectionRange[0]).toFixed(3);
-    }
-
-    // NOTE: Try to DRY these if statements
-    if (pastBottom) {
-      // Create new velocity vector based off of reflection
-      write("bottom", p.center.y + p.r, this.bl.y, p);
-
-      var newx = p.orig_velocity.x;
-      var newy = -1 * mul / p.velocity_mul.y * p.orig_velocity.y;
-
-      p.move_velocity = createVector(newx, newy);
-      p.orig_velocity = createVector(newx, newy);
-
-      // Begin moving the particle in the new direction
-      p.center.x += p.move_velocity.x;
-      p.center.y += p.move_velocity.y;
-
-      // NOTE: Why do we need to store the previous multiplier?
-      p.velocity_mul.y = mul;
-    }
-
-    if (pastTop) {
-      // Create new velocity vector based off of reflection
-      write("top", p.center.y - p.r, this.tl.y, p);
-
-      var newx = p.orig_velocity.x;
-      var newy = -1 * mul / p.velocity_mul.y * p.orig_velocity.y;
-
-      p.orig_velocity = createVector(newx, newy);
-      p.move_velocity = createVector(newx, newy);
-
-      // Begin moving the particle in new direction
-      p.center.x += p.move_velocity.x;
-      p.center.y += p.move_velocity.y;
-
-      p.velocity_mul.y = mul;
-    }
-
-    if (pastRight) {
-      // Create new velocity vector based off of reflection
-      write("right", p.center.x + p.r, this.br.x, p);
-
-      var newx = -1 * mul / p.velocity_mul.x * p.orig_velocity.x;
-      var newy = p.orig_velocity.y;
-
-      p.orig_velocity = createVector(newx, newy);
-      p.move_velocity = createVector(newx, newy);
-
-      // Move particle
-      p.center.x += p.move_velocity.x;
-      p.center.y += p.move_velocity.y;
-      p.velocity_mul.x = mul;
-
-    }
-
-    if (pastLeft) {
-      // Create new velocity vector based off of reflection
-      write("left", p.center.x - p.r, this.bl.x, p);
-
-      var newx = -1 * mul / p.velocity_mul.x * p.orig_velocity.x;
-      var newy = p.orig_velocity.y;
-
-      p.orig_velocity = createVector(newx, newy);
-      p.move_velocity = createVector(newx, newy);
-
-      // Move particle
-      p.center.x += p.move_velocity.x;
-      p.center.y += p.move_velocity.y;
-      p.velocity_mul.x = mul;
-    }
+    // Begin moving the particle in the newly set direction
+    p.moveCenter();
   }
 }
