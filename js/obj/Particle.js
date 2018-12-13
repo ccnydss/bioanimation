@@ -13,8 +13,7 @@ class Particle {
     this.m_color = _color;
 
     this.m_speed = 5;
-    this.m_velocity = createVector(_vel.x, _vel.y);
-    this.setVelocity(this.m_velocity);
+    this.m_velocity = createVector(_vel.x, _vel.y).setMag(this.m_speed);
   }
 
   color(c = this.m_color) {
@@ -87,8 +86,36 @@ class Particle {
     this.display = disp;
   }
 
-  setVelocity(in_vector = p5.Vector.random2D()) {
-    this.m_velocity = in_vector.setMag(this.m_speed);
+  randomDirection(toTop) {
+    var afterDirection;
+    if (toTop) {
+      afterDirection = randomFromRanges(
+        [
+          [ PI / 6 , PI / 3 ],
+          [ 2*PI / 3 , 5*PI / 6 ]
+        ]
+      )
+    } else {
+      afterDirection = randomFromRanges(
+        [
+          [ 7*PI / 6, 4*PI / 3],
+          [ 5*PI / 3, 11*PI / 6]
+        ]
+      )
+    };
+    return p5.Vector.fromAngle(afterDirection);
+  }
+
+  setVelocity(in_vector) {
+    if (in_vector) {
+      this.m_velocity = in_vector.setMag(this.m_speed);
+    } else {
+      // Create a random vector, but keep its angular range limited so that
+      // the particle avoids moving at very narrow angles.
+
+      var velocity = p5.Vector.random2D();
+      this.m_velocity = velocity.setMag(this.m_speed);
+    }
   }
 }
 

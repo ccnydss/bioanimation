@@ -17,21 +17,25 @@ var transferParticle = function(particleType, location) {
 
   var transferArray = particles[transferLocation][particleType];
 
-
   // Determine which cell channel the particle should move towards.
   // If the particle is in the top division
   var targetY = 0;
   var yOffset = 25;
+  var topIsTarget = false;
 
   if (location[particleType] == "outside") {
     console.log("in numero 1")
     var targetChannel = channels[id].tl;
     targetY = targetChannel.y - yOffset;
+
+    topIsTarget = false;
   } else {
     console.log("in numero 2", location);
     // If the particle is in the bottom division
     var targetChannel = channels[id].bl;
     targetY = targetChannel.y + yOffset;
+
+    topIsTarget = true;
   }
 
   // Get the offset from corner of the channel to its center.
@@ -50,6 +54,7 @@ var transferParticle = function(particleType, location) {
     targetChannel.x + horizontalOffset - movePcl.center.x
   );
 
+  // Calculate angle to move the particle after it passes through
   movePcl.collidable = false;
 
   // Change velocity of particle to move in the direction of the channel.
@@ -79,7 +84,9 @@ var transferParticle = function(particleType, location) {
       // Copy the particle to create a clone of the instance
       var newPart = clone(movePcl);
       newPart.collidable = true;
-      newPart.setVelocity();
+
+      var afterVelocity = newPart.randomDirection(topIsTarget);
+      newPart.setVelocity(afterVelocity);
       console.log(movePcl, newPart);
 
       // Remove the first particle in the array, aka movePcl
