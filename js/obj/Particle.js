@@ -50,6 +50,8 @@ class Particle {
     var br = container.br;
     var tl = container.tl;
 
+    this.checkOutOfBounds(container);
+
     this.computeNewDirection(this.nextPastBottom(bl), false, true);
     this.computeNewDirection(this.nextPastTop(tl), false, true);
     this.computeNewDirection(this.nextPastRight(br), true, false);
@@ -57,6 +59,18 @@ class Particle {
 
     // Begin moving the particle in the newly set direction
     this.moveCenter();
+  }
+
+  checkOutOfBounds(container) {
+    var outRight = this.center.x + this.r > container.br.x;
+    var outLeft = this.center.x - this.r < container.tl.x;
+    var outTop = this.center.y - this.r < container.tl.y;
+    var outBot = this.center.y + this.r > container.br.y;
+
+    if (outRight || outLeft || outTop || outBot) {
+      this.center.x = container.center.x;
+      this.center.y = container.tl.y + (container.center.y / 2);
+    }
   }
 
   computeNewDirection(willCollide, reverseX, reverseY) {
@@ -79,6 +93,7 @@ class Particle {
         radianVariation = radianVariation * -1;
       }
 
+      // Prevent angle of reflection from being too narrow
       if (abs(currentRadian + radianVariation) < 0.25) {
         if (currentRadian >= 0) {
           radianVariation += 0.15;

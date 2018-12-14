@@ -20,8 +20,10 @@ class Rectangle {
     this.tr = _tr;
     this.br = _br;
     this.bl = _bl;
-    this.height = Math.abs(_tr.x - _tl.x);
-    this.width = Math.abs(_tl.y - _bl.y);
+    this.width = Math.abs(_tr.x - _tl.x);
+    this.height = Math.abs(_tl.y - _bl.y);
+
+    this.center = new Point(width / 2, height / 2);
 
     this.fill_color = _fillColor || false;
     this.border_color = _borderColor || false;
@@ -30,6 +32,6 @@ class Rectangle {
   draw() {
     if (this.fill_color) fill(this.fill_color);
     if (this.border_color) stroke(this.border_color);
-    rect(this.tl.x, this.tl.y, this.height, this.width);
+    rect(this.tl.x, this.tl.y, this.width, this.height);
   }
 }

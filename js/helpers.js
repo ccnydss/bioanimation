@@ -9,8 +9,8 @@ function clone(obj) {
 }
 
 function randomFromRanges(arrayOfRanges) {
-  // Example input: [ [1, 2], [9, 8], [10, 15] ]
-  // Example output: a random number between 1 and 2, OR, between 9 and 9, OR,
+  // Example input: [ [1, 2], [8, 9], [10, 15] ]
+  // Example output: a random number between 1 and 2, OR, between 8 and 9, OR,
   //    between 10 and 15.
   var numOfRanges = arrayOfRanges.length;
   var selectedRange = floor(random(0, numOfRanges));

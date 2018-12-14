@@ -126,7 +126,6 @@ function transferParticle(particleType, location) {
 
       var afterVelocity = newPart.randomDirection(topIsTarget);
       newPart.setVelocity(afterVelocity);
-      console.log(movePcl, newPart);
 
       // Remove the first particle in the array, aka movePcl
       currentArray.splice(0, 1);
@@ -199,8 +198,6 @@ function removeParticle(evt) {
 
 function changeNumParticles(evt) {
   // input: the element that triggered the event (Input buttons);
-  console.log("is this it??");
-
   var eventID = evt.target.id;
   var row = 4;
   var id = (eventID % row) - 1;
@@ -244,5 +241,7 @@ function changeNumParticles(evt) {
 }
 
 function selectParticle(pArray) {
+  // NOTE: In the future, modify this function to select the particle
+  // that is closest to the channel.
   return pArray[0];
 }
