@@ -8,6 +8,29 @@ function clone(obj) {
   );
 }
 
+function setClassMember(instance, membername, value) {
+  var cl = Object.getPrototypeOf(instance).constructor;
+  cl[membername] = value;
+}
+
+function getClassMember(instance, membername) {
+  return Object.getPrototypeOf(instance).constructor[membername];
+}
+
+function getClass(classname) {
+  switch (classname) {
+    case "Na":
+      return Na;
+      break;
+    case "Cl":
+      return Cl;
+      break;
+    case "K":
+      return K;
+      break;
+    }
+}
+
 function randomFromRanges(arrayOfRanges) {
   // Example input: [ [1, 2], [8, 9], [10, 15] ]
   // Example output: a random number between 1 and 2, OR, between 8 and 9, OR,

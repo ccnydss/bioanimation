@@ -171,6 +171,14 @@ class Na extends Particle {
   }
 }
 
+Na.id = 0;
+Na.radius = 15;
+Na.color = "#F5CE28";
+Na.charge = 1;
+Na.permeability = 0.03;
+Na.inside = 1;
+Na.outside = 0;
+
 class Cl extends Particle {
   constructor(_center, _diam, _vel, _collidable) {
     super(_center, _diam, _vel, _collidable, "#CD5C5C");
@@ -181,6 +189,14 @@ class Cl extends Particle {
   }
 }
 
+Cl.id = 1;
+Cl.radius = 15;
+Cl.color = "#CD5C5C";
+Cl.charge = -1;
+Cl.permeability = 0.1;
+Cl.inside = 0;
+Cl.outside = 0;
+
 class K extends Particle {
   constructor(_center, _diam, _vel, _collidable) {
     super(_center, _diam, _vel, _collidable, "#35B235");
@@ -190,6 +206,15 @@ class K extends Particle {
     this.permeability = 1;
   }
 }
+
+K.id = 0;
+K.radius = 15;
+K.color = "#35B235";
+K.charge = 1;
+K.permeability = 1;
+K.inside = 5;
+K.outside = 0;
+
 
 // NOTE: Is this the best name (and place) for this object?
 // Used to instantiate a particle child class dynamically (without knowing if it will be a Na, Cl, or K)

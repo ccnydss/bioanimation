@@ -140,7 +140,9 @@ function setup() {
     for (var particle in particles[location]) {
       xRange = containers[location].tr.x - containers[location].tl.x - 100;
       yRange = containers[location].br.y - containers[location].tr.y - 100;
-      var amount = particlesProperties[particle][location];
+
+      var amount = getClass(particle)[location];
+
       for (var i = 0; i < amount; i++) {
         velocities = velocityRange;
         var x_vel = Math.floor(Math.random() * (velocities.length - 1)) + 0;
@@ -148,8 +150,8 @@ function setup() {
         var velocity = createVector(velocities[x_vel], velocities[y_vel]);
 
         // Get random location
-        randomX = containers[location].tl.x + particlesProperties[particle]["radius"] + (Math.floor(Math.random() * xRange));
-        randomY = containers[location].tl.y + particlesProperties[particle]["radius"] + (Math.floor(Math.random() * yRange));
+        randomX = containers[location].tl.x + getClass(particle).radius + (Math.floor(Math.random() * xRange));
+        randomY = containers[location].tl.y + getClass(particle).radius + (Math.floor(Math.random() * yRange));
 
         var newPart = new factory[particle](
           new Point(randomX, randomY),
