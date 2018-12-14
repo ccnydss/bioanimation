@@ -116,8 +116,8 @@ function transferParticle(particleType, location) {
       movePcl.setVelocity(createVector(0, 3));
     }
 
-    var cond1 = (location[particleType] == "outside" && newY > targetChannel.y + cHeight);
-    var cond2 = (location[particleType] == "inside" && newY < targetChannel.y - cHeight);
+    var cond1 = (location[particleType] == "outside" && newY > targetChannel.y + cHeight + movePcl.r);
+    var cond2 = (location[particleType] == "inside" && newY < targetChannel.y - cHeight - movePcl.r);
 
     if (cond1 || cond2) {
       // Copy the particle to create a clone of the instance
