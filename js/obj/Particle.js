@@ -26,16 +26,11 @@ class Particle {
     if (this.display) ellipse(xc, yc, d);
   }
 
-  moveCenter() {
-    this.center.x += this.m_velocity.x;
-    this.center.y += this.m_velocity.y;
-  }
-
   move(container_context) {
     // Pass in a Container object the particle should be constrained inside.
 
     if (this.collidable) {
-      container_context.bounce(this);
+      this.bounce(container_context);
     } else {
       this.moveCenter();
       this.onContainerChange (
@@ -47,10 +42,27 @@ class Particle {
     this.draw();
   }
 
-  computeNewDirection(collisionDetector, reverseX, reverseY) {
+  bounce(container) {
+    // Input: Particle
+    // Function: Reverse velocity components when particle collides with wall
+
+    var bl = container.bl;
+    var br = container.br;
+    var tl = container.tl;
+
+    this.computeNewDirection(this.nextPastBottom(bl), false, true);
+    this.computeNewDirection(this.nextPastTop(tl), false, true);
+    this.computeNewDirection(this.nextPastRight(br), true, false);
+    this.computeNewDirection(this.nextPastLeft(bl), true, false);
+
+    // Begin moving the particle in the newly set direction
+    this.moveCenter();
+  }
+
+  computeNewDirection(willCollide, reverseX, reverseY) {
     // Boolean function, and two bools
     // Check if the particle is about to collide and modify velocity appropriately
-    if (collisionDetector()) {
+    if (willCollide) {
       var newx = this.m_velocity.x;
       var newy = this.m_velocity.y;
 
@@ -68,7 +80,6 @@ class Particle {
       }
 
       if (abs(currentRadian + radianVariation) < 0.25) {
-        console.log(newVector.heading());
         if (currentRadian >= 0) {
           radianVariation += 0.15;
         } else {
@@ -77,9 +88,33 @@ class Particle {
       };
 
       newVector.rotate(radianVariation);
-
       this.setVelocity(newVector);
     }
+  }
+
+  nextPastBottom(bl) {
+    // Will particle cross bottom wall in next frame?
+    return this.center.y + this.m_velocity.y + this.r > bl.y;
+  }
+
+  nextPastTop(tl) {
+    // Will particle cross top wall in next frame?
+    return this.center.y + this.m_velocity.y - this.r < tl.y;
+  }
+
+  nextPastRight(br) {
+    // Will particle cross right wall in next frame?
+    return this.center.x + this.m_velocity.x + this.r > br.x;
+  }
+
+  nextPastLeft(bl) {
+    // Will particle cross left wall in next frame?
+    return this.center.x + this.m_velocity.x - this.r < bl.x;
+  }
+
+  moveCenter() {
+    this.center.x += this.m_velocity.x;
+    this.center.y += this.m_velocity.y;
   }
 
   setDisplay(disp) {
@@ -107,15 +142,7 @@ class Particle {
   }
 
   setVelocity(in_vector) {
-    if (in_vector) {
-      this.m_velocity = in_vector.setMag(this.m_speed);
-    } else {
-      // Create a random vector, but keep its angular range limited so that
-      // the particle avoids moving at very narrow angles.
-
-      var velocity = p5.Vector.random2D();
-      this.m_velocity = velocity.setMag(this.m_speed);
-    }
+    this.m_velocity = in_vector.setMag(this.m_speed);
   }
 }
 

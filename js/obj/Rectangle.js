@@ -1,7 +1,7 @@
 class Rectangle {
   constructor(_points, _fillColor, _borderColor) {
     // Add verification to make sure that top left, top right, bot right, bot left form a proper rectangle
-    var {_tl, _tr, _bl, _br} = _points;  // Destructure points object
+    var { _tl, _tr, _bl, _br } = _points;  // Destructure points object
 
     // Test multiple conditions to see if rectangle is valid.
     var lefts = (_tl.x < _tr.x) && (_bl.x < _br.x);

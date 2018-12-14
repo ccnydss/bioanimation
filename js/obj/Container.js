@@ -22,44 +22,4 @@ class Container extends Rectangle {
       text("Extracellular", 10, 20 + 8);
     }
   }
-
-  bounce(p) {
-    // NOTE: Might make more sense to put this inside the Particle class,
-    //      because this function modifies "p"s values.
-
-    // Input: Particle
-    // Function: Reverse velocity components when particle collides with wall
-
-    var bl = this.bl;
-    var br = this.br;
-    var tl = this.tl;
-
-    var nextPastBottom = function() {
-      // Will particle cross bottom wall in next frame?
-      return p.center.y + p.m_velocity.y + p.r > bl.y;
-    }
-
-    var nextPastTop = function() {
-      // Will particle cross top wall in next frame?
-      return p.center.y + p.m_velocity.y - p.r < tl.y;
-    }
-
-    var nextPastRight = function() {
-      // Will particle cross right wall in next frame?
-      return p.center.x + p.m_velocity.x + p.r > br.x;
-    }
-
-    var nextPastLeft = function() {
-      // Will particle cross left wall in next frame?
-      return p.center.x + p.m_velocity.x - p.r < bl.x;
-    }
-
-    p.computeNewDirection(nextPastBottom, false, true);
-    p.computeNewDirection(nextPastTop, false, true);
-    p.computeNewDirection(nextPastRight, true, false);
-    p.computeNewDirection(nextPastLeft, true, false);
-
-    // Begin moving the particle in the newly set direction
-    p.moveCenter();
-  }
 }
