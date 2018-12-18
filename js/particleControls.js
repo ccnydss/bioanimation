@@ -154,26 +154,34 @@ function insertParticle(evt) {
 
   if (particleArray.length >= MaxParticles) return;
 
-  randomX = containers[particleLocation].tl.x + particleMapper[particleType].diameter + (Math.floor(Math.random() * xRange));
-  randomY = containers[particleLocation].tl.y + particleMapper[particleType].diameter + (Math.floor(Math.random() * yRange));
-
-  velocities = velocityRange;
-  var x_vel = Math.floor(Math.random() * (velocities.length - 1)) + 0;
-  var y_vel = Math.floor(Math.random() * (velocities.length - 1)) + 0;
-  var velocity = createVector(velocities[x_vel], Math.abs(velocities[y_vel]));
-
-  var newParticle = new particleMapper[particleType](
-    new Point(randomX, randomY),
-    particleMapper[particleType].diameter,
-    velocity,
-    true
-  );
+  var newParticle = createNewParticle(particleType, containers[particleLocation]);
 
   newParticle.setDisplay(true);
   particleArray.push(newParticle);
   FormulaInputCalculation(particleType);
 
   updateInputs(particleType, particleLocation, id);
+}
+
+function createNewParticle(type, cont) {
+  xRange = cont.tr.x - cont.tl.x - 100;
+  yRange = cont.br.y - cont.tr.y - 100;
+
+  velocities = [-1, -1.25, 1.25, 1];
+  var x_vel = Math.floor(Math.random() * (velocities.length - 1)) + 0;
+  var y_vel = Math.floor(Math.random() * (velocities.length - 1)) + 0;
+  var velocity = createVector(velocities[x_vel], velocities[y_vel]);
+
+  // Get random location
+  randomX = cont.tl.x + particleMapper[type].diameter + (Math.floor(Math.random() * xRange));
+  randomY = cont.tl.y + particleMapper[type].diameter + (Math.floor(Math.random() * yRange));
+
+  return new particleMapper[type](
+    new Point(randomX, randomY),
+    particleMapper[type].diameter,
+    velocity,
+    true
+  );
 }
 
 function removeParticle(evt) {

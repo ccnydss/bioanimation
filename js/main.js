@@ -101,28 +101,10 @@ function setup() {
 
   for (var location in particles) {
     for (var particle in particles[location]) {
-      xRange = containers[location].tr.x - containers[location].tl.x - 100;
-      yRange = containers[location].br.y - containers[location].tr.y - 100;
-
       var amount = particleMapper[particle][location];
 
       for (var i = 0; i < amount; i++) {
-        velocities = velocityRange;
-        var x_vel = Math.floor(Math.random() * (velocities.length - 1)) + 0;
-        var y_vel = Math.floor(Math.random() * (velocities.length - 1)) + 0;
-        var velocity = createVector(velocities[x_vel], velocities[y_vel]);
-
-        // Get random location
-        randomX = containers[location].tl.x + particleMapper[particle].diameter + (Math.floor(Math.random() * xRange));
-        randomY = containers[location].tl.y + particleMapper[particle].diameter + (Math.floor(Math.random() * yRange));
-
-        var newPart = new particleMapper[particle](
-          new Point(randomX, randomY),
-          particleMapper[particle].diameter,
-          velocity,
-          true
-        );
-
+        var newPart = createNewParticle(particle, containers[location])
         particles[location][particle].push(newPart);
       }
     }
