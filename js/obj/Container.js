@@ -5,19 +5,25 @@ class Container extends Rectangle {
 
     super(_points, _color);
     this.id = _id;
+
+    if (_id == "inside") {
+      this.label = new Label(
+        "Intracellular",
+        new Point(5, this.tl.y + 10),
+        "#ffffff"
+      );
+    } else if (_id == "outside" ) {
+      this.label = new Label(
+        "Extracellular",
+        new Point(5, 15),
+        "#ffffff"
+      )
+    }
   }
 
   draw() {
     super.draw();
-
-    if (this.id == "outside") {
-      fill(255, 255, 255);
-      rect(5, this.bl.y + 60, textWidth("Intracellular") + 10, 20);
-      rect(5, 15, textWidth("Extracellular") + 10, 20);
-      fill(50);
-      text("Intracellular", 10, this.bl.y + 75);
-      text("Extracellular", 10, 20 + 8);
-    }
+    this.label.draw();
   }
 }
 

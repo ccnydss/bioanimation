@@ -9,6 +9,7 @@ class UIBox extends Rectangle {
   constructor(_points) {
     super(_points);
     this.fill_color = color(100, 155, 180, 100);
+    // this.fill_color = color(255, 255, 180, 100);
   }
 }
 

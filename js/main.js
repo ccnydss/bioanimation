@@ -55,6 +55,26 @@ function setup() {
 
   //Relative to parent coordinate
 
+  UIBoxs[0] = new UIBox(
+    {
+      _tl: new Point(0, 0),
+      _tr: new Point(canWidth, 0),
+      _br: new Point(canWidth, canHeight / 2),
+      _bl: new Point(0, canHeight / 2)
+    }
+  );
+  UIBoxs[0].draw();
+
+  UIBoxs[1] = new UIBox(
+    {
+      _tl: new Point(0, canHeight / 2),
+      _tr: new Point(canWidth, canHeight / 2),
+      _br: new Point(canWidth, canHeight),
+      _bl: new Point(0, canHeight)
+    }
+  );
+  UIBoxs[1].draw();
+
   containers["outside"] = new Container(
     {
       _tl: new Point(0, 0),
@@ -65,16 +85,7 @@ function setup() {
     Container.OUTSIDE_COLOR,
     "outside"
   );
-
-  UIBoxs[0] = new UIBox(
-    {
-      _tl: new Point(0, 0),
-      _tr: new Point(canWidth, 0),
-      _br: new Point(canWidth, canHeight / 2),
-      _bl: new Point(0, canHeight / 2)
-    }
-  );
-  UIBoxs[0].draw();
+  containers["outside"].draw();
 
   containers["inside"] = new Container(
     {
@@ -86,16 +97,7 @@ function setup() {
     Container.INSIDE_COLOR,
     "inside"
   );
-
-  UIBoxs[1] = new UIBox(
-    {
-      _tl: new Point(0, canHeight / 2),
-      _tr: new Point(canWidth, canHeight / 2),
-      _br: new Point(canWidth, canHeight),
-      _bl: new Point(0, canHeight)
-    }
-  );
-  UIBoxs[1].draw();
+  containers["inside"].draw();
 
   for (var location in particles) {
     for (var particle in particles[location]) {

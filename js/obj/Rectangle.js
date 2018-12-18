@@ -35,3 +35,17 @@ class Rectangle {
     rect(this.tl.x, this.tl.y, this.width, this.height);
   }
 }
+
+Rectangle.fromDimensions = function (_corner, _width, _height, _fill, _border) {
+  var _tl = new Point(_corner.x, _corner.y);
+  var _tr = new Point(_corner.x + _width, _corner.y);
+  var _br = new Point(_corner.x + _width, _corner.y + _height);
+  var _bl = new Point(_corner.x, _corner.y + _height);
+  var points = { _tl, _tr, _br, _bl };
+
+  return new Rectangle(
+    points,
+    _fill,
+    _border
+  );
+}
