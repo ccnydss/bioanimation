@@ -119,7 +119,7 @@ function makeLayout() {
       var content = ["T"]
       var contentUnit = ["K"]
       var contentDefaultValue = [
-        tempSetting, particlesProperties["Na"].charge
+        tempSetting, Na.charge
       ]
 
     } else {
@@ -132,9 +132,10 @@ function makeLayout() {
       var content = ["T", "p<sub>Na</sub>", "p<sub>Cl</sub>", "p<sub>K</sub>"]
       var contentUnit = ["K", "", "", ""]
       var contentDefaultValue = [
-        tempSetting, particlesProperties["Na"].permeability,
-        particlesProperties["Cl"].permeability,
-        particlesProperties["K"].permeability
+        tempSetting,
+        Na.permeability,
+        Cl.permeability,
+        K.permeability
       ]
     }
 
@@ -630,36 +631,48 @@ function redrawUI(questionBox) {
   adjustUISize(equationContainerHeighthMul);
   canvas.size(canWidth, canHeight);
 
-  var topLeft = new Point(0, 0);
-  var topRight = new Point(canWidth, 0);
-  var botRight = new Point(canWidth, canHeight / 2 - thickness);
-  var botLeft = new Point(0, (canHeight / 2 - thickness));
-
   //Relative to parent coordinate
-
-  containers["outside"] = new Container(topLeft, topRight, botRight, botLeft, containerProperties["outside"]["color"], "outside");
+  containers["outside"] = new Container(
+    {
+      _tl: new Point(0, 0),
+      _tr: new Point(canWidth, 0),
+      _br: new Point(canWidth, canHeight / 2 - thickness),
+      _bl: new Point(0, (canHeight / 2 - thickness))
+    },
+    Container.OUTSIDE_COLOR,
+    "outside"
+  );
   containers["outside"].draw();
 
-  var topLeft = new Point(0, 0);
-  var topRight = new Point(canWidth, 0);
-  var botRight = new Point(canWidth, canHeight / 2);
-  var botLeft = new Point(0, canHeight / 2);
-
-  UIBoxs[0] = new UIBox(topLeft, topRight, botRight, botLeft);
+  UIBoxs[0] = new UIBox(
+    {
+      _tl: new Point(0, 0),
+      _tr: new Point(canWidth, 0),
+      _br: new Point(canWidth, canHeight / 2),
+      _bl: new Point(0, canHeight / 2)
+    }
+  );
   UIBoxs[0].draw();
 
-  var topLeft = new Point(0, canHeight / 2 + thickness);
-  var topRight = new Point(canWidth, canHeight / 2 + thickness);
-  var botRight = new Point(canWidth, canHeight);
-  var botLeft = new Point(0, canHeight);
+  containers["inside"] = new Container(
+    {
+      _tl: new Point(0, canHeight / 2 + thickness),
+      _tr: new Point(canWidth, canHeight / 2 + thickness),
+      _br: new Point(canWidth, canHeight),
+      _bl: new Point(0, canHeight)
+    },
+    Container.INSIDE_COLOR,
+    "inside"
+  );
 
-  containers["inside"] = new Container(topLeft, topRight, botRight, botLeft, containerProperties["inside"]["color"], "inside");
-
-  var topLeft = new Point(0, canHeight / 2);
-  var topRight = new Point(canWidth, canHeight / 2);
-  var botRight = new Point(canWidth, canHeight);
-  var botLeft = new Point(0, canHeight);
-  UIBoxs[1] = new UIBox(topLeft, topRight, botRight, botLeft);
+  UIBoxs[1] = new UIBox(
+    {
+      _tl: new Point(0, canHeight / 2),
+      _tr: new Point(canWidth, canHeight / 2),
+      _br: new Point(canWidth, canHeight),
+      _bl: new Point(0, canHeight)
+    }
+  );
   UIBoxs[1].draw();
   containers["inside"].draw();
 
