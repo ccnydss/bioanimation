@@ -62,7 +62,7 @@ function setup() {
       _br: new Point(canWidth, canHeight / 2 - thickness),
       _bl: new Point(0, (canHeight / 2 - thickness))
     },
-    Container.OUTSIDE_COLOR(),
+    Container.OUTSIDE_COLOR,
     "outside"
   );
 
@@ -83,7 +83,7 @@ function setup() {
       _br: new Point(canWidth, canHeight),
       _bl: new Point(0, canHeight)
     },
-    Container.INSIDE_COLOR(),
+    Container.INSIDE_COLOR,
     "inside"
   );
 
