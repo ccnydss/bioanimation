@@ -15,8 +15,8 @@ function equilibrate(particleType) {
   // usage: "Na", "Cl", "K"
   // Brings outside and inside concentrations into equilibrium
 
-  outsideArray = particles["outside"][particleType];
-  insideArray = particles["inside"][particleType];
+  var outsideArray = containers["outside"].particles[particleType];
+  var insideArray = containers["inside"].particles[particleType];
 
   particleAmount = outsideArray.length + insideArray.length;
 
@@ -28,12 +28,13 @@ function equilibrate(particleType) {
     return;
   }
 
+  // NOTE: see about replacing this with the actual container instead of strings
   largerArrayLocation = outsideArray.length > insideArray.length ?
     "outside" :
     "inside";
 
   // The number of particles that need to be transferred to each equilibrium
-  var transfers = particles[largerArrayLocation][particleType].length - equiAmount;
+  var transfers = containers[largerArrayLocation].countParticles(particleType) - equiAmount;
 
   // Perform N transfers from the denser container to the sparser container.
   largerArrayLocations[particleType] = largerArrayLocation;
@@ -47,7 +48,9 @@ function transferParticle(particleType, location) {
   var id = particleMapper[particleType].id;
 
   // Set names of current array is in and array to transfer particle into
-  var currentArray = particles[location[particleType]][particleType];
+  // NOTE: See about replacing this logic with the containers instead of strings
+  var currentArray = containers[location[particleType]].particles[particleType];
+
   if (currentArray.length == 0) return;
 
   // Set destination container to opposite of the denser container
@@ -55,7 +58,7 @@ function transferParticle(particleType, location) {
     "inside" :
     "outside";
 
-  var transferArray = particles[transferLocation][particleType];
+  var transferArray = containers[transferLocation].particles[particleType];
 
   // Determine which cell channel the particle should move towards.
   // If the particle is in the top division
@@ -129,6 +132,7 @@ function transferParticle(particleType, location) {
 
       // Remove the first particle in the array, aka movePcl
       currentArray.splice(0, 1);
+
       transferArray.push(newPart);
 
       updateInputs(particleType, location[particleType], id);
@@ -150,14 +154,15 @@ function insertParticle(evt) {
     "outside" :
     "inside";
 
-  var particleArray = particles[particleLocation][particleType];
+  var particleArray = containers[particleLocation].particles[particleType];
 
   if (particleArray.length >= MaxParticles) return;
 
   var newParticle = createNewParticle(particleType, containers[particleLocation]);
 
   newParticle.setDisplay(true);
-  particleArray.push(newParticle);
+  containers[particleLocation].addParticle(newParticle);
+
   FormulaInputCalculation(particleType);
 
   updateInputs(particleType, particleLocation, id);
@@ -193,11 +198,12 @@ function removeParticle(evt) {
     "outside" :
     "inside";
 
-  var particleArray = particles[particleLocation][particleType];
+  var particleArray = containers[particleLocation].particles[particleType];
 
   if (particleArray.length <= 0) return;
 
   particleArray.splice(particleArray.length - 1, 1);
+  containers[particleLocation].deleteParticle(particleType);
 
   FormulaInputCalculation(particleType);
 
@@ -214,7 +220,7 @@ function changeNumParticles(evt) {
     "outside" :
     "inside";
 
-  var particleArray = particles[particleLocation][particleType];
+  var particleArray = containers[particleLocation].particles[particleType];
 
   var updatedAmount = input[eventID].value();
 

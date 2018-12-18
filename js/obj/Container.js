@@ -25,16 +25,24 @@ class Container extends Rectangle {
   }
 
   addParticle(p) {
+    // NOTE: Create random particle by default with createNewParticle() if the input particle is undefined
     var type = p.constructor.name;
     this.particles[type].push(p);
   }
 
-  pushParticle(type) {
-
+  deleteParticle(type, index) {
+    var length = this.particles[type].length - 1;
+    this.particles[type].splice(length, 1);
   }
 
-  deleteParticle(index, type) {
-    this.particles[type] = this.particles[type].splice()
+  setParticleDisplays(type, bool) {
+    for (const particle of this.particles[type]) {
+      particle.setDisplay(bool);
+    }
+  }
+
+  countParticles(type) {
+    return this.particles[type].length;
   }
 
   createLabels(id) {

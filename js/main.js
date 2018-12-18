@@ -7,18 +7,6 @@ var velocityRange = [-1, -1.25, 1.25, 1];
 
 //For local particles on each box
 var MaxParticles = 25;
-var particles = {
-  "inside": {
-    "Na": [],
-    "Cl": [],
-    "K": []
-  },
-  "outside": {
-    "Na": [],
-    "Cl": [],
-    "K": []
-  }
-}
 
 var channels = {
   "Na": [],
@@ -63,7 +51,6 @@ function setup() {
       _bl: new Point(0, canHeight / 2)
     }
   );
-  UIBoxs[0].draw();
 
   UIBoxs[1] = new UIBox(
     {
@@ -73,7 +60,6 @@ function setup() {
       _bl: new Point(0, canHeight)
     }
   );
-  UIBoxs[1].draw();
 
   containers["outside"] = new Container(
     {
@@ -85,7 +71,6 @@ function setup() {
     Container.OUTSIDE_COLOR,
     "outside"
   );
-  containers["outside"].draw();
 
   containers["inside"] = new Container(
     {
@@ -97,18 +82,23 @@ function setup() {
     Container.INSIDE_COLOR,
     "inside"
   );
-  containers["inside"].draw();
 
-  for (var location in particles) {
-    for (var particle in particles[location]) {
-      var amount = particleMapper[particle][location];
+  for (var loc in containers) {
+    for (var particle in containers[loc].particles) {
+      var amount = particleMapper[particle][loc];
 
       for (var i = 0; i < amount; i++) {
-        var newPart = createNewParticle(particle, containers[location])
-        particles[location][particle].push(newPart);
+        var newPart = createNewParticle(particle, containers[loc])
+        containers[loc].addParticle(newPart);
+        console.log("hmmm", newPart, containers[loc])
       }
     }
   }
+
+  UIBoxs[0].draw();
+  UIBoxs[1].draw();
+  containers["outside"].draw();
+  containers["inside"].draw();
 
   makeUIs(true);
   startNernst();
@@ -117,21 +107,11 @@ function setup() {
   disableInputForParticle("Cl");
   disableInputForParticle("K");
 
-  for (const particle of particles["inside"]["Cl"]) {
-    particle.setDisplay(false);
-  }
+  containers.inside.setParticleDisplays("Cl", false);
+  containers.outside.setParticleDisplays("Cl", false);
 
-  for (const particle of particles["outside"]["Cl"]) {
-    particle.setDisplay(false);
-  }
-
-  for (const particle of particles["inside"]["K"]) {
-    particle.setDisplay(false);
-  }
-
-  for (const particle of particles["outside"]["K"]) {
-    particle.setDisplay(false);
-  }
+  containers.inside.setParticleDisplays("K", false);
+  containers.outside.setParticleDisplays("K", false);
 
   FormulaInputCalculation(particleTypes[0]);
 
@@ -164,15 +144,4 @@ function draw() {
   }
 
   strokeWeight(1);
-
-  // NOTE: Where is the particles array defined?
-  //       Turn this into a function perhaps
-  for (var location in particles) {
-    for (var particle in particles[location]) {
-      for (const p of particles[location][particle]) {
-        p.color();
-        p.move(containers[location]);
-      }
-    }
-  }
 }
