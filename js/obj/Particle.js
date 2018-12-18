@@ -167,8 +167,6 @@ class Na extends Particle {
     super(_center, _diam, _vel, _collidable, "#F5CE28");
 
     this.display = true;
-    this.charge = 1;
-    this.permeability = 0.03;
   }
 }
 
@@ -187,8 +185,6 @@ class Cl extends Particle {
     super(_center, _diam, _vel, _collidable, "#CD5C5C");
 
     this.display = false;
-    this.charge = -1;
-    this.permeability = 0.1;
   }
 }
 
@@ -206,8 +202,6 @@ class K extends Particle {
     super(_center, _diam, _vel, _collidable, "#35B235");
 
     this.display = false;
-    this.charge = 1;
-    this.permeability = 1;
   }
 }
 
