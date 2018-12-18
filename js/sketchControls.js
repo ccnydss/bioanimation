@@ -38,7 +38,7 @@ function startNernst(evt) {
 
       //enable its particles
       checkboxes[j].checked(true)
-      particlesProperties[checkBoxParticle]["display"] = true;
+      particleMapper[checkBoxParticle].display = true;
       enableInputForParticle(checkBoxParticle);
 
       for (const particle of particles["inside"][checkBoxParticle]) {
@@ -54,7 +54,7 @@ function startNernst(evt) {
     } else if (checkBoxParticle != lastNernstParticle & checkboxes[j].checked()) {
       //disable others particles
       checkboxes[j].checked(false)
-      particlesProperties[checkBoxParticle]["display"] = false;
+      particleMapper[checkBoxParticle].display = false;
       disableInputForParticle(checkBoxParticle);
 
       for (const particle of particles["inside"][checkBoxParticle]) {
@@ -102,7 +102,7 @@ function startGoldman(evt) {
 
       //enable those particles
       checkboxes[j].checked(true)
-      particlesProperties[checkBoxParticle]["display"] = true;
+      particleMapper[checkBoxParticle].display = true;
       enableInputForParticle(checkBoxParticle);
 
       for (const particle of particles["inside"][checkBoxParticle]) {
@@ -199,26 +199,26 @@ function ChangesimulatorSetting(evt) {
     simSetting[1].value(updatedAmount);
   }
   if (eventID == 2) {
-    particlesProperties["Na"]["permeability"] = updatedAmount;
+    Na.permeability = updatedAmount;
     FormulaInputCalculation();
   }
   if (eventID == 3) {
-    particlesProperties["Cl"]["permeability"] = updatedAmount;
+    Cl.permeability = updatedAmount;
     FormulaInputCalculation();
   }
   if (eventID == 4) {
-    particlesProperties["K"]["permeability"] = updatedAmount;
+    K.permeability = updatedAmount;
     FormulaInputCalculation();
   }
 
   if (simulatorMode == "Goldman") {
     FormulaInputCalculation();
   } else {
-    if (particlesProperties["Na"]["display"] == true) {
+    if (Na.display == true) {
       FormulaInputCalculation("Na");
-    } else if (particlesProperties["Cl"]["display"] == true) {
+    } else if (Cl.display == true) {
       FormulaInputCalculation("Cl");
-    } else if (particlesProperties["K"]["display"] == true) {
+    } else if (K.display == true) {
       FormulaInputCalculation("K");
     }
   }
@@ -231,7 +231,7 @@ function checkedEvent(evt) {
     this.checked(true); //Left checkbox checked by default
   } else {
     var particleType = this.elt.innerText;
-    particlesProperties[particleType]["display"] = this.checked();
+    particleMapper[particleType].display = this.checked();
 
     for (const particle of particles["inside"][particleType]) {
       particle.setDisplay(this.checked());
@@ -256,13 +256,11 @@ function checkedEvent(evt) {
           // var checkBox = document.getElementById('checkbox'+particleTypes[i])
           var checkBoxParticle = document.getElementById('checkbox' + particleTypes[j]).innerText;
 
-          // console.log(checkBox+ " " + checkBoxParticle+ " " + particlesProperties[checkBoxParticle]["display"] + " ")
-
-          if (checkboxes[j].checked() & checkBoxParticle != particleType & particlesProperties[checkBoxParticle]["display"] == true) {
+          if (checkboxes[j].checked() & checkBoxParticle != particleType & particleMapper[checkBoxParticle].display == true) {
 
             //Disable those particles
             checkboxes[j].checked(false)
-            particlesProperties[checkBoxParticle]["display"] = false;
+            particleMapper[checkBoxParticle].display = false;
             disableInputForParticle(checkBoxParticle);
 
             for (const particle of particles["inside"][checkBoxParticle]) {
@@ -345,7 +343,7 @@ function makeUIs(creation) {
         var particleSuffix = (k <= 3) ?
           "out" :
           "in";
-        var particleCharge = (particlesProperties[particleType].charge == 1) ?
+        var particleCharge = (particleMapper[particleType].charge == 1) ?
           "+" :
           "-";
         var text = '[' + particleType + '<sup>' + particleCharge + '</sup>]' + '<sub>' + particleSuffix + '</sub>&nbsp;';
@@ -391,7 +389,7 @@ function makeUIs(creation) {
 
         plusButton[k].attribute("data-ptype", particleType);
         plusButton[k].attribute("data-location", particleLocation);
-        plusButton[k].style("background-color", particlesProperties[particleType].color)
+        plusButton[k].style("background-color", particleMapper[particleType].color)
         plusButton[k].mousePressed(insertParticle);
         plusButton[k].class('qoptions');
 
@@ -404,7 +402,7 @@ function makeUIs(creation) {
 
         minusButton[k].attribute("data-ptype", particleType);
         minusButton[k].attribute("data-location", particleLocation);
-        minusButton[k].style("background-color", particlesProperties[particleType].color)
+        minusButton[k].style("background-color", particleMapper[particleType].color)
         minusButton[k].mousePressed(removeParticle);
         minusButton[k].class('qoptions');
 
@@ -432,8 +430,8 @@ function FormulaInputCalculation(particleType) {
   if (simulatorMode == "Nernst") {
     var R = 8.314;
     var T = tempSetting;
-    var z = particlesProperties[particleType]["charge"];
-    if (particlesProperties[particleType]["display"]) {
+    var z = particleMapper[particleType].charge;
+    if (particleMapper[particleType].display) {
       var Xout = particles["outside"][particleType].length;
       var Xin = particles["inside"][particleType].length;
     } else {
@@ -452,13 +450,13 @@ function FormulaInputCalculation(particleType) {
     // Accumulate sums for numerator and denominator
     for (var i = 0; i < particleTypes.length; i++) {
       var particleType = particleTypes[i];
-      if (particlesProperties[particleType]["display"]) {
-        if (particlesProperties[particleType]["charge"] > 0) {
-          numerator += particlesProperties[particleType]["permeability"] * particles["outside"][particleType].length;
-          denominator += particlesProperties[particleType]["permeability"] * particles["inside"][particleType].length;
+      if (particleMapper[particleType].display) {
+        if (particleMapper[particleType].charge > 0) {
+          numerator += particleMapper[particleType].permeability * particles["outside"][particleType].length;
+          denominator += particleMapper[particleType].permeability * particles["inside"][particleType].length;
         } else {
-          numerator += particlesProperties[particleType]["permeability"] * particles["inside"][particleType].length;
-          denominator += particlesProperties[particleType]["permeability"] * particles["outside"][particleType].length;
+          numerator += particleMapper[particleType].permeability * particles["inside"][particleType].length;
+          denominator += particleMapper[particleType].permeability * particles["outside"][particleType].length;
         }
       }
     }
@@ -473,7 +471,7 @@ function disableInputForParticle(particleType) {
   // usage: "Na", "Cl", "K"
 
   var row = 4;
-  var particle_id = particlesProperties[particleType]["id"];
+  var particle_id = particleMapper[particleType].id;
   inside_id = particle_id + 1;
   outside_id = particle_id + 1 + row;
   input[inside_id].attribute('disabled', '');
@@ -489,7 +487,7 @@ function enableInputForParticle(particleType) {
   // usage: "Na", "Cl", "K"
 
   var row = 4;
-  var particle_id = particlesProperties[particleType]["id"];
+  var particle_id = particleMapper[particleType].id;
   inside_id = particle_id + 1;
   outside_id = particle_id + 1 + row;
   input[inside_id].removeAttribute('disabled');

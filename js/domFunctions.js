@@ -119,7 +119,7 @@ function makeLayout() {
       var content = ["T"]
       var contentUnit = ["K"]
       var contentDefaultValue = [
-        tempSetting, particlesProperties["Na"].charge
+        tempSetting, Na.charge
       ]
 
     } else {
@@ -132,9 +132,10 @@ function makeLayout() {
       var content = ["T", "p<sub>Na</sub>", "p<sub>Cl</sub>", "p<sub>K</sub>"]
       var contentUnit = ["K", "", "", ""]
       var contentDefaultValue = [
-        tempSetting, particlesProperties["Na"].permeability,
-        particlesProperties["Cl"].permeability,
-        particlesProperties["K"].permeability
+        tempSetting,
+        Na.permeability,
+        Cl.permeability,
+        K.permeability
       ]
     }
 

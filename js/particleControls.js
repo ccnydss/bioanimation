@@ -4,7 +4,7 @@ function startEquilibrate(evt) {
   // input: the element that triggered the event; however this input is unused in this function
 
   for (var i = 0; i < particleTypes.length; i++) {
-    if (particlesProperties[particleTypes[i]]["display"]) {
+    if (particleMapper[particleTypes[i]].display) {
       equilibrate(particleTypes[i]);
     }
   }
@@ -44,7 +44,7 @@ function transferParticle(particleType, location) {
   // input: string, array
   // transfers a particle from top to bottom
 
-  var id = particlesProperties[particleType]["id"];
+  var id = particleMapper[particleType].id;
 
   // Set names of current array is in and array to transfer particle into
   var currentArray = particles[location[particleType]][particleType];
@@ -154,17 +154,17 @@ function insertParticle(evt) {
 
   if (particleArray.length >= MaxParticles) return;
 
-  randomX = containers[particleLocation].tl.x + particlesProperties[particleType].radius + (Math.floor(Math.random() * xRange));
-  randomY = containers[particleLocation].tl.y + particlesProperties[particleType].radius + (Math.floor(Math.random() * yRange));
+  randomX = containers[particleLocation].tl.x + particleMapper[particleType].diameter + (Math.floor(Math.random() * xRange));
+  randomY = containers[particleLocation].tl.y + particleMapper[particleType].diameter + (Math.floor(Math.random() * yRange));
 
   velocities = velocityRange;
   var x_vel = Math.floor(Math.random() * (velocities.length - 1)) + 0;
   var y_vel = Math.floor(Math.random() * (velocities.length - 1)) + 0;
   var velocity = createVector(velocities[x_vel], Math.abs(velocities[y_vel]));
 
-  var newParticle = new factory[particleType](
+  var newParticle = new particleMapper[particleType](
     new Point(randomX, randomY),
-    particlesProperties[particleType].radius,
+    particleMapper[particleType].diameter,
     velocity,
     true
   );

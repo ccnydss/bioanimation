@@ -1,7 +1,7 @@
 class Channel extends Rectangle {
   constructor(_points, _particle) {
     super(_points);
-    this.fill_color = particlesProperties[_particle].color;
+    this.fill_color = particleMapper[_particle].color;
   }
 }
 

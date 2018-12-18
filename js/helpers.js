@@ -9,26 +9,13 @@ function clone(obj) {
 }
 
 function setClassMember(instance, membername, value) {
+  // "instance" is usually the keyword `this`. I.e., the object itself. 
   var cl = Object.getPrototypeOf(instance).constructor;
   cl[membername] = value;
 }
 
 function getClassMember(instance, membername) {
   return Object.getPrototypeOf(instance).constructor[membername];
-}
-
-function getClass(classname) {
-  switch (classname) {
-    case "Na":
-      return Na;
-      break;
-    case "Cl":
-      return Cl;
-      break;
-    case "K":
-      return K;
-      break;
-    }
 }
 
 function randomFromRanges(arrayOfRanges) {

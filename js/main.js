@@ -3,45 +3,6 @@ var containers = {};
 //Just for initializing
 var particleTypes = ["Na", "Cl", "K"];
 
-var particlesProperties = {
-  "Na": {
-    "id": 0,
-    "color": "#F5CE28",
-    "radius": 15,
-    "display": true,
-    "charge": 1,
-    "permeability": 0.03,
-    // "inside": 2,
-    "inside": 1,
-    // "outside": 14
-    "outside": 0
-  },
-  "Cl": {
-    "id": 1,
-    "color": "#CD5C5C",
-    "radius": 15,
-    "display": false,
-    "charge": -1,
-    "permeability": 0.1,
-    "inside": 0,
-    "outside": 0
-    // "inside": 13,
-    // "outside": 1
-  },
-  "K": {
-    "id": 2,
-    "color": "#35B235",
-    "radius": 15,
-    "display": false,
-    "charge": 1,
-    "permeability": 1,
-    "inside": 0,
-    "outside": 0
-    // "inside": 1,
-    // "outside": 12
-  }
-};
-
 var velocityRange = [-1, -1.25, 1.25, 1];
 
 //For local particles on each box
@@ -141,7 +102,7 @@ function setup() {
       xRange = containers[location].tr.x - containers[location].tl.x - 100;
       yRange = containers[location].br.y - containers[location].tr.y - 100;
 
-      var amount = getClass(particle)[location];
+      var amount = particleMapper[particle][location];
 
       for (var i = 0; i < amount; i++) {
         velocities = velocityRange;
@@ -150,15 +111,16 @@ function setup() {
         var velocity = createVector(velocities[x_vel], velocities[y_vel]);
 
         // Get random location
-        randomX = containers[location].tl.x + getClass(particle).radius + (Math.floor(Math.random() * xRange));
-        randomY = containers[location].tl.y + getClass(particle).radius + (Math.floor(Math.random() * yRange));
+        randomX = containers[location].tl.x + particleMapper[particle].diameter + (Math.floor(Math.random() * xRange));
+        randomY = containers[location].tl.y + particleMapper[particle].diameter + (Math.floor(Math.random() * yRange));
 
-        var newPart = new factory[particle](
+        var newPart = new particleMapper[particle](
           new Point(randomX, randomY),
-          particlesProperties[particle]["radius"],
+          particleMapper[particle].diameter,
           velocity,
           true
         );
+
         particles[location][particle].push(newPart);
       }
     }

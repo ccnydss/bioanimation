@@ -134,6 +134,7 @@ class Particle {
 
   setDisplay(disp) {
     this.display = disp;
+    setClassMember(this, "display", disp);
   }
 
   randomDirection(toTop) {
@@ -171,8 +172,10 @@ class Na extends Particle {
   }
 }
 
+// Attach properties directly to the Na class itself, not an object/instance of the class.
 Na.id = 0;
-Na.radius = 15;
+Na.diameter = 15;
+Na.display = true;
 Na.color = "#F5CE28";
 Na.charge = 1;
 Na.permeability = 0.03;
@@ -190,7 +193,8 @@ class Cl extends Particle {
 }
 
 Cl.id = 1;
-Cl.radius = 15;
+Cl.diameter = 15;
+Cl.display = false;
 Cl.color = "#CD5C5C";
 Cl.charge = -1;
 Cl.permeability = 0.1;
@@ -207,18 +211,17 @@ class K extends Particle {
   }
 }
 
-K.id = 0;
-K.radius = 15;
+K.id = 2;
+K.diameter = 15;
+K.display = false;
 K.color = "#35B235";
 K.charge = 1;
 K.permeability = 1;
 K.inside = 5;
 K.outside = 0;
 
-
-// NOTE: Is this the best name (and place) for this object?
 // Used to instantiate a particle child class dynamically (without knowing if it will be a Na, Cl, or K)
-var factory = {
+var particleMapper = {
   "Na": Na,
   "Cl": Cl,
   "K": K
