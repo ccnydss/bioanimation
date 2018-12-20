@@ -632,48 +632,36 @@ function redrawUI(questionBox) {
   canvas.size(canWidth, canHeight);
 
   //Relative to parent coordinate
-  containers["outside"] = new Container(
+  containers["outside"].setSize(
     {
       _tl: new Point(0, 0),
       _tr: new Point(canWidth, 0),
       _br: new Point(canWidth, canHeight / 2 - thickness),
       _bl: new Point(0, (canHeight / 2 - thickness))
-    },
-    Container.OUTSIDE_COLOR,
-    "outside"
+    }
   );
   containers["outside"].draw();
 
-  UIBoxs[0] = new UIBox(
+  backgroundMembrane = new Rectangle(
     {
       _tl: new Point(0, 0),
       _tr: new Point(canWidth, 0),
-      _br: new Point(canWidth, canHeight / 2),
-      _bl: new Point(0, canHeight / 2)
-    }
-  );
-  UIBoxs[0].draw();
+      _br: new Point(canWidth, canHeight),
+      _bl: new Point(0, canHeight)
+    },
+    color(100, 155, 180, 100)
+  )
+  backgroundMembrane.draw();
 
-  containers["inside"] = new Container(
+  containers["inside"].setSize(
     {
       _tl: new Point(0, canHeight / 2 + thickness),
       _tr: new Point(canWidth, canHeight / 2 + thickness),
       _br: new Point(canWidth, canHeight),
       _bl: new Point(0, canHeight)
-    },
-    Container.INSIDE_COLOR,
-    "inside"
-  );
-
-  UIBoxs[1] = new UIBox(
-    {
-      _tl: new Point(0, canHeight / 2),
-      _tr: new Point(canWidth, canHeight / 2),
-      _br: new Point(canWidth, canHeight),
-      _bl: new Point(0, canHeight)
     }
   );
-  UIBoxs[1].draw();
+
   containers["inside"].draw();
 
   // NOTE: does this still do anything? When uncommented, it seems to have no effect.

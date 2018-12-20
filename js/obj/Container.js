@@ -4,7 +4,7 @@ class Container extends Rectangle {
     // Function:  Generate a new Container object with its properties.
     super(_points, _color);
     this.id = _id;
-    this.label = this.createLabels(_id);
+    this.label = this.createLabels();
     this.particles = {
       "Na" : [],
       "Cl" : [],
@@ -31,7 +31,7 @@ class Container extends Rectangle {
   }
 
   deleteParticle(type, index) {
-    var length = this.particles[type].length - 1;
+    var length = this.particles[type].length;
     this.particles[type].splice(length, 1);
   }
 
@@ -45,8 +45,8 @@ class Container extends Rectangle {
     return this.particles[type].length;
   }
 
-  createLabels(id) {
-    return id == "outside" ? new Label(
+  createLabels() {
+    return this.id == "outside" ? new Label(
       "Extracellular",
       new Point(5, 15),
       "#ffffff"

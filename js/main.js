@@ -14,15 +14,13 @@ var channels = {
   "K": []
 };
 
-var numContainer = 2;
 var plusButton = [],
   minusButton = [],
   textboard = [], // NOTE: More specific variable name
   input = [], // NOTE: above
   simSetting = [];
 
-var UIBoxs = [],
-  equations = [];
+var equations = [];
 
 var canWidth;
 var canHeight;
@@ -35,6 +33,8 @@ var questionText = [];
 
 var tempSetting = (37 + 273.13);
 
+var backgroundMembrane;
+
 function setup() {
   noFill();
 
@@ -42,24 +42,16 @@ function setup() {
   makeLayout();
 
   //Relative to parent coordinate
-
-  UIBoxs[0] = new UIBox(
+  backgroundMembrane = new Rectangle(
     {
       _tl: new Point(0, 0),
       _tr: new Point(canWidth, 0),
-      _br: new Point(canWidth, canHeight / 2),
-      _bl: new Point(0, canHeight / 2)
-    }
-  );
-
-  UIBoxs[1] = new UIBox(
-    {
-      _tl: new Point(0, canHeight / 2),
-      _tr: new Point(canWidth, canHeight / 2),
       _br: new Point(canWidth, canHeight),
       _bl: new Point(0, canHeight)
-    }
-  );
+    },
+    color(100, 155, 180, 100)
+  )
+  backgroundMembrane.draw();
 
   containers["outside"] = new Container(
     {
@@ -95,8 +87,6 @@ function setup() {
     }
   }
 
-  UIBoxs[0].draw();
-  UIBoxs[1].draw();
   containers["outside"].draw();
   containers["inside"].draw();
 
@@ -131,8 +121,7 @@ function setup() {
 function draw() {
   clear();
 
-  UIBoxs[0].draw();
-  UIBoxs[1].draw();
+  backgroundMembrane.draw();
 
   strokeWeight(0);
 
