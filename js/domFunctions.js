@@ -48,38 +48,6 @@ function makeLayout() {
   hideBar.parent('equationContainer');
   hideBar.mousePressed(hideQuestion);
 
-  // NOTE: Split this into a separate function
-  function hideQuestion(evt) {
-    // input: the element that triggered the event (hide buttons [arrow]);
-
-    if (equationContainerHeighthMul == equationHeightPercent) { //Turn the question menu off
-      document.getElementById("hidebarText").innerText = ">"
-      document.getElementById('simulatorSetting').style.display = "flex";
-
-      if (simulatorMode == "Nernst") {
-        document.getElementById('NernstSetting').style.display = "initial";
-      } else {
-        document.getElementById('GoldmanSetting').style.display = "initial";
-      }
-      document.getElementById('helpQuestion').style.display = "none";
-      document.getElementById('helpSetting').style.height = "100%";
-      redrawUI(false);
-    } else { //Turn the question menu on
-      document.getElementById("hidebarText").innerText = "<"
-      document.getElementById('simulatorSetting').style.display = "none";
-
-      if (simulatorMode == "Nernst") {
-        document.getElementById('NernstSetting').style.display = "none";
-      } else {
-        document.getElementById('GoldmanSetting').style.display = "none";
-      }
-      document.getElementById('helpQuestion').style.display = "initial";
-      document.getElementById('helpSetting').style.height = "35%";
-      redrawUI(true);
-    }
-
-  }
-
   hideBarText = createElement("div", "<");
   hideBarText.id('hidebarText');
   hideBarText.parent("hidebar");
@@ -91,91 +59,31 @@ function makeLayout() {
   equi = createButton('Equilibrate');
   equi.id('equilibrate-button');
   equi.parent('equationContainer');
-
-  // NOTE: Is there a nicer way to attach event handlers?
   equi.mousePressed(startEquilibrate);
 
   makeNeqMML();
   makeGoldmanEqn();
 
-  simulatorSetting = createElement("div", "Simulation Setting");
+  simulatorSetting = createElement("div", "Simulation Settings");
   simulatorSetting.id('simulatorSetting');
   simulatorSetting.parent("equationdiv");
   document.getElementById('simulatorSetting').style.display = "none";
 
-  var previousLength = 0;
+  makeTable(
+    "NernstSetting",
+    "equationdiv",
+    ["T"],
+    ["K"],
+    [tempSetting, Na.charge]
+  );
 
-  // NOTE: Why use a for loop to create 2 tables?
-  //       Split this loop into a separate function
-  for (var j = 0; j < 2; j++) {
-    var table = createElement('table')
-
-    if (j == 0) {
-      table.id("NernstSetting");
-      table.parent("equationdiv");
-
-      // var content = ["T","z","[X]<sub>out</sub>","[X]<sub>in</sub>"]
-      // var contentUnit = ["K","","mM","mM"]
-      var content = ["T"]
-      var contentUnit = ["K"]
-      var contentDefaultValue = [
-        tempSetting, Na.charge
-      ]
-
-    } else {
-      table.id("GoldmanSetting");
-      table.parent("equationdiv");
-
-      // var content = ["T","p<sub>k</sub>","p<sub>Na</sub>","p<sub>Cl</sub>","[K<sup>+</sup>]<sub>out</sub>","[K<sup>+</sup>]<sub>in</sub>"
-      // ,"[Na<sup>+</sup>]<sub>out</sub>","[Na<sup>+</sup>]<sub>in</sub>","[Cl<sup>-</sup>]<sub>out</sub>","[Cl<sup>-</sup>]<sub>in</sub>"]
-      // var contentUnit = ["K","","","","mM","mM","mM","mM","mM","mM"]
-      var content = ["T", "p<sub>Na</sub>", "p<sub>Cl</sub>", "p<sub>K</sub>"]
-      var contentUnit = ["K", "", "", ""]
-      var contentDefaultValue = [
-        tempSetting,
-        Na.permeability,
-        Cl.permeability,
-        K.permeability
-      ]
-    }
-
-    var tableRow = content.length;
-
-    if (previousLength == 0) {
-      var previousLength = content.length;
-    }
-
-    document.getElementById(table.id()).style.display = "none";
-
-    for (var i = 0; i < tableRow; i++) {
-
-      var trow = createElement('tr');
-      trow.parent(table);
-
-      var td0 = createElement('td');
-      td0.parent(trow);
-      var td1 = createElement('td');
-      td1.parent(trow);
-      simSettingText = createElement('h4', content[i]);
-      simSettingText.parent(td0);
-
-      if (j > 0) {
-        k = i + previousLength;
-      } else {
-        k = i;
-      }
-
-      simSetting[k] = createInput();
-      simSetting[k].parent('equationdiv');
-      simSetting[k].value(contentDefaultValue[i])
-      simSetting[k].parent(td1);
-      simSetting[k].id(k);
-      simSetting[k].input(ChangesimulatorSetting);
-
-      var td3 = createElement('td', contentUnit[i]);
-      td3.parent(trow);
-    }
-  }
+  makeTable(
+    "GoldmanSetting",
+    "equationdiv",
+    ["T", "p<sub>Na</sub>", "p<sub>Cl</sub>", "p<sub>K</sub>"],
+    ["K", "", "", ""],
+    [tempSetting, Na.permeability, Cl.permeability, K.permeability]
+  );
 
   simulator = createDiv("");
   simulator.id('sim');
@@ -191,7 +99,7 @@ function makeLayout() {
   simCanvasPause.parent('sim');
   document.getElementById('simCanvasPause').style.display = "none";
 
-  // Now to create the canvas!!
+  // Now to create the canvas
   canvas = createCanvas(canWidth, canHeight);
   canvas.class ('can');
   canvas.parent('sim');
@@ -696,4 +604,69 @@ function adjustUISize(multiple) {
   controlsRight.size(simuWidth / 2, 0.35 * canHeight);
   particleControl.size(simuWidth, 0.1 * 0.80 * (windowHeight - 36));
   canvas.size(canWidth, canHeight);
+}
+
+function hideQuestion(evt) {
+  // input: the element that triggered the event (hide buttons [arrow]);
+
+  if (equationContainerHeighthMul == equationHeightPercent) { //Turn the question menu off
+    document.getElementById("hidebarText").innerText = ">"
+    document.getElementById('simulatorSetting').style.display = "flex";
+
+    if (simulatorMode == "Nernst") {
+      document.getElementById('NernstSetting').style.display = "initial";
+    } else {
+      document.getElementById('GoldmanSetting').style.display = "initial";
+    }
+    document.getElementById('helpQuestion').style.display = "none";
+    document.getElementById('helpSetting').style.height = "100%";
+    redrawUI(false);
+  } else { //Turn the question menu on
+    document.getElementById("hidebarText").innerText = "<"
+    document.getElementById('simulatorSetting').style.display = "none";
+
+    if (simulatorMode == "Nernst") {
+      document.getElementById('NernstSetting').style.display = "none";
+    } else {
+      document.getElementById('GoldmanSetting').style.display = "none";
+    }
+    document.getElementById('helpQuestion').style.display = "initial";
+    document.getElementById('helpSetting').style.height = "35%";
+    redrawUI(true);
+  }
+}
+
+function makeTable(id, parent, content, contentUnit, contentDefaultValue, prevLength) {
+  var table = createElement('table')
+
+  table.id(id);
+  table.parent(parent);
+
+  var tableRow = content.length;
+
+  document.getElementById(table.id()).style.display = "none";
+
+  for (var i = 0; i < tableRow; i++) {
+    var trow = createElement('tr');
+    trow.parent(table);
+
+    var td0 = createElement('td');
+    td0.parent(trow);
+
+    var td1 = createElement('td');
+    td1.parent(trow);
+
+    simSettingText = createElement('h4', content[i]);
+    simSettingText.parent(td0);
+
+    simSetting[i] = createInput();
+    simSetting[i].parent(parent);
+    simSetting[i].value(contentDefaultValue[i])
+    simSetting[i].parent(td1);
+    simSetting[i].id(i);
+    simSetting[i].input(ChangesimulatorSetting);
+
+    var td3 = createElement('td', contentUnit[i]);
+    td3.parent(trow);
+  }
 }
