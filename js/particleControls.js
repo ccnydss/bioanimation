@@ -262,12 +262,14 @@ function changeNumParticles(evt) {
 
 function selectParticle(pArray, tPoint) {
   // Select the particle that is closest to the channel
+  var minimumDistance = 1000000;
   var minPoint = 0;
 
   for (var i = 0; i < pArray.length; i++) {
     var dist = pArray[i].center.distance(tPoint);
 
     if (dist < minimumDistance) {
+      minimumDistance = dist;
       minPoint = i;
     }
   }
