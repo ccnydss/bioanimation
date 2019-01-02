@@ -1,6 +1,22 @@
 class Rectangle {
   constructor(_points, _fillColor, _borderColor) {
-    // Add verification to make sure that top left, top right, bot right, bot left form a proper rectangle
+    this.setSize(_points);
+
+    this.fill_color = _fillColor || false;
+    this.border_color = _borderColor || false;
+  }
+
+  draw() {
+    if (this.fill_color) fill(this.fill_color);
+    if (this.border_color) stroke(this.border_color);
+    rect(this.tl.x, this.tl.y, this.width, this.height);
+  }
+
+  setColor(color) {
+    this.fill_color = color;
+  }
+
+  setSize(_points) {
     var { _tl, _tr, _bl, _br } = _points;  // Destructure points object
 
     // Test multiple conditions to see if rectangle is valid.
@@ -18,21 +34,11 @@ class Rectangle {
 
     this.tl = _tl;
     this.tr = _tr;
-    this.br = _br;
     this.bl = _bl;
+    this.br = _br;
     this.width = Math.abs(_tr.x - _tl.x);
     this.height = Math.abs(_tl.y - _bl.y);
-
     this.center = new Point(width / 2, height / 2);
-
-    this.fill_color = _fillColor || false;
-    this.border_color = _borderColor || false;
-  }
-
-  draw() {
-    if (this.fill_color) fill(this.fill_color);
-    if (this.border_color) stroke(this.border_color);
-    rect(this.tl.x, this.tl.y, this.width, this.height);
   }
 }
 

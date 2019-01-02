@@ -293,7 +293,7 @@ align-items: center;
 #simCanvasPause {
   z-index: 1;
   background-color: gray;
-  opacity: 0.9;
+  opacity: 0.7;
   /* padding:16px; */
   font-size: 24px;
   top: calc(36px + 5px);
@@ -350,7 +350,7 @@ align-items: center;
   display: flex;
   /* padding:16px; */
   width: calc(100% - 8px);
-  height: calc(94% - 0px);
+  height: calc(94% + 12px);
   position: absolute;
   ;
   top: calc(36px + 4px);

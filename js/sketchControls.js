@@ -41,13 +41,8 @@ function startNernst(evt) {
       particleMapper[checkBoxParticle].display = true;
       enableInputForParticle(checkBoxParticle);
 
-      for (const particle of particles["inside"][checkBoxParticle]) {
-        particle.setDisplay(true);
-      }
-
-      for (const particle of particles["outside"][checkBoxParticle]) {
-        particle.setDisplay(true);
-      }
+      containers["inside"].setParticleDisplays(checkBoxParticle, true);
+      containers["outside"].setParticleDisplays(checkBoxParticle, true);
 
       FormulaInputCalculation(checkBoxParticle);
       //disable other ions if they are on?
@@ -57,13 +52,8 @@ function startNernst(evt) {
       particleMapper[checkBoxParticle].display = false;
       disableInputForParticle(checkBoxParticle);
 
-      for (const particle of particles["inside"][checkBoxParticle]) {
-        particle.setDisplay(false);
-      }
-
-      for (const particle of particles["outside"][checkBoxParticle]) {
-        particle.setDisplay(false);
-      }
+      containers.inside.setParticleDisplays(checkBoxParticle, false);
+      containers.outside.setParticleDisplays(checkBoxParticle, false);
     }
   }
 }
@@ -105,13 +95,8 @@ function startGoldman(evt) {
       particleMapper[checkBoxParticle].display = true;
       enableInputForParticle(checkBoxParticle);
 
-      for (const particle of particles["inside"][checkBoxParticle]) {
-        particle.setDisplay(true);
-      }
-
-      for (const particle of particles["outside"][checkBoxParticle]) {
-        particle.setDisplay(true);
-      }
+      containers.inside.setParticleDisplays(checkBoxParticle, true);
+      containers.outside.setParticleDisplays(checkBoxParticle, true);
     }
   }
 
@@ -233,13 +218,8 @@ function checkedEvent(evt) {
     var particleType = this.elt.innerText;
     particleMapper[particleType].display = this.checked();
 
-    for (const particle of particles["inside"][particleType]) {
-      particle.setDisplay(this.checked());
-    }
-
-    for (const particle of particles["outside"][particleType]) {
-      particle.setDisplay(this.checked());
-    }
+    containers.inside.setParticleDisplays(particleType, this.checked());
+    containers.outside.setParticleDisplays(particleType, this.checked());
 
     if (this.checked() == false) {
       disableInputForParticle(particleType);
@@ -263,13 +243,8 @@ function checkedEvent(evt) {
             particleMapper[checkBoxParticle].display = false;
             disableInputForParticle(checkBoxParticle);
 
-            for (const particle of particles["inside"][checkBoxParticle]) {
-              particle.setDisplay(false);
-            }
-
-            for (const particle of particles["outside"][checkBoxParticle]) {
-              particle.setDisplay(false);
-            }
+            containers.inside.setParticleDisplays(checkBoxParticle, false);
+            containers.outside.setParticleDisplays(checkBoxParticle, false);
           }
         }
       }
@@ -338,7 +313,7 @@ function makeUIs(creation) {
         var id = (k % row) - 1;
         var particleType = particleTypes[id];
         var particleLocation = (k <= 3) ? "outside" : "inside";
-        var particleArray = particles[particleLocation][particleType];
+        var particleArray = containers[particleLocation].particles[particleType]
 
         var particleSuffix = (k <= 3) ?
           "out" :
@@ -432,8 +407,8 @@ function FormulaInputCalculation(particleType) {
     var T = tempSetting;
     var z = particleMapper[particleType].charge;
     if (particleMapper[particleType].display) {
-      var Xout = particles["outside"][particleType].length;
-      var Xin = particles["inside"][particleType].length;
+      var Xout = containers.outside.countParticles(particleType);
+      var Xin = containers.inside.countParticles(particleType);
     } else {
       equations[1].html('Answer: N/A - Particle Disabled');
       return;
@@ -452,11 +427,11 @@ function FormulaInputCalculation(particleType) {
       var particleType = particleTypes[i];
       if (particleMapper[particleType].display) {
         if (particleMapper[particleType].charge > 0) {
-          numerator += particleMapper[particleType].permeability * particles["outside"][particleType].length;
-          denominator += particleMapper[particleType].permeability * particles["inside"][particleType].length;
+          numerator += particleMapper[particleType].permeability * containers["outside"].countParticles(particleType);
+          denominator += particleMapper[particleType].permeability * containers["inside"].countParticles(particleType);
         } else {
-          numerator += particleMapper[particleType].permeability * particles["inside"][particleType].length;
-          denominator += particleMapper[particleType].permeability * particles["outside"][particleType].length;
+          numerator += particleMapper[particleType].permeability * containers["inside"].countParticles(particleType);
+          denominator += particleMapper[particleType].permeability * containers["outside"].countParticles(particleType);
         }
       }
     }
@@ -512,8 +487,8 @@ function updateInputs(particleType, location, id) {
     ? input[id + row + 1]
     : input[id + 1];
 
-  var oldAmount = particles[location][particleType].length;
-  var transferAmount = particles[transferLocation][particleType].length;
+  var oldAmount = containers[location].countParticles(particleType);
+  var transferAmount = containers[transferLocation].countParticles(particleType);
 
   oldInput.value(oldAmount);
   transferInput.value(transferAmount);

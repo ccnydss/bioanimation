@@ -5,14 +5,6 @@ class Channel extends Rectangle {
   }
 }
 
-class UIBox extends Rectangle {
-  constructor(_points) {
-    super(_points);
-    this.fill_color = color(100, 155, 180, 100);
-    // this.fill_color = color(255, 255, 180, 100);
-  }
-}
-
 var createChannels = function(tl, tr, br, bl, numOfChannels) {
   // Input: 4 Points, Integer
   // Function: Creates an array of Channels for each particle type
