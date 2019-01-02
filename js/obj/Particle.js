@@ -162,9 +162,13 @@ class Particle {
   }
 }
 
+// Particle.genRandomParticle(type, container) {
+//
+// }
+
 class Na extends Particle {
   constructor(_center, _diam, _vel, _collidable) {
-    super(_center, _diam, _vel, _collidable, "#F5CE28");
+    super(_center, _diam, _vel, _collidable, Na.color);
 
     this.display = true;
   }
@@ -182,7 +186,7 @@ Na.outside = 0;
 
 class Cl extends Particle {
   constructor(_center, _diam, _vel, _collidable) {
-    super(_center, _diam, _vel, _collidable, "#CD5C5C");
+    super(_center, _diam, _vel, _collidable, Cl.color);
 
     this.display = false;
   }
@@ -199,7 +203,7 @@ Cl.outside = 0;
 
 class K extends Particle {
   constructor(_center, _diam, _vel, _collidable) {
-    super(_center, _diam, _vel, _collidable, "#35B235");
+    super(_center, _diam, _vel, _collidable, K.color);
 
     this.display = false;
   }

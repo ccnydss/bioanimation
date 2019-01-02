@@ -585,7 +585,6 @@ function makeGoldmanEqn() {
   mo7Goldman.parent("mrow5Goldman");
 
   // K
-
   msub11Goldman = createElement("msub");
   msub11Goldman.id("msub11Goldman");
   msub11Goldman.parent("mrow5Goldman");

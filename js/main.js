@@ -14,6 +14,8 @@ var channels = {
   "K": []
 };
 
+var thickness = 25;
+
 var plusButton = [],
   minusButton = [],
   textboard = [], // NOTE: More specific variable name
@@ -24,9 +26,6 @@ var equations = [];
 
 var canWidth;
 var canHeight;
-
-// Make a channel a square for now
-var thickness = 25; // NOTE: More specific variable name
 
 var lastNernstParticle = "Na";
 var questionText = [];
@@ -41,8 +40,7 @@ function setup() {
   // Defines the simulator's layout as well as "canWidth", "canHeight"
   makeLayout();
 
-  //Relative to parent coordinate
-  backgroundMembrane = new Rectangle(
+  backgroundMembrane = new Rectangle (
     {
       _tl: new Point(0, 0),
       _tr: new Point(canWidth, 0),
@@ -53,7 +51,7 @@ function setup() {
   )
   backgroundMembrane.draw();
 
-  containers["outside"] = new Container(
+  containers["outside"] = new Container (
     {
       _tl: new Point(0, 0),
       _tr: new Point(canWidth, 0),
@@ -64,7 +62,7 @@ function setup() {
     "outside"
   );
 
-  containers["inside"] = new Container(
+  containers["inside"] = new Container (
     {
       _tl: new Point(0, canHeight / 2 + thickness),
       _tr: new Point(canWidth, canHeight / 2 + thickness),
@@ -75,6 +73,7 @@ function setup() {
     "inside"
   );
 
+  // Initialize containers with particles
   for (var loc in containers) {
     for (var particle in containers[loc].particles) {
       var amount = particleMapper[particle][loc];
@@ -82,7 +81,6 @@ function setup() {
       for (var i = 0; i < amount; i++) {
         var newPart = createNewParticle(particle, containers[loc])
         containers[loc].addParticle(newPart);
-        console.log("hmmm", newPart, containers[loc])
       }
     }
   }
@@ -115,7 +113,6 @@ function setup() {
     }
     clearTimeout(Initializor);
   }, 300);
-
 }
 
 function draw() {
