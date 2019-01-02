@@ -88,7 +88,13 @@ function transferParticle(particleType, location) {
   var verticalOffset = Math.floor(cHeight / 2 + 1);
 
   // Choose a particle to move to other side.
-  var movePcl = selectParticle(currentArray);
+  var channelCenter = new Point(
+    targetChannel.x + horizontalOffset,
+    targetChannel.y
+  );
+
+  var movePclIndex = selectParticle(currentArray, channelCenter);
+  var movePcl = currentArray[movePclIndex];
 
   // Calculate angle needed to move particle towards channel center.
   var newDirection = atan2(
@@ -131,7 +137,7 @@ function transferParticle(particleType, location) {
       newPart.setVelocity(afterVelocity);
 
       // Remove the first particle in the array, aka movePcl
-      currentArray.splice(0, 1);
+      currentArray.splice(movePclIndex, 1);
 
       transferArray.push(newPart);
 
@@ -254,8 +260,17 @@ function changeNumParticles(evt) {
   }
 }
 
-function selectParticle(pArray) {
-  // NOTE: In the future, modify this function to select the particle
-  // that is closest to the channel.
-  return pArray[0];
+function selectParticle(pArray, tPoint) {
+  // Select the particle that is closest to the channel
+  var minPoint = 0;
+
+  for (var i = 0; i < pArray.length; i++) {
+    var dist = pArray[i].center.distance(tPoint);
+
+    if (dist < minimumDistance) {
+      minPoint = i;
+    }
+  }
+
+  return minPoint;
 }
