@@ -158,8 +158,6 @@ function insertParticle(evt) {
   newParticle.setDisplay(true);
   containers[particleLocation].addParticle(newParticle);
 
-  FormulaInputCalculation(particleType);
-
   updateInputs(particleType, particleLocation, id);
 }
 
@@ -199,8 +197,6 @@ function removeParticle(evt) {
 
   particleArray.splice(particleArray.length - 1, 1);
   containers[particleLocation].deleteParticle(particleType);
-
-  FormulaInputCalculation(particleType);
 
   updateInputs(particleType, particleLocation, id);
 }

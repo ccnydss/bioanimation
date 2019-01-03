@@ -185,6 +185,7 @@ function ChangesimulatorSetting(evt) {
   }
   if (eventID == 2) {
     Na.permeability = updatedAmount;
+    // NOTE: Why is this function call empty?
     FormulaInputCalculation();
   }
   if (eventID == 3) {
@@ -492,4 +493,6 @@ function updateInputs(particleType, location, id) {
 
   oldInput.value(oldAmount);
   transferInput.value(transferAmount);
+
+  FormulaInputCalculation(particleType);
 }
