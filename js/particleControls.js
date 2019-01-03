@@ -176,7 +176,6 @@ function createNewParticle(type, cont) {
 
   return new particleMapper[type](
     new Point(randomX, randomY),
-    particleMapper[type].diameter,
     velocity,
     true
   );

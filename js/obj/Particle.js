@@ -175,7 +175,7 @@ class Particle {
 }
 
 class Na extends Particle {
-  constructor(_center, _diam, _vel, _collidable) {
+  constructor(_center, _vel, _collidable) {
     super(_center, Na.diameter, _vel, _collidable, Na.color);
 
     this.display = true;
@@ -193,7 +193,7 @@ Na.inside = 1;
 Na.outside = 0;
 
 class Cl extends Particle {
-  constructor(_center, _diam, _vel, _collidable) {
+  constructor(_center, _vel, _collidable) {
     super(_center, Cl.diameter, _vel, _collidable, Cl.color);
 
     this.display = false;
@@ -210,7 +210,7 @@ Cl.inside = 0;
 Cl.outside = 0;
 
 class K extends Particle {
-  constructor(_center, _diam, _vel, _collidable) {
+  constructor(_center, _vel, _collidable) {
     super(_center, K.diameter, _vel, _collidable, K.color);
 
     this.display = false;

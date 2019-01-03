@@ -6,7 +6,7 @@ class Channel extends Rectangle {
 }
 
 function createChannels(membrane, numOfChannels) {
-  // Input: 4 Points, Integer
+  // Input: Rectangle, Integer
   // Function: Creates an array of Channels for each particle type
   // Output: Array
 
