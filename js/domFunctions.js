@@ -31,8 +31,8 @@ function makeLayout() {
   questionTitle = createElement("h3", "Goldman-Hodgkin-Katz").parent('questionsdiv');
   questionTitle.id('questionTitle');
 
-  var questionsText
-  questionsText = "Calculate the equilibrium potential for Na and K using the Nernst equation for the following conditions"
+    var questionsText;
+    questionsText = "Calculate the equilibrium potential for Na and K using the Nernst equation for the following conditions";
   var question = createElement("p", questionsText).parent('questionsdiv');
   question.class ("questions");
   question.id("q1");
@@ -104,14 +104,13 @@ function makeLayout() {
   canvas.class ('can');
   canvas.parent('sim');
 
-  // NOTE: Better place to attach event handlers? (see before)
   window.onresize = function() {
     if (equationContainerHeighthMul == 0.35) {
       redrawUI(true);
     } else {
       redrawUI(false);
     }
-  }
+  };
 
   // Div to contain the simulatorInput
   simulatorInputContainer = createDiv("");

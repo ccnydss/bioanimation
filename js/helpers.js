@@ -9,7 +9,7 @@ function clone(obj) {
 }
 
 function setClassMember(instance, membername, value) {
-  // "instance" is usually the keyword `this`. I.e., the object itself. 
+  // "instance" is usually the keyword `this`. I.e., the object itself.
   var cl = Object.getPrototypeOf(instance).constructor;
   cl[membername] = value;
 }
@@ -38,10 +38,11 @@ function loadText(url, tag) {
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
-      var myArr = JSON.parse(this.responseText)
+        var myArr = JSON.parse(this.responseText);
       document.getElementById("q1").innerHTML = myArr[tag].join('');;
     }
   };
   xmlhttp.open("GET", url, true);
   xmlhttp.send();
 }
+
