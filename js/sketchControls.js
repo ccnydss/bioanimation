@@ -261,19 +261,18 @@ function makeUIs(creation) {
   // input: Boolean;
   // usage: True is for initializing the UI; False is for recreating UI when browser window is resized (responsive UI)
 
-  // Channel
-  var topLeft = new Point(canWidth / 2 - thickness, canHeight / 2 - thickness);
-  var topRight = new Point(canWidth / 2 + thickness, canHeight / 2 - thickness);
-  var botRight = new Point(canWidth / 2 + thickness, canHeight / 2 - thickness);
-  var botLeft = new Point(canWidth / 2 - thickness, canHeight / 2 + thickness);
-  // Containers
-  var divisionTL = new Point(containers["outside"].bl.x, containers["outside"].bl.y);
-  var divisionTR = new Point(containers["outside"].br.x, containers["outside"].br.y);
-  var divisionBR = new Point(containers["inside"].tr.x, containers["inside"].tr.y);
-  var divisionBL = new Point(containers["inside"].tl.x, containers["inside"].tl.y);
-
   // Create channels
-  channels = createChannels(divisionTL, divisionTR, divisionBR, divisionBL, particleTypes.length);
+  var division = new Rectangle (
+    {
+    _tl: containers["outside"].bl,
+    _tr: containers["outside"].br,
+    _br: containers["inside"].tr,
+    _bl: containers["inside"].tl
+    }
+  );
+
+  channels = createChannels(division, particleTypes.length);
+
   for (var i = 0; i < channels.length; i++) {
     channels[i].draw();
   }

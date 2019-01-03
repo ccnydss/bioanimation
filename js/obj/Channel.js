@@ -5,24 +5,26 @@ class Channel extends Rectangle {
   }
 }
 
-var createChannels = function(tl, tr, br, bl, numOfChannels) {
+function createChannels(membrane, numOfChannels) {
   // Input: 4 Points, Integer
   // Function: Creates an array of Channels for each particle type
   // Output: Array
 
   var channels = [];
   var offset = 30;
-  var channelHeight = abs(tl.y - bl.y);
-  var cellWallWidth = abs(tr.x - tl.x);
+
+  var channelHeight = membrane.height;
+  var cellWallWidth = membrane.width;
+
   for (var i = 1; i <= numOfChannels; i++) {
     // Get center x coordinate for cell wall
     var center = (i) * Math.floor(cellWallWidth / (numOfChannels + 1));
 
     // Get coordinates of channel rectangle
-    var channelTL = new Point(center - offset, tl.y);
-    var channelTR = new Point(center + offset, tr.y);
-    var channelBR = new Point(center + offset, br.y);
-    var channelBL = new Point(center - offset, bl.y);
+    var channelTL = new Point(center - offset, membrane.tl.y);
+    var channelTR = new Point(center + offset, membrane.tr.y);
+    var channelBR = new Point(center + offset, membrane.br.y);
+    var channelBL = new Point(center - offset, membrane.bl.y);
 
     // Add new channel to channels array
     channels.push(
