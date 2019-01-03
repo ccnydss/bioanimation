@@ -65,18 +65,19 @@ function transferParticle(particleType, location) {
   var targetY = 0;
   var yOffset = 25; // Set the destination slightly ABOVE (or BELOW) the target channel
   var topIsTarget = false;
+  var transitionVector; // Which way (up or down) the particle will move as it crosses channels
 
   if (location[particleType] == "outside") {
     // If the particle is in the top division
     var targetChannel = channels[id].tl;
     targetY = targetChannel.y - yOffset;
-
+    transitionVector = createVector(0, 3);
     topIsTarget = false;
   } else {
     // If the particle is in the bottom division
     var targetChannel = channels[id].bl;
     targetY = targetChannel.y + yOffset;
-
+    transitionVector = createVector(0, -3);
     topIsTarget = true;
   }
 
@@ -88,18 +89,18 @@ function transferParticle(particleType, location) {
   var verticalOffset = Math.floor(cHeight / 2 + 1);
 
   // Choose a particle to move to other side.
-  var channelCenter = new Point(
+  var targetPoint = new Point(
     targetChannel.x + horizontalOffset,
-    targetChannel.y
+    targetY
   );
 
-  var movePclIndex = selectParticle(currentArray, channelCenter);
+  var movePclIndex = selectParticle(currentArray, targetPoint);
   var movePcl = currentArray[movePclIndex];
 
   // Calculate angle needed to move particle towards channel center.
   var newDirection = atan2(
-    targetY - movePcl.center.y,
-    targetChannel.x + horizontalOffset - movePcl.center.x
+    targetPoint.y - movePcl.center.y,
+    targetPoint.x - movePcl.center.x
   );
 
   // Change velocity of particle to move in the direction of the channel.
@@ -108,25 +109,13 @@ function transferParticle(particleType, location) {
   // Disable this particle's collision
   movePcl.collidable = false;
 
-  movePcl.onContainerChange = function(newX, newY) {
-    if (
-      newY <= targetY &&
-      newX > targetChannel.x &&
-      newX < targetChannel.x + cWidth &&
-      location[particleType] == "inside"
-    ) {
-      movePcl.setVelocity(createVector(0, -3));
-    } else if (
-      newY >= targetY &&
-      newX > targetChannel.x &&
-      newX < targetChannel.x + cWidth &&
-      location[particleType] == "outside"
-    ) {
-      movePcl.setVelocity(createVector(0, 3));
+  movePcl.onContainerChange = function(newCenterX, newCenterY) {
+    if ( movePcl.nearToPoint(targetPoint) ) {
+      movePcl.setVelocity(transitionVector);
     }
 
-    var cond1 = (location[particleType] == "outside" && newY > targetChannel.y + cHeight + movePcl.r);
-    var cond2 = (location[particleType] == "inside" && newY < targetChannel.y - cHeight - movePcl.r);
+    var cond1 = (location[particleType] == "outside" && newCenterY > targetChannel.y + cHeight + movePcl.r);
+    var cond2 = (location[particleType] == "inside" && newCenterY < targetChannel.y - cHeight - movePcl.r);
 
     if (cond1 || cond2) {
       // Copy the particle to create a clone of the instance

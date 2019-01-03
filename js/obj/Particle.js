@@ -61,6 +61,14 @@ class Particle {
     this.moveCenter();
   }
 
+  nearToPoint(point, range=0) {
+    // Method to determine if the given particle is close to, or nearby, a single
+    // point within a given radius (range) of pixels.
+
+    var distanceBetween = this.center.distance(point);
+    return distanceBetween <= this.r + range;
+  }
+
   checkOutOfBounds(container) {
     var outRight = this.center.x + this.r > container.br.x;
     var outLeft = this.center.x - this.r < container.tl.x;
@@ -160,15 +168,15 @@ class Particle {
   setVelocity(in_vector) {
     this.m_velocity = in_vector.setMag(this.m_speed);
   }
-}
 
-// Particle.genRandomParticle(type, container) {
-//
-// }
+  setSpeed(speed) {
+    this.m_speed = speed;
+  }
+}
 
 class Na extends Particle {
   constructor(_center, _diam, _vel, _collidable) {
-    super(_center, _diam, _vel, _collidable, Na.color);
+    super(_center, Na.diameter, _vel, _collidable, Na.color);
 
     this.display = true;
   }
@@ -186,7 +194,7 @@ Na.outside = 0;
 
 class Cl extends Particle {
   constructor(_center, _diam, _vel, _collidable) {
-    super(_center, _diam, _vel, _collidable, Cl.color);
+    super(_center, Cl.diameter, _vel, _collidable, Cl.color);
 
     this.display = false;
   }
@@ -203,7 +211,7 @@ Cl.outside = 0;
 
 class K extends Particle {
   constructor(_center, _diam, _vel, _collidable) {
-    super(_center, _diam, _vel, _collidable, K.color);
+    super(_center, K.diameter, _vel, _collidable, K.color);
 
     this.display = false;
   }
