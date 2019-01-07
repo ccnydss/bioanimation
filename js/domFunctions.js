@@ -538,15 +538,9 @@ function redrawUI(questionBox) {
   canvas.size(canWidth, canHeight);
 
   //Relative to parent coordinate
-  containers["outside"].setSize(
-    {
-      _tl: new Point(0, 0),
-      _tr: new Point(canWidth, 0),
-      _br: new Point(canWidth, canHeight / 2 - thickness),
-      _bl: new Point(0, (canHeight / 2 - thickness))
-    }
-  );
-  containers["outside"].draw();
+  bioMainSequence.setContainerSizes(canWidth, canHeight, thickness);
+  // NOTE: Check this later
+  // bioMainSequence.containers["outside"].draw();
 
   backgroundMembrane = new Rectangle(
     {
@@ -559,16 +553,7 @@ function redrawUI(questionBox) {
   )
   backgroundMembrane.draw();
 
-  containers["inside"].setSize(
-    {
-      _tl: new Point(0, canHeight / 2 + thickness),
-      _tr: new Point(canWidth, canHeight / 2 + thickness),
-      _br: new Point(canWidth, canHeight),
-      _bl: new Point(0, canHeight)
-    }
-  );
-
-  containers["inside"].draw();
+  // bioMainSequence.containers["inside"].draw();
 
   // NOTE: does this still do anything? When uncommented, it seems to have no effect.
   makeUIs(false)
@@ -594,7 +579,6 @@ function adjustUISize(multiple) {
   // Define the global canWidth & canHeight variables
   canWidth = simulator.size().width;
 
-  //canHeight = 0.75 * (simulator.size().height - 8);
   canHeight = 1 * (simulator.size().height - 4);
 
   simulatorInputContainer.size(0.65 * windowWidth, 0.35 * (windowHeight - 36));

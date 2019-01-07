@@ -8,11 +8,11 @@ var velocityRange = [-1, -1.25, 1.25, 1];
 //For local particles on each box
 var MaxParticles = 25;
 
-var channels = {
-  "Na": [],
-  "Cl": [],
-  "K": []
-};
+// var channels = {
+//   "Na": [],
+//   "Cl": [],
+//   "K": []
+// };
 
 var thickness = 25;
 
@@ -33,6 +33,8 @@ var questionText = [];
 var tempSetting = (37 + 273.13);
 
 var backgroundMembrane;
+
+var bioMainSequence;
 var animationSequencer;
 
 function setup() {
@@ -53,7 +55,8 @@ function setup() {
   backgroundMembrane.draw();
 
   // Create the animation sequencer
-  animationSequencer = new SequenceManager([createBioMain()])
+  bioMainSequence = new BioMain();
+  animationSequencer = new SequenceManager([bioMainSequence])
   animationSequencer.setup();
 
   makeUIs(true);
@@ -63,11 +66,11 @@ function setup() {
   disableInputForParticle("Cl");
   disableInputForParticle("K");
 
-  containers.inside.setParticleDisplays("Cl", false);
-  containers.outside.setParticleDisplays("Cl", false);
-
-  containers.inside.setParticleDisplays("K", false);
-  containers.outside.setParticleDisplays("K", false);
+  // bioMainSequence.containers.inside.setParticleDisplays("Cl", false);
+  // bioMainSequence.containers.outside.setParticleDisplays("Cl", false);
+  //
+  // bioMainSequence.containers.inside.setParticleDisplays("K", false);
+  // bioMainSequence.containers.outside.setParticleDisplays("K", false);
 
   FormulaInputCalculation(particleTypes[0]);
 
@@ -92,9 +95,9 @@ function draw() {
 
   animationSequencer.draw();
 
-  for (var i = 0; i < channels.length; i++) {
-    channels[i].draw();
-  }
+  // for (var i = 0; i < channels.length; i++) {
+  //   channels[i].draw();
+  // }
 
   strokeWeight(1);
 }

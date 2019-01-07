@@ -30,9 +30,9 @@ class Container extends Rectangle {
     this.particles[type].push(p);
   }
 
-  deleteParticle(type, index) {
+  deleteParticle(type, index=0) {
     var length = this.particles[type].length;
-    this.particles[type].splice(length, 1);
+    this.particles[type].splice(index, 1);
   }
 
   setParticleDisplays(type, bool) {
