@@ -16,31 +16,37 @@ class SequenceManager {
     }
   }
 
+  len() {
+    return this.m_seqArr.length;
+  }
+
+  current() {
+    return this.m_seqArr[this.m_seqitr];
+  }
+
   setup() {
-    if (this.m_numSeq) {
-      this.m_seqArr[this.m_seqitr].setup();
+    if (this.len()) {
+      this.current().setup();
     }
   }
 
   draw() {
-    if (this.m_numSeq) {
-      this.m_seqArr[this.m_seqitr].draw();
+    if (this.len()) {
+      this.current().draw();
     }
   }
 
   next() {
-    var len = this.m_numSeq;
-    if (len) {
+    if (this.len()) {
       this.m_seqitr = (this.m_seqitr + 1) % len;
-      this.m_seqArr[this.m_seqitr].reset();
+      this.current().reset();
     }
   }
 
   prev() {
-    var len = this.m_numSeq;
-    if (len) {
-      this.m_seqitr = (this.m_seqitr == 0) ? len - 1 : this.m_seqitr - 1;
-      this.m_seqArr[this.m_seqitr].reset();
+    if (this.len()) {
+      this.m_seqitr = (this.m_seqitr == 0) ? this.len() - 1 : this.m_seqitr - 1;
+      this.current().reset();
     }
   }
 }

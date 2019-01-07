@@ -75,7 +75,6 @@ function insertParticle(evt) {
     "inside";
 
   bioMainSequence.insertNewParticle(particleLocation, particleType, MaxParticles);
-
   updateInputs(particleType, particleLocation, id);
 }
 
@@ -109,6 +108,7 @@ function removeParticle(evt) {
     "inside";
 
   bioMainSequence.removeParticle(particleLocation, particleType, 0);
+  updateInputs(particleType, particleLocation, id);
 }
 
 function changeNumParticles(evt) {

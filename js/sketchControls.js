@@ -40,7 +40,6 @@ function startNernst(evt) {
       checkboxes[j].checked(true)
       particleMapper[checkBoxParticle].display = true;
 
-      console.log("STARTING NERNST", checkBoxParticle);
       enableInputForParticle(checkBoxParticle);
 
       bioMainSequence.setContainerDisplays(checkBoxParticle, true);

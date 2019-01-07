@@ -8,12 +8,6 @@ var velocityRange = [-1, -1.25, 1.25, 1];
 //For local particles on each box
 var MaxParticles = 25;
 
-// var channels = {
-//   "Na": [],
-//   "Cl": [],
-//   "K": []
-// };
-
 var thickness = 25;
 
 var plusButton = [],
@@ -66,12 +60,6 @@ function setup() {
   disableInputForParticle("Cl");
   disableInputForParticle("K");
 
-  // bioMainSequence.containers.inside.setParticleDisplays("Cl", false);
-  // bioMainSequence.containers.outside.setParticleDisplays("Cl", false);
-  //
-  // bioMainSequence.containers.inside.setParticleDisplays("K", false);
-  // bioMainSequence.containers.outside.setParticleDisplays("K", false);
-
   FormulaInputCalculation(particleTypes[0]);
 
   //Load all the equation at begin, otherelse will cause bug
@@ -94,10 +82,6 @@ function draw() {
   strokeWeight(0);
 
   animationSequencer.draw();
-
-  // for (var i = 0; i < channels.length; i++) {
-  //   channels[i].draw();
-  // }
 
   strokeWeight(1);
 }
