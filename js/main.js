@@ -33,6 +33,7 @@ var questionText = [];
 var tempSetting = (37 + 273.13);
 
 var backgroundMembrane;
+var animationSequencer;
 
 function setup() {
   noFill();
@@ -51,42 +52,9 @@ function setup() {
   )
   backgroundMembrane.draw();
 
-  containers["outside"] = new Container (
-    {
-      _tl: new Point(0, 0),
-      _tr: new Point(canWidth, 0),
-      _br: new Point(canWidth, canHeight / 2 - thickness),
-      _bl: new Point(0, (canHeight / 2 - thickness))
-    },
-    Container.OUTSIDE_COLOR,
-    "outside"
-  );
-
-  containers["inside"] = new Container (
-    {
-      _tl: new Point(0, canHeight / 2 + thickness),
-      _tr: new Point(canWidth, canHeight / 2 + thickness),
-      _br: new Point(canWidth, canHeight),
-      _bl: new Point(0, canHeight)
-    },
-    Container.INSIDE_COLOR,
-    "inside"
-  );
-
-  // Initialize containers with particles
-  for (var loc in containers) {
-    for (var particle in containers[loc].particles) {
-      var amount = particleMapper[particle][loc];
-
-      for (var i = 0; i < amount; i++) {
-        var newPart = createNewParticle(particle, containers[loc])
-        containers[loc].addParticle(newPart);
-      }
-    }
-  }
-
-  containers["outside"].draw();
-  containers["inside"].draw();
+  // Create the animation sequencer
+  animationSequencer = new SequenceManager([createBioMain()])
+  animationSequencer.setup();
 
   makeUIs(true);
   startNernst();
@@ -122,8 +90,7 @@ function draw() {
 
   strokeWeight(0);
 
-  containers["inside"].draw();
-  containers["outside"].draw();
+  animationSequencer.draw();
 
   for (var i = 0; i < channels.length; i++) {
     channels[i].draw();
