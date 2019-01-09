@@ -53,8 +53,7 @@ class BioMain extends Sequence {
         var amount = particleMapper[particle][loc];
 
         for (var i = 0; i < amount; i++) {
-          var newPart = createNewParticle(particle, s.containers[loc])
-          s.containers[loc].addParticle(newPart);
+          s.containers[loc].addParticle(null, particle);
         }
       }
     }
@@ -128,10 +127,7 @@ class BioMain extends Sequence {
     var num = this.getNumParticles(container, particleType);
     if (num >= MAX_PARTICLES) return;
 
-    var newParticle = createNewParticle(particleType, this.m_state.containers[container]);
-
-    newParticle.setDisplay(true);
-    this.m_state.containers[container].addParticle(newParticle);
+    this.m_state.containers[container].addParticle(null, particleType);
   }
 
   removeParticle(container, particleType, MIN_PARTICLES) {
