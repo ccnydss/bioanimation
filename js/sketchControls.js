@@ -113,51 +113,8 @@ function startGoldman(evt) {
   FormulaInputCalculation();
 }
 
-function disableButton() {
-  document.getElementById('equilibrate-button').disabled = true;
-}
-
-function enableButton() {
-  document.getElementById('equilibrate-button').disabled = false;
-}
-
-// Pause / unpause the animation (debug purposes)
-var togLoop = false;
-
-function toggleLoop() {
-  if (togLoop) {
-    loop();
-    togLoop = false;
-
-    document.getElementById('simCanvasPause').style.display = "none";
-  } else {
-    noLoop();
-    togLoop = true;
-
-    document.getElementById('simCanvasPause').style.display = "flex";
-  }
-}
-
 function keyPressed() {
-  var spacebar = 32;
-  var Q_key = 81;
-  var W_key = 87;
-
-  switch (keyCode) {
-    case spacebar:
-      toggleLoop();
-      break;
-
-    case Q_key:
-      animationSequencer.prev(false);
-      updateAll();
-      break;
-
-    case W_key:
-      animationSequencer.next(false);
-      updateAll();
-      break;
-  }
+  mainSim.keyInput();
 }
 
 function ChangesimulatorSetting(evt) {

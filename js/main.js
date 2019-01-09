@@ -3,8 +3,8 @@ var particleTypes = ["Na", "Cl", "K"];
 
 var plusButton = [],
   minusButton = [],
-  textboard = [], // NOTE: More specific variable name
-  input = [], // NOTE: above
+  textboard = [],   // NOTE: More specific variable name
+  input = [],       // NOTE: above
   simSetting = [];
 
 var equations = [];
@@ -16,6 +16,7 @@ var lastNernstParticle = "Na";
 
 var tempSetting = (37 + 273.13);
 
+var mainSim = new Simulator();
 var animationSequencer;
 
 function setup() {
