@@ -167,6 +167,6 @@ QUnit.test("enableInputForParticle", function(assert) {
   assert.ok(1, "Pass");
 });
 
-QUnit.test("createText", function(assert) {
+QUnit.test("loadText", function(assert) {
   assert.ok(1, "Pass");
 });

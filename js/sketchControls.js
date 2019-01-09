@@ -1,142 +1,3 @@
-var largerArrayLocations = {}; // global dictionary used to prevent equilibrating one particle type from interrupting another.
-
-var transferParticle = function(particleType, location) {
-  // input: string, array
-  // transfers a particle from top to bottom
-
-  var id = particlesProperties[particleType]["id"];
-
-  // Set names of current array is in and array to transfer particle into
-  var currentArray = particles[location[particleType]][particleType];
-  if (currentArray.length == 0) return;
-
-  // Set destination container to opposite of the denser container
-  var transferLocation = (location[particleType] == "outside") ?
-    "inside" :
-    "outside";
-
-  var transferArray = particles[transferLocation][particleType];
-
-  // Determine which cell channel the particle should move towards.
-  // If the particle is in the top division
-  var targetY = 0;
-  var yOffset = 25;
-  var topIsTarget = false;
-
-  if (location[particleType] == "outside") {
-    console.log("in numero 1")
-    var targetChannel = channels[id].tl;
-    targetY = targetChannel.y - yOffset;
-
-    topIsTarget = false;
-  } else {
-    console.log("in numero 2", location);
-    // If the particle is in the bottom division
-    var targetChannel = channels[id].bl;
-    targetY = targetChannel.y + yOffset;
-
-    topIsTarget = true;
-  }
-
-  // Get the offset from corner of the channel to its center.
-  var cWidth = channels[0].width;
-  var cHeight = channels[0].height;
-
-  var horizontalOffset = Math.floor(cWidth / 2 + 1);
-  var verticalOffset = Math.floor(cHeight / 2 + 1);
-
-  // Choose the particle to move to other side.
-  var movePcl = currentArray[0];
-
-  // Calculate angle to move particle towards channel center.
-  var newDirection = atan2(
-    targetY - movePcl.center.y,
-    targetChannel.x + horizontalOffset - movePcl.center.x
-  );
-
-  // Calculate angle to move the particle after it passes through
-  movePcl.collidable = false;
-
-  // Change velocity of particle to move in the direction of the channel.
-  movePcl.setVelocity(p5.Vector.fromAngle(newDirection));
-
-  movePcl.onContainerChange = function(newX, newY) {
-    if (
-      newY <= targetY &&
-      newX > targetChannel.x &&
-      newX < targetChannel.x + cWidth &&
-      location[particleType] == "inside"
-    ) {
-      movePcl.setVelocity(createVector(0, -3));
-    } else if (
-      newY >= targetY &&
-      newX > targetChannel.x &&
-      newX < targetChannel.x + cWidth &&
-      location[particleType] == "outside"
-    ) {
-      movePcl.setVelocity(createVector(0, 3));
-    }
-
-    var cond1 = (location[particleType] == "outside" && newY > targetChannel.y + cHeight);
-    var cond2 = (location[particleType] == "inside" && newY < targetChannel.y - cHeight);
-
-    if (cond1 || cond2) {
-      // Copy the particle to create a clone of the instance
-      var newPart = clone(movePcl);
-      newPart.collidable = true;
-
-      var afterVelocity = newPart.randomDirection(topIsTarget);
-      newPart.setVelocity(afterVelocity);
-      console.log(movePcl, newPart);
-
-      // Remove the first particle in the array, aka movePcl
-      currentArray.splice(0, 1);
-      transferArray.push(newPart);
-
-      updateInputs(particleType, location[particleType], id);
-
-      // Repeatedly call equilibrate until all particles have transferred over.
-      equilibrate(particleType);
-    }
-  }
-}
-
-// Brings outside and inside into equilibrium
-function equilibrate(particleType) {
-  // input: string;
-  // usage: "Na", "Cl", "K"
-
-  outsideArray = particles["outside"][particleType];
-  insideArray = particles["inside"][particleType];
-
-  particleAmount = outsideArray.length + insideArray.length;
-
-  // The equilibrium function: how top and bottom should be split.
-  equiAmount = Math.floor(particleAmount / 2);
-
-  // if either top or bottom has equilibrium amount, we can return
-  if (outsideArray.length == equiAmount || insideArray.length == equiAmount) {
-    return;
-  }
-
-  largerArrayLocation = outsideArray.length > insideArray.length ?
-    "outside" :
-    "inside";
-
-  // The number of particles that need to be transferred to each equilibrium
-  var transfers = particles[largerArrayLocation][particleType].length - equiAmount;
-
-  inEquilbrateState[particleType] = true;
-
-  setTimeout(function() {
-    inEquilbrateState[particleType] = false;
-  }, 1000 * transfers);
-
-  // Perform N transfers from the denser container to the sparser container.
-  largerArrayLocations[particleType] = largerArrayLocation;
-  transferParticle(particleType, largerArrayLocations);
-}
-
 var NernstButtonStatus;
 var GoldmanButtonStatus;
 var simulatorMode;
@@ -156,7 +17,7 @@ function startNernst(evt) {
   }
 
   //Add new text
-  createText("questions.json", "nernst_1");
+  loadText("questions.json", "nernst_1");
   // document.getElementById('questionTitle').innerHTML= "Nernst Equation";
   // document.getElementById('q1').innerHTML=questionText[0];
 
@@ -181,23 +42,30 @@ function startNernst(evt) {
 
       //enable its particles
       checkboxes[j].checked(true)
+      particleMapper[checkBoxParticle].display = true;
       enableInputForParticle(checkBoxParticle);
       //Also enable the particle in the plot
 
       if(dataChartInitialize)
       dataChart.getDatasetMeta(j).hidden = false;
 
+      containers["inside"].setParticleDisplays(checkBoxParticle, true);
+      containers["outside"].setParticleDisplays(checkBoxParticle, true);
+
       FormulaInputCalculation(checkBoxParticle);
       //disable other ions if they are on?
     } else if (checkBoxParticle != lastNernstParticle & checkboxes[j].checked()) {
       //disable others particles
       checkboxes[j].checked(false)
+      particleMapper[checkBoxParticle].display = false;
       disableInputForParticle(checkBoxParticle);
       //Also disable the particle in the plot
 
       if(dataChartInitialize)
       dataChart.getDatasetMeta(j).hidden = true;
 
+      containers.inside.setParticleDisplays(checkBoxParticle, false);
+      containers.outside.setParticleDisplays(checkBoxParticle, false);
     }
   }
 }
@@ -219,7 +87,7 @@ function startGoldman(evt) {
   }
 
   //Add new text
-  createText("questions.json", "goldman_1");
+  loadText("questions.json", "goldman_1");
 
   //Particles & functionality
   simulatorMode = "Goldman";
@@ -243,21 +111,15 @@ function startGoldman(evt) {
 
       //enable those particles
       checkboxes[j].checked(true)
+      particleMapper[checkBoxParticle].display = true;
       enableInputForParticle(checkBoxParticle);
+
+      containers.inside.setParticleDisplays(checkBoxParticle, true);
+      containers.outside.setParticleDisplays(checkBoxParticle, true);
     }
   }
 
   FormulaInputCalculation();
-}
-
-function startEquilibrate(evt) {
-  // input: the element that triggered the event; however this input is unused in this function
-
-  for (var i = 0; i < particleTypes.length; i++) {
-    if (!inEquilbrateState[particleTypes[i]] && particlesProperties[particleTypes[i]]["display"]) {
-      equilibrate(particleTypes[i]);
-    }
-  }
 }
 
 function disableButton() {
@@ -323,108 +185,6 @@ function keyPressed() {
   }
 }
 
-function insertParticle(evt) {
-  // Add a particle to its array
-  // Return the new number of particles of this type
-  var eventID = evt.target.id;
-  var row = 4;
-  var id = (eventID % row) - 1;
-  var particleType = particleTypes[id];
-  var particleLocation = (eventID < row) ?
-    "outside" :
-    "inside";
-
-  var particleArray = particles[particleLocation][particleType];
-
-  if (particleArray.length >= MaxParticles) return;
-
-  randomX = containers[particleLocation].tl.x + particlesProperties[particleType].radius + (Math.floor(Math.random() * xRange));
-  randomY = containers[particleLocation].tl.y + particlesProperties[particleType].radius + (Math.floor(Math.random() * yRange));
-
-  velocities = velocityRange;
-  var x_vel = Math.floor(Math.random() * (velocities.length - 1)) + 0;
-  var y_vel = Math.floor(Math.random() * (velocities.length - 1)) + 0;
-  var velocity = createVector(velocities[x_vel], Math.abs(velocities[y_vel]));
-
-  var newParticle = new factory[particleType](
-    new Point(randomX, randomY),
-    particlesProperties[particleType].radius,
-    velocity,
-    true
-  );
-  newParticle.setDisplay(true);
-  particleArray.push(newParticle);
-  FormulaInputCalculation(particleType);
-
-  updateInputs(particleType, particleLocation, id);
-}
-
-function removeParticle(evt) {
-  var eventID = evt.target.id;
-  var row = 4;
-  var id = (eventID % row) - 1;
-  var particleType = particleTypes[id];
-  var particleLocation = (eventID < row) ?
-    "outside" :
-    "inside";
-
-  var particleArray = particles[particleLocation][particleType];
-
-  if (particleArray.length <= 1) return;
-
-  particleArray.splice(particleArray.length - 1, 1);
-
-  FormulaInputCalculation(particleType);
-
-  updateInputs(particleType, particleLocation, id);
-}
-
-function ChangeNumParticles(evt) {
-  // input: the element that triggered the event (Input buttons);
-  console.log("is this it??");
-
-  var eventID = evt.target.id;
-  var row = 4;
-  var id = (eventID % row) - 1;
-  var particleType = particleTypes[id];
-  var particleLocation = (eventID < row) ?
-    "outside" :
-    "inside";
-
-  var particleArray = particles[particleLocation][particleType];
-
-  var updatedAmount = input[eventID].value();
-
-  // If the amount entered is invalid, alert user
-  if (
-    isNaN(updatedAmount) ||
-    Math.floor(updatedAmount) != updatedAmount ||
-    updatedAmount < 0
-  ) {
-    alert("Please enter valid input.");
-    return;
-  } else if (updatedAmount > MaxParticles) {
-    // If the amount entered is greater than the maximum, force it to maximum and alert user
-
-    input[eventID].value(MaxParticles);
-    updatedAmount = MaxParticles;
-    alert("Maximum amount is " + MaxParticles + ".");
-  }
-
-  var difference = Math.abs(updatedAmount - particleArray.length)
-
-  // If the amount entered is less than 0, increase the amount
-  if (updatedAmount > particleArray.length) {
-    for (var i = 0; i < difference; i++) {
-      insertParticle(evt);
-    }
-  } else if (updatedAmount < particleArray.length) {
-    for (var i = 0; i < difference; i++) {
-      removeParticle(evt);
-    }
-  }
-}
-
 function ChangesimulatorSetting(evt) {
   // input: the element that triggered the event (Input buttons);
 
@@ -443,26 +203,27 @@ function ChangesimulatorSetting(evt) {
     simSetting[1].value(updatedAmount);
   }
   if (eventID == 2) {
-    particlesProperties["Na"]["permeability"] = updatedAmount;
+    Na.permeability = updatedAmount;
+    // NOTE: Why is this function call empty?
     FormulaInputCalculation();
   }
   if (eventID == 3) {
-    particlesProperties["Cl"]["permeability"] = updatedAmount;
+    Cl.permeability = updatedAmount;
     FormulaInputCalculation();
   }
   if (eventID == 4) {
-    particlesProperties["K"]["permeability"] = updatedAmount;
+    K.permeability = updatedAmount;
     FormulaInputCalculation();
   }
 
   if (simulatorMode == "Goldman") {
     FormulaInputCalculation();
   } else {
-    if (particlesProperties["Na"]["display"] == true) {
+    if (Na.display == true) {
       FormulaInputCalculation("Na");
-    } else if (particlesProperties["Cl"]["display"] == true) {
+    } else if (Cl.display == true) {
       FormulaInputCalculation("Cl");
-    } else if (particlesProperties["K"]["display"] == true) {
+    } else if (K.display == true) {
       FormulaInputCalculation("K");
     }
   }
@@ -475,6 +236,10 @@ function checkedEvent(evt) {
     this.checked(true); //Left checkbox checked by default
   } else {
     var particleType = this.elt.innerText;
+    particleMapper[particleType].display = this.checked();
+
+    containers.inside.setParticleDisplays(particleType, this.checked());
+    containers.outside.setParticleDisplays(particleType, this.checked());
 
     if (this.checked() == false) {
       disableInputForParticle(particleType);
@@ -491,19 +256,21 @@ function checkedEvent(evt) {
           // var checkBox = document.getElementById('checkbox'+particleTypes[i])
           var checkBoxParticle = document.getElementById('checkbox' + particleTypes[j]).innerText;
 
-          // console.log(checkBox+ " " + checkBoxParticle+ " " + particlesProperties[checkBoxParticle]["display"] + " ")
-
-          if (checkboxes[j].checked() & checkBoxParticle != particleType & particlesProperties[checkBoxParticle]["display"] == true) {
+          if (checkboxes[j].checked() & checkBoxParticle != particleType & particleMapper[checkBoxParticle].display == true) {
 
             //Disable those particles
             checkboxes[j].checked(false)
+            particleMapper[checkBoxParticle].display = false;
             disableInputForParticle(checkBoxParticle);
 
-              //Also disable the particle in the plot
-              dataChart.getDatasetMeta(j).hidden = true;
-          } else if(particlesProperties[checkBoxParticle]["display"] == true) {
-              //Enable the particle in the plot
-              dataChart.getDatasetMeta(j).hidden = false;
+            containers.inside.setParticleDisplays(checkBoxParticle, false);
+            containers.outside.setParticleDisplays(checkBoxParticle, false);
+
+            //Also disable the particle in the plot
+            dataChart.getDatasetMeta(j).hidden = true;
+        } else if(particleMapper[checkBoxParticle]["display"] == true) {
+            //Enable the particle in the plot
+            dataChart.getDatasetMeta(j).hidden = false;
           }
         }
       }
@@ -519,19 +286,18 @@ function makeUIs(creation) {
   // input: Boolean;
   // usage: True is for initializing the UI; False is for recreating UI when browser window is resized (responsive UI)
 
-  // Channel
-  var topLeft = new Point(canWidth / 2 - thickness, canHeight / 2 - thickness);
-  var topRight = new Point(canWidth / 2 + thickness, canHeight / 2 - thickness);
-  var botRight = new Point(canWidth / 2 + thickness, canHeight / 2 - thickness);
-  var botLeft = new Point(canWidth / 2 - thickness, canHeight / 2 + thickness);
-  // Containers
-  var divisionTL = new Point(containers["outside"].bl.x, containers["outside"].bl.y);
-  var divisionTR = new Point(containers["outside"].br.x, containers["outside"].br.y);
-  var divisionBR = new Point(containers["inside"].tr.x, containers["inside"].tr.y);
-  var divisionBL = new Point(containers["inside"].tl.x, containers["inside"].tl.y);
-
   // Create channels
-  channels = createChannels(divisionTL, divisionTR, divisionBR, divisionBL, particleTypes.length);
+  var division = new Rectangle (
+    {
+    _tl: containers["outside"].bl,
+    _tr: containers["outside"].br,
+    _br: containers["inside"].tr,
+    _bl: containers["inside"].tl
+    }
+  );
+
+  channels = createChannels(division, particleTypes.length);
+
   for (var i = 0; i < channels.length; i++) {
     channels[i].draw();
   }
@@ -572,12 +338,12 @@ function makeUIs(creation) {
         var id = (k % row) - 1;
         var particleType = particleTypes[id];
         var particleLocation = (k <= 3) ? "outside" : "inside";
-        var particleArray = particles[particleLocation][particleType];
+        var particleArray = containers[particleLocation].particles[particleType]
 
         var particleSuffix = (k <= 3) ?
           "out" :
           "in";
-        var particleCharge = (particlesProperties[particleType].charge == 1) ?
+        var particleCharge = (particleMapper[particleType].charge == 1) ?
           "+" :
           "-";
         var text = '[' + particleType + '<sup>' + particleCharge + '</sup>]' + '<sub>' + particleSuffix + '</sub>&nbsp;';
@@ -616,14 +382,14 @@ function makeUIs(creation) {
         var td1 = createElement('td');
         input[k].parent(td1);
         td1.parent(trow);
-        input[k].input(ChangeNumParticles);
+        input[k].input(changeNumParticles);
 
         plusButton[k] = createButton('+');
         plusButton[k].id(k);
 
         plusButton[k].attribute("data-ptype", particleType);
         plusButton[k].attribute("data-location", particleLocation);
-        plusButton[k].style("background-color", particlesProperties[particleType].color)
+        plusButton[k].style("background-color", particleMapper[particleType].color)
         plusButton[k].mousePressed(insertParticle);
         plusButton[k].class('qoptions');
 
@@ -636,7 +402,7 @@ function makeUIs(creation) {
 
         minusButton[k].attribute("data-ptype", particleType);
         minusButton[k].attribute("data-location", particleLocation);
-        minusButton[k].style("background-color", particlesProperties[particleType].color)
+        minusButton[k].style("background-color", particleMapper[particleType].color)
         minusButton[k].mousePressed(removeParticle);
         minusButton[k].class('qoptions');
 
@@ -664,7 +430,7 @@ function FormulaInputCalculation(particleType) {
 
   if (simulatorMode == "Nernst") {
 
-    if (particlesProperties[particleType]["display"]) {
+    if (particleMapper[particleType]["display"]) {
     var answer = calculateNernst(particleType);
     } else {
       equations[1].html('Answer: N/A - Particle Disabled');
@@ -685,9 +451,9 @@ function calculateNernst(particleType) {
       var R = 8.314; // ideal gas constant
       var T = tempSetting; // 37 is the Human Body temperature
       var F = 96485.3329; // Faraday's constant
-      var z = particlesProperties[particleType]["charge"];
-      var Xout = particles["outside"][particleType].length;
-      var Xin = particles["inside"][particleType].length;
+      var z = particleMapper[particleType]["charge"];
+      var Xout = containers.outside.countParticles(particleType);
+      var Xin = containers.inside.countParticles(particleType);
 
       return (R * T) / (z * F) * Math.log(Xout / Xin);
 }
@@ -701,13 +467,13 @@ function calculateGoldman() {
   // Accumulate sums for numerator and denominator
   for (var i = 0; i < particleTypes.length; i++) {
     var particleType = particleTypes[i];
-    if (particlesProperties[particleType]["display"]) {
-      if (particlesProperties[particleType]["charge"] > 0) {
-        numerator += particlesProperties[particleType]["permeability"] * particles["outside"][particleType].length;
-        denominator += particlesProperties[particleType]["permeability"] * particles["inside"][particleType].length;
+    if (particleMapper[particleType]["display"]) {
+      if (particleMapper[particleType]["charge"] > 0) {
+        numerator += particleMapper[particleType]["permeability"] * containers["outside"].countParticles(particleType);
+        denominator += particleMapper[particleType]["permeability"] * containers["inside"].countParticles(particleType);
       } else {
-        numerator += particlesProperties[particleType]["permeability"] * particles["inside"][particleType].length;
-        denominator += particlesProperties[particleType]["permeability"] * particles["outside"][particleType].length;
+        numerator += particleMapper[particleType]["permeability"] * containers["inside"].countParticles(particleType);
+        denominator += particleMapper[particleType]["permeability"] * containers["outside"].countParticles(particleType);
       }
     }
   }
@@ -719,7 +485,7 @@ function disableInputForParticle(particleType) {
   // usage: "Na", "Cl", "K"
 
   var row = 4;
-  var particle_id = particlesProperties[particleType]["id"];
+  var particle_id = particleMapper[particleType].id;
   inside_id = particle_id + 1;
   outside_id = particle_id + 1 + row;
   input[inside_id].attribute('disabled', '');
@@ -729,15 +495,10 @@ function disableInputForParticle(particleType) {
   plusButton[outside_id].attribute('disabled', '');
   minusButton[outside_id].attribute('disabled', '');
 
-  for (const particle of particles["inside"][particleType]) {
-    particle.setDisplay(false);
-  }
+  containers.inside.setParticleDisplays(particleType, false);
+  containers.outside.setParticleDisplays(particleType, false);
 
-  for (const particle of particles["outside"][particleType]) {
-    particle.setDisplay(false);
-  }
-
-  particlesProperties[particleType]["display"] = false;
+  particleMapper[particleType]["display"] = false;
 }
 
 function enableInputForParticle(particleType) {
@@ -745,7 +506,7 @@ function enableInputForParticle(particleType) {
   // usage: "Na", "Cl", "K"
 
   var row = 4;
-  var particle_id = particlesProperties[particleType]["id"];
+  var particle_id = particleMapper[particleType].id;
   inside_id = particle_id + 1;
   outside_id = particle_id + 1 + row;
   input[inside_id].removeAttribute('disabled');
@@ -755,39 +516,10 @@ function enableInputForParticle(particleType) {
   plusButton[outside_id].removeAttribute('disabled');
   minusButton[outside_id].removeAttribute('disabled');
 
-  for (const particle of particles["inside"][particleType]) {
-    particle.setDisplay(true);
-  }
+  containers.inside.setParticleDisplays(particleType, true);
+  containers.outside.setParticleDisplays(particleType, true);
 
-  for (const particle of particles["outside"][particleType]) {
-    particle.setDisplay(true);
-  }
-
-    particlesProperties[particleType]["display"] = true;
-}
-
-function createText(url, tag) {
-  // input1: string;
-  // usage: 'questions.json' (filename)
-  // input2: string
-  // usage: 'goldman_1', 'nernst_1' (Data.name)
-
-  var xmlhttp = new XMLHttpRequest();
-  xmlhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      var myArr = JSON.parse(this.responseText)
-      document.getElementById("q1").innerHTML = myArr[tag].join('');;
-    }
-  };
-  xmlhttp.open("GET", url, true);
-  xmlhttp.send();
-}
-
-function clone(obj) {
-  return Object.create(
-    Object.getPrototypeOf(obj),
-    Object.getOwnPropertyDescriptors(obj)
-  );
+  particleMapper[particleType].display = true;
 }
 
 function updateInputs(particleType, location, id) {
@@ -804,9 +536,11 @@ function updateInputs(particleType, location, id) {
     ? input[id + row + 1]
     : input[id + 1];
 
-  var oldAmount = particles[location][particleType].length;
-  var transferAmount = particles[transferLocation][particleType].length;
+  var oldAmount = containers[location].countParticles(particleType);
+  var transferAmount = containers[transferLocation].countParticles(particleType);
 
   oldInput.value(oldAmount);
   transferInput.value(transferAmount);
+
+  FormulaInputCalculation(particleType);
 }

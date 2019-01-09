@@ -31,8 +31,8 @@ function makeLayout() {
   questionTitle = createElement("h3", "Goldman-Hodgkin-Katz").parent('questionsdiv');
   questionTitle.id('questionTitle');
 
-  var questionsText
-  questionsText = "Calculate the equilibrium potential for Na and K using the Nernst equation for the following conditions"
+    var questionsText;
+    questionsText = "Calculate the equilibrium potential for Na and K using the Nernst equation for the following conditions";
   var question = createElement("p", questionsText).parent('questionsdiv');
   question.class ("questions");
   question.id("q1");
@@ -97,90 +97,31 @@ function makeLayout() {
   equi = createButton('Equilibrate');
   equi.id('equilibrate-button');
   equi.parent('equationContainer');
-
-  // NOTE: Is there a nicer way to attach event handlers?
   equi.mousePressed(startEquilibrate);
 
   makeNeqMML();
   makeGoldmanEqn();
 
-  simulatorSetting = createElement("div", "Simulation Setting");
+  simulatorSetting = createElement("div", "Simulation Settings");
   simulatorSetting.id('simulatorSetting');
   simulatorSetting.parent("equationdiv");
   document.getElementById('simulatorSetting').style.display = "none";
 
-  var previousLength = 0;
+  makeTable(
+    "NernstSetting",
+    "equationdiv",
+    ["T"],
+    ["K"],
+    [tempSetting, Na.charge]
+  );
 
-  // NOTE: Why use a for loop to create 2 tables?
-  //       Split this loop into a separate function
-  for (var j = 0; j < 2; j++) {
-    var table = createElement('table')
-
-    if (j == 0) {
-      table.id("NernstSetting");
-      table.parent("equationdiv");
-
-      // var content = ["T","z","[X]<sub>out</sub>","[X]<sub>in</sub>"]
-      // var contentUnit = ["K","","mM","mM"]
-      var content = ["T"]
-      var contentUnit = ["K"]
-      var contentDefaultValue = [
-        tempSetting, particlesProperties["Na"].charge
-      ]
-
-    } else {
-      table.id("GoldmanSetting");
-      table.parent("equationdiv");
-
-      // var content = ["T","p<sub>k</sub>","p<sub>Na</sub>","p<sub>Cl</sub>","[K<sup>+</sup>]<sub>out</sub>","[K<sup>+</sup>]<sub>in</sub>"
-      // ,"[Na<sup>+</sup>]<sub>out</sub>","[Na<sup>+</sup>]<sub>in</sub>","[Cl<sup>-</sup>]<sub>out</sub>","[Cl<sup>-</sup>]<sub>in</sub>"]
-      // var contentUnit = ["K","","","","mM","mM","mM","mM","mM","mM"]
-      var content = ["T", "p<sub>Na</sub>", "p<sub>Cl</sub>", "p<sub>K</sub>"]
-      var contentUnit = ["K", "", "", ""]
-      var contentDefaultValue = [
-        tempSetting, particlesProperties["Na"].permeability,
-        particlesProperties["Cl"].permeability,
-        particlesProperties["K"].permeability
-      ]
-    }
-
-    var tableRow = content.length;
-
-    if (previousLength == 0) {
-      var previousLength = content.length;
-    }
-
-    document.getElementById(table.id()).style.display = "none";
-
-    for (var i = 0; i < tableRow; i++) {
-
-      var trow = createElement('tr');
-      trow.parent(table);
-
-      var td0 = createElement('td');
-      td0.parent(trow);
-      var td1 = createElement('td');
-      td1.parent(trow);
-      simSettingText = createElement('h4', content[i]);
-      simSettingText.parent(td0);
-
-      if (j > 0) {
-        k = i + previousLength;
-      } else {
-        k = i;
-      }
-
-      simSetting[k] = createInput();
-      simSetting[k].parent('equationdiv');
-      simSetting[k].value(contentDefaultValue[i])
-      simSetting[k].parent(td1);
-      simSetting[k].id(k);
-      simSetting[k].input(ChangesimulatorSetting);
-
-      var td3 = createElement('td', contentUnit[i]);
-      td3.parent(trow);
-    }
-  }
+  makeTable(
+    "GoldmanSetting",
+    "equationdiv",
+    ["T", "p<sub>Na</sub>", "p<sub>Cl</sub>", "p<sub>K</sub>"],
+    ["K", "", "", ""],
+    [tempSetting, Na.permeability, Cl.permeability, K.permeability]
+  );
 
   // Plot window
   dataPlot = createDiv('<canvas id="dataPlot"></canvas>');
@@ -203,19 +144,18 @@ function makeLayout() {
   simCanvasPause.parent('sim');
   document.getElementById('simCanvasPause').style.display = "none";
 
-  // Now to create the canvas!!
+  // Now to create the canvas
   canvas = createCanvas(canWidth, canHeight);
   canvas.id ('can');
   canvas.parent('sim');
 
-  // NOTE: Better place to attach event handlers? (see before)
   window.onresize = function() {
     if (equationContainerHeighthMul == 0.35) {
       redrawUI(true);
     } else {
       redrawUI(false);
     }
-  }
+  };
 
   // Div to contain the simulatorInput
   simulatorInputContainer = createDiv("");
@@ -597,7 +537,6 @@ function makeGoldmanEqn() {
   mo7Goldman.parent("mrow5Goldman");
 
   // K
-
   msub11Goldman = createElement("msub");
   msub11Goldman.id("msub11Goldman");
   msub11Goldman.parent("mrow5Goldman");
@@ -644,48 +583,36 @@ function redrawUI(questionBox) {
   canvas.size(canWidth, canHeight);
 
   //Relative to parent coordinate
-  containers["outside"] = new Container(
+  containers["outside"].setSize(
     {
       _tl: new Point(0, 0),
       _tr: new Point(canWidth, 0),
       _br: new Point(canWidth, canHeight / 2 - thickness),
       _bl: new Point(0, (canHeight / 2 - thickness))
-    },
-    Container.OUTSIDE_COLOR(),
-    "outside"
+    }
   );
   containers["outside"].draw();
 
-  UIBoxs[0] = new UIBox(
+  backgroundMembrane = new Rectangle(
     {
       _tl: new Point(0, 0),
       _tr: new Point(canWidth, 0),
-      _br: new Point(canWidth, canHeight / 2),
-      _bl: new Point(0, canHeight / 2)
-    }
-  );
-  UIBoxs[0].draw();
+      _br: new Point(canWidth, canHeight),
+      _bl: new Point(0, canHeight)
+    },
+    color(100, 155, 180, 100)
+  )
+  backgroundMembrane.draw();
 
-  containers["inside"] = new Container(
+  containers["inside"].setSize(
     {
       _tl: new Point(0, canHeight / 2 + thickness),
       _tr: new Point(canWidth, canHeight / 2 + thickness),
       _br: new Point(canWidth, canHeight),
       _bl: new Point(0, canHeight)
-    },
-    Container.INSIDE_COLOR(),
-    "inside"
-  );
-
-  UIBoxs[1] = new UIBox(
-    {
-      _tl: new Point(0, canHeight / 2),
-      _tr: new Point(canWidth, canHeight / 2),
-      _br: new Point(canWidth, canHeight),
-      _bl: new Point(0, canHeight)
     }
   );
-  UIBoxs[1].draw();
+
   containers["inside"].draw();
 
   // NOTE: does this still do anything? When uncommented, it seems to have no effect.
@@ -721,4 +648,69 @@ function adjustUISize(multiple) {
   controlsRight.size(simuWidth / 2, 0.35 * canHeight);
   particleControl.size(simuWidth, 0.1 * 0.80 * (windowHeight - 36));
   canvas.size(canWidth, canHeight);
+}
+
+function hideQuestion(evt) {
+  // input: the element that triggered the event (hide buttons [arrow]);
+
+  if (equationContainerHeighthMul == equationHeightPercent) { //Turn the question menu off
+    document.getElementById("hidebarText").innerText = ">"
+    document.getElementById('simulatorSetting').style.display = "flex";
+
+    if (simulatorMode == "Nernst") {
+      document.getElementById('NernstSetting').style.display = "initial";
+    } else {
+      document.getElementById('GoldmanSetting').style.display = "initial";
+    }
+    document.getElementById('helpQuestion').style.display = "none";
+    document.getElementById('helpSetting').style.height = "100%";
+    redrawUI(false);
+  } else { //Turn the question menu on
+    document.getElementById("hidebarText").innerText = "<"
+    document.getElementById('simulatorSetting').style.display = "none";
+
+    if (simulatorMode == "Nernst") {
+      document.getElementById('NernstSetting').style.display = "none";
+    } else {
+      document.getElementById('GoldmanSetting').style.display = "none";
+    }
+    document.getElementById('helpQuestion').style.display = "initial";
+    document.getElementById('helpSetting').style.height = "35%";
+    redrawUI(true);
+  }
+}
+
+function makeTable(id, parent, content, contentUnit, contentDefaultValue, prevLength) {
+  var table = createElement('table')
+
+  table.id(id);
+  table.parent(parent);
+
+  var tableRow = content.length;
+
+  document.getElementById(table.id()).style.display = "none";
+
+  for (var i = 0; i < tableRow; i++) {
+    var trow = createElement('tr');
+    trow.parent(table);
+
+    var td0 = createElement('td');
+    td0.parent(trow);
+
+    var td1 = createElement('td');
+    td1.parent(trow);
+
+    simSettingText = createElement('h4', content[i]);
+    simSettingText.parent(td0);
+
+    simSetting[i] = createInput();
+    simSetting[i].parent(parent);
+    simSetting[i].value(contentDefaultValue[i])
+    simSetting[i].parent(td1);
+    simSetting[i].id(i);
+    simSetting[i].input(ChangesimulatorSetting);
+
+    var td3 = createElement('td', contentUnit[i]);
+    td3.parent(trow);
+  }
 }
