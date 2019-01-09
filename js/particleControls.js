@@ -19,7 +19,7 @@ function insertParticle(evt) {
     "outside" :
     "inside";
 
-  bioMainSequence.insertNewParticle(particleLocation, particleType, MaxParticles);
+  bioMainSequence.insertNewParticle(particleLocation, particleType);
   updateInputs(particleType, particleLocation, id);
 }
 
@@ -46,7 +46,8 @@ function changeNumParticles(evt) {
     "outside" :
     "inside";
 
-  var numParticles = bioMainSequence.getNumParticles(particleLocation, particleType);
+  var numParticles = animationSequencer.current().getNumParticles(particleLocation, particleType);
+  var MaxParticles = animationSequencer.current().MAX_PARTICLES;
 
   var updatedAmount = input[eventID].value();
 
