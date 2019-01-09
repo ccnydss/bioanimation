@@ -18,7 +18,7 @@ var particlesProperties = {
     // "inside": 2,
     "inside": 1,
     // "outside": 14
-    "outside": 0
+    "outside": 1
   },
   "Cl": {
     "id": 1,
@@ -27,8 +27,8 @@ var particlesProperties = {
     "display": false,
     "charge": -1,
     "permeability": 0.1,
-    "inside": 0,
-    "outside": 0
+    "inside": 1,
+    "outside": 1
     // "inside": 13,
     // "outside": 1
   },
@@ -39,8 +39,8 @@ var particlesProperties = {
     "display": false,
     "charge": 1,
     "permeability": 1,
-    "inside": 0,
-    "outside": 0
+    "inside": 1,
+    "outside": 1
     // "inside": 1,
     // "outside": 12
   }
@@ -167,7 +167,10 @@ function setup() {
   }
 
   makeUIs(true);
+
+  dataChartInitialize = false; //This variable is used to solve Synchronous problem
   startNernst();
+  dataChartInitialize = true;
 
   //Only show one particle at the beginning
   disableInputForParticle("Cl");

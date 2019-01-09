@@ -167,6 +167,10 @@ function startNernst(evt) {
   NernstButtonStatus.style.backgroundColor = "#74b9ff";
   GoldmanButtonStatus.style.backgroundColor = "#dfe6e9";
 
+    //disable the net in the plot
+    if(dataChartInitialize)
+    dataChart.getDatasetMeta(3).hidden = true;
+
   //enable last selected Ions
   for (var j = 0; j < particleTypes.length; j++) {
     var checkBoxParticle = document.getElementById('checkbox' + particleTypes[j]).innerText;
@@ -177,32 +181,23 @@ function startNernst(evt) {
 
       //enable its particles
       checkboxes[j].checked(true)
-      particlesProperties[checkBoxParticle]["display"] = true;
       enableInputForParticle(checkBoxParticle);
+      //Also enable the particle in the plot
 
-      for (const particle of particles["inside"][checkBoxParticle]) {
-        particle.setDisplay(true);
-      }
-
-      for (const particle of particles["outside"][checkBoxParticle]) {
-        particle.setDisplay(true);
-      }
+      if(dataChartInitialize)
+      dataChart.getDatasetMeta(j).hidden = false;
 
       FormulaInputCalculation(checkBoxParticle);
       //disable other ions if they are on?
     } else if (checkBoxParticle != lastNernstParticle & checkboxes[j].checked()) {
       //disable others particles
       checkboxes[j].checked(false)
-      particlesProperties[checkBoxParticle]["display"] = false;
       disableInputForParticle(checkBoxParticle);
+      //Also disable the particle in the plot
 
-      for (const particle of particles["inside"][checkBoxParticle]) {
-        particle.setDisplay(false);
-      }
+      if(dataChartInitialize)
+      dataChart.getDatasetMeta(j).hidden = true;
 
-      for (const particle of particles["outside"][checkBoxParticle]) {
-        particle.setDisplay(false);
-      }
     }
   }
 }
@@ -233,24 +228,22 @@ function startGoldman(evt) {
   GoldmanButtonStatus.style.backgroundColor = "#74b9ff";
   NernstButtonStatus.style.backgroundColor = "#dfe6e9";
 
+  //enable the net in the plot
+  dataChart.getDatasetMeta(3).hidden = false;
+
   //enable all Ions
   for (var j = 0; j < particleTypes.length; j++) {
+
+  //enable all the particle in the plot
+  dataChart.getDatasetMeta(j).hidden = false;
+
     var checkBoxParticle = document.getElementById('checkbox' + particleTypes[j]).innerText;
 
     if (!checkboxes[j].checked()) {
 
       //enable those particles
       checkboxes[j].checked(true)
-      particlesProperties[checkBoxParticle]["display"] = true;
       enableInputForParticle(checkBoxParticle);
-
-      for (const particle of particles["inside"][checkBoxParticle]) {
-        particle.setDisplay(true);
-      }
-
-      for (const particle of particles["outside"][checkBoxParticle]) {
-        particle.setDisplay(true);
-      }
     }
   }
 
@@ -377,7 +370,7 @@ function removeParticle(evt) {
 
   var particleArray = particles[particleLocation][particleType];
 
-  if (particleArray.length <= 0) return;
+  if (particleArray.length <= 1) return;
 
   particleArray.splice(particleArray.length - 1, 1);
 
@@ -482,15 +475,6 @@ function checkedEvent(evt) {
     this.checked(true); //Left checkbox checked by default
   } else {
     var particleType = this.elt.innerText;
-    particlesProperties[particleType]["display"] = this.checked();
-
-    for (const particle of particles["inside"][particleType]) {
-      particle.setDisplay(this.checked());
-    }
-
-    for (const particle of particles["outside"][particleType]) {
-      particle.setDisplay(this.checked());
-    }
 
     if (this.checked() == false) {
       disableInputForParticle(particleType);
@@ -513,16 +497,13 @@ function checkedEvent(evt) {
 
             //Disable those particles
             checkboxes[j].checked(false)
-            particlesProperties[checkBoxParticle]["display"] = false;
             disableInputForParticle(checkBoxParticle);
 
-            for (const particle of particles["inside"][checkBoxParticle]) {
-              particle.setDisplay(false);
-            }
-
-            for (const particle of particles["outside"][checkBoxParticle]) {
-              particle.setDisplay(false);
-            }
+              //Also disable the particle in the plot
+              dataChart.getDatasetMeta(j).hidden = true;
+          } else if(particlesProperties[checkBoxParticle]["display"] == true) {
+              //Enable the particle in the plot
+              dataChart.getDatasetMeta(j).hidden = false;
           }
         }
       }
@@ -679,44 +660,58 @@ function NernstFormula(evt) {
 function FormulaInputCalculation(particleType) {
   // input: string;
   // usage: "Na", "Cl", "K"
+  // output: float;
 
   if (simulatorMode == "Nernst") {
-    var R = 8.314;
-    var T = tempSetting;
-    var z = particlesProperties[particleType]["charge"];
+
     if (particlesProperties[particleType]["display"]) {
-      var Xout = particles["outside"][particleType].length;
-      var Xin = particles["inside"][particleType].length;
+    var answer = calculateNernst(particleType);
     } else {
       equations[1].html('Answer: N/A - Particle Disabled');
       return;
     }
-    var F = 96485.3329; //0.096485;
-    var answer = (R * T) / (z * F) * Math.log(Xout / Xin);
 
   } else {
-    var R = 8.314; // ideal gas constant
-    var T = tempSetting; // 37 is the Human Body temperature
-    var F = 96485.3329; // Faraday's constant
-    var numerator = 0;
-    var denominator = 0;
-    // Accumulate sums for numerator and denominator
-    for (var i = 0; i < particleTypes.length; i++) {
-      var particleType = particleTypes[i];
-      if (particlesProperties[particleType]["display"]) {
-        if (particlesProperties[particleType]["charge"] > 0) {
-          numerator += particlesProperties[particleType]["permeability"] * particles["outside"][particleType].length;
-          denominator += particlesProperties[particleType]["permeability"] * particles["inside"][particleType].length;
-        } else {
-          numerator += particlesProperties[particleType]["permeability"] * particles["inside"][particleType].length;
-          denominator += particlesProperties[particleType]["permeability"] * particles["outside"][particleType].length;
-        }
-      }
-    }
-    var answer = ((R * T) / F) * Math.log(numerator / denominator);
+    var answer = calculateGoldman();
   }
 
   equations[1].html('Answer: ' + answer.toFixed(4) + 'V');
+
+}
+
+function calculateNernst(particleType) {
+  // input: string;
+
+      var R = 8.314; // ideal gas constant
+      var T = tempSetting; // 37 is the Human Body temperature
+      var F = 96485.3329; // Faraday's constant
+      var z = particlesProperties[particleType]["charge"];
+      var Xout = particles["outside"][particleType].length;
+      var Xin = particles["inside"][particleType].length;
+
+      return (R * T) / (z * F) * Math.log(Xout / Xin);
+}
+
+function calculateGoldman() {
+  var R = 8.314; // ideal gas constant
+  var T = tempSetting; // 37 is the Human Body temperature
+  var F = 96485.3329; // Faraday's constant
+  var numerator = 0;
+  var denominator = 0;
+  // Accumulate sums for numerator and denominator
+  for (var i = 0; i < particleTypes.length; i++) {
+    var particleType = particleTypes[i];
+    if (particlesProperties[particleType]["display"]) {
+      if (particlesProperties[particleType]["charge"] > 0) {
+        numerator += particlesProperties[particleType]["permeability"] * particles["outside"][particleType].length;
+        denominator += particlesProperties[particleType]["permeability"] * particles["inside"][particleType].length;
+      } else {
+        numerator += particlesProperties[particleType]["permeability"] * particles["inside"][particleType].length;
+        denominator += particlesProperties[particleType]["permeability"] * particles["outside"][particleType].length;
+      }
+    }
+  }
+  return answer = ((R * T) / F) * Math.log(numerator / denominator);
 }
 
 function disableInputForParticle(particleType) {
@@ -733,6 +728,16 @@ function disableInputForParticle(particleType) {
   minusButton[inside_id].attribute('disabled', '');
   plusButton[outside_id].attribute('disabled', '');
   minusButton[outside_id].attribute('disabled', '');
+
+  for (const particle of particles["inside"][particleType]) {
+    particle.setDisplay(false);
+  }
+
+  for (const particle of particles["outside"][particleType]) {
+    particle.setDisplay(false);
+  }
+
+  particlesProperties[particleType]["display"] = false;
 }
 
 function enableInputForParticle(particleType) {
@@ -749,6 +754,16 @@ function enableInputForParticle(particleType) {
   minusButton[inside_id].removeAttribute('disabled');
   plusButton[outside_id].removeAttribute('disabled');
   minusButton[outside_id].removeAttribute('disabled');
+
+  for (const particle of particles["inside"][particleType]) {
+    particle.setDisplay(true);
+  }
+
+  for (const particle of particles["outside"][particleType]) {
+    particle.setDisplay(true);
+  }
+
+    particlesProperties[particleType]["display"] = true;
 }
 
 function createText(url, tag) {

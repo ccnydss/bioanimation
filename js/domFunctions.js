@@ -56,11 +56,14 @@ function makeLayout() {
       document.getElementById("hidebarText").innerText = ">"
       document.getElementById('simulatorSetting').style.display = "flex";
 
+      // Enable all the setting menu
       if (simulatorMode == "Nernst") {
         document.getElementById('NernstSetting').style.display = "initial";
       } else {
         document.getElementById('GoldmanSetting').style.display = "initial";
       }
+      document.getElementById('dataPlot').style.display = "initial"
+
       document.getElementById('helpQuestion').style.display = "none";
       document.getElementById('helpSetting').style.height = "100%";
       redrawUI(false);
@@ -68,11 +71,14 @@ function makeLayout() {
       document.getElementById("hidebarText").innerText = "<"
       document.getElementById('simulatorSetting').style.display = "none";
 
+      // Disable all the setting menu
       if (simulatorMode == "Nernst") {
         document.getElementById('NernstSetting').style.display = "none";
       } else {
         document.getElementById('GoldmanSetting').style.display = "none";
       }
+      document.getElementById('dataPlot').style.display = "none";
+
       document.getElementById('helpQuestion').style.display = "initial";
       document.getElementById('helpSetting').style.height = "35%";
       redrawUI(true);
@@ -176,6 +182,13 @@ function makeLayout() {
     }
   }
 
+  // Plot window
+  dataPlot = createDiv('<canvas id="dataPlot"></canvas>');
+  dataPlot.parent('equationdiv');
+  var dataPlot = document.querySelector('#dataPlot')
+  dataPlot.style.display = "none";
+  // Plot window
+
   simulator = createDiv("");
   simulator.id('sim');
   simulator.parent('secondBox');
@@ -192,7 +205,7 @@ function makeLayout() {
 
   // Now to create the canvas!!
   canvas = createCanvas(canWidth, canHeight);
-  canvas.class ('can');
+  canvas.id ('can');
   canvas.parent('sim');
 
   // NOTE: Better place to attach event handlers? (see before)
