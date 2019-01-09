@@ -43,14 +43,14 @@ function startNernst(evt) {
       //enable its particles
       checkboxes[j].checked(true)
       particleMapper[checkBoxParticle].display = true;
+
       enableInputForParticle(checkBoxParticle);
       //Also enable the particle in the plot
 
       if(dataChartInitialize)
       dataChart.getDatasetMeta(j).hidden = false;
 
-      containers["inside"].setParticleDisplays(checkBoxParticle, true);
-      containers["outside"].setParticleDisplays(checkBoxParticle, true);
+      bioMainSequence.setContainerDisplays(checkBoxParticle, true);
 
       FormulaInputCalculation(checkBoxParticle);
       //disable other ions if they are on?
@@ -64,8 +64,7 @@ function startNernst(evt) {
       if(dataChartInitialize)
       dataChart.getDatasetMeta(j).hidden = true;
 
-      containers.inside.setParticleDisplays(checkBoxParticle, false);
-      containers.outside.setParticleDisplays(checkBoxParticle, false);
+      bioMainSequence.setContainerDisplays(checkBoxParticle, false);
     }
   }
 }
@@ -114,8 +113,7 @@ function startGoldman(evt) {
       particleMapper[checkBoxParticle].display = true;
       enableInputForParticle(checkBoxParticle);
 
-      containers.inside.setParticleDisplays(checkBoxParticle, true);
-      containers.outside.setParticleDisplays(checkBoxParticle, true);
+      bioMainSequence.setContainerDisplays(checkBoxParticle, true);
     }
   }
 
@@ -238,8 +236,7 @@ function checkedEvent(evt) {
     var particleType = this.elt.innerText;
     particleMapper[particleType].display = this.checked();
 
-    containers.inside.setParticleDisplays(particleType, this.checked());
-    containers.outside.setParticleDisplays(particleType, this.checked());
+    bioMainSequence.setContainerDisplays(particleType, this.checked());
 
     if (this.checked() == false) {
       disableInputForParticle(particleType);
@@ -263,8 +260,7 @@ function checkedEvent(evt) {
             particleMapper[checkBoxParticle].display = false;
             disableInputForParticle(checkBoxParticle);
 
-            containers.inside.setParticleDisplays(checkBoxParticle, false);
-            containers.outside.setParticleDisplays(checkBoxParticle, false);
+            bioMainSequence.setContainerDisplays(checkBoxParticle, false);
 
             //Also disable the particle in the plot
             dataChart.getDatasetMeta(j).hidden = true;
@@ -285,22 +281,6 @@ var checkboxes = [];
 function makeUIs(creation) {
   // input: Boolean;
   // usage: True is for initializing the UI; False is for recreating UI when browser window is resized (responsive UI)
-
-  // Create channels
-  var division = new Rectangle (
-    {
-    _tl: containers["outside"].bl,
-    _tr: containers["outside"].br,
-    _br: containers["inside"].tr,
-    _bl: containers["inside"].tl
-    }
-  );
-
-  channels = createChannels(division, particleTypes.length);
-
-  for (var i = 0; i < channels.length; i++) {
-    channels[i].draw();
-  }
 
   // Set up the section where answers are displayed
   if (creation == true) {
@@ -329,7 +309,7 @@ function makeUIs(creation) {
     GoldmanButton.mousePressed(startGoldman);
 
     var row = 4;
-    for (var k = 0; k < Object.keys(containers).length * row; k++) {
+    for (var k = 0; k < bioMainSequence.getNumContainers() * row; k++) {
       if (k == 0) {
         var text = 'Extracellular Control:';
       } else if (k == row) {
@@ -338,7 +318,6 @@ function makeUIs(creation) {
         var id = (k % row) - 1;
         var particleType = particleTypes[id];
         var particleLocation = (k <= 3) ? "outside" : "inside";
-        var particleArray = containers[particleLocation].particles[particleType]
 
         var particleSuffix = (k <= 3) ?
           "out" :
@@ -347,7 +326,7 @@ function makeUIs(creation) {
           "+" :
           "-";
         var text = '[' + particleType + '<sup>' + particleCharge + '</sup>]' + '<sub>' + particleSuffix + '</sub>&nbsp;';
-        var Value = particleArray.length;
+        var Value = bioMainSequence.getNumParticles(particleLocation, particleType);
       }
       if (k == 0 || k == row) {
         textboard[k] = createElement('h4', text);
@@ -429,33 +408,28 @@ function FormulaInputCalculation(particleType) {
   // output: float;
 
   if (simulatorMode == "Nernst") {
-
     if (particleMapper[particleType]["display"]) {
     var answer = calculateNernst(particleType);
     } else {
       equations[1].html('Answer: N/A - Particle Disabled');
       return;
     }
-
   } else {
     var answer = calculateGoldman();
   }
-
   equations[1].html('Answer: ' + answer.toFixed(4) + 'V');
-
 }
 
 function calculateNernst(particleType) {
   // input: string;
+  var R = 8.314; // ideal gas constant
+  var T = tempSetting; // 37 is the Human Body temperature
+  var F = 96485.3329; // Faraday's constant
+  var z = particleMapper[particleType]["charge"];
+  var Xout = bioMainSequence.getNumParticles("outside", particleType);
+  var Xin = bioMainSequence.getNumParticles("inside", particleType);
 
-      var R = 8.314; // ideal gas constant
-      var T = tempSetting; // 37 is the Human Body temperature
-      var F = 96485.3329; // Faraday's constant
-      var z = particleMapper[particleType]["charge"];
-      var Xout = containers.outside.countParticles(particleType);
-      var Xin = containers.inside.countParticles(particleType);
-
-      return (R * T) / (z * F) * Math.log(Xout / Xin);
+  return (R * T) / (z * F) * Math.log(Xout / Xin);
 }
 
 function calculateGoldman() {
@@ -467,13 +441,17 @@ function calculateGoldman() {
   // Accumulate sums for numerator and denominator
   for (var i = 0; i < particleTypes.length; i++) {
     var particleType = particleTypes[i];
-    if (particleMapper[particleType]["display"]) {
-      if (particleMapper[particleType]["charge"] > 0) {
-        numerator += particleMapper[particleType]["permeability"] * containers["outside"].countParticles(particleType);
-        denominator += particleMapper[particleType]["permeability"] * containers["inside"].countParticles(particleType);
+    if (particleMapper[particleType].display) {
+      var numOutside = bioMainSequence.getNumParticles("outside", particleType);
+      var numInside = bioMainSequence.getNumParticles("inside", particleType);
+
+      if (particleMapper[particleType].charge > 0) {
+        numerator += particleMapper[particleType].permeability * numOutside;
+
+        denominator += particleMapper[particleType].permeability * numInside;
       } else {
-        numerator += particleMapper[particleType]["permeability"] * containers["inside"].countParticles(particleType);
-        denominator += particleMapper[particleType]["permeability"] * containers["outside"].countParticles(particleType);
+        numerator += particleMapper[particleType].permeability * numInside;
+        denominator += particleMapper[particleType].permeability * numOutside;
       }
     }
   }
@@ -495,8 +473,7 @@ function disableInputForParticle(particleType) {
   plusButton[outside_id].attribute('disabled', '');
   minusButton[outside_id].attribute('disabled', '');
 
-  containers.inside.setParticleDisplays(particleType, false);
-  containers.outside.setParticleDisplays(particleType, false);
+  animationSequencer.current().setContainerDisplays(particleType, false);
 
   particleMapper[particleType]["display"] = false;
 }
@@ -509,6 +486,7 @@ function enableInputForParticle(particleType) {
   var particle_id = particleMapper[particleType].id;
   inside_id = particle_id + 1;
   outside_id = particle_id + 1 + row;
+
   input[inside_id].removeAttribute('disabled');
   input[outside_id].removeAttribute('disabled');
   plusButton[inside_id].removeAttribute('disabled');
@@ -516,8 +494,7 @@ function enableInputForParticle(particleType) {
   plusButton[outside_id].removeAttribute('disabled');
   minusButton[outside_id].removeAttribute('disabled');
 
-  containers.inside.setParticleDisplays(particleType, true);
-  containers.outside.setParticleDisplays(particleType, true);
+  animationSequencer.current().setContainerDisplays(particleType, true);
 
   particleMapper[particleType].display = true;
 }
@@ -536,8 +513,8 @@ function updateInputs(particleType, location, id) {
     ? input[id + row + 1]
     : input[id + 1];
 
-  var oldAmount = containers[location].countParticles(particleType);
-  var transferAmount = containers[transferLocation].countParticles(particleType);
+  var oldAmount = bioMainSequence.getNumParticles(location, particleType);
+  var transferAmount = bioMainSequence.getNumParticles(transferLocation, particleType);
 
   oldInput.value(oldAmount);
   transferInput.value(transferAmount);

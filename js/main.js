@@ -8,12 +8,6 @@ var velocityRange = [-1, -1.25, 1.25, 1];
 //For local particles on each box
 var MaxParticles = 25;
 
-var channels = {
-  "Na": [],
-  "Cl": [],
-  "K": []
-};
-
 var thickness = 25;
 
 var plusButton = [],
@@ -34,59 +28,19 @@ var tempSetting = (37 + 273.13);
 
 var backgroundMembrane;
 
+var bioMainSequence;
+var animationSequencer;
+
 function setup() {
   noFill();
 
   // Defines the simulator's layout as well as "canWidth", "canHeight"
   makeLayout();
 
-  backgroundMembrane = new Rectangle (
-    {
-      _tl: new Point(0, 0),
-      _tr: new Point(canWidth, 0),
-      _br: new Point(canWidth, canHeight),
-      _bl: new Point(0, canHeight)
-    },
-    color(100, 155, 180, 100)
-  )
-  backgroundMembrane.draw();
-
-  containers["outside"] = new Container (
-    {
-      _tl: new Point(0, 0),
-      _tr: new Point(canWidth, 0),
-      _br: new Point(canWidth, canHeight / 2 - thickness),
-      _bl: new Point(0, (canHeight / 2 - thickness))
-    },
-    Container.OUTSIDE_COLOR,
-    "outside"
-  );
-
-  containers["inside"] = new Container (
-    {
-      _tl: new Point(0, canHeight / 2 + thickness),
-      _tr: new Point(canWidth, canHeight / 2 + thickness),
-      _br: new Point(canWidth, canHeight),
-      _bl: new Point(0, canHeight)
-    },
-    Container.INSIDE_COLOR,
-    "inside"
-  );
-
-  // Initialize containers with particles
-  for (var loc in containers) {
-    for (var particle in containers[loc].particles) {
-      var amount = particleMapper[particle][loc];
-
-      for (var i = 0; i < amount; i++) {
-        var newPart = createNewParticle(particle, containers[loc])
-        containers[loc].addParticle(newPart);
-      }
-    }
-  }
-
-  containers["outside"].draw();
-  containers["inside"].draw();
+  // Create the animation sequencer
+  bioMainSequence = new BioMain();
+  animationSequencer = new SequenceManager([bioMainSequence])
+  animationSequencer.setup();
 
   makeUIs(true);
 
@@ -97,12 +51,6 @@ function setup() {
   //Only show one particle at the beginning
   disableInputForParticle("Cl");
   disableInputForParticle("K");
-
-  containers.inside.setParticleDisplays("Cl", false);
-  containers.outside.setParticleDisplays("Cl", false);
-
-  containers.inside.setParticleDisplays("K", false);
-  containers.outside.setParticleDisplays("K", false);
 
   FormulaInputCalculation(particleTypes[0]);
 
@@ -120,17 +68,5 @@ function setup() {
 
 function draw() {
   clear();
-
-  backgroundMembrane.draw();
-
-  strokeWeight(0);
-
-  containers["inside"].draw();
-  containers["outside"].draw();
-
-  for (var i = 0; i < channels.length; i++) {
-    channels[i].draw();
-  }
-
-  strokeWeight(1);
+  animationSequencer.draw();
 }
