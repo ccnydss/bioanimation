@@ -47,44 +47,6 @@ function makeLayout() {
   hideBar.parent('equationContainer');
   hideBar.mousePressed(hideQuestion);
 
-  // NOTE: Split this into a separate function
-  function hideQuestion(evt) {
-    // input: the element that triggered the event (hide buttons [arrow]);
-
-    if (equationContainerHeighthMul == equationHeightPercent) { //Turn the question menu off
-      document.getElementById("hidebarText").innerText = ">"
-      document.getElementById('simulatorSetting').style.display = "flex";
-
-      // Enable all the setting menu
-      if (simulatorMode == "Nernst") {
-        document.getElementById('NernstSetting').style.display = "initial";
-      } else {
-        document.getElementById('GoldmanSetting').style.display = "initial";
-      }
-      document.getElementById('dataPlot').style.display = "initial"
-
-      document.getElementById('helpQuestion').style.display = "none";
-      document.getElementById('helpSetting').style.height = "100%";
-      redrawUI(false);
-    } else { //Turn the question menu on
-      document.getElementById("hidebarText").innerText = "<"
-      document.getElementById('simulatorSetting').style.display = "none";
-
-      // Disable all the setting menu
-      if (simulatorMode == "Nernst") {
-        document.getElementById('NernstSetting').style.display = "none";
-      } else {
-        document.getElementById('GoldmanSetting').style.display = "none";
-      }
-      document.getElementById('dataPlot').style.display = "none";
-
-      document.getElementById('helpQuestion').style.display = "initial";
-      document.getElementById('helpSetting').style.height = "35%";
-      redrawUI(true);
-    }
-
-  }
-
   hideBarText = createElement("div", "<");
   hideBarText.id('hidebarText');
   hideBarText.parent("hidebar");
@@ -213,83 +175,33 @@ function renderMathEqn() {
     document.getElementById("equationdiv").appendChild(goldmanEqn);
 }
 
-// NOTE: Might want to rename this function
-function redrawUI(questionBox) {
-  // input: Boolean
-  // usage: True is for initializing the UI; False is for recreating UI when browser window is resized (responsive UI)
-
-  if (questionBox == true) {
-    equationContainerHeighthMul = equationHeightPercent;
-  } else {
-    equationContainerHeighthMul = 1;
-  }
-
-  adjustUISize(equationContainerHeighthMul);
-  canvas.size(canWidth, canHeight);
-
-  //Relative to parent coordinate
-  animationSequencer.current().setContainerSizes(canWidth, canHeight);
-
-  // NOTE: does this still do anything? When uncommented, it seems to have no effect.
-  makeUIs(false)
-}
-
-function adjustUISize(multiple) {
-  // input: Floats
-  // usage: Resizing the question/equation window; 0.35 (including question), 1 (excluding question)
-
-  simuWidth = 0.65 * windowWidth;
-  stage.size(windowWidth, (windowHeight - 36));
-  firstBox.size(0.35 * windowWidth, (windowHeight - 36));
-  secondBox.size(0.65 * windowWidth, (windowHeight - 36));
-  questions.size(0.35 * windowWidth, (1 - multiple) * (windowHeight - 36));
-
-  equationContainer.size(0.35 * windowWidth, multiple * (windowHeight - 36));
-  leftBox.size(0.35 * windowWidth, (1 - multiple) * (windowHeight - 36));
-  hideBar.size(0.35 * windowWidth, 20);
-  equi.size(0.35 * windowWidth, 40);
-  equation.size(0.35 * windowWidth, multiple * (windowHeight - 36) - 40 - 20);
-  simulator.size(0.65 * windowWidth, 0.65 * (windowHeight - 36));
-
-  // Define the global canWidth & canHeight variables
-  canWidth = simulator.size().width;
-
-  canHeight = 1 * (simulator.size().height - 4);
-
-  simulatorInputContainer.size(0.65 * windowWidth, 0.35 * (windowHeight - 36));
-  simulatorInput.size(simuWidth, 0.35 * 0.90 * (windowHeight - 36));
-  controlsLeft.size(simuWidth / 2, 0.35 * canHeight);
-  controlsRight.size(simuWidth / 2, 0.35 * canHeight);
-  particleControl.size(simuWidth, 0.1 * 0.80 * (windowHeight - 36));
-  canvas.size(canWidth, canHeight);
-}
-
 function hideQuestion(evt) {
   // input: the element that triggered the event (hide buttons [arrow]);
+  if (equationContainerHeighthMul == equationHeightPercent) {
+    //Turn the question menu off
+    renderUI("hidebarText",true)
+    renderUI("simulatorSetting",true)
 
-  if (equationContainerHeighthMul == equationHeightPercent) { //Turn the question menu off
-    document.getElementById("hidebarText").innerText = ">"
-    document.getElementById('simulatorSetting').style.display = "flex";
+    var curUI = (simulatorMode == "Nernst") ? "NernstSetting" : "GoldmanSetting"
+    renderUI(curUI,true)
 
-    if (simulatorMode == "Nernst") {
-      document.getElementById('NernstSetting').style.display = "initial";
-    } else {
-      document.getElementById('GoldmanSetting').style.display = "initial";
-    }
-    document.getElementById('helpQuestion').style.display = "none";
-    document.getElementById('helpSetting').style.height = "100%";
+    renderUI("dataPlot",true)
+    renderUI("helpSetting",true)
+    renderUI("helpQuestion",false)
+
     redrawUI(false);
-  } else { //Turn the question menu on
-    document.getElementById("hidebarText").innerText = "<"
-    document.getElementById('simulatorSetting').style.display = "none";
+  } else {
+    //Turn the question menu on
+    renderUI("hidebarText",false)
+    renderUI("simulatorSetting",false)
 
-    if (simulatorMode == "Nernst") {
-      document.getElementById('NernstSetting').style.display = "none";
-    } else {
-      document.getElementById('GoldmanSetting').style.display = "none";
-    }
-    document.getElementById('helpQuestion').style.display = "initial";
-    document.getElementById('helpSetting').style.height = "35%";
+    var curUI = (simulatorMode == "Nernst") ? "NernstSetting" : "GoldmanSetting"
+    renderUI(curUI,false)
+
+    renderUI("dataPlot",false)
+    renderUI("helpSetting",false)
+    renderUI("helpQuestion",true)
+
     redrawUI(true);
   }
 }
