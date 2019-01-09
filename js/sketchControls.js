@@ -140,39 +140,23 @@ function toggleLoop() {
 
 function keyPressed() {
   var spacebar = 32;
-
   var Q_key = 81;
   var W_key = 87;
-  var A_key = 65;
-  var S_key = 83;
-  var E_key = 69;
 
   switch (keyCode) {
     case spacebar:
       toggleLoop();
       break;
 
-      // NOTE: These no longer work because second param should be array
     case Q_key:
-      transferParticle(particleTypes[0], "outside");
+      animationSequencer.prev(false);
+      updateAll();
       break;
 
     case W_key:
-      transferParticle(particleTypes[1], "outside");
+      animationSequencer.next(false);
+      updateAll();
       break;
-
-    case A_key:
-      transferParticle(particleTypes[0], "inside");
-      break;
-
-    case S_key:
-      transferParticle(particleTypes[1], "inside");
-      break;
-
-    case E_key:
-      // NOTE: "E" key breaks when pushed in Nernst mode -- it transfers the Cl particles too
-      equilibrate(particleTypes[0]);
-      equilibrate(particleTypes[1]);
   }
 }
 
@@ -399,7 +383,7 @@ function FormulaInputCalculation(particleType) {
 
   if (simulatorMode == "Nernst") {
     if (particleMapper[particleType]["display"]) {
-    var answer = calculateNernst(particleType);
+      var answer = calculateNernst(particleType);
     } else {
       equations[1].html('Answer: N/A - Particle Disabled');
       return;
@@ -483,6 +467,17 @@ function enableInputForParticle(particleType) {
   minusButton[outside_id].removeAttribute('disabled');
 
   animationSequencer.current().setContainerDisplays(particleType, true);
+}
+
+function updateAll() {
+  updateInputs("Na", "outside", 0);
+  updateInputs("Na", "inside", 0);
+  updateInputs("Cl", "outside", 1);
+  updateInputs("Cl", "inside", 1);
+  updateInputs("K", "outside", 2);
+  updateInputs("K", "inside", 2);
+
+  FormulaInputCalculation("Na");
 }
 
 function updateInputs(particleType, location, id) {

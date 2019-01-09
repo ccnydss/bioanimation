@@ -26,7 +26,9 @@ class SequenceManager {
 
   setup() {
     if (this.len()) {
-      this.current().setup();
+      for (const seq of this.m_seqArr) {
+        seq.setup();
+      }
     }
   }
 
@@ -36,17 +38,17 @@ class SequenceManager {
     }
   }
 
-  next() {
+  next(reset=true) {
     if (this.len()) {
-      this.m_seqitr = (this.m_seqitr + 1) % len;
-      this.current().reset();
+      this.m_seqitr = (this.m_seqitr + 1) % this.len();
+      if (reset) this.current().reset();
     }
   }
 
-  prev() {
+  prev(reset=true) {
     if (this.len()) {
       this.m_seqitr = (this.m_seqitr == 0) ? this.len() - 1 : this.m_seqitr - 1;
-      this.current().reset();
+      if (reset) this.current().reset();
     }
   }
 }

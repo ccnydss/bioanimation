@@ -26,7 +26,8 @@ function setup() {
 
   // Create the animation sequencer
   bioMainSequence = new BioMain();
-  animationSequencer = new SequenceManager([bioMainSequence])
+  test1Seq = new Test1();
+  animationSequencer = new SequenceManager([bioMainSequence, test1Seq])
   animationSequencer.setup();
 
   makeUIs(true);
