@@ -27,54 +27,6 @@ QUnit.test("makeLayout", function(assert) {
   assert.ok(document.getElementById("particleControl"), "particleControl was created");
 });
 
-QUnit.test("makeNeqMML", function(assert) {
-  assert.ok(document.getElementById("math"), "Math container created");
-  assert.ok(document.getElementById("mrow0"), "mrow0 created");
-  assert.ok(document.getElementById("msub0"), "msub0 created");
-  assert.ok(document.getElementById("mrow1"), "mrow1 created");
-  assert.ok(document.getElementById("mfrac0"), "mfrac0 created");
-  assert.ok(document.getElementById("mrow2"), "mrow2 created");
-  assert.ok(document.getElementById("mrow3"), "mrow3 created");
-  assert.ok(document.getElementById("mrow4"), "mrow4 created");
-  assert.ok(document.getElementById("mfence0"), "mfence0 created");
-  assert.ok(document.getElementById("mfrac1"), "mfrac1 created");
-  assert.ok(document.getElementById("sem0"), "sem0 created");
-  assert.ok(document.getElementById("neq-top"), "neq-top created");
-  assert.ok(document.getElementById("sem1"), "sem1 created");
-  assert.ok(document.getElementById("neq-bot"), "neq-bot created");
-});
-
-QUnit.test("makeGoldmanEqn", function(assert) {
-  assert.ok(document.getElementById("mathGoldman"), "mathGoldman was created");
-  assert.ok(document.getElementById("msub0Goldman"), "msub0Goldman was created");
-  assert.ok(document.getElementById("mrow1Goldman"), "mrow1Goldman was created");
-  assert.ok(document.getElementById("mfrac0Goldman"), "mfrac0Goldman was created");
-  assert.ok(document.getElementById("mrow2pGoldman"), "mrow2pGoldman was created");
-  assert.ok(document.getElementById("mrow2Goldman"), "mrow2Goldman was created");
-  assert.ok(document.getElementById("mrow3Goldman"), "mrow3Goldman was created");
-  assert.ok(document.getElementById("mfrac1Goldman"), "mfrac1Goldman was created");
-  assert.ok(document.getElementById("mrow4Goldman"), "mrow4Goldman was created");
-  assert.ok(document.getElementById("msub1Goldman"), "msub1Goldman was created");
-  assert.ok(document.getElementById("msup0Goldman"), "msup0Goldman was created");
-  assert.ok(document.getElementById("msub2Goldman"), "msub2Goldman was created");
-  assert.ok(document.getElementById("msub3Goldman"), "msub3Goldman was created");
-  assert.ok(document.getElementById("msup1Goldman"), "msup1Goldman was created");
-  assert.ok(document.getElementById("msub4Goldman"), "msub4Goldman was created");
-  assert.ok(document.getElementById("msub5Goldman"), "msub5Goldman was created");
-  assert.ok(document.getElementById("msup2Goldman"), "msup2Goldman was created");
-  assert.ok(document.getElementById("msub6Goldman"), "msub6Goldman was created");
-  assert.ok(document.getElementById("mrow5Goldman"), "mrow5Goldman was created");
-  assert.ok(document.getElementById("msub7Goldman"), "msub7Goldman was created");
-  assert.ok(document.getElementById("msup3Goldman"), "msup3Goldman was created");
-  assert.ok(document.getElementById("msub8Goldman"), "msub8Goldman was created");
-  assert.ok(document.getElementById("msub9Goldman"), "msub9Goldman was created");
-  assert.ok(document.getElementById("msup4Goldman"), "msup4Goldman was created");
-  assert.ok(document.getElementById("msub10Goldman"), "msub10Goldman was created");
-  assert.ok(document.getElementById("msub11Goldman"), "msub11Goldman was created");
-  assert.ok(document.getElementById("msup5Goldman"), "msup5Goldman was created");
-  assert.ok(document.getElementById("msub12Goldman"), "msub12Goldman was created");
-});
-
 QUnit.test("redrawUI", function(assert) {
   // NOTE: Depends on external factors like window Width and Height.
   //        not easily testable.

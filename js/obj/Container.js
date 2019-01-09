@@ -24,21 +24,49 @@ class Container extends Rectangle {
     }
   }
 
-  addParticle(p) {
-    // NOTE: Create random particle by default with createNewParticle() if the input particle is undefined
-    var type = p.constructor.name;
-    this.particles[type].push(p);
+  addParticle(p, ptype) {
+    var particle = p;
+    var type = ptype;
+    if (p) {
+      type = p.constructor.name;
+    } else {
+      particle = this.createNewParticle(type);
+      particle.setDisplay(true);
+    }
+    this.particles[type].push(particle);
   }
 
-  deleteParticle(type, index) {
+  deleteParticle(type, index=0) {
     var length = this.particles[type].length;
-    this.particles[type].splice(length, 1);
+    this.particles[type].splice(index, 1);
+  }
+
+  createNewParticle(type) {
+    var xRange = this.tr.x - this.tl.x - 100;
+    var yRange = this.br.y - this.tr.y - 100;
+
+    var velocities = [-1, -1.25, 1.25, 1];
+    var x_vel = Math.floor(Math.random() * (velocities.length - 1)) + 0;
+    var y_vel = Math.floor(Math.random() * (velocities.length - 1)) + 0;
+
+    var velocity = createVector(velocities[x_vel], velocities[y_vel]);
+
+    // Get random location
+    var randomX = this.tl.x + particleMapper[type].diameter + (Math.floor(Math.random() * xRange));
+    var randomY = this.tl.y + particleMapper[type].diameter + (Math.floor(Math.random() * yRange));
+
+    return new particleMapper[type](
+      new Point(randomX, randomY),
+      velocity,
+      true
+    );
   }
 
   setParticleDisplays(type, bool) {
     for (const particle of this.particles[type]) {
       particle.setDisplay(bool);
     }
+    particleMapper[type].display = bool;
   }
 
   countParticles(type) {
