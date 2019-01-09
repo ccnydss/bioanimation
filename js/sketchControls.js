@@ -38,33 +38,29 @@ function startNernst(evt) {
     if (checkBoxParticle == lastNernstParticle) {
 
       //Just enable it by default?
-      // if (!checkboxes[i].checked()) {
 
       //enable its particles
       checkboxes[j].checked(true)
-      particleMapper[checkBoxParticle].display = true;
-
       enableInputForParticle(checkBoxParticle);
-      //Also enable the particle in the plot
-
-      if(dataChartInitialize)
-      dataChart.getDatasetMeta(j).hidden = false;
-
       bioMainSequence.setContainerDisplays(checkBoxParticle, true);
 
+      //Also enable the particle in the plot
+      if (dataChartInitialize)
+        dataChart.getDatasetMeta(j).hidden = false;
+
+
       FormulaInputCalculation(checkBoxParticle);
+
       //disable other ions if they are on?
     } else if (checkBoxParticle != lastNernstParticle & checkboxes[j].checked()) {
       //disable others particles
       checkboxes[j].checked(false)
-      particleMapper[checkBoxParticle].display = false;
       disableInputForParticle(checkBoxParticle);
-      //Also disable the particle in the plot
-
-      if(dataChartInitialize)
-      dataChart.getDatasetMeta(j).hidden = true;
-
       bioMainSequence.setContainerDisplays(checkBoxParticle, false);
+
+      //Also disable the particle in the plot
+      if (dataChartInitialize)
+        dataChart.getDatasetMeta(j).hidden = true;
     }
   }
 }
@@ -110,10 +106,8 @@ function startGoldman(evt) {
 
       //enable those particles
       checkboxes[j].checked(true)
-      particleMapper[checkBoxParticle].display = true;
-      enableInputForParticle(checkBoxParticle);
-
       bioMainSequence.setContainerDisplays(checkBoxParticle, true);
+      enableInputForParticle(checkBoxParticle);
     }
   }
 
@@ -234,7 +228,6 @@ function checkedEvent(evt) {
     this.checked(true); //Left checkbox checked by default
   } else {
     var particleType = this.elt.innerText;
-    particleMapper[particleType].display = this.checked();
 
     bioMainSequence.setContainerDisplays(particleType, this.checked());
 
@@ -257,10 +250,8 @@ function checkedEvent(evt) {
 
             //Disable those particles
             checkboxes[j].checked(false)
-            particleMapper[checkBoxParticle].display = false;
-            disableInputForParticle(checkBoxParticle);
-
             bioMainSequence.setContainerDisplays(checkBoxParticle, false);
+            disableInputForParticle(checkBoxParticle);
 
             //Also disable the particle in the plot
             dataChart.getDatasetMeta(j).hidden = true;
@@ -474,8 +465,6 @@ function disableInputForParticle(particleType) {
   minusButton[outside_id].attribute('disabled', '');
 
   animationSequencer.current().setContainerDisplays(particleType, false);
-
-  particleMapper[particleType]["display"] = false;
 }
 
 function enableInputForParticle(particleType) {
@@ -495,8 +484,6 @@ function enableInputForParticle(particleType) {
   minusButton[outside_id].removeAttribute('disabled');
 
   animationSequencer.current().setContainerDisplays(particleType, true);
-
-  particleMapper[particleType].display = true;
 }
 
 function updateInputs(particleType, location, id) {

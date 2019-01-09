@@ -190,7 +190,7 @@ Na.color = "#F5CE28";
 Na.charge = 1;
 Na.permeability = 0.03;
 Na.inside = 1;
-Na.outside = 0;
+Na.outside = 2;
 
 class Cl extends Particle {
   constructor(_center, _vel, _collidable) {
@@ -206,8 +206,8 @@ Cl.display = false;
 Cl.color = "#CD5C5C";
 Cl.charge = -1;
 Cl.permeability = 0.1;
-Cl.inside = 0;
-Cl.outside = 0;
+Cl.inside = 2;
+Cl.outside = 1;
 
 class K extends Particle {
   constructor(_center, _vel, _collidable) {
@@ -224,7 +224,7 @@ K.color = "#35B235";
 K.charge = 1;
 K.permeability = 1;
 K.inside = 5;
-K.outside = 0;
+K.outside = 3;
 
 // Used to instantiate a particle child class dynamically (without knowing if it will be a Na, Cl, or K)
 var particleMapper = {

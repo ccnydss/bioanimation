@@ -66,6 +66,7 @@ class Container extends Rectangle {
     for (const particle of this.particles[type]) {
       particle.setDisplay(bool);
     }
+    particleMapper[type].display = bool;
   }
 
   countParticles(type) {

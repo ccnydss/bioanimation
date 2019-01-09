@@ -123,16 +123,16 @@ class BioMain extends Sequence {
     return this.m_state.containers[container].countParticles(particleType);
   }
 
-  insertNewParticle(container, particleType, MAX_PARTICLES) {
+  insertNewParticle(container, particleType) {
     var num = this.getNumParticles(container, particleType);
-    if (num >= MAX_PARTICLES) return;
+    if (num >= this.MAX_PARTICLES) return;
 
     this.m_state.containers[container].addParticle(null, particleType);
   }
 
   removeParticle(container, particleType, MIN_PARTICLES) {
     var num = this.getNumParticles(container, particleType);
-    if (num <= 0) return;
+    if (num <= this.MIN_PARTICLES) return;
 
     this.m_state.containers[container].deleteParticle(particleType);
   }

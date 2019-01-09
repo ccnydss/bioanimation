@@ -5,9 +5,6 @@ var particleTypes = ["Na", "Cl", "K"];
 
 var velocityRange = [-1, -1.25, 1.25, 1];
 
-//For local particles on each box
-var MaxParticles = 25;
-
 var thickness = 25;
 
 var plusButton = [],
