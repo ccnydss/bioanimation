@@ -36,9 +36,7 @@ function setup() {
 
   makeUIs(true);
 
-  dataChartInitialize = false; //This variable is used to solve Synchronous problem
   startNernst();
-  dataChartInitialize = true;
 
   //Only show one particle at the beginning
   disableInputForParticle("Cl");

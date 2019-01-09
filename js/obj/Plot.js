@@ -129,7 +129,7 @@ class Plot {
   }
 
   plot() {
-    if (!mainSim.m_pause && dataChartInitialize) { //If the plot is not paused
+    if (!mainSim.m_pause) { //If the plot is not paused
       for (var i = 0; i < 4; i++) {
         if (i < 3) {
           var particleType = particleTypes[i];

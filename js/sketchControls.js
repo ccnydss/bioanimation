@@ -28,8 +28,7 @@ function startNernst(evt) {
   GoldmanButtonStatus.style.backgroundColor = "#dfe6e9";
 
   //disable the net in the plot
-  if (dataChartInitialize)
-    graph.hidePlot(3, true);
+  graph.hidePlot(3, true);
 
   //enable last selected Ions
   for (var j = 0; j < particleTypes.length; j++) {
@@ -44,8 +43,7 @@ function startNernst(evt) {
       animationSequencer.current().setContainerDisplays(checkBoxParticle, true);
 
       //Also enable the particle in the plot
-      if (dataChartInitialize)
-        graph.hidePlot(j, false);
+      graph.hidePlot(j, false);
 
       FormulaInputCalculation(checkBoxParticle);
 
@@ -57,8 +55,7 @@ function startNernst(evt) {
       animationSequencer.current().setContainerDisplays(checkBoxParticle, false);
 
       //Also disable the particle in the plot
-      if (dataChartInitialize)
-        graph.hidePlot(j, true);
+      graph.hidePlot(j, true);
     }
   }
 }
