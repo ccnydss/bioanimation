@@ -209,89 +209,9 @@ function makeLayout() {
 }
 
 function makeNeqMML() {
-  math = createElement("math");
-  math.attribute("xmlns", "http://www.w3.org/1998/Math/MathML");
-  math.id('math');
-  math.parent('equationdiv');
+  math = document.getElementById("matheqn");
+    document.getElementById("equationdiv").appendChild(math);
 
-  mrow0 = createElement("mrow");
-  mrow0.id('mrow0');
-  mrow0.parent('math');
-
-  msub0 = createElement("msub");
-  msub0.id('msub0');
-  msub0.parent("mrow0");
-
-  mi0 = createElement("mi", "E");
-  mi0.parent("msub0");
-
-  mi1 = createElement("mi", "ion");
-  mi1.parent("msub0");
-
-  eqSign = createElement("mo", "=");
-  eqSign.parent("math");
-
-  // -------------------------------------
-
-  mrow1 = createElement("mrow");
-  mrow1.id("mrow1");
-  mrow1.parent("math");
-
-  mfrac0 = createElement("mfrac");
-  mfrac0.id("mfrac0");
-  mfrac0.parent("mrow1");
-
-  mrow2 = createElement("mrow");
-  mrow2.id("mrow2");
-  mrow2.parent("mfrac0");
-
-  mi2 = createElement("mi", "R");
-  mi2.parent("mrow2");
-
-  mi3 = createElement("mi", "T");
-  mi3.parent("mrow2");
-
-  mrow3 = createElement("mrow");
-  mrow3.id("mrow3");
-  mrow3.parent("mfrac0");
-
-  mi4 = createElement("mi", "z");
-  mi4.parent("mrow3");
-
-  mi5 = createElement("mi", "F");
-  mi5.parent("mrow3");
-
-  // -----------------------------------------
-  mrow4 = createElement("mrow");
-  mrow4.id("mrow4");
-  mrow4.parent("math");
-
-  mi6 = createElement("mi", "ln");
-  mi6.parent("mrow4");
-
-  mfence0 = createElement("mfenced");
-  mfence0.id("mfence0");
-  mfence0.parent("mrow4");
-
-  mfrac1 = createElement("mfrac");
-  mfrac1.id("mfrac1");
-  mfrac1.parent("mfence0");
-
-  sem0 = createElement("semantics");
-  sem0.id("sem0");
-  sem0.parent("mfrac1");
-
-  anno0 = createElement("mi", "Ion Out");
-  anno0.parent("sem0");
-  anno0.id("neq-top");
-
-  sem1 = createElement("semantics");
-  sem1.id("sem1");
-  sem1.parent("mfrac1");
-
-  anno1 = createElement("mi", "Ion In");
-  anno1.parent("sem1");
-  anno1.id("neq-bot");
 
 }
 
