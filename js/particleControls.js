@@ -19,7 +19,7 @@ function insertParticle(evt) {
     "outside" :
     "inside";
 
-  bioMainSequence.insertNewParticle(particleLocation, particleType);
+  animationSequencer.current().insertNewParticle(particleLocation, particleType);
   updateInputs(particleType, particleLocation, id);
 }
 
@@ -32,7 +32,7 @@ function removeParticle(evt) {
     "outside" :
     "inside";
 
-  bioMainSequence.removeParticle(particleLocation, particleType, 0);
+  animationSequencer.current().removeParticle(particleLocation, particleType, 0);
   updateInputs(particleType, particleLocation, id);
 }
 

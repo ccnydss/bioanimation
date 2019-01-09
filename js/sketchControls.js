@@ -18,18 +18,17 @@ function startNernst(evt) {
 
   //Add new text
   loadText("questions.json", "nernst_1");
-  // document.getElementById('questionTitle').innerHTML= "Nernst Equation";
-  // document.getElementById('q1').innerHTML=questionText[0];
 
   simulatorMode = "Nernst";
+
   var NernstButtonStatus = document.getElementById("NernstButton");
   var GoldmanButtonStatus = document.getElementById("GoldmanButton");
 
   NernstButtonStatus.style.backgroundColor = "#74b9ff";
   GoldmanButtonStatus.style.backgroundColor = "#dfe6e9";
 
-    //disable the net in the plot
-    if(dataChartInitialize)
+  //disable the net in the plot
+  if (dataChartInitialize)
     dataChart.getDatasetMeta(3).hidden = true;
 
   //enable last selected Ions
@@ -42,7 +41,7 @@ function startNernst(evt) {
       //enable its particles
       checkboxes[j].checked(true)
       enableInputForParticle(checkBoxParticle);
-      bioMainSequence.setContainerDisplays(checkBoxParticle, true);
+      animationSequencer.current().setContainerDisplays(checkBoxParticle, true);
 
       //Also enable the particle in the plot
       if (dataChartInitialize)
@@ -56,7 +55,7 @@ function startNernst(evt) {
       //disable others particles
       checkboxes[j].checked(false)
       disableInputForParticle(checkBoxParticle);
-      bioMainSequence.setContainerDisplays(checkBoxParticle, false);
+      animationSequencer.current().setContainerDisplays(checkBoxParticle, false);
 
       //Also disable the particle in the plot
       if (dataChartInitialize)
@@ -106,7 +105,7 @@ function startGoldman(evt) {
 
       //enable those particles
       checkboxes[j].checked(true)
-      bioMainSequence.setContainerDisplays(checkBoxParticle, true);
+      animationSequencer.current().setContainerDisplays(checkBoxParticle, true);
       enableInputForParticle(checkBoxParticle);
     }
   }
@@ -229,7 +228,7 @@ function checkedEvent(evt) {
   } else {
     var particleType = this.elt.innerText;
 
-    bioMainSequence.setContainerDisplays(particleType, this.checked());
+    animationSequencer.current().setContainerDisplays(particleType, this.checked());
 
     if (this.checked() == false) {
       disableInputForParticle(particleType);
@@ -250,7 +249,7 @@ function checkedEvent(evt) {
 
             //Disable those particles
             checkboxes[j].checked(false)
-            bioMainSequence.setContainerDisplays(checkBoxParticle, false);
+            animationSequencer.current().setContainerDisplays(checkBoxParticle, false);
             disableInputForParticle(checkBoxParticle);
 
             //Also disable the particle in the plot
@@ -300,7 +299,7 @@ function makeUIs(creation) {
     GoldmanButton.mousePressed(startGoldman);
 
     var row = 4;
-    for (var k = 0; k < bioMainSequence.getNumContainers() * row; k++) {
+    for (var k = 0; k < animationSequencer.current().getNumContainers() * row; k++) {
       if (k == 0) {
         var text = 'Extracellular Control:';
       } else if (k == row) {
@@ -317,7 +316,7 @@ function makeUIs(creation) {
           "+" :
           "-";
         var text = '[' + particleType + '<sup>' + particleCharge + '</sup>]' + '<sub>' + particleSuffix + '</sub>&nbsp;';
-        var Value = bioMainSequence.getNumParticles(particleLocation, particleType);
+        var Value = animationSequencer.current().getNumParticles(particleLocation, particleType);
       }
       if (k == 0 || k == row) {
         textboard[k] = createElement('h4', text);
@@ -417,8 +416,8 @@ function calculateNernst(particleType) {
   var T = tempSetting; // 37 is the Human Body temperature
   var F = 96485.3329; // Faraday's constant
   var z = particleMapper[particleType]["charge"];
-  var Xout = bioMainSequence.getNumParticles("outside", particleType);
-  var Xin = bioMainSequence.getNumParticles("inside", particleType);
+  var Xout = animationSequencer.current().getNumParticles("outside", particleType);
+  var Xin = animationSequencer.current().getNumParticles("inside", particleType);
 
   return (R * T) / (z * F) * Math.log(Xout / Xin);
 }
@@ -433,8 +432,8 @@ function calculateGoldman() {
   for (var i = 0; i < particleTypes.length; i++) {
     var particleType = particleTypes[i];
     if (particleMapper[particleType].display) {
-      var numOutside = bioMainSequence.getNumParticles("outside", particleType);
-      var numInside = bioMainSequence.getNumParticles("inside", particleType);
+      var numOutside = animationSequencer.current().getNumParticles("outside", particleType);
+      var numInside = animationSequencer.current().getNumParticles("inside", particleType);
 
       if (particleMapper[particleType].charge > 0) {
         numerator += particleMapper[particleType].permeability * numOutside;
@@ -500,8 +499,8 @@ function updateInputs(particleType, location, id) {
     ? input[id + row + 1]
     : input[id + 1];
 
-  var oldAmount = bioMainSequence.getNumParticles(location, particleType);
-  var transferAmount = bioMainSequence.getNumParticles(transferLocation, particleType);
+  var oldAmount = animationSequencer.current().getNumParticles(location, particleType);
+  var transferAmount = animationSequencer.current().getNumParticles(transferLocation, particleType);
 
   oldInput.value(oldAmount);
   transferInput.value(transferAmount);

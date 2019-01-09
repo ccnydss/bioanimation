@@ -1,11 +1,5 @@
-var containers = {};
-
 //Just for initializing
 var particleTypes = ["Na", "Cl", "K"];
-
-var velocityRange = [-1, -1.25, 1.25, 1];
-
-var thickness = 25;
 
 var plusButton = [],
   minusButton = [],
@@ -19,13 +13,9 @@ var canWidth;
 var canHeight;
 
 var lastNernstParticle = "Na";
-var questionText = [];
 
 var tempSetting = (37 + 273.13);
 
-var backgroundMembrane;
-
-var bioMainSequence;
 var animationSequencer;
 
 function setup() {
@@ -50,17 +40,6 @@ function setup() {
   disableInputForParticle("K");
 
   FormulaInputCalculation(particleTypes[0]);
-
-  //Load all the equation at begin, otherelse will cause bug
-  //For some reason, MathJax-Element will be create after few millisecond
-  //Remove the Goldman preset equation
-  // Initializor = setTimeout(function() {
-  //   if (document.getElementById('MathJax-Element-1-Frame')) {
-  //     document.getElementById('MathJax-Element-1-Frame').style.display = "inline";
-  //     document.getElementById('MathJax-Element-2-Frame').style.display = "none";
-  //   }
-  //   clearTimeout(Initializor);
-  // }, 300);
 }
 
 function draw() {

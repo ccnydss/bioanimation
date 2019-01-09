@@ -2,8 +2,6 @@ class BioMain extends Sequence {
   constructor() {
     super();
 
-    this.MEMBRANE_WIDTH = 25;
-
     // Initial state for the animation
     this.m_init = {
       containers: {
@@ -11,16 +9,16 @@ class BioMain extends Sequence {
           {
             _tl: new Point(0, 0),
             _tr: new Point(canWidth, 0),
-            _br: new Point(canWidth, canHeight / 2 - this.MEMBRANE_WIDTH),
-            _bl: new Point(0, (canHeight / 2 - this.MEMBRANE_WIDTH))
+            _br: new Point(canWidth, canHeight / 2 - thickness),
+            _bl: new Point(0, (canHeight / 2 - thickness))
           },
           Container.OUTSIDE_COLOR,
           "outside"
         ),
         inside: new Container (
           {
-            _tl: new Point(0, canHeight / 2 + this.MEMBRANE_WIDTH),
-            _tr: new Point(canWidth, canHeight / 2 + this.MEMBRANE_WIDTH),
+            _tl: new Point(0, canHeight / 2 + thickness),
+            _tr: new Point(canWidth, canHeight / 2 + thickness),
             _br: new Point(canWidth, canHeight),
             _bl: new Point(0, canHeight)
           },
@@ -30,10 +28,10 @@ class BioMain extends Sequence {
       },
       membrane: new Rectangle (
         {
-          _tl: new Point(0, (canHeight / 2 - this.MEMBRANE_WIDTH)),       // container.outside.bl
-          _tr: new Point(canWidth, canHeight / 2 - this.MEMBRANE_WIDTH),  // container.outside.br
-          _br: new Point(canWidth, canHeight / 2 + this.MEMBRANE_WIDTH),  // container.inside.tr
-          _bl: new Point(0, canHeight / 2 + this.MEMBRANE_WIDTH)          // container.inside.tl
+          _tl: new Point(0, (canHeight / 2 - thickness)),       // container.outside.bl
+          _tr: new Point(canWidth, canHeight / 2 - thickness),  // container.outside.br
+          _br: new Point(canWidth, canHeight / 2 + thickness),  // container.inside.tr
+          _bl: new Point(0, canHeight / 2 + thickness)          // container.inside.tl
         },
         color(100, 155, 180, 100)
       ),
@@ -75,22 +73,22 @@ class BioMain extends Sequence {
     }
   }
 
-  setContainerSizes(canWidth, canHeight) {
+  setContainerSizes(canWidth, canHeight, thickness) {
     var s = this.m_state;
 
     s.containers["outside"].setSize(
       {
         _tl: new Point(0, 0),
         _tr: new Point(canWidth, 0),
-        _br: new Point(canWidth, canHeight / 2 - this.MEMBRANE_WIDTH),
-        _bl: new Point(0, (canHeight / 2 - this.MEMBRANE_WIDTH))
+        _br: new Point(canWidth, canHeight / 2 - thickness),
+        _bl: new Point(0, (canHeight / 2 - thickness))
       }
     );
 
     s.containers["inside"].setSize(
       {
-        _tl: new Point(0, canHeight / 2 + this.MEMBRANE_WIDTH),
-        _tr: new Point(canWidth, canHeight / 2 + this.MEMBRANE_WIDTH),
+        _tl: new Point(0, canHeight / 2 + thickness),
+        _tr: new Point(canWidth, canHeight / 2 + thickness),
         _br: new Point(canWidth, canHeight),
         _bl: new Point(0, canHeight)
       }
@@ -98,10 +96,10 @@ class BioMain extends Sequence {
 
     s.membrane.setSize(
       {
-        _tl: new Point(0, (canHeight / 2 - this.MEMBRANE_WIDTH)),       // container.outside.bl
-        _tr: new Point(canWidth, canHeight / 2 - this.MEMBRANE_WIDTH),  // container.outside.br
-        _br: new Point(canWidth, canHeight / 2 + this.MEMBRANE_WIDTH),  // container.inside.tr
-        _bl: new Point(0, canHeight / 2 + this.MEMBRANE_WIDTH)          // container.inside.tl
+        _tl: new Point(0, (canHeight / 2 - thickness)),       // container.outside.bl
+        _tr: new Point(canWidth, canHeight / 2 - thickness),  // container.outside.br
+        _br: new Point(canWidth, canHeight / 2 + thickness),  // container.inside.tr
+        _bl: new Point(0, canHeight / 2 + thickness)          // container.inside.tl
       }
     );
 

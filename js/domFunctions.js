@@ -228,7 +228,7 @@ function redrawUI(questionBox) {
   canvas.size(canWidth, canHeight);
 
   //Relative to parent coordinate
-  animationSequencer.current().setContainerSizes(canWidth, canHeight, thickness);
+  animationSequencer.current().setContainerSizes(canWidth, canHeight);
 
   // NOTE: does this still do anything? When uncommented, it seems to have no effect.
   makeUIs(false)
