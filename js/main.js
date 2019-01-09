@@ -17,6 +17,7 @@ var lastNernstParticle = "Na";
 var tempSetting = (37 + 273.13);
 
 var mainSim = new Simulator();
+var graph;
 var animationSequencer;
 
 function setup() {
@@ -24,6 +25,8 @@ function setup() {
 
   // Defines the simulator's layout as well as "canWidth", "canHeight"
   makeLayout();
+
+  graph = new Plot();
 
   // Create the animation sequencer
   bioMainSequence = new BioMain();

@@ -1,5 +1,3 @@
-var plotIndex = [0,0,0,0]; //Start everything at time = 0
-
 //Define the chart backgrond color
 // https://stackoverflow.com/questions/30464750/chart-js-line-chart-set-background-color
 Chart.plugins.register({
@@ -10,13 +8,25 @@ Chart.plugins.register({
   }
 });
 
-var maxX = 31;
-var maxY = 0.10*1000; //*1000 is to convert V to mV
-setTimeout(
-  function() {
+class Plot {
+  constructor() {
+    this.m_time = 0;
+    this.m_max_x = 31;
+    this.m_max_y = 0.10*1000; //*1000 is to convert V to mV;
+    this.m_interval = 1000; // 1 second
+
+    this.m_data_chart;
+
+    this.initialize();
+    setInterval(this.plot.bind(this), this.m_interval);
+  }
+
+  initialize() {
+    console.log("Inside initialize", this);
+
     var ctx = document.getElementById('dataPlot').getContext('2d');
 
-    dataChart = new Chart (ctx, {
+    this.m_data_chart = new Chart (ctx, {
       type: 'line',
       data: {
         datasets: [
@@ -67,7 +77,7 @@ setTimeout(
                 beginAtZero: true,
                 steps: 1,
                 stepValue: 1,
-                max: maxX-1
+                max: this.m_max_x - 1
               },
               scaleLabel: {
                 display: true,
@@ -78,9 +88,9 @@ setTimeout(
           yAxes: [
             {
               ticks: {
-                min: -maxY,
-                stepSize: 2*maxY/6,
-                max: maxY
+                min: -this.m_max_y,
+                stepSize: 2 * this.m_max_y/6,
+                max: this.m_max_y
               },
               scaleLabel: {
                 display: true,
@@ -94,11 +104,11 @@ setTimeout(
             var ci = this.chart;
             var index = legendItem.datasetIndex;
 
-            if (simulatorMode == "Nernst" & index!=3) { //index 3 is the net voltage
+            if (simulatorMode == "Nernst" & index != 3) { //index 3 is the net voltage
               var checkBoxParticle = document.getElementById('checkbox' + particleTypes[index]).innerText;
 
               checkboxes[index].checked(true)
-              dataChart.getDatasetMeta(index).hidden = false;
+              graph.hidePlot(index, false);
               enableInputForParticle(checkBoxParticle);
 
               ci.data.datasets.forEach(function(e, i) {
@@ -106,7 +116,7 @@ setTimeout(
                   var checkBoxParticle = document.getElementById('checkbox' + particleTypes[i]).innerText;
 
                   checkboxes[i].checked(false)
-                  dataChart.getDatasetMeta(i).hidden = true;
+                  graph.hidePlot(i, true);
                   disableInputForParticle(checkBoxParticle);
                 }
               })
@@ -116,51 +126,52 @@ setTimeout(
         animation: false
       }
     });
-  },
-  1000);
+  }
 
-
-  setInterval(
-    function() {
-      if(!mainSim.m_pause) { //If the plot is not paused
-        for (i = 0; i < 4; i++) {
-          if (i < 3) {
-            var particleType = particleTypes[i];
-            var voltage = calculateNernst(particleType);
-          } else if (i==3) {
-            var voltage = calculateGoldman();
-          }
-
-          updateData(dataChart, 0, i, plotIndex[i], voltage*1000); //*1000 is to convert V to mV
-
-          plotIndex[i]++;
-          if (plotIndex[i] >= maxX) {
-            plotIndex[i] = maxX;
-          }
+  plot() {
+    if (!mainSim.m_pause && dataChartInitialize) { //If the plot is not paused
+      for (var i = 0; i < 4; i++) {
+        if (i < 3) {
+          var particleType = particleTypes[i];
+          var voltage = calculateNernst(particleType);
+        } else if (i == 3) {
+          var voltage = calculateGoldman();
         }
+
+        this.updateData(i, this.m_time, voltage*1000); //*1000 is to convert V to mV
       }
-    },
-    1000
-  )
 
-  function updateData(chart, label, plotIndex, x, y) {
+      this.m_time++;
+
+      if (this.m_time >= this.m_max_x) {
+        this.m_time = this.m_max_x;
+      }
+    }
+  }
+
+  hidePlot(legendIndex, value) {
+    this.m_data_chart.getDatasetMeta(legendIndex).hidden = value;
+  }
+
+  updateData(index, x, y) {
     // Input: chartjs object, int, int, int, int
-    var dataset = chart.data.datasets[plotIndex].data;
+    var dataset = this.m_data_chart.data.datasets[index].data;
 
-    newData = {
+    var newData = {
       x: x,
       y: y
     }
 
     // console.log(dataset)
     dataset.push(newData);
-    if (dataset.length >= maxX + 1) {
+    if (dataset.length >= this.m_max_x + 1) {
       dataset.shift(); //Remove the first number if the plot is full
       dataset.forEach(function(element) {
         element.x--
       });
     }
 
-    chart.data.datasets[plotIndex].data = dataset;
-    chart.update();
+    this.m_data_chart.data.datasets[index].data = dataset;
+    this.m_data_chart.update();
   }
+}

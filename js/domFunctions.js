@@ -88,7 +88,6 @@ function makeLayout() {
   dataPlot.parent('equationdiv');
   var dataPlot = document.querySelector('#dataPlot')
   dataPlot.style.display = "none";
-  // Plot window
 
   simulator = createDiv("");
   simulator.id('sim');
@@ -177,33 +176,20 @@ function renderMathEqn() {
 
 function hideQuestion(evt) {
   // input: the element that triggered the event (hide buttons [arrow]);
-  if (equationContainerHeighthMul == equationHeightPercent) {
-    //Turn the question menu off
-    renderUI("hidebarText",true)
-    renderUI("simulatorSetting",true)
+  var hide = equationContainerHeighthMul == equationHeightPercent;
 
-    var curUI = (simulatorMode == "Nernst") ? "NernstSetting" : "GoldmanSetting"
-    renderUI(curUI,true)
+  //Turn the question menu off
+  renderUI("hidebarText", hide)
+  renderUI("simulatorSetting", hide)
 
-    renderUI("dataPlot",true)
-    renderUI("helpSetting",true)
-    renderUI("helpQuestion",false)
+  var curUI = (simulatorMode == "Nernst") ? "NernstSetting" : "GoldmanSetting"
+  renderUI(curUI,hide)
 
-    redrawUI(false);
-  } else {
-    //Turn the question menu on
-    renderUI("hidebarText",false)
-    renderUI("simulatorSetting",false)
+  renderUI("dataPlot", hide)
+  renderUI("helpSetting", hide)
+  renderUI("helpQuestion", !hide)
 
-    var curUI = (simulatorMode == "Nernst") ? "NernstSetting" : "GoldmanSetting"
-    renderUI(curUI,false)
-
-    renderUI("dataPlot",false)
-    renderUI("helpSetting",false)
-    renderUI("helpQuestion",true)
-
-    redrawUI(true);
-  }
+  redrawUI(!hide);
 }
 
 function makeTable(id, parent, content, contentUnit, contentDefaultValue, prevLength) {
