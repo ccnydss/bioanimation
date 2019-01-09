@@ -57,13 +57,13 @@ function setup() {
   //Load all the equation at begin, otherelse will cause bug
   //For some reason, MathJax-Element will be create after few millisecond
   //Remove the Goldman preset equation
-  Initializor = setTimeout(function() {
-    if (document.getElementById('MathJax-Element-1-Frame')) {
-      document.getElementById('MathJax-Element-1-Frame').style.display = "inline";
-      document.getElementById('MathJax-Element-2-Frame').style.display = "none";
-    }
-    clearTimeout(Initializor);
-  }, 300);
+  // Initializor = setTimeout(function() {
+  //   if (document.getElementById('MathJax-Element-1-Frame')) {
+  //     document.getElementById('MathJax-Element-1-Frame').style.display = "inline";
+  //     document.getElementById('MathJax-Element-2-Frame').style.display = "none";
+  //   }
+  //   clearTimeout(Initializor);
+  // }, 300);
 }
 
 function draw() {

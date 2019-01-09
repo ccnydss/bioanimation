@@ -7,8 +7,8 @@ function startNernst(evt) {
 
   //Remove old text
   if (document.getElementById('MathJax-Element-1-Frame')) {
-    document.getElementById('MathJax-Element-2-Frame').style.display = "none";
-    document.getElementById('MathJax-Element-1-Frame').style.display = "inline";
+    document.getElementById('NernstEqn').style.display = "inline";
+    document.getElementById('GoldmanEqn').style.display = "none";
 
     if (equationContainerHeighthMul != 0.35) { //Only appear setting when question box disappear
       document.getElementById('GoldmanSetting').style.display = "none";
@@ -76,8 +76,8 @@ function startGoldman(evt) {
 
   //Remove old text
   if (document.getElementById('MathJax-Element-1-Frame')) {
-    document.getElementById('MathJax-Element-1-Frame').style.display = "none";
-    document.getElementById('MathJax-Element-2-Frame').style.display = "inline";
+    document.getElementById('NernstEqn').style.display = "none";
+    document.getElementById('GoldmanEqn').style.display = "inline";
 
     if (equationContainerHeighthMul != 0.35) { //Only appear setting when question box disappear
       document.getElementById('NernstSetting').style.display = "none";

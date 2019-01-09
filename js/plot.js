@@ -115,7 +115,7 @@ setTimeout(
   });
 
 },
-100);
+1000);
 
 
 setInterval(
