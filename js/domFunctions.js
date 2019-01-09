@@ -539,21 +539,6 @@ function redrawUI(questionBox) {
 
   //Relative to parent coordinate
   bioMainSequence.setContainerSizes(canWidth, canHeight, thickness);
-  // NOTE: Check this later
-  // bioMainSequence.containers["outside"].draw();
-
-  backgroundMembrane = new Rectangle(
-    {
-      _tl: new Point(0, 0),
-      _tr: new Point(canWidth, 0),
-      _br: new Point(canWidth, canHeight),
-      _bl: new Point(0, canHeight)
-    },
-    color(100, 155, 180, 100)
-  )
-  backgroundMembrane.draw();
-
-  // bioMainSequence.containers["inside"].draw();
 
   // NOTE: does this still do anything? When uncommented, it seems to have no effect.
   makeUIs(false)

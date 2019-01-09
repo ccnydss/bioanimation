@@ -26,6 +26,15 @@ class BioMain extends Sequence {
           "inside"
         )
       },
+      membrane: new Rectangle (
+        {
+          _tl: new Point(0, (canHeight / 2 - thickness)),       // container.outside.bl
+          _tr: new Point(canWidth, canHeight / 2 - thickness),  // container.outside.br
+          _br: new Point(canWidth, canHeight / 2 + thickness),  // container.inside.tr
+          _bl: new Point(0, canHeight / 2 + thickness)          // container.inside.tl
+        },
+        color(100, 155, 180, 100)
+      )
       channels: []
     };
 
@@ -34,16 +43,7 @@ class BioMain extends Sequence {
 
   setup(s = this.m_state) {
     // Create channels
-    var division = new Rectangle (
-      {
-        _tl: s.containers["outside"].bl,
-        _tr: s.containers["outside"].br,
-        _br: s.containers["inside"].tr,
-        _bl: s.containers["inside"].tl
-      }
-    );
-
-    s.channels = createChannels(division, particleTypes.length);
+    s.channels = createChannels(s.membrane, particleTypes.length);
 
     // Initialize containers with particles
     for (var loc in s.containers) {
@@ -57,22 +57,18 @@ class BioMain extends Sequence {
       }
     }
 
-    s.containers.outside.draw();
-    s.containers.inside.draw();
-
-    s.containers.inside.setParticleDisplays("Cl", false);
-    s.containers.outside.setParticleDisplays("Cl", false);
-
-    s.containers.inside.setParticleDisplays("K", false);
-    s.containers.outside.setParticleDisplays("K", false);
+    // Disable the other particles in Nernst mode.
+    this.setContainerDisplays("Cl", false);
+    this.setContainerDisplays("K", false);
   }
 
   draw(s = this.m_state) {
+    s.membrane.draw();
     s.containers.inside.draw();
     s.containers.outside.draw();
 
-    for (var i = 0; i < s.channels.length; i++) {
-      s.channels[i].draw();
+    for (const channel of s.channels) {
+      channel.draw();
     }
   }
 
@@ -96,6 +92,17 @@ class BioMain extends Sequence {
         _bl: new Point(0, canHeight)
       }
     );
+
+    s.membrane.setSize(
+      {
+        _tl: new Point(0, (canHeight / 2 - thickness)),       // container.outside.bl
+        _tr: new Point(canWidth, canHeight / 2 - thickness),  // container.outside.br
+        _br: new Point(canWidth, canHeight / 2 + thickness),  // container.inside.tr
+        _bl: new Point(0, canHeight / 2 + thickness)          // container.inside.tl
+      }
+    );
+    
+    s.channels = createChannels(s.membrane, particleTypes.length);
   }
 
   setContainerDisplays(particleType, boolValue) {

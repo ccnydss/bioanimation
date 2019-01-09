@@ -37,17 +37,6 @@ function setup() {
   // Defines the simulator's layout as well as "canWidth", "canHeight"
   makeLayout();
 
-  backgroundMembrane = new Rectangle (
-    {
-      _tl: new Point(0, 0),
-      _tr: new Point(canWidth, 0),
-      _br: new Point(canWidth, canHeight),
-      _bl: new Point(0, canHeight)
-    },
-    color(100, 155, 180, 100)
-  )
-  backgroundMembrane.draw();
-
   // Create the animation sequencer
   bioMainSequence = new BioMain();
   animationSequencer = new SequenceManager([bioMainSequence])
@@ -76,12 +65,5 @@ function setup() {
 
 function draw() {
   clear();
-
-  backgroundMembrane.draw();
-
-  strokeWeight(0);
-
   animationSequencer.draw();
-
-  strokeWeight(1);
 }
