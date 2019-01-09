@@ -31,8 +31,7 @@ function makeLayout() {
   questionTitle = createElement("h3", "Goldman-Hodgkin-Katz").parent('questionsdiv');
   questionTitle.id('questionTitle');
 
-    var questionsText;
-    questionsText = "Calculate the equilibrium potential for Na and K using the Nernst equation for the following conditions";
+  var questionsText = "Calculate the equilibrium potential for Na and K using the Nernst equation for the following conditions";
   var question = createElement("p", questionsText).parent('questionsdiv');
   question.class ("questions");
   question.id("q1");
@@ -503,37 +502,7 @@ function redrawUI(questionBox) {
   canvas.size(canWidth, canHeight);
 
   //Relative to parent coordinate
-  containers["outside"].setSize(
-    {
-      _tl: new Point(0, 0),
-      _tr: new Point(canWidth, 0),
-      _br: new Point(canWidth, canHeight / 2 - thickness),
-      _bl: new Point(0, (canHeight / 2 - thickness))
-    }
-  );
-  containers["outside"].draw();
-
-  backgroundMembrane = new Rectangle(
-    {
-      _tl: new Point(0, 0),
-      _tr: new Point(canWidth, 0),
-      _br: new Point(canWidth, canHeight),
-      _bl: new Point(0, canHeight)
-    },
-    color(100, 155, 180, 100)
-  )
-  backgroundMembrane.draw();
-
-  containers["inside"].setSize(
-    {
-      _tl: new Point(0, canHeight / 2 + thickness),
-      _tr: new Point(canWidth, canHeight / 2 + thickness),
-      _br: new Point(canWidth, canHeight),
-      _bl: new Point(0, canHeight)
-    }
-  );
-
-  containers["inside"].draw();
+  animationSequencer.current().setContainerSizes(canWidth, canHeight, thickness);
 
   // NOTE: does this still do anything? When uncommented, it seems to have no effect.
   makeUIs(false)
@@ -559,7 +528,6 @@ function adjustUISize(multiple) {
   // Define the global canWidth & canHeight variables
   canWidth = simulator.size().width;
 
-  //canHeight = 0.75 * (simulator.size().height - 8);
   canHeight = 1 * (simulator.size().height - 4);
 
   simulatorInputContainer.size(0.65 * windowWidth, 0.35 * (windowHeight - 36));
