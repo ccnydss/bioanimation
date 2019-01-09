@@ -34,11 +34,13 @@ class BioMain extends Sequence {
           _bl: new Point(0, canHeight / 2 + thickness)          // container.inside.tl
         },
         color(100, 155, 180, 100)
-      )
+      ),
       channels: []
     };
 
     this.m_state = Object.assign({}, this.m_init);
+    this.MAX_PARTICLES = 25;
+    this.MIN_PARTICLES = 1;
   }
 
   setup(s = this.m_state) {
@@ -101,7 +103,7 @@ class BioMain extends Sequence {
         _bl: new Point(0, canHeight / 2 + thickness)          // container.inside.tl
       }
     );
-    
+
     s.channels = createChannels(s.membrane, particleTypes.length);
   }
 
@@ -137,6 +139,38 @@ class BioMain extends Sequence {
     if (num <= 0) return;
 
     this.m_state.containers[container].deleteParticle(particleType);
+  }
+
+  equilibrate(particleType) {
+    // input: string;
+    // usage: "Na", "Cl", "K"
+    // Brings outside and inside concentrations into equilibrium
+
+    var numOutside = this.getNumParticles("outside", particleType);
+    var numInside = this.getNumParticles("inside", particleType);
+
+    var particleAmount = numOutside + numInside;
+
+    // The equilibrium function: how top and bottom should be split.
+    var equiAmount = Math.floor(particleAmount / 2);
+
+    // if either top or bottom has equilibrium amount, we can return
+    if (numOutside == equiAmount || numInside == equiAmount) {
+      return;
+    }
+
+    var originLocation = numOutside > numInside ?
+      "outside" :
+      "inside";
+
+    var transferLocation = numOutside > numInside ?
+      "inside" :
+      "outside";
+
+    // The number of particles that need to be transferred to each equilibrium
+    var id = particleMapper[particleType].id;
+
+    this.transferParticle(originLocation, transferLocation, particleType, id);
   }
 
   transferParticle(originalContainer, targetContainer, particleType, id) {
@@ -218,10 +252,9 @@ class BioMain extends Sequence {
         currentArray.splice(movePclIndex, 1);
         transferArray.push(newPart);
 
+        // Recursively call equilibrate until all particles have transferred over.
+        self.equilibrate(particleType);
         updateInputs(particleType, originalContainer, id);
-
-        // Repeatedly call equilibrate until all particles have transferred over.
-        equilibrate(particleType);
       }
     }
   }

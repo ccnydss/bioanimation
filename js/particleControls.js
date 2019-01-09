@@ -1,66 +1,11 @@
-var largerArrayLocations = {}; // global dictionary used to prevent equilibrating one particle type from interrupting another.
-
 function startEquilibrate(evt) {
   // input: the element that triggered the event; however this input is unused in this function
-
+  
   for (var i = 0; i < particleTypes.length; i++) {
     if (particleMapper[particleTypes[i]].display) {
-      equilibrate(particleTypes[i]);
+      animationSequencer.current().equilibrate(particleTypes[i]);
     }
   }
-}
-
-function equilibrate(particleType) {
-  // input: string;
-  // usage: "Na", "Cl", "K"
-  // Brings outside and inside concentrations into equilibrium
-
-  var numOutside = bioMainSequence.getNumParticles("outside", particleType);
-  var numInside = bioMainSequence.getNumParticles("inside", particleType);
-
-  particleAmount = numOutside + numInside;
-
-  // The equilibrium function: how top and bottom should be split.
-  equiAmount = Math.floor(particleAmount / 2);
-
-  // if either top or bottom has equilibrium amount, we can return
-  if (numOutside == equiAmount || numInside == equiAmount) {
-    return;
-  }
-
-  // NOTE: see about replacing this with the actual container instead of strings
-  largerArrayLocation = numOutside > numInside ?
-    "outside" :
-    "inside";
-
-  // The number of particles that need to be transferred to each equilibrium
-  var transfers = bioMainSequence.getNumParticles(largerArrayLocation, particleType) - equiAmount;
-
-  // Perform N transfers from the denser container to the sparser container.
-  largerArrayLocations[particleType] = largerArrayLocation;
-
-  transferParticle(particleType, largerArrayLocations);
-}
-
-function transferParticle(particleType, location) {
-  // NOTE: remove this eventually
-
-  // input: string, array
-  // transfers a particle from top to bottom
-
-  var id = particleMapper[particleType].id;
-
-  // Set destination container to opposite of the denser container
-  var transferLocation = (location[particleType] == "outside") ?
-    "inside" :
-    "outside";
-
-  bioMainSequence.transferParticle(location[particleType], transferLocation, particleType, id);
-
-  updateInputs(particleType, location[particleType], id);
-
-  // Repeatedly call equilibrate until all particles have transferred over.
-  // equilibrate(particleType);
 }
 
 function insertParticle(evt) {
