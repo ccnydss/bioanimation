@@ -104,10 +104,11 @@ class Plot {
             var ci = this.chart;
             var index = legendItem.datasetIndex;
 
-            if (simulatorMode == "Nernst" & index != 3) { //index 3 is the net voltage
+            if (mainSim.simMode() == "Nernst" && index != 3) { //index 3 is the net voltage
               var checkBoxParticle = document.getElementById('checkbox' + particleTypes[index]).innerText;
 
-              checkboxes[index].checked(true)
+              mainSim.checkbox(index, true);
+
               graph.hidePlot(index, false);
               enableInputForParticle(checkBoxParticle);
 
@@ -115,7 +116,7 @@ class Plot {
                 if (i !== index & i !=3) {
                   var checkBoxParticle = document.getElementById('checkbox' + particleTypes[i]).innerText;
 
-                  checkboxes[i].checked(false)
+                  mainSim.checkbox(i, false);
                   graph.hidePlot(i, true);
                   disableInputForParticle(checkBoxParticle);
                 }

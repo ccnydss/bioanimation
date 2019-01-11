@@ -12,11 +12,13 @@ function makeUIs(creation) {
 
     // Radio buttons to select ions to include
     for (var i = 0; i < particleTypes.length; i++) {
-      checkboxes[i] = createCheckbox(particleTypes[i], false);
-      checkboxes[i].class('checkboxes');
-      checkboxes[i].id('checkbox' + particleTypes[i]);
-      checkboxes[i].parent('particleControl');
-      checkboxes[i].changed(checkedEvent);
+      var chk = createCheckbox(particleTypes[i], false);
+      chk.class('checkboxes');
+      chk.id('checkbox' + particleTypes[i]);
+      chk.parent('particleControl');
+      chk.changed(checkedEvent);
+
+      mainSim.addCheckbox(chk);
     }
 
     NernstButton = createButton('Nernst');

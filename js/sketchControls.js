@@ -1,6 +1,5 @@
 var NernstButtonStatus;
 var GoldmanButtonStatus;
-var simulatorMode;
 
 function startNernst(evt) {
   // input: the event DOM object; however this input is unused in this function
@@ -19,7 +18,7 @@ function startNernst(evt) {
   //Add new text
   loadText("questions.json", "nernst_1");
 
-  simulatorMode = "Nernst";
+  var simulatorMode = mainSim.simMode();
 
   var NernstButtonStatus = document.getElementById("NernstButton");
   var GoldmanButtonStatus = document.getElementById("GoldmanButton");
@@ -38,7 +37,7 @@ function startNernst(evt) {
       //Just enable it by default?
 
       //enable its particles
-      checkboxes[j].checked(true)
+      mainSim.checkbox(j, true);
       enableInputForParticle(checkBoxParticle);
       animationSequencer.current().setContainerDisplays(checkBoxParticle, true);
 
@@ -48,9 +47,9 @@ function startNernst(evt) {
       FormulaInputCalculation(checkBoxParticle);
 
       //disable other ions if they are on?
-    } else if (checkBoxParticle != lastNernstParticle & checkboxes[j].checked()) {
+    } else if (checkBoxParticle != lastNernstParticle && mainSim.checkbox(j)) {
       //disable others particles
-      checkboxes[j].checked(false)
+      mainSim.checkbox(j, false);
       disableInputForParticle(checkBoxParticle);
       animationSequencer.current().setContainerDisplays(checkBoxParticle, false);
 
@@ -80,7 +79,7 @@ function startGoldman(evt) {
   loadText("questions.json", "goldman_1");
 
   //Particles & functionality
-  simulatorMode = "Goldman";
+  mainSim.simMode("Goldman");
   var NernstButtonStatus = document.getElementById("NernstButton");
   var GoldmanButtonStatus = document.getElementById("GoldmanButton")
   GoldmanButtonStatus.style.backgroundColor = "#74b9ff";
@@ -96,10 +95,10 @@ function startGoldman(evt) {
 
     var checkBoxParticle = document.getElementById('checkbox' + particleTypes[j]).innerText;
 
-    if (!checkboxes[j].checked()) {
+    if (!mainSim.checkbox(j)) {
 
       //enable those particles
-      checkboxes[j].checked(true)
+      mainSim.checkbox(j, true);
       animationSequencer.current().setContainerDisplays(checkBoxParticle, true);
       enableInputForParticle(checkBoxParticle);
     }
@@ -143,7 +142,7 @@ function ChangesimulatorSetting(evt) {
     FormulaInputCalculation();
   }
 
-  if (simulatorMode == "Goldman") {
+  if (mainSim.simMode() == "Goldman") {
     FormulaInputCalculation();
   } else {
     if (Na.display == true) {
@@ -158,9 +157,9 @@ function ChangesimulatorSetting(evt) {
 
 function checkedEvent(evt) {
   // input: the element that triggered the event (Input buttons);
-
-  if (simulatorMode == "Goldman") {
-    this.checked(true); //Left checkbox checked by default
+  
+  if (mainSim.simMode() == "Goldman") {
+    // evt.target.checked(true); //Left checkbox checked by default
   } else {
     var particleType = this.elt.innerText;
 
@@ -172,7 +171,7 @@ function checkedEvent(evt) {
       enableInputForParticle(particleType);
 
       //Nernst Mode, only allow enable of one particle
-      if (simulatorMode == "Nernst") {
+      if (mainSim.simMode() == "Nernst") {
 
         lastNernstParticle = this.elt.innerText;
 
@@ -181,10 +180,10 @@ function checkedEvent(evt) {
           // var checkBox = document.getElementById('checkbox'+particleTypes[i])
           var checkBoxParticle = document.getElementById('checkbox' + particleTypes[j]).innerText;
 
-          if (checkboxes[j].checked() & checkBoxParticle != particleType & particleMapper[checkBoxParticle].display == true) {
+          if (mainSim.checkbox(j) && checkBoxParticle != particleType && particleMapper[checkBoxParticle].display == true) {
 
             //Disable those particles
-            checkboxes[j].checked(false)
+            mainSim.checkbox(j, false);
             animationSequencer.current().setContainerDisplays(checkBoxParticle, false);
             disableInputForParticle(checkBoxParticle);
 
@@ -201,9 +200,6 @@ function checkedEvent(evt) {
   }
 }
 
-//Store as global array, so we can checked and unchecked later
-var checkboxes = [];
-
 function NernstFormula(evt) {
   // input: the element that triggered the event (Input buttons);
 
@@ -218,7 +214,7 @@ function FormulaInputCalculation(particleType) {
   // usage: "Na", "Cl", "K"
   // output: float;
 
-  if (simulatorMode == "Nernst") {
+  if (mainSim.simMode() == "Nernst") {
     if (particleMapper[particleType]["display"]) {
       var answer = calculateNernst(particleType);
     } else {

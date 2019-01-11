@@ -110,8 +110,6 @@ function makeLayout() {
   simulatorInputContainer.id('simulatorInputContainer');
   simulatorInputContainer.parent('secondBox');
 
-  simuWidth = 0.65 * windowWidth;
-
   simulatorInput = createDiv('');
   simulatorInput.id('simInput');
   simulatorInput.parent('simulatorInputContainer');
@@ -172,7 +170,7 @@ function hideQuestion(evt) {
   mainSim.renderUI("hidebarText", hide)
   mainSim.renderUI("simulatorSetting", hide)
 
-  var curUI = (simulatorMode == "Nernst") ? "NernstSetting" : "GoldmanSetting"
+  var curUI = (mainSim.simMode() == "Nernst") ? "NernstSetting" : "GoldmanSetting"
   mainSim.renderUI(curUI, hide)
 
   mainSim.renderUI("dataPlot", hide)

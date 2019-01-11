@@ -10,6 +10,8 @@ class Simulator {
 
     this.m_canvas_width;
     this.m_canvas_height;
+
+    this.m_checkboxes = [];
   }
 
   setSize(w, h) {
@@ -65,6 +67,18 @@ class Simulator {
     }
   }
 
+  addCheckbox(checkbox) {
+    this.m_checkboxes.push(checkbox);
+  }
+
+  checkbox(index, bool=null) {
+    if (bool != null) {
+      this.m_checkboxes[index].checked(bool);
+    } else {
+      return this.m_checkboxes[index].checked();
+    }
+  }
+
   renderUI(id, mode) {
     //Input DOM object/chartjs object, Boolean
     switch (id) {
@@ -102,12 +116,17 @@ class Simulator {
     return this.m_sidebar_current != this.m_sidebar_size_multiple;
   }
 
-  resize() {
-    if (this.m_sidebar_current == 0.35) {
-      this.redrawUI(true);
+  simMode(mode=null) {
+    if (mode) {
+      this.m_mode = mode;
     } else {
-      this.redrawUI(false);
+      return this.m_mode;
     }
+  }
+
+  resize() {
+    var drawWithQuestions = !this.questionsAreHidden();
+    this.redrawUI(drawWithQuestions);
   }
 
   redrawUI(enableQuestionBox) {
