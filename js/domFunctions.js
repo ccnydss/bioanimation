@@ -101,10 +101,6 @@ function makeLayout() {
   canvas.id ('can');
   canvas.parent('sim');
 
-  window.onresize = function() {
-    mainSim.resize();
-  };
-
   // Div to contain the simulatorInput
   simulatorInputContainer = createDiv("");
   simulatorInputContainer.id('simulatorInputContainer');

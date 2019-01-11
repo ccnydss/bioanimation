@@ -6,8 +6,6 @@ class BioMain extends Sequence {
     this.MAX_PARTICLES = 25;
     this.MIN_PARTICLES = 1;
 
-    console.log("constructing", name, canWidth, canHeight);
-
     // Initial state for the animation
     this.m_init = {
       containers: {

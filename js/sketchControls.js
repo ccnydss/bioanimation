@@ -98,6 +98,10 @@ function keyPressed() {
   mainSim.keyInput();
 }
 
+function windowResized() {
+  mainSim.resize();
+}
+
 function ChangesimulatorSetting(evt) {
   // input: the element that triggered the event (Input buttons);
 

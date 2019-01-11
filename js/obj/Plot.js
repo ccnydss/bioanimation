@@ -22,8 +22,6 @@ class Plot {
   }
 
   initialize() {
-    console.log("Inside initialize", this);
-
     var ctx = document.getElementById('dataPlot').getContext('2d');
 
     this.m_data_chart = new Chart (ctx, {
@@ -163,7 +161,6 @@ class Plot {
       y: y
     }
 
-    // console.log(dataset)
     dataset.push(newData);
     if (dataset.length >= this.m_max_x + 1) {
       dataset.shift(); //Remove the first number if the plot is full
