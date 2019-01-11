@@ -125,7 +125,7 @@ class Simulator {
     var adjustedWindowHeight = windowHeight - 36;
 
     var newCanWidth = this.m_canvas_size_multiple * windowWidth;
-    var newCanHeight = this.m_canvas_size_multiple * adjustedWindowHeight;
+    var newCanHeight = (this.m_canvas_size_multiple * adjustedWindowHeight) - 4;
 
     // Complement's width and height
     // aka, 0.35 multiplier instead of 0.65
@@ -140,7 +140,7 @@ class Simulator {
     secondBox.size(newCanWidth, adjustedWindowHeight);
 
     questions.size(compWidth, compSideHeight);
-    equationContainer.size(compWidth, compSideHeight);
+    equationContainer.size(compWidth, sideHeight);
 
     leftBox.size(compWidth, compSideHeight);
     hideBar.size(compWidth, 20);
@@ -149,16 +149,16 @@ class Simulator {
     equation.size(compWidth, sideHeight - 40 - 20);
     simulator.size(newCanWidth, newCanHeight);
 
-    simulatorInputContainer.size(newCanWidth, newCanHeight);
+    simulatorInputContainer.size(newCanWidth, compHeight);
 
     simulatorInput.size(newCanWidth, 0.90 * newCanHeight);
-    controlsLeft.size(newCanWidth / 2, 0.35 * newCanHeight - 4);
-    controlsRight.size(newCanWidth / 2, 0.35 * newCanHeight - 4);
+    controlsLeft.size(newCanWidth / 2, 0.35 * newCanHeight);
+    controlsRight.size(newCanWidth / 2, 0.35 * newCanHeight);
     particleControl.size(newCanWidth, 0.1 * 0.80 * adjustedWindowHeight);
 
     this.canvasSize (
       newCanWidth,
-      newCanHeight - 4,
+      newCanHeight,
       canvas
     );
   }
