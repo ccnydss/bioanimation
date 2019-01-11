@@ -109,44 +109,52 @@ class Simulator {
       this.redrawUI(false);
     }
   }
-  
+
   redrawUI(enableQuestionBox) {
     // input: Boolean
     // usage: True is for initializing the UI; False is for recreating UI when browser window is resized (responsive UI)
     this.m_sidebar_current = enableQuestionBox ? this.m_sidebar_size_multiple : 1;
 
     this.adjustUISize();
-    this.canvasSize(this.m_canvas_width, this.m_canvas_height, canvas);
-
     animationSequencer.current().setContainerSizes(this.m_canvas_width, this.m_canvas_height);
   }
 
   adjustUISize() {
     // input: Floats
     // usage: Resizing the question/equation window; 0.35 (including question), 1 (excluding question)
-    var newCanWidth = 0.65 * windowWidth;
-    var newCanHeight = 0.65 * (windowHeight - 36);
+    var adjustedWindowHeight = windowHeight - 36;
 
-    simuWidth = 0.65 * windowWidth;
+    var newCanWidth = this.m_canvas_size_multiple * windowWidth;
+    var newCanHeight = this.m_canvas_size_multiple * adjustedWindowHeight;
 
-    stage.size(windowWidth, (windowHeight - 36));
-    firstBox.size(0.35 * windowWidth, (windowHeight - 36));
-    secondBox.size(0.65 * windowWidth, (windowHeight - 36));
+    // Complement's width and height
+    // aka, 0.35 multiplier instead of 0.65
+    var compWidth = (1 - this.m_canvas_size_multiple) * windowWidth;
+    var compHeight = (1 - this.m_canvas_size_multiple) * adjustedWindowHeight;
 
-    questions.size(0.35 * windowWidth, (1 - this.m_sidebar_current) * (windowHeight - 36));
-    equationContainer.size(0.35 * windowWidth, this.m_sidebar_current * (windowHeight - 36));
+    var sideHeight = this.m_sidebar_current * adjustedWindowHeight;
+    var compSideHeight = (1 - this.m_sidebar_current) * adjustedWindowHeight;
 
-    leftBox.size(0.35 * windowWidth, (1 - this.m_sidebar_current) * (windowHeight - 36));
-    hideBar.size(0.35 * windowWidth, 20);
-    equi.size(0.35 * windowWidth, 40);
-    equation.size(0.35 * windowWidth, this.m_sidebar_current * (windowHeight - 36) - 40 - 20);
+    stage.size(windowWidth, adjustedWindowHeight);
+    firstBox.size(compWidth, adjustedWindowHeight);
+    secondBox.size(newCanWidth, adjustedWindowHeight);
+
+    questions.size(compWidth, compSideHeight);
+    equationContainer.size(compWidth, compSideHeight);
+
+    leftBox.size(compWidth, compSideHeight);
+    hideBar.size(compWidth, 20);
+    equi.size(compWidth, 40);
+
+    equation.size(compWidth, sideHeight - 40 - 20);
     simulator.size(newCanWidth, newCanHeight);
 
-    simulatorInputContainer.size(0.65 * windowWidth, 0.35 * (windowHeight - 36));
-    simulatorInput.size(simuWidth, 0.35 * 0.90 * (windowHeight - 36));
-    controlsLeft.size(simuWidth / 2, 0.35 * newCanHeight);
-    controlsRight.size(simuWidth / 2, 0.35 * newCanHeight);
-    particleControl.size(simuWidth, 0.1 * 0.80 * (windowHeight - 36));
+    simulatorInputContainer.size(newCanWidth, newCanHeight);
+
+    simulatorInput.size(newCanWidth, 0.90 * newCanHeight);
+    controlsLeft.size(newCanWidth / 2, 0.35 * newCanHeight - 4);
+    controlsRight.size(newCanWidth / 2, 0.35 * newCanHeight - 4);
+    particleControl.size(newCanWidth, 0.1 * 0.80 * adjustedWindowHeight);
 
     this.canvasSize (
       newCanWidth,
