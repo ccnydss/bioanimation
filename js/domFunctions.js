@@ -1,6 +1,3 @@
-const equationHeightPercent = 0.35;
-equationContainerHeighthMul = equationHeightPercent;
-
 function makeLayout() {
   // Make the entire stage. This represents the entire, outer box containing the simulator, sidebar, and controls.
   stage = createDiv('');
@@ -105,11 +102,7 @@ function makeLayout() {
   canvas.parent('sim');
 
   window.onresize = function() {
-    if (equationContainerHeighthMul == 0.35) {
-      mainSim.redrawUI(true);
-    } else {
-      mainSim.redrawUI(false);
-    }
+    mainSim.resize();
   };
 
   // Div to contain the simulatorInput
@@ -160,7 +153,7 @@ function makeLayout() {
   particleControl.id('particleControl');
   particleControl.parent('simulatorInputContainer');
 
-  mainSim.adjustUISize(equationHeightPercent);
+  mainSim.adjustUISize();
 }
 
 function renderMathEqn() {
@@ -172,7 +165,8 @@ function renderMathEqn() {
 
 function hideQuestion(evt) {
   // input: the element that triggered the event (hide buttons [arrow]);
-  var hide = equationContainerHeighthMul == equationHeightPercent;
+  var show = mainSim.questionsAreHidden(); // Check if the questions are already hidden
+  var hide = !show;
 
   //Turn the question menu off
   mainSim.renderUI("hidebarText", hide)
@@ -183,9 +177,9 @@ function hideQuestion(evt) {
 
   mainSim.renderUI("dataPlot", hide)
   mainSim.renderUI("helpSetting", hide)
-  mainSim.renderUI("helpQuestion", !hide)
+  mainSim.renderUI("helpQuestion", show)
 
-  mainSim.redrawUI(!hide);
+  mainSim.redrawUI(show);
 }
 
 function makeTable(id, parent, content, contentUnit, contentDefaultValue, prevLength) {

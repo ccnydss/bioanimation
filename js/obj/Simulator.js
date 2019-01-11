@@ -5,7 +5,7 @@ class Simulator {
 
     this.m_sidebar_size_multiple = 0.35;  // Equation sidebar 35% height of the screen by default. Goes to 100% (1.0) when expanded
     this.m_sidebar_current = 0.35;        // Current value of the sidebar height
-    
+
     this.m_canvas_size_multiple = 0.65;   // Canvas width and height will be 65% of the screen's width and height.
 
     this.m_canvas_width;
@@ -98,39 +98,48 @@ class Simulator {
     }
   }
 
-  redrawUI(questionBox) {
+  questionsAreHidden() {
+    return this.m_sidebar_current != this.m_sidebar_size_multiple;
+  }
+
+  resize() {
+    if (this.m_sidebar_current == 0.35) {
+      this.redrawUI(true);
+    } else {
+      this.redrawUI(false);
+    }
+  }
+  
+  redrawUI(enableQuestionBox) {
     // input: Boolean
     // usage: True is for initializing the UI; False is for recreating UI when browser window is resized (responsive UI)
+    this.m_sidebar_current = enableQuestionBox ? this.m_sidebar_size_multiple : 1;
 
-    if (questionBox == true) {
-      equationContainerHeighthMul = equationHeightPercent;
-    } else {
-      equationContainerHeighthMul = 1;
-    }
-
-    this.adjustUISize(equationContainerHeighthMul);
+    this.adjustUISize();
     this.canvasSize(this.m_canvas_width, this.m_canvas_height, canvas);
 
     animationSequencer.current().setContainerSizes(this.m_canvas_width, this.m_canvas_height);
   }
 
-  adjustUISize(multiple) {
+  adjustUISize() {
     // input: Floats
     // usage: Resizing the question/equation window; 0.35 (including question), 1 (excluding question)
     var newCanWidth = 0.65 * windowWidth;
     var newCanHeight = 0.65 * (windowHeight - 36);
 
     simuWidth = 0.65 * windowWidth;
+
     stage.size(windowWidth, (windowHeight - 36));
     firstBox.size(0.35 * windowWidth, (windowHeight - 36));
     secondBox.size(0.65 * windowWidth, (windowHeight - 36));
-    questions.size(0.35 * windowWidth, (1 - multiple) * (windowHeight - 36));
 
-    equationContainer.size(0.35 * windowWidth, multiple * (windowHeight - 36));
-    leftBox.size(0.35 * windowWidth, (1 - multiple) * (windowHeight - 36));
+    questions.size(0.35 * windowWidth, (1 - this.m_sidebar_current) * (windowHeight - 36));
+    equationContainer.size(0.35 * windowWidth, this.m_sidebar_current * (windowHeight - 36));
+
+    leftBox.size(0.35 * windowWidth, (1 - this.m_sidebar_current) * (windowHeight - 36));
     hideBar.size(0.35 * windowWidth, 20);
     equi.size(0.35 * windowWidth, 40);
-    equation.size(0.35 * windowWidth, multiple * (windowHeight - 36) - 40 - 20);
+    equation.size(0.35 * windowWidth, this.m_sidebar_current * (windowHeight - 36) - 40 - 20);
     simulator.size(newCanWidth, newCanHeight);
 
     simulatorInputContainer.size(0.65 * windowWidth, 0.35 * (windowHeight - 36));

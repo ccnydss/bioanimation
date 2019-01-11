@@ -10,7 +10,7 @@ function startNernst(evt) {
     document.getElementById('NernstEqn').style.display = "inline";
     document.getElementById('GoldmanEqn').style.display = "none";
 
-    if (equationContainerHeighthMul != 0.35) { //Only appear setting when question box disappear
+    if (mainSim.questionsAreHidden()) { //Only appear setting when question box disappear
       document.getElementById('GoldmanSetting').style.display = "none";
       document.getElementById('NernstSetting').style.display = "initial";
     }
@@ -70,7 +70,7 @@ function startGoldman(evt) {
     document.getElementById('NernstEqn').style.display = "none";
     document.getElementById('GoldmanEqn').style.display = "inline";
 
-    if (equationContainerHeighthMul != 0.35) { //Only appear setting when question box disappear
+    if (mainSim.questionsAreHidden()) { //Only appear setting when question box disappear
       document.getElementById('NernstSetting').style.display = "none";
       document.getElementById('GoldmanSetting').style.display = "initial";
     }
