@@ -1,8 +1,12 @@
 class BioMain extends Sequence {
-  constructor() {
+  constructor(canWidth, canHeight) {
     super();
 
     this.MEMBRANE_WIDTH = 25;
+    this.MAX_PARTICLES = 25;
+    this.MIN_PARTICLES = 1;
+
+    console.log("constructing", name, canWidth, canHeight);
 
     // Initial state for the animation
     this.m_init = {
@@ -41,8 +45,6 @@ class BioMain extends Sequence {
     };
 
     this.m_state = Object.assign({}, this.m_init);
-    this.MAX_PARTICLES = 25;
-    this.MIN_PARTICLES = 1;
   }
 
   setup(s = this.m_state) {

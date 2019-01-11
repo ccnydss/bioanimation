@@ -9,9 +9,6 @@ var plusButton = [],
 
 var equations = [];
 
-var canWidth;
-var canHeight;
-
 var lastNernstParticle = "Na";
 
 var tempSetting = (37 + 273.13);
@@ -28,9 +25,13 @@ function setup() {
 
   graph = new Plot();
 
-  // Create the animation sequencer
-  bioMainSequence = new BioMain();
-  test1Seq = new Test1();
+  // Create the animation sequences
+  var cw = mainSim.getSize().width;
+  var ch = mainSim.getSize().height;
+
+  bioMainSequence = new BioMain(cw, ch);
+  test1Seq = new Test1(cw, ch);
+
   animationSequencer = new SequenceManager([bioMainSequence, test1Seq])
   animationSequencer.setup();
 

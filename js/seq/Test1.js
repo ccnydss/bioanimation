@@ -1,6 +1,6 @@
 class Test1 extends BioMain {
-  constructor() {
-    super();
+  constructor(canWidth, canHeight) {
+    super(canWidth, canHeight);
   }
 
   setup(s = this.m_state) {

@@ -67,7 +67,7 @@ function makeLayout() {
   simulatorSetting.parent("equationdiv");
   document.getElementById('simulatorSetting').style.display = "none";
 
-  makeTable(
+  makeTable (
     "NernstSetting",
     "equationdiv",
     ["T"],
@@ -75,7 +75,7 @@ function makeLayout() {
     [tempSetting, Na.charge]
   );
 
-  makeTable(
+  makeTable (
     "GoldmanSetting",
     "equationdiv",
     ["T", "p<sub>Na</sub>", "p<sub>Cl</sub>", "p<sub>K</sub>"],
@@ -94,25 +94,21 @@ function makeLayout() {
   simulator.parent('secondBox');
   simulator.size(0.65 * windowWidth, 0.65 * (windowHeight - 36));
 
-  // Define the global canWidth & canHeight variables~
-  canWidth = simulator.size().width;
-  canHeight = simulator.size().height - 8;
-
   simCanvasPause = createElement("div", "Paused");
   simCanvasPause.id('simCanvasPause');
   simCanvasPause.parent('sim');
   document.getElementById('simCanvasPause').style.display = "none";
 
   // Now to create the canvas
-  canvas = createCanvas(canWidth, canHeight);
+  canvas = mainSim.canvasCreate(simulator.size().width, simulator.size().height - 8);
   canvas.id ('can');
   canvas.parent('sim');
 
   window.onresize = function() {
     if (equationContainerHeighthMul == 0.35) {
-      redrawUI(true);
+      mainSim.redrawUI(true);
     } else {
-      redrawUI(false);
+      mainSim.redrawUI(false);
     }
   };
 
@@ -164,7 +160,7 @@ function makeLayout() {
   particleControl.id('particleControl');
   particleControl.parent('simulatorInputContainer');
 
-  adjustUISize(equationHeightPercent);
+  mainSim.adjustUISize(equationHeightPercent);
 }
 
 function renderMathEqn() {
@@ -179,17 +175,17 @@ function hideQuestion(evt) {
   var hide = equationContainerHeighthMul == equationHeightPercent;
 
   //Turn the question menu off
-  renderUI("hidebarText", hide)
-  renderUI("simulatorSetting", hide)
+  mainSim.renderUI("hidebarText", hide)
+  mainSim.renderUI("simulatorSetting", hide)
 
   var curUI = (simulatorMode == "Nernst") ? "NernstSetting" : "GoldmanSetting"
-  renderUI(curUI,hide)
+  mainSim.renderUI(curUI, hide)
 
-  renderUI("dataPlot", hide)
-  renderUI("helpSetting", hide)
-  renderUI("helpQuestion", !hide)
+  mainSim.renderUI("dataPlot", hide)
+  mainSim.renderUI("helpSetting", hide)
+  mainSim.renderUI("helpQuestion", !hide)
 
-  redrawUI(!hide);
+  mainSim.redrawUI(!hide);
 }
 
 function makeTable(id, parent, content, contentUnit, contentDefaultValue, prevLength) {

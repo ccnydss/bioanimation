@@ -2,10 +2,33 @@ class Simulator {
   constructor() {
     this.m_pause = false;
     this.m_mode = "Nernst";
+
+    this.m_sidebar_size_multiple = 0.35;  // Equation sidebar 35% height of the screen by default. Goes to 100% (1.0) when expanded
+    this.m_sidebar_current = 0.35;        // Current value of the sidebar height
+    
+    this.m_canvas_size_multiple = 0.65;   // Canvas width and height will be 65% of the screen's width and height.
+
+    this.m_canvas_width;
+    this.m_canvas_height;
   }
 
-  draw() {
+  setSize(w, h) {
+    this.m_canvas_width = w;
+    this.m_canvas_height = h;
+  }
 
+  getSize() {
+    return { width: this.m_canvas_width, height: this.m_canvas_height };
+  }
+
+  canvasCreate(w, h) {
+    this.setSize(w, h);
+    return createCanvas(w, h);
+  }
+
+  canvasSize(w, h, canvasDOM) {
+    this.setSize(w, h);
+    canvasDOM.size(w, h);
   }
 
   pause() {
@@ -40,5 +63,86 @@ class Simulator {
         updateAll();
         break;
     }
+  }
+
+  renderUI(id, mode) {
+    //Input DOM object/chartjs object, Boolean
+    switch (id) {
+      case "hidebarText":
+      document.getElementById("hidebarText").innerText = (mode) ? ">" : "<";
+      break;
+
+      case "simulatorSetting":
+      document.getElementById('simulatorSetting').style.display = (mode) ? "flex" : "none";
+      break;
+
+      case "NernstSetting":
+      document.getElementById('NernstSetting').style.display = (mode) ? "initial" : "none";
+      break;
+
+      case "GoldmanSetting":
+      document.getElementById('GoldmanSetting').style.display = (mode) ? "initial" : "none";
+      break;
+
+      case "helpQuestion":
+      document.getElementById('helpQuestion').style.display = (mode) ? "initial" : "none";
+      break;
+
+      case "helpSetting":
+      document.getElementById('helpSetting').style.height = (mode) ? "initial" : "100%";
+      break;
+
+      case "dataPlot":
+      document.getElementById('dataPlot').style.display = (mode) ? "initial" : "none";
+      break;
+    }
+  }
+
+  redrawUI(questionBox) {
+    // input: Boolean
+    // usage: True is for initializing the UI; False is for recreating UI when browser window is resized (responsive UI)
+
+    if (questionBox == true) {
+      equationContainerHeighthMul = equationHeightPercent;
+    } else {
+      equationContainerHeighthMul = 1;
+    }
+
+    this.adjustUISize(equationContainerHeighthMul);
+    this.canvasSize(this.m_canvas_width, this.m_canvas_height, canvas);
+
+    animationSequencer.current().setContainerSizes(this.m_canvas_width, this.m_canvas_height);
+  }
+
+  adjustUISize(multiple) {
+    // input: Floats
+    // usage: Resizing the question/equation window; 0.35 (including question), 1 (excluding question)
+    var newCanWidth = 0.65 * windowWidth;
+    var newCanHeight = 0.65 * (windowHeight - 36);
+
+    simuWidth = 0.65 * windowWidth;
+    stage.size(windowWidth, (windowHeight - 36));
+    firstBox.size(0.35 * windowWidth, (windowHeight - 36));
+    secondBox.size(0.65 * windowWidth, (windowHeight - 36));
+    questions.size(0.35 * windowWidth, (1 - multiple) * (windowHeight - 36));
+
+    equationContainer.size(0.35 * windowWidth, multiple * (windowHeight - 36));
+    leftBox.size(0.35 * windowWidth, (1 - multiple) * (windowHeight - 36));
+    hideBar.size(0.35 * windowWidth, 20);
+    equi.size(0.35 * windowWidth, 40);
+    equation.size(0.35 * windowWidth, multiple * (windowHeight - 36) - 40 - 20);
+    simulator.size(newCanWidth, newCanHeight);
+
+    simulatorInputContainer.size(0.65 * windowWidth, 0.35 * (windowHeight - 36));
+    simulatorInput.size(simuWidth, 0.35 * 0.90 * (windowHeight - 36));
+    controlsLeft.size(simuWidth / 2, 0.35 * newCanHeight);
+    controlsRight.size(simuWidth / 2, 0.35 * newCanHeight);
+    particleControl.size(simuWidth, 0.1 * 0.80 * (windowHeight - 36));
+
+    this.canvasSize (
+      newCanWidth,
+      newCanHeight - 4,
+      canvas
+    );
   }
 }
