@@ -102,50 +102,6 @@ function windowResized() {
   mainSim.resize();
 }
 
-function ChangesimulatorSetting(evt) {
-  // input: the element that triggered the event (Input buttons);
-
-  var eventID = evt.target.id;
-  //0 = temperature
-  //1 = charge *Removed*
-  //1 = temperature
-  //2 = Pna
-  //3 = Pcl
-  //4 = Pk
-  var updatedAmount = simSetting[eventID].value();
-
-  if (eventID == 0 || eventID == 1) {
-    tempSetting = updatedAmount;
-    simSetting[0].value(updatedAmount);
-    simSetting[1].value(updatedAmount);
-  }
-  if (eventID == 2) {
-    Na.permeability = updatedAmount;
-    // NOTE: Why is this function call empty?
-    FormulaInputCalculation();
-  }
-  if (eventID == 3) {
-    Cl.permeability = updatedAmount;
-    FormulaInputCalculation();
-  }
-  if (eventID == 4) {
-    K.permeability = updatedAmount;
-    FormulaInputCalculation();
-  }
-
-  if (mainSim.simMode() == "Goldman") {
-    FormulaInputCalculation();
-  } else {
-    if (Na.display == true) {
-      FormulaInputCalculation("Na");
-    } else if (Cl.display == true) {
-      FormulaInputCalculation("Cl");
-    } else if (K.display == true) {
-      FormulaInputCalculation("K");
-    }
-  }
-}
-
 function checkedEvent(evt) {
   // input: the element that triggered the event (Input buttons);
 

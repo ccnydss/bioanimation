@@ -204,7 +204,7 @@ function makeTable(id, parent, content, contentUnit, contentDefaultValue, prevLe
     simSetting[i].value(contentDefaultValue[i])
     simSetting[i].parent(td1);
     simSetting[i].id(i);
-    simSetting[i].input(ChangesimulatorSetting);
+    simSetting[i].input(mainSim.changeSimulatorSettings);
 
     var td3 = createElement('td', contentUnit[i]);
     td3.parent(trow);
