@@ -121,6 +121,21 @@ class Simulator {
       this.m_mode = mode;
     } else {
       return this.m_mode;
+    };
+
+    this.buttonModeSwitch();
+  }
+
+  buttonModeSwitch() {
+    var NernstButtonStatus = document.getElementById("NernstButton");
+    var GoldmanButtonStatus = document.getElementById("GoldmanButton");
+
+    if (this.m_mode == "Nernst") {
+      NernstButtonStatus.style.backgroundColor = "#74b9ff";
+      GoldmanButtonStatus.style.backgroundColor = "#dfe6e9";
+    } else {
+      NernstButtonStatus.style.backgroundColor = "#dfe6e9";
+      GoldmanButtonStatus.style.backgroundColor = "#74b9ff";
     }
   }
 

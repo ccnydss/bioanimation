@@ -1,6 +1,3 @@
-var NernstButtonStatus;
-var GoldmanButtonStatus;
-
 function startNernst(evt) {
   // input: the event DOM object; however this input is unused in this function
 
@@ -18,13 +15,7 @@ function startNernst(evt) {
   //Add new text
   loadText("questions.json", "nernst_1");
 
-  var simulatorMode = mainSim.simMode();
-
-  var NernstButtonStatus = document.getElementById("NernstButton");
-  var GoldmanButtonStatus = document.getElementById("GoldmanButton");
-
-  NernstButtonStatus.style.backgroundColor = "#74b9ff";
-  GoldmanButtonStatus.style.backgroundColor = "#dfe6e9";
+  mainSim.simMode("Nernst");
 
   //disable the net in the plot
   graph.hidePlot(3, true);
@@ -80,18 +71,14 @@ function startGoldman(evt) {
 
   //Particles & functionality
   mainSim.simMode("Goldman");
-  var NernstButtonStatus = document.getElementById("NernstButton");
-  var GoldmanButtonStatus = document.getElementById("GoldmanButton")
-  GoldmanButtonStatus.style.backgroundColor = "#74b9ff";
-  NernstButtonStatus.style.backgroundColor = "#dfe6e9";
 
   //enable the net in the plot
   graph.hidePlot(3, false);
 
   //enable all Ions
   for (var j = 0; j < particleTypes.length; j++) {
-  //enable all the particle in the plot
-  graph.hidePlot(j, false);
+    //enable all the particle in the plot
+    graph.hidePlot(j, false);
 
     var checkBoxParticle = document.getElementById('checkbox' + particleTypes[j]).innerText;
 
@@ -157,7 +144,7 @@ function ChangesimulatorSetting(evt) {
 
 function checkedEvent(evt) {
   // input: the element that triggered the event (Input buttons);
-  
+
   if (mainSim.simMode() == "Goldman") {
     // evt.target.checked(true); //Left checkbox checked by default
   } else {
@@ -198,15 +185,6 @@ function checkedEvent(evt) {
     }
     FormulaInputCalculation(particleType)
   }
-}
-
-function NernstFormula(evt) {
-  // input: the element that triggered the event (Input buttons);
-
-  var eventID = evt.target.id;
-  var newParticleType = equations[eventID].value();
-  var particleType = newParticleType;o
-  FormulaInputCalculation(particleType);
 }
 
 function FormulaInputCalculation(particleType) {
