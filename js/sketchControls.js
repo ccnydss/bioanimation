@@ -23,7 +23,7 @@ function startNernst(evt) {
   //enable last selected Ions
   for (var j = 0; j < particleTypes.length; j++) {
     var checkBoxParticle = document.getElementById('checkbox' + particleTypes[j]).innerText;
-    if (checkBoxParticle == mainSim.m_enabled_particle) {
+    if (checkBoxParticle == mainSim.m_nernst_particle) {
 
       //Just enable it by default?
 
@@ -38,7 +38,7 @@ function startNernst(evt) {
       FormulaInputCalculation(checkBoxParticle);
 
       //disable other ions if they are on?
-    } else if (checkBoxParticle != mainSim.m_enabled_particle && mainSim.checkbox(j)) {
+    } else if (checkBoxParticle != mainSim.m_nernst_particle && mainSim.checkbox(j)) {
       //disable others particles
       mainSim.checkbox(j, false);
       disableInputForParticle(checkBoxParticle);
@@ -120,7 +120,7 @@ function checkedEvent(evt) {
       //Nernst Mode, only allow enable of one particle
       if (mainSim.simMode() == "Nernst") {
 
-        mainSim.m_enabled_particle = this.elt.innerText;
+        mainSim.m_nernst_particle = this.elt.innerText;
 
         for (var j = 0; j < particleTypes.length; j++) {
 

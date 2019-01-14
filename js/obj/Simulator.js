@@ -19,7 +19,7 @@ class Simulator {
       faraday: 96485.3329                 // Faraday's constant
     };
 
-    this.m_enabled_particle = "Na";       // For Nernst mode
+    this.m_nernst_particle = "Na";       // For Nernst mode
   }
 
   setSize(w, h) {
