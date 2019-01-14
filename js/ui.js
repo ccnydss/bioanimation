@@ -7,7 +7,8 @@ function makeUIs(creation) {
     var answer = 0;
 
     equations[1] = createElement('h3', 'Answer: ' + answer + 'V');
-    equations[1].class('qoptions');
+    equations[1].id('answer');
+    equations[1].class('answer');
     equations[1].parent('equationdiv');
 
     // Radio buttons to select ions to include
@@ -114,3 +115,8 @@ function makeUIs(creation) {
       }
     }
   }
+
+
+function showPause(option) {
+  mainSim.renderUI("simCanvasFrame",option)
+}

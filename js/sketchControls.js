@@ -1,14 +1,16 @@
 function startNernst(evt) {
   // input: the event DOM object; however this input is unused in this function
 
+  //Graphics & Text
+  mainSim.renderUI('GoldmanSetting', false)
+
   //Remove old text
   if (document.getElementById('MathJax-Element-1-Frame')) {
-    document.getElementById('NernstEqn').style.display = "inline";
-    document.getElementById('GoldmanEqn').style.display = "none";
+    mainSim.renderUI('GoldmanEqn',false)
+    mainSim.renderUI('NernstEqn',true)
 
     if (mainSim.questionsAreHidden()) { //Only appear setting when question box disappear
-      document.getElementById('GoldmanSetting').style.display = "none";
-      document.getElementById('NernstSetting').style.display = "initial";
+      mainSim.renderUI('NernstSetting', true);
     }
   }
 
@@ -57,12 +59,11 @@ function startGoldman(evt) {
 
   //Remove old text
   if (document.getElementById('MathJax-Element-1-Frame')) {
-    document.getElementById('NernstEqn').style.display = "none";
-    document.getElementById('GoldmanEqn').style.display = "inline";
+    renderUI('NernstEqn',false);
+    renderUI('GoldmanEqn',true);
 
     if (mainSim.questionsAreHidden()) { //Only appear setting when question box disappear
-      document.getElementById('NernstSetting').style.display = "none";
-      document.getElementById('GoldmanSetting').style.display = "initial";
+      renderUI('GoldmanSetting', true);
     }
   }
 
@@ -135,7 +136,7 @@ function checkedEvent(evt) {
 
             //Also disable the particle in the plot
             graph.hidePlot(j, true);
-        } else if (particleMapper[checkBoxParticle]["display"] == true) {
+          } else if (particleMapper[checkBoxParticle]["display"] == true) {
             //Enable the particle in the plot
             graph.hidePlot(j, false);
           }
@@ -212,12 +213,15 @@ function disableInputForParticle(particleType) {
   var particle_id = particleMapper[particleType].id;
   inside_id = particle_id + 1;
   outside_id = particle_id + 1 + row;
-  input[inside_id].attribute('disabled', '');
-  input[outside_id].attribute('disabled', '');
-  plusButton[inside_id].attribute('disabled', '');
-  minusButton[inside_id].attribute('disabled', '');
-  plusButton[outside_id].attribute('disabled', '');
-  minusButton[outside_id].attribute('disabled', '');
+
+  if(!document.getElementById(inside_id).disabled) {
+    input[inside_id].attribute('disabled', '');
+    input[outside_id].attribute('disabled', '');
+    plusButton[inside_id].attribute('disabled', '');
+    minusButton[inside_id].attribute('disabled', '');
+    plusButton[outside_id].attribute('disabled', '');
+    minusButton[outside_id].attribute('disabled', '');
+  }
 
   animationSequencer.current().setContainerDisplays(particleType, false);
 }
@@ -231,12 +235,14 @@ function enableInputForParticle(particleType) {
   inside_id = particle_id + 1;
   outside_id = particle_id + 1 + row;
 
-  input[inside_id].removeAttribute('disabled');
-  input[outside_id].removeAttribute('disabled');
-  plusButton[inside_id].removeAttribute('disabled');
-  minusButton[inside_id].removeAttribute('disabled');
-  plusButton[outside_id].removeAttribute('disabled');
-  minusButton[outside_id].removeAttribute('disabled');
+  if(document.getElementById(inside_id).disabled) {
+    input[inside_id].removeAttribute('disabled');
+    input[outside_id].removeAttribute('disabled');
+    plusButton[inside_id].removeAttribute('disabled');
+    minusButton[inside_id].removeAttribute('disabled');
+    plusButton[outside_id].removeAttribute('disabled');
+    minusButton[outside_id].removeAttribute('disabled');
+  }
 
   animationSequencer.current().setContainerDisplays(particleType, true);
 }
@@ -259,12 +265,12 @@ function updateInputs(particleType, location, id) {
   : "outside";
 
   var oldInput = location == "outside"
-    ? input[id + 1]
-    : input[id + row + 1];
+  ? input[id + 1]
+  : input[id + row + 1];
 
   var transferInput = location == "outside"
-    ? input[id + row + 1]
-    : input[id + 1];
+  ? input[id + row + 1]
+  : input[id + 1];
 
   var oldAmount = animationSequencer.current().getNumParticles(location, particleType);
   var transferAmount = animationSequencer.current().getNumParticles(transferLocation, particleType);

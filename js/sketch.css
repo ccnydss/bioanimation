@@ -102,6 +102,8 @@ th {
 #equationdiv {
   padding: 5px;
   background-color: #4F4A41;
+  display:flex;
+  flex-direction: column;
 }
 
 #equationdiv img {
@@ -164,6 +166,21 @@ th {
 .qoptions {
   margin-left: 5px;
   vertical-align: middle;
+  align-self: flex-end;
+    margin-top: auto;
+}
+
+.answer {
+  margin-left: 5px;
+  vertical-align: middle;
+  align-self: flex-end;
+    margin-top: auto;
+    text-align: center;
+    width: 100%;
+    border-radius: 5px;
+    /* border: solid 2px #d63031;
+    color: #ecf0f1; */
+    color: #74b9ff;
 }
 
 .control h3 {
@@ -211,7 +228,7 @@ th {
   background-color: #dfe6e9;
 }
 
-input:hover {
+.control input:hover {
   cursor: text;
   box-shadow: 0px 0px 15px lightgrey;
 }
@@ -231,9 +248,9 @@ input:hover {
   color: white;
   text-align: center;
   text-decoration: none;
-  font-size: 0.9em;
-  /* padding:10px; */
+  font-size: 1.1em;
   width: 35%;
+  /* font-weight: bold; */
 }
 
 #equilibrate-button:hover, #equilibrate-button:active, #equilibrate-button:focus {
@@ -275,20 +292,7 @@ vertical-align: middle;
     align-self: center; */
 }
 
-#simulatorSetting {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-top: 20px;
-  padding-bottom: 10px;
-}
 
-#NernstSetting, #GoldmanSetting {
-  /* display:flex;
-flex-direction: column;
-align-items: center;
-  justify-content: center; */
-}
 
 #simCanvasPause {
   z-index: 1;
@@ -304,6 +308,46 @@ align-items: center;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+#simCanvasFrame {
+  z-index: 2;
+  /* background-color: gray; */
+  /* opacity: 0.7; */
+  /* padding:16px; */
+  font-size: 24px;
+  top: calc(36px + 5px);
+  width: calc(65% - 5px);
+  height: calc(65% - 36px + 8px);
+  position: absolute;
+  color: white;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+#simCanvasPauseIcon {
+  background-color: gray;
+  opacity: 0.7;
+  /* padding:16px; */
+  font-size: 24px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#simCanvasPauseIcon:hover {
+  opacity: 1;
+  cursor: pointer;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
 }
 
 /* Header */
@@ -348,31 +392,25 @@ align-items: center;
   background-color: gray;
   opacity: 0.9;
   display: flex;
-  /* padding:16px; */
-  width: calc(100% - 8px);
-  height: calc(94% + 12px);
   position: absolute;
-  ;
-  top: calc(36px + 4px);
-  left: 4px;
+  width: calc(100% - 4px);
+  height: calc(100% - 36px - 4px);
+  top: calc(36px + 2px);
+  left: 2px;
   color: white;
-  display: flex;
-  flex-wrap: wrap;
 }
 
-#helpPage div {
+#helpPage div div {
   /* background-color: blue; */
   display: flex;
   flex-direction: column;
-}
-
-#helpPage div li {
-  /* background-color: blue; */
-  border: 1px solid white;
-  padding: 10px;
-  display: flex;
+  background-color: gray;
+  opacity: 0.9;
+  color: white;
   justify-content: center;
   align-items: center;
+  border: 1px solid white;
+  padding: 10px;
 }
 
 #pauseButton {
@@ -386,6 +424,137 @@ align-items: center;
   align-items: center; */
 }
 
-input:disabled, button:disabled {
+.control input:disabled, button:disabled {
   cursor: not-allowed;
 }
+
+#simulatorSetting {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+/* https://stackoverflow.com/questions/3331353/transitions-on-the-display-property */
+#simulatorSetting, #questionsdiv{
+    transition-property: visibility, opacity;
+    transition-duration: 0s, 1s;
+}
+
+#dataPlot {
+    transition: max-height 0.25s ease-in;
+}
+#simulatorSetting.hidden, #questionsdiv.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transition-property: opacity, visibility;
+    transition-duration: 1s, 0s;
+    transition-delay: 0s, 1s;
+}
+
+#dataPlot.hidden {
+    max-height: 0;
+    transition: max-height 0.15s ease-out;
+ }
+
+.setting {
+  display: block;
+  text-align: center;
+}
+.setting tr {
+  position: relative;
+  font-weight: 400;
+  font-style: normal;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  color: rgba(0,0,0,.87);
+  margin:5px;
+}
+.setting tr label {
+  border-radius:4px 0px 0px 4px;
+  box-sizing:border-box;
+  color:rgba(255, 255, 255, 1);
+  background-color:rgba(255, 255, 255, 1);
+background-color:#74b9ff;
+  cursor:default;
+  font-family:Lato, "Helvetica Neue", Arial, Helvetica, sans-serif;
+  font-size:14px;
+  font-weight:700;
+  height:30px;
+  padding: 11px;
+  padding-top: 5.5px;
+  width:40px;
+}
+
+  #NernstSetting tr:nth-child(1) label {
+  background-color:#74b9ff;
+  padding-left: 12px;
+  padding-top: 7px;
+  }
+  #GoldmanSetting tr:nth-child(1) label {
+  background-color:rgb(245, 206, 40);
+  }
+  #GoldmanSetting tr:nth-child(2) label {
+  background-color:rgb(205, 92, 92);
+  }
+  #GoldmanSetting tr:nth-child(3) label {
+  background-color:rgb(53, 178, 53);
+  }
+
+.setting tr input {
+  box-sizing:border-box;
+  color:rgba(0, 0, 0, 0.87);
+  display:block;
+  font-size:14px;
+  font-weight:400;
+  height:30px;
+  line-height:17px;
+  max-width:100%;
+  outline: none;
+  border: 1px solid #DDDDDD;
+  padding: 14px 9.5px;
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -ms-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
+  }
+
+  #NernstSetting tr:nth-child(1) input:focus {
+  box-shadow: 0 0 5px #74b9ff;
+  border: 1px solid #74b9ff;
+  }
+
+  #GoldmanSetting tr:nth-child(1) input:focus {
+  box-shadow: 0 0 5px rgb(245, 206, 40);
+  border: 1px solid rgb(245, 206, 40);
+  }
+
+  #GoldmanSetting tr:nth-child(2) input:focus {
+  box-shadow: 0 0 5px rgb(205, 92, 92);
+  border: 1px solid rgb(205, 92, 92);
+  }
+
+  #GoldmanSetting tr:nth-child(3) input:focus {
+  box-shadow: 0 0 5px rgb(53, 178, 53);
+  border: 1px solid rgb(53, 178, 53);
+  }
+
+.setting tr div {
+  border-radius:0px 4px 4px 0px;
+  box-sizing:border-box;
+  cursor:default;
+  font-family:Lato, "Helvetica Neue", Arial, Helvetica, sans-serif;
+  font-size:14px;
+  font-weight:700;
+  height:30px;
+  padding: 11px;
+  padding-top: 5.5px;
+  width:31.4375px;
+  }
+
+  .unit {
+      background-color:rgb(232, 232, 232);
+      color:rgba(0, 0, 0, 0.5);
+  }

@@ -32,6 +32,7 @@ class SimulatorDOM {
 
     // The right sidebar for displaying questions.
     this.m_leftBox = ec("div", 'leftbar', 'firstBox');
+    this.m_sim.renderUI("leftbar",true)
 
     // Create the div to actually contain the questions.
     this.m_questions = ec("div", 'questionsdiv', 'leftbar');
@@ -50,15 +51,22 @@ class SimulatorDOM {
     this.m_equi = ec("button", 'equilibrate-button', 'equationContainer', { content: "Equilibrate", mousePressed: startEquilibrate });
 
     this.m_simulatorSetting = ec("div", 'simulatorSetting', 'equationdiv', { content: "Simulation Settings" })
+    this.m_sim.renderUI('simulatorSetting',false);
 
     // Plot window
-    this.m_dataPlot = ec("div", '', 'equationdiv', { content: '<canvas id="dataPlot"></canvas>' })
+    this.m_dataPlot = document.createElement("canvas");
+    this.m_dataPlot.id = 'dataPlot';
+
+    document.querySelector('#equationdiv').appendChild(this.m_dataPlot);
+    this.m_sim.renderUI('dataPlot',false);
 
     this.m_simulator = ec("div", 'sim', 'secondBox');
     this.m_simulator.size(0.65 * windowWidth, 0.65 * (windowHeight - 36));
 
     this.m_simCanvasPause = ec("div", 'simCanvasPause', 'sim', { content: "Paused" });
 
+    this.m_simCanvasFrame = ec("div", 'simCanvasFrame', 'sim')
+    this.m_simCanvasPauseIcon = ec("div", 'simCanvasPauseIcon', 'simCanvasFrame', { content: "❚❚"})
 
     // Now to create the canvas
     this.m_canvas = this.canvasCreate(this.m_simulator.size().width, this.m_simulator.size().height - 8);
@@ -100,6 +108,11 @@ class SimulatorDOM {
     this.m_canvas.size(w, h);
   }
 
+
+// function showPause(option) {
+// renderUI("simCanvasFrame",option)
+// }
+
   adjustUISize() {
     // input: Floats
     // usage: Resizing the question/equation window; 0.35 (including question), 1 (excluding question)
@@ -124,6 +137,7 @@ class SimulatorDOM {
     this.m_equationContainer.size(compWidth, sideHeight);
 
     this.m_leftBox.size(compWidth, compSideHeight);
+
     this.m_hideBar.size(compWidth, 20);
     this.m_equi.size(compWidth, 40);
 

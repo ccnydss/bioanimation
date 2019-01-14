@@ -18,6 +18,7 @@ function setup() {
   makeLayout();
 
   graph = new Plot();
+  help = new Help();
 
   // Create the animation sequences
   var cw = mainSim.m_dom.getSize().width;

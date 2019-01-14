@@ -26,9 +26,11 @@ class Simulator {
     if (!this.m_pause) {
       loop();
       document.getElementById('simCanvasPause').style.display = "none";
+      document.getElementById('simCanvasPauseIcon').innerText = "❚❚";
     } else {
       noLoop();
       document.getElementById('simCanvasPause').style.display = "flex";
+      document.getElementById('simCanvasPauseIcon').innerText = "►";
     }
   }
 
@@ -39,18 +41,18 @@ class Simulator {
 
     switch (keyCode) {
       case spacebar:
-        this.pause();
-        break;
+      this.pause();
+      break;
 
       case Q_key:
-        animationSequencer.prev(false);
-        updateAll();
-        break;
+      animationSequencer.prev(false);
+      updateAll();
+      break;
 
       case W_key:
-        animationSequencer.next(false);
-        updateAll();
-        break;
+      animationSequencer.next(false);
+      updateAll();
+      break;
     }
   }
 
@@ -71,34 +73,54 @@ class Simulator {
   }
 
   renderUI(id, mode) {
-    // Inputs: HTML id name (str), Boolean
+    //Input DOM object/chartjs object, Boolean
     switch (id) {
       case "hidebarText":
       document.getElementById("hidebarText").innerText = (mode) ? ">" : "<";
       break;
 
       case "simulatorSetting":
-      document.getElementById('simulatorSetting').style.display = (mode) ? "flex" : "none";
+      document.getElementById('simulatorSetting').className = (mode) ? "" : "hidden";
+      break;
+
+      case "questionsdiv":
+      document.getElementById('questionsdiv').className = (mode) ? "" : "hidden";
+      break;
+
+      case "NernstEqn":
+      document.getElementById('NernstEqn').style.display = (mode) ? "initial" : "none";
+      break;
+
+      case "GoldmanEqn":
+      document.getElementById('GoldmanEqn').style.display = (mode) ? "initial" : "none";
       break;
 
       case "NernstSetting":
-      document.getElementById('NernstSetting').style.display = (mode) ? "initial" : "none";
+      document.getElementById('NernstSetting').style.display = (mode) ? "block" : "none";
+      document.getElementById('setting').style.display = (mode) ? "initial" : "none";
       break;
 
       case "GoldmanSetting":
-      document.getElementById('GoldmanSetting').style.display = (mode) ? "initial" : "none";
-      break;
-
-      case "helpQuestion":
-      document.getElementById('helpQuestion').style.display = (mode) ? "initial" : "none";
-      break;
-
-      case "helpSetting":
-      document.getElementById('helpSetting').style.height = (mode) ? "initial" : "100%";
+      document.getElementById('GoldmanSetting').style.display = (mode) ? "block" : "none";
+      document.getElementById('setting').style.display = (mode) ? "initial" : "none";
       break;
 
       case "dataPlot":
-      document.getElementById('dataPlot').style.display = (mode) ? "initial" : "none";
+      document.getElementById('dataPlot').className = (mode) ? "" : "hidden";
+      //Note chartjs chart has a class called 'chartjs-render-monitor' by default, but this class is conflict with our animation
+      break;
+
+      case "simCanvasPause":
+      document.getElementById('simCanvasPause').style.display = (mode) ? "flex" : "none";
+      if(mode) {noloop();} else {loop()};
+      break;
+
+      case "leftbar":
+      document.getElementById('leftbar').style.display = (mode) ? "flex" : "none";
+      break;
+
+      case "simCanvasFrame":
+      document.getElementById('simCanvasFrame').style.display = (mode) ? "flex" : "none";
       break;
     }
   }
@@ -119,7 +141,6 @@ class Simulator {
 
   changeSimulatorSettings(evt) {
     // input: the element that triggered the event (Input buttons);
-    console.log("changing settings", this);
 
     var eventID = evt.target.id;
     //0 = temperature
@@ -128,28 +149,26 @@ class Simulator {
     //2 = Pna
     //3 = Pcl
     //4 = Pk
-    var updatedAmount = simSetting[eventID].value();
 
-    if (eventID == 0 || eventID == 1) {
-      this.m_settings.temperature = updatedAmount;
+    if (eventID == 0) {
+      tempSetting = updatedAmount;
       simSetting[0].value(updatedAmount);
-      simSetting[1].value(updatedAmount);
     }
-    if (eventID == 2) {
+    if (eventID == 1) {
       Na.permeability = updatedAmount;
       // NOTE: Why is this function call empty?
       FormulaInputCalculation();
     }
-    if (eventID == 3) {
+    if (eventID == 2) {
       Cl.permeability = updatedAmount;
       FormulaInputCalculation();
     }
-    if (eventID == 4) {
+    if (eventID == 3) {
       K.permeability = updatedAmount;
       FormulaInputCalculation();
     }
 
-    if (mainSim.simMode() == "Goldman") {
+    if (simulatorMode == "Goldman") {
       FormulaInputCalculation();
     } else {
       if (Na.display == true) {
@@ -180,12 +199,31 @@ class Simulator {
     this.redrawUI(drawWithQuestions);
   }
 
-  redrawUI(enableQuestionBox) {
+  // redrawUI(enableQuestionBox) {
+  //   // input: Boolean
+  //   // usage: True is for initializing the UI; False is for recreating UI when browser window is resized (responsive UI)
+  //   this.m_dom.m_sidebar_current = enableQuestionBox ? this.m_dom.m_sidebar_size_multiple : 1;
+  //
+  //   this.m_dom.adjustUISize();
+  //   animationSequencer.current().setContainerSizes(this.m_dom.m_canvas_width, this.m_dom.m_canvas_height);
+  // }
+
+  redrawUI(hide) {
     // input: Boolean
     // usage: True is for initializing the UI; False is for recreating UI when browser window is resized (responsive UI)
-    this.m_dom.m_sidebar_current = enableQuestionBox ? this.m_dom.m_sidebar_size_multiple : 1;
 
-    this.m_dom.adjustUISize();
-    animationSequencer.current().setContainerSizes(this.m_dom.m_canvas_width, this.m_dom.m_canvas_height);
+    this.m_dom.m_sidebar_current = hide ? this.m_dom.m_sidebar_size_multiple : 1;
+
+    var self = this;
+    setTimeout (
+      function() {
+        self.m_dom.adjustUISize();
+
+        //Relative to parent coordinate
+        animationSequencer.current().setContainerSizes(self.m_dom.m_canvas_width, self.m_dom.m_canvas_height);
+      },250
+    ) //Let the menu fade out for 250ms first
+
+    this.renderUI("questionsdiv", hide)
   }
 }

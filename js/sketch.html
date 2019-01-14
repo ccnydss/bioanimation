@@ -13,36 +13,12 @@
 </head>
 
 <body>
+  <div id="helpPage" style="display:none"></div>
   <div id="containerHeader">
     <li>Equation</li>
     <li>Contact</li>
     <li onclick="helpPageScript()">Help</li>
   </div>
-
-  <div id="helpPage" style="display:none">
-    <div style="height:100%; width:35%">
-      <li id="helpQuestion" style="height:65%; width:100%">This is the question area</li>
-      <li id="helpSetting" style="height:35%; width:100%">This is the equation area, you can also click "arrow" button to show up the setting menu</li>
-    </div>
-
-    <div style="height:100%; width:65%">
-      <li style="height:65%; width:100%;">This is the simulation area</li>
-      <li style="height:35%; width:100%">This is the simulation control area</li>
-    </div>
-  </div>
-
-  <script>
-    function helpPageScript() {
-      var helpPage = document.getElementById("helpPage");
-      if (helpPage.style.display == "none") {
-        // alert("yes")
-        helpPage.style.display = "flex";
-      } else {
-        // alert("no")
-        helpPage.style.display = "none";
-      }
-    }
-  </script>
 
   <div id="root"></div>
 
@@ -74,6 +50,8 @@
 
   <script language="javascript" type="text/javascript" src="main.js"></script>
   <script language="javascript" type="text/javascript" src="particleControls.js"></script>
+  <script language="javascript" type="text/javascript" src="obj/Help.js"></script>
+
   <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async>
 </script>
 
@@ -87,6 +65,7 @@ $$
 \small
 V_{rest} = \frac{RT}{F}ln \left( \frac{ P_{Na}[Na^+]_{\text{out}} + P_{Cl}[Cl^-]_{\text{in}} + P_{K}[K^-]_{\text{out}} } { P_{Na}[Na^+]_{\text{in}} + P_{Cl}[Cl^-]_{\text{out}} + P_{K}[K^-]_{\text{in}} } \right)$$
 </section>
+
 
 </body>
 
