@@ -15,55 +15,55 @@ function makeLayout() {
 
   mainSim.m_dom.setup();
 
-  // The right sidebar for displaying questions.
-  leftBox = createDiv("");
-  leftBox.id('leftbar');
-  leftBox.parent('firstBox');
+  // // The right sidebar for displaying questions.
+  // leftBox = createDiv("");
+  // leftBox.id('leftbar');
+  // leftBox.parent('firstBox');
 
   var leftbarStatus = document.getElementById("leftbar");
   leftbarStatus.style.display = "flex";
 
-  // Create the div to actually contain the questions.
-  questions = createDiv("");
-  questions.id('questionsdiv');
-  questions.parent('leftbar');
-  questionTitle = createElement("h3", "Goldman-Hodgkin-Katz").parent('questionsdiv');
-  questionTitle.id('questionTitle');
+  // // Create the div to actually contain the questions.
+  // questions = createDiv("");
+  // questions.id('questionsdiv');
+  // questions.parent('leftbar');
+  // questionTitle = createElement("h3", "Goldman-Hodgkin-Katz").parent('questionsdiv');
+  // questionTitle.id('questionTitle');
+  //
+  // var questionsText = "Calculate the equilibrium potential for Na and K using the Nernst equation for the following conditions";
+  // var question = createElement("p", questionsText).parent('questionsdiv');
+  // question.class ("questions");
+  // question.id("q1");
 
-  var questionsText = "Calculate the equilibrium potential for Na and K using the Nernst equation for the following conditions";
-  var question = createElement("p", questionsText).parent('questionsdiv');
-  question.class ("questions");
-  question.id("q1");
+  // // Div to contain the equation
+  // equationContainer = createDiv("");
+  // equationContainer.id('equationContainer');
+  // equationContainer.parent('firstBox');
+  //
+  // // The right sidebar for displaying questions.
+  // hideBar = createDiv("");
+  // hideBar.id('hidebar');
+  // hideBar.parent('equationContainer');
+  // hideBar.mousePressed(hideQuestion);
 
-  // Div to contain the equation
-  equationContainer = createDiv("");
-  equationContainer.id('equationContainer');
-  equationContainer.parent('firstBox');
-
-  // The right sidebar for displaying questions.
-  hideBar = createDiv("");
-  hideBar.id('hidebar');
-  hideBar.parent('equationContainer');
-  hideBar.mousePressed(hideQuestion);
-
-  hideBarText = createElement("div", "<");
-  hideBarText.id('hidebarText');
-  hideBarText.parent("hidebar");
-
-  equation = createDiv("");
-  equation.id('equationdiv');
-  equation.parent('equationContainer');
-
-  equi = createButton('Equilibrate');
-  equi.id('equilibrate-button');
-  equi.parent('equationContainer');
-  equi.mousePressed(startEquilibrate);
+  // hideBarText = createElement("div", "<");
+  // hideBarText.id('hidebarText');
+  // hideBarText.parent("hidebar");
+  //
+  // equation = createDiv("");
+  // equation.id('equationdiv');
+  // equation.parent('equationContainer');
+  //
+  // equi = createButton('Equilibrate');
+  // equi.id('equilibrate-button');
+  // equi.parent('equationContainer');
+  // equi.mousePressed(startEquilibrate);
 
   renderMathEqn();
 
-  simulatorSetting = createElement("div", "Simulation Settings");
-  simulatorSetting.id('simulatorSetting');
-  simulatorSetting.parent("equationdiv");
+  // simulatorSetting = createElement("div", "Simulation Settings");
+  // simulatorSetting.id('simulatorSetting');
+  // simulatorSetting.parent("equationdiv");
   document.getElementById('simulatorSetting').style.display = "none";
 
   makeTable (
@@ -82,26 +82,26 @@ function makeLayout() {
     [mainSim.m_settings.temperature, Na.permeability, Cl.permeability, K.permeability]
   );
 
-  // Plot window
-  dataPlot = createDiv('<canvas id="dataPlot"></canvas>');
-  dataPlot.parent('equationdiv');
+  // // Plot window
+  // dataPlot = createDiv('<canvas id="dataPlot"></canvas>');
+  // dataPlot.parent('equationdiv');
   var dataPlot = document.querySelector('#dataPlot')
   dataPlot.style.display = "none";
-
-  simulator = createDiv("");
-  simulator.id('sim');
-  simulator.parent('secondBox');
-  simulator.size(0.65 * windowWidth, 0.65 * (windowHeight - 36));
-
-  simCanvasPause = createElement("div", "Paused");
-  simCanvasPause.id('simCanvasPause');
-  simCanvasPause.parent('sim');
+  //
+  // simulator = createDiv("");
+  // simulator.id('sim');
+  // simulator.parent('secondBox');
+  // simulator.size(0.65 * windowWidth, 0.65 * (windowHeight - 36));
+  //
+  // simCanvasPause = createElement("div", "Paused");
+  // simCanvasPause.id('simCanvasPause');
+  // simCanvasPause.parent('sim');
   document.getElementById('simCanvasPause').style.display = "none";
 
-  // Now to create the canvas
-  canvas = mainSim.m_dom.canvasCreate(simulator.size().width, simulator.size().height - 8);
-  canvas.id ('can');
-  canvas.parent('sim');
+  // // Now to create the canvas
+  // canvas = mainSim.m_dom.canvasCreate(simulator.size().width, simulator.size().height - 8);
+  // canvas.id ('can');
+  // canvas.parent('sim');
 
   // Div to contain the simulatorInput
   simulatorInputContainer = createDiv("");

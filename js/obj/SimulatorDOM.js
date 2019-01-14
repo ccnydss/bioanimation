@@ -31,36 +31,52 @@ class SimulatorDOM {
     this.m_secondBox = ec("div", 'secondBox', 'stage');
 
     // The right sidebar for displaying questions.
-    // this.m_leftBox = ec("div", 'leftbar', 'firstBox');
-    //
-    // // Create the div to actually contain the questions.
-    // this.m_questions = ec("div", 'questionsdiv', 'leftbar');
-    // this.m_questionTitle = ec("h3", 'questionTitle', 'questionsdiv', { content: "Goldman-Hodgkin-Katz" });
-    //
-    // this.m_question = ec("p", "q1", "questionsdiv", {
-    //   className: 'questions',
-    //   content: "Calculate the equilibrium potential for Na and K using the Nernst equation for the following conditions"
-    // });
-    //
-    // // Div to contain the equation
-    // this.m_equationContainer = ec("div", 'equationContainer', 'firstBox');
-    //
-    // // The right sidebar for displaying questions.
-    // this.m_hideBar = ec("div", 'hidebar', 'equationContainer', { mousePressed: hideQuestion });
-    //
-    // this.m_hideBarText = ec("div", 'hidebarText', 'hidebar', { content: "<" });
-    //
-    // this.m_equation = ec("div", "equationdiv", 'equationContainer');
-    // this.m_equi = ec("button", 'equilibrate-button', 'equationContainer', { mousePressed: startEquilibrate });
+    this.m_leftBox = ec("div", 'leftbar', 'firstBox');
+
+    // Create the div to actually contain the questions.
+    this.m_questions = ec("div", 'questionsdiv', 'leftbar');
+    this.m_questionTitle = ec("h3", 'questionTitle', 'questionsdiv', { content: 'Goldman-Hodgkin-Katz' })
+
+    var questionsText = "Calculate the equilibrium potential for Na and K using the Nernst equation for the following conditions";
+    this.m_question = ec("p", 'q1', 'questionsdiv', { className: 'questions', content: questionsText });
+
+    // Div to contain the equation
+    this.m_equationContainer = ec("div", 'equationContainer', 'firstBox');
+
+    // The right sidebar for displaying questions.
+    this.m_hideBar = ec("div", 'hidebar', 'equationContainer', { mousePressed: hideQuestion });
+    this.m_hideBarText = ec("div", 'hidebarText', 'hidebar', { content: "<" });
+    this.m_equation = ec("div", 'equationdiv', 'equationContainer');
+    this.m_equi = ec("button", 'equilibrate-button', 'equationContainer', { content: "Equilibrate", mousePressed: startEquilibrate });
+
+    this.m_simulatorSetting = ec("div", 'simulatorSetting', 'equationdiv', { content: "Simulation Settings" })
+
+    // Plot window
+    this.m_dataPlot = ec("div", '', 'equationdiv', { content: '<canvas id="dataPlot"></canvas>' })
+
+    this.m_simulator = ec("div", 'sim', 'secondBox');
+    this.m_simulator.size(0.65 * windowWidth, 0.65 * (windowHeight - 36));
+
+    this.m_simCanvasPause = ec("div", 'simCanvasPause', 'sim', { content: "Paused" });
+
+
+    // Now to create the canvas
+    this.m_canvas = this.canvasCreate(this.m_simulator.size().width, this.m_simulator.size().height - 8);
+    this.m_canvas.id ('can');
+    this.m_canvas.parent('sim');
   }
 
-  elementCreator(element, id, className, parent, options = { content: '' }) {
-    var { content } = options;
+  elementCreator(element, eid, parent, options = { content: '', className: '', mousePressed: null }) {
+    var { content, className, mousePressed } = options;
 
     var elm = createElement(element, content);
-    elm.id(id);
+    elm.id(eid);
     elm.class(className);
     elm.parent(parent);
+
+    if (mousePressed) {
+      elm.mousePressed(mousePressed);
+    }
 
     return elm;
   }
@@ -79,9 +95,9 @@ class SimulatorDOM {
     return createCanvas(w, h);
   }
 
-  canvasSize(w, h, canvasDOM) {
+  canvasSize(w, h) {
     this.setSize(w, h);
-    canvasDOM.size(w, h);
+    this.m_canvas.size(w, h);
   }
 
   adjustUISize() {
@@ -104,15 +120,15 @@ class SimulatorDOM {
     this.m_firstBox.size(compWidth, adjustedWindowHeight);
     this.m_secondBox.size(newCanWidth, adjustedWindowHeight);
 
-    questions.size(compWidth, compSideHeight);
-    equationContainer.size(compWidth, sideHeight);
+    this.m_questions.size(compWidth, compSideHeight);
+    this.m_equationContainer.size(compWidth, sideHeight);
 
-    leftBox.size(compWidth, compSideHeight);
-    hideBar.size(compWidth, 20);
-    equi.size(compWidth, 40);
+    this.m_leftBox.size(compWidth, compSideHeight);
+    this.m_hideBar.size(compWidth, 20);
+    this.m_equi.size(compWidth, 40);
 
-    equation.size(compWidth, sideHeight - 40 - 20);
-    simulator.size(newCanWidth, newCanHeight);
+    this.m_equation.size(compWidth, sideHeight - 40 - 20);
+    this.m_simulator.size(newCanWidth, newCanHeight);
 
     simulatorInputContainer.size(newCanWidth, compHeight);
 
@@ -123,8 +139,7 @@ class SimulatorDOM {
 
     this.canvasSize (
       newCanWidth,
-      newCanHeight,
-      canvas
+      newCanHeight
     );
   }
 }
