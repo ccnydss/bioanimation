@@ -26,12 +26,35 @@ class SimulatorDOM {
   setup() {
     var ec = this.elementCreator;
 
-    this.m_stage = ec("div", 'stage', 'flex-container', 'root', { content: '' });
-    this.m_firstBox = ec("div", 'firstBox', '', 'stage', { content: '' });
-    this.m_secondBox = ec("div", 'secondBox', '', 'stage', { content: '' });
+    this.m_stage = ec("div", 'stage', 'root', { className: 'flex-container' });
+    this.m_firstBox = ec("div", 'firstBox', 'stage');
+    this.m_secondBox = ec("div", 'secondBox', 'stage');
+
+    // The right sidebar for displaying questions.
+    // this.m_leftBox = ec("div", 'leftbar', 'firstBox');
+    //
+    // // Create the div to actually contain the questions.
+    // this.m_questions = ec("div", 'questionsdiv', 'leftbar');
+    // this.m_questionTitle = ec("h3", 'questionTitle', 'questionsdiv', { content: "Goldman-Hodgkin-Katz" });
+    //
+    // this.m_question = ec("p", "q1", "questionsdiv", {
+    //   className: 'questions',
+    //   content: "Calculate the equilibrium potential for Na and K using the Nernst equation for the following conditions"
+    // });
+    //
+    // // Div to contain the equation
+    // this.m_equationContainer = ec("div", 'equationContainer', 'firstBox');
+    //
+    // // The right sidebar for displaying questions.
+    // this.m_hideBar = ec("div", 'hidebar', 'equationContainer', { mousePressed: hideQuestion });
+    //
+    // this.m_hideBarText = ec("div", 'hidebarText', 'hidebar', { content: "<" });
+    //
+    // this.m_equation = ec("div", "equationdiv", 'equationContainer');
+    // this.m_equi = ec("button", 'equilibrate-button', 'equationContainer', { mousePressed: startEquilibrate });
   }
 
-  elementCreator(element, id, className, parent, options={}) {
+  elementCreator(element, id, className, parent, options = { content: '' }) {
     var { content } = options;
 
     var elm = createElement(element, content);

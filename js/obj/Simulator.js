@@ -104,7 +104,7 @@ class Simulator {
   }
 
   questionsAreHidden() {
-    return this.m_sidebar_current != this.m_sidebar_size_multiple;
+    return this.m_dom.m_sidebar_current != this.m_dom.m_sidebar_size_multiple;
   }
 
   simMode(mode=null) {
@@ -183,7 +183,7 @@ class Simulator {
   redrawUI(enableQuestionBox) {
     // input: Boolean
     // usage: True is for initializing the UI; False is for recreating UI when browser window is resized (responsive UI)
-    this.m_sidebar_current = enableQuestionBox ? this.m_sidebar_size_multiple : 1;
+    this.m_dom.m_sidebar_current = enableQuestionBox ? this.m_dom.m_sidebar_size_multiple : 1;
 
     this.m_dom.adjustUISize();
     animationSequencer.current().setContainerSizes(this.m_dom.m_canvas_width, this.m_dom.m_canvas_height);
