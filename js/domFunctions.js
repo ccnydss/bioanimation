@@ -1,17 +1,19 @@
 function makeLayout() {
   // Make the entire stage. This represents the entire, outer box containing the simulator, sidebar, and controls.
-  stage = createDiv('');
-  stage.id('stage');
-  stage.class ('flex-container');
-  stage.parent('root');
+  // stage = createDiv('');
+  // stage.id('stage');
+  // stage.class ('flex-container');
+  // stage.parent('root');
+  //
+  // firstBox = createDiv("");
+  // firstBox.id('firstBox');
+  // firstBox.parent('stage');
+  //
+  // secondBox = createDiv("");
+  // secondBox.id('secondBox');
+  // secondBox.parent('stage');
 
-  firstBox = createDiv("");
-  firstBox.id('firstBox');
-  firstBox.parent('stage');
-
-  secondBox = createDiv("");
-  secondBox.id('secondBox');
-  secondBox.parent('stage');
+  mainSim.m_dom.setup();
 
   // The right sidebar for displaying questions.
   leftBox = createDiv("");
@@ -97,7 +99,7 @@ function makeLayout() {
   document.getElementById('simCanvasPause').style.display = "none";
 
   // Now to create the canvas
-  canvas = mainSim.canvasCreate(simulator.size().width, simulator.size().height - 8);
+  canvas = mainSim.m_dom.canvasCreate(simulator.size().width, simulator.size().height - 8);
   canvas.id ('can');
   canvas.parent('sim');
 
@@ -147,7 +149,7 @@ function makeLayout() {
   particleControl.id('particleControl');
   particleControl.parent('simulatorInputContainer');
 
-  mainSim.adjustUISize();
+  mainSim.m_dom.adjustUISize();
 }
 
 function renderMathEqn() {

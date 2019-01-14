@@ -20,9 +20,10 @@ function setup() {
   graph = new Plot();
 
   // Create the animation sequences
-  var cw = mainSim.getSize().width;
-  var ch = mainSim.getSize().height;
+  var cw = mainSim.m_dom.getSize().width;
+  var ch = mainSim.m_dom.getSize().height;
 
+  console.log("the sizes are...", cw, ch);
   bioMainSequence = new BioMain(cw, ch);
   test1Seq = new Test1(cw, ch);
 
