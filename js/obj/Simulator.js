@@ -12,6 +12,12 @@ class Simulator {
     this.m_canvas_height;
 
     this.m_checkboxes = [];
+
+    this.m_settings = {
+      temperature: 37 + 273.13,           // 37 is the human body temperature
+      gas_constant: 8.314,                // Ideal gas constant
+      faraday: 96485.3329                 // Faraday's constant
+    }
   }
 
   setSize(w, h) {
@@ -128,8 +134,8 @@ class Simulator {
 
   changeSimulatorSettings(evt) {
     // input: the element that triggered the event (Input buttons);
-    console.log("changing settings");
-    
+    console.log("changing settings", this);
+
     var eventID = evt.target.id;
     //0 = temperature
     //1 = charge *Removed*
@@ -140,7 +146,7 @@ class Simulator {
     var updatedAmount = simSetting[eventID].value();
 
     if (eventID == 0 || eventID == 1) {
-      tempSetting = updatedAmount;
+      this.m_settings.temperature = updatedAmount;
       simSetting[0].value(updatedAmount);
       simSetting[1].value(updatedAmount);
     }

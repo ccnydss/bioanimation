@@ -167,9 +167,9 @@ function FormulaInputCalculation(particleType) {
 
 function calculateNernst(particleType) {
   // input: string;
-  var R = 8.314; // ideal gas constant
-  var T = tempSetting; // 37 is the Human Body temperature
-  var F = 96485.3329; // Faraday's constant
+  var R = mainSim.m_settings.gas_constant; // ideal gas constant
+  var T = mainSim.m_settings.temperature; // 37 is the Human Body temperature
+  var F = mainSim.m_settings.faraday; // Faraday's constant
   var z = particleMapper[particleType]["charge"];
 
   var Xout = animationSequencer.current().getNumParticles("outside", particleType);
@@ -179,9 +179,10 @@ function calculateNernst(particleType) {
 }
 
 function calculateGoldman() {
-  var R = 8.314; // ideal gas constant
-  var T = tempSetting; // 37 is the Human Body temperature
-  var F = 96485.3329; // Faraday's constant
+  var R = mainSim.m_settings.gas_constant; // ideal gas constant
+  var T = mainSim.m_settings.temperature; // 37 is the Human Body temperature
+  var F = mainSim.m_settings.faraday; // Faraday's constant
+  
   var numerator = 0;
   var denominator = 0;
   // Accumulate sums for numerator and denominator

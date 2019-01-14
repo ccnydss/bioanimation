@@ -69,7 +69,7 @@ function makeLayout() {
     "equationdiv",
     ["T"],
     ["K"],
-    [tempSetting, Na.charge]
+    [mainSim.m_settings.temperature, Na.charge]
   );
 
   makeTable (
@@ -77,7 +77,7 @@ function makeLayout() {
     "equationdiv",
     ["T", "p<sub>Na</sub>", "p<sub>Cl</sub>", "p<sub>K</sub>"],
     ["K", "", "", ""],
-    [tempSetting, Na.permeability, Cl.permeability, K.permeability]
+    [mainSim.m_settings.temperature, Na.permeability, Cl.permeability, K.permeability]
   );
 
   // Plot window
@@ -159,7 +159,7 @@ function renderMathEqn() {
 
 function hideQuestion(evt) {
   // input: the element that triggered the event (hide buttons [arrow]);
-  var show = mainSim.questionsAreHidden(); // Check if the questions are already hidden
+  var show = mainSim.questionsAreHidden(); // Check if the questions are already hidden. If TRUE, we should show them. If FALSE, we should hide them.
   var hide = !show;
 
   //Turn the question menu off
@@ -204,7 +204,7 @@ function makeTable(id, parent, content, contentUnit, contentDefaultValue, prevLe
     simSetting[i].value(contentDefaultValue[i])
     simSetting[i].parent(td1);
     simSetting[i].id(i);
-    simSetting[i].input(mainSim.changeSimulatorSettings);
+    simSetting[i].input(mainSim.changeSimulatorSettings.bind(mainSim));
 
     var td3 = createElement('td', contentUnit[i]);
     td3.parent(trow);

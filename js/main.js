@@ -11,8 +11,6 @@ var equations = [];
 
 var lastNernstParticle = "Na";
 
-var tempSetting = (37 + 273.13);
-
 var mainSim = new Simulator();
 var graph;
 var animationSequencer;
