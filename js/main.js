@@ -9,8 +9,6 @@ var plusButton = [],
 
 var equations = [];
 
-var lastNernstParticle = "Na";
-
 var mainSim = new Simulator();
 var graph;
 var animationSequencer;

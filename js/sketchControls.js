@@ -23,7 +23,7 @@ function startNernst(evt) {
   //enable last selected Ions
   for (var j = 0; j < particleTypes.length; j++) {
     var checkBoxParticle = document.getElementById('checkbox' + particleTypes[j]).innerText;
-    if (checkBoxParticle == lastNernstParticle) {
+    if (checkBoxParticle == mainSim.m_enabled_particle) {
 
       //Just enable it by default?
 
@@ -38,7 +38,7 @@ function startNernst(evt) {
       FormulaInputCalculation(checkBoxParticle);
 
       //disable other ions if they are on?
-    } else if (checkBoxParticle != lastNernstParticle && mainSim.checkbox(j)) {
+    } else if (checkBoxParticle != mainSim.m_enabled_particle && mainSim.checkbox(j)) {
       //disable others particles
       mainSim.checkbox(j, false);
       disableInputForParticle(checkBoxParticle);
@@ -120,7 +120,7 @@ function checkedEvent(evt) {
       //Nernst Mode, only allow enable of one particle
       if (mainSim.simMode() == "Nernst") {
 
-        lastNernstParticle = this.elt.innerText;
+        mainSim.m_enabled_particle = this.elt.innerText;
 
         for (var j = 0; j < particleTypes.length; j++) {
 
@@ -182,7 +182,7 @@ function calculateGoldman() {
   var R = mainSim.m_settings.gas_constant; // ideal gas constant
   var T = mainSim.m_settings.temperature; // 37 is the Human Body temperature
   var F = mainSim.m_settings.faraday; // Faraday's constant
-  
+
   var numerator = 0;
   var denominator = 0;
   // Accumulate sums for numerator and denominator

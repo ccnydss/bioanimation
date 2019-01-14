@@ -17,7 +17,9 @@ class Simulator {
       temperature: 37 + 273.13,           // 37 is the human body temperature
       gas_constant: 8.314,                // Ideal gas constant
       faraday: 96485.3329                 // Faraday's constant
-    }
+    };
+
+    this.m_enabled_particle = "Na";       // For Nernst mode
   }
 
   setSize(w, h) {
