@@ -24,28 +24,27 @@ class SimulatorDOM {
   }
 
   setup() {
-    // this.elementCreator("div", 'stage', 'flex-container', 'root', { content: '' });
-    // this.elementCreator("div", 'firstBox', '', 'stage', { content: '' });
-    // this.elementCreator("div", 'secondBox', '', 'stage', { content: ''});
-    this.m_stage = createDiv('');
-    this.m_stage.id('stage');
-    this.m_stage.class ('flex-container');
-    this.m_stage.parent('root');
+    var ec = this.elementCreator;
 
-    this.m_firstBox = createDiv("");
-    this.m_firstBox.id('firstBox');
-    this.m_firstBox.parent('stage');
+    this.m_stage = ec("div", 'stage', 'flex-container', 'root', { content: '' });
+    this.m_firstBox = ec("div", 'firstBox', '', 'stage', { content: '' });
+    this.m_secondBox = ec("div", 'secondBox', '', 'stage', { content: '' });
+  }
 
-    this.m_secondBox = createDiv("");
-    this.m_secondBox.id('secondBox');
-    this.m_secondBox.parent('stage');
+  elementCreator(element, id, className, parent, options={}) {
+    var { content } = options;
+
+    var elm = createElement(element, content);
+    elm.id(id);
+    elm.class(className);
+    elm.parent(parent);
+
+    return elm;
   }
 
   setSize(w, h) {
     this.m_canvas_width = w;
     this.m_canvas_height = h;
-
-    console.log("setting size", this.m_canvas_width, this.m_canvas_height, w, h);
   }
 
   getSize() {
@@ -105,13 +104,4 @@ class SimulatorDOM {
       canvas
     );
   }
-
-  // elementCreator(element, id, class, parent, options) {
-  //   var { content } = options;
-  //
-  //   var elm = createElement(element, content);
-  //   elm.id(id);
-  //   elm.class(class);
-  //   elm.parent(parent);
-  // }
 }
