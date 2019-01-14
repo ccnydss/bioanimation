@@ -47,7 +47,7 @@ class BioMain extends Sequence {
 
   setup(s = this.m_state) {
     // Create channels
-    s.channels = createChannels(s.membrane, particleTypes.length);
+    s.channels = createChannels(s.membrane, mainSim.numParticleTypes());
 
     // Initialize containers with particles
     for (var loc in s.containers) {
@@ -105,7 +105,7 @@ class BioMain extends Sequence {
       }
     );
 
-    s.channels = createChannels(s.membrane, particleTypes.length);
+    s.channels = createChannels(s.membrane, mainSim.numParticleTypes());
   }
 
   setContainerDisplays(particleType, boolValue) {

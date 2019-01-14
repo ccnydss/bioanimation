@@ -21,8 +21,8 @@ function startNernst(evt) {
   graph.hidePlot(3, true);
 
   //enable last selected Ions
-  for (var j = 0; j < particleTypes.length; j++) {
-    var checkBoxParticle = document.getElementById('checkbox' + particleTypes[j]).innerText;
+  for (var j = 0; j < mainSim.numParticleTypes(); j++) {
+    var checkBoxParticle = document.getElementById('checkbox' + mainSim.m_particle_types[j]).innerText;
     if (checkBoxParticle == mainSim.m_nernst_particle) {
 
       //Just enable it by default?
@@ -76,11 +76,11 @@ function startGoldman(evt) {
   graph.hidePlot(3, false);
 
   //enable all Ions
-  for (var j = 0; j < particleTypes.length; j++) {
+  for (var j = 0; j < mainSim.numParticleTypes(); j++) {
     //enable all the particle in the plot
     graph.hidePlot(j, false);
 
-    var checkBoxParticle = document.getElementById('checkbox' + particleTypes[j]).innerText;
+    var checkBoxParticle = document.getElementById('checkbox' + mainSim.m_particle_types[j]).innerText;
 
     if (!mainSim.checkbox(j)) {
 
@@ -122,10 +122,9 @@ function checkedEvent(evt) {
 
         mainSim.m_nernst_particle = this.elt.innerText;
 
-        for (var j = 0; j < particleTypes.length; j++) {
+        for (var j = 0; j < mainSim.numParticleTypes(); j++) {
 
-          // var checkBox = document.getElementById('checkbox'+particleTypes[i])
-          var checkBoxParticle = document.getElementById('checkbox' + particleTypes[j]).innerText;
+          var checkBoxParticle = document.getElementById('checkbox' + mainSim.m_particle_types[j]).innerText;
 
           if (mainSim.checkbox(j) && checkBoxParticle != particleType && particleMapper[checkBoxParticle].display == true) {
 
@@ -186,8 +185,8 @@ function calculateGoldman() {
   var numerator = 0;
   var denominator = 0;
   // Accumulate sums for numerator and denominator
-  for (var i = 0; i < particleTypes.length; i++) {
-    var particleType = particleTypes[i];
+  for (var i = 0; i < mainSim.numParticleTypes(); i++) {
+    var particleType = mainSim.m_particle_types[i];
     if (particleMapper[particleType].display) {
       var numOutside = animationSequencer.current().getNumParticles("outside", particleType);
       var numInside = animationSequencer.current().getNumParticles("inside", particleType);

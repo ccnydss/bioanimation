@@ -5,7 +5,7 @@ class Test1 extends BioMain {
 
   setup(s = this.m_state) {
     // Create channels
-    s.channels = createChannels(s.membrane, particleTypes.length);
+    s.channels = createChannels(s.membrane, mainSim.numParticleTypes());
 
     // Initialize containers with particles
     for (var loc in s.containers) {

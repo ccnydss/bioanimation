@@ -1,6 +1,4 @@
 //Just for initializing
-var particleTypes = ["Na", "Cl", "K"];
-
 var plusButton = [],
   minusButton = [],
   textboard = [],   // NOTE: More specific variable name
@@ -39,7 +37,7 @@ function setup() {
   disableInputForParticle("Cl");
   disableInputForParticle("K");
 
-  FormulaInputCalculation(particleTypes[0]);
+  FormulaInputCalculation("Na");
 }
 
 function draw() {

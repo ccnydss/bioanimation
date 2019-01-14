@@ -103,7 +103,7 @@ class Plot {
             var index = legendItem.datasetIndex;
 
             if (mainSim.simMode() == "Nernst" && index != 3) { //index 3 is the net voltage
-              var checkBoxParticle = document.getElementById('checkbox' + particleTypes[index]).innerText;
+              var checkBoxParticle = document.getElementById('checkbox' + mainSim.m_particle_types[index]).innerText;
 
               mainSim.checkbox(index, true);
 
@@ -112,7 +112,7 @@ class Plot {
 
               ci.data.datasets.forEach(function(e, i) {
                 if (i !== index & i !=3) {
-                  var checkBoxParticle = document.getElementById('checkbox' + particleTypes[i]).innerText;
+                  var checkBoxParticle = document.getElementById('checkbox' + mainSim.m_particle_types[i]).innerText;
 
                   mainSim.checkbox(i, false);
                   graph.hidePlot(i, true);
@@ -131,7 +131,7 @@ class Plot {
     if (!mainSim.m_pause) { //If the plot is not paused
       for (var i = 0; i < 4; i++) {
         if (i < 3) {
-          var particleType = particleTypes[i];
+          var particleType = mainSim.m_particle_types[i];
           var voltage = calculateNernst(particleType);
         } else if (i == 3) {
           var voltage = calculateGoldman();

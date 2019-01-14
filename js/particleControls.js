@@ -1,9 +1,9 @@
 function startEquilibrate(evt) {
   // input: the element that triggered the event; however this input is unused in this function
 
-  for (var i = 0; i < particleTypes.length; i++) {
-    if (particleMapper[particleTypes[i]].display) {
-      animationSequencer.current().equilibrate(particleTypes[i]);
+  for (var i = 0; i < mainSim.numParticleTypes(); i++) {
+    if (particleMapper[mainSim.m_particle_types[i]].display) {
+      animationSequencer.current().equilibrate(mainSim.m_particle_types[i]);
     }
   }
 }
@@ -14,7 +14,7 @@ function insertParticle(evt) {
   var eventID = evt.target.id;
   var row = 4;
   var id = (eventID % row) - 1;
-  var particleType = particleTypes[id];
+  var particleType = mainSim.m_particle_types[id];
   var particleLocation = (eventID < row) ?
     "outside" :
     "inside";
@@ -27,7 +27,7 @@ function removeParticle(evt) {
   var eventID = evt.target.id;
   var row = 4;
   var id = (eventID % row) - 1;
-  var particleType = particleTypes[id];
+  var particleType = mainSim.m_particle_types[id];
   var particleLocation = (eventID < row) ?
     "outside" :
     "inside";
@@ -41,7 +41,7 @@ function changeNumParticles(evt) {
   var eventID = evt.target.id;
   var row = 4;
   var id = (eventID % row) - 1;
-  var particleType = particleTypes[id];
+  var particleType = mainSim.m_particle_types[id];
   var particleLocation = (eventID < row) ?
     "outside" :
     "inside";

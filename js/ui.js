@@ -11,10 +11,10 @@ function makeUIs(creation) {
     equations[1].parent('equationdiv');
 
     // Radio buttons to select ions to include
-    for (var i = 0; i < particleTypes.length; i++) {
-      var chk = createCheckbox(particleTypes[i], false);
+    for (var i = 0; i < mainSim.numParticleTypes(); i++) {
+      var chk = createCheckbox(mainSim.m_particle_types[i], false);
       chk.class('checkboxes');
-      chk.id('checkbox' + particleTypes[i]);
+      chk.id('checkbox' + mainSim.m_particle_types[i]);
       chk.parent('particleControl');
       chk.changed(checkedEvent);
 
@@ -38,7 +38,7 @@ function makeUIs(creation) {
         var text = 'Intracellular Control:';
       } else {
         var id = (k % row) - 1;
-        var particleType = particleTypes[id];
+        var particleType = mainSim.m_particle_types[id];
         var particleLocation = (k <= 3) ? "outside" : "inside";
 
         var particleSuffix = (k <= 3) ?

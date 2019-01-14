@@ -1,7 +1,6 @@
 class Simulator {
   constructor() {
     this.m_pause = false;
-    this.m_mode = "Nernst";
 
     this.m_sidebar_size_multiple = 0.35;  // Equation sidebar 35% height of the screen by default. Goes to 100% (1.0) when expanded
     this.m_sidebar_current = 0.35;        // Current value of the sidebar height
@@ -10,6 +9,9 @@ class Simulator {
 
     this.m_canvas_width;
     this.m_canvas_height;
+
+    this.m_mode = "Nernst";
+    this.m_particle_types = ["Na", "Cl", "K"];
 
     this.m_checkboxes = [];
 
@@ -85,6 +87,10 @@ class Simulator {
     } else {
       return this.m_checkboxes[index].checked();
     }
+  }
+
+  numParticleTypes() {
+    return this.m_particle_types.length;
   }
 
   renderUI(id, mode) {
