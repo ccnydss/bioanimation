@@ -5,14 +5,16 @@ var simulatorMode;
 function startNernst(evt) {
   // input: the event DOM object; however this input is unused in this function
 
+    //Graphics & Text
+    renderUI('GoldmanSetting',false)
+
   //Remove old text
   if (document.getElementById('MathJax-Element-1-Frame')) {
-    document.getElementById('NernstEqn').style.display = "inline";
-    document.getElementById('GoldmanEqn').style.display = "none";
+      renderUI('GoldmanEqn',false)
+      renderUI('NernstEqn',true)
 
     if (equationContainerHeighthMul != 0.35) { //Only appear setting when question box disappear
-      document.getElementById('GoldmanSetting').style.display = "none";
-      document.getElementById('NernstSetting').style.display = "initial";
+      renderUI('NernstSetting',true)
     }
   }
 
@@ -28,7 +30,6 @@ function startNernst(evt) {
   GoldmanButtonStatus.style.backgroundColor = "#dfe6e9";
 
   //disable the net in the plot
-  if (dataChartInitialize)
     graph.hidePlot(3, true);
 
   //enable last selected Ions
@@ -44,7 +45,6 @@ function startNernst(evt) {
       animationSequencer.current().setContainerDisplays(checkBoxParticle, true);
 
       //Also enable the particle in the plot
-      if (dataChartInitialize)
         graph.hidePlot(j, false);
 
       FormulaInputCalculation(checkBoxParticle);
@@ -57,7 +57,6 @@ function startNernst(evt) {
       animationSequencer.current().setContainerDisplays(checkBoxParticle, false);
 
       //Also disable the particle in the plot
-      if (dataChartInitialize)
         graph.hidePlot(j, true);
     }
   }
@@ -70,12 +69,12 @@ function startGoldman(evt) {
 
   //Remove old text
   if (document.getElementById('MathJax-Element-1-Frame')) {
-    document.getElementById('NernstEqn').style.display = "none";
-    document.getElementById('GoldmanEqn').style.display = "inline";
+      renderUI('NernstEqn',false);
+      renderUI('GoldmanEqn',true);
 
     if (equationContainerHeighthMul != 0.35) { //Only appear setting when question box disappear
-      document.getElementById('NernstSetting').style.display = "none";
-      document.getElementById('GoldmanSetting').style.display = "initial";
+      // renderUI('NernstSetting',true);
+      renderUI('GoldmanSetting',true);
     }
   }
 
@@ -115,7 +114,7 @@ function keyPressed() {
   mainSim.keyInput();
 }
 
-function ChangesimulatorSetting(evt) {
+function changeSimulatorSetting(evt) {
   // input: the element that triggered the event (Input buttons);
 
   var eventID = evt.target.id;
@@ -125,23 +124,21 @@ function ChangesimulatorSetting(evt) {
   //2 = Pna
   //3 = Pcl
   //4 = Pk
-  var updatedAmount = simSetting[eventID].value();
 
-  if (eventID == 0 || eventID == 1) {
+  if (eventID == 0) {
     tempSetting = updatedAmount;
     simSetting[0].value(updatedAmount);
-    simSetting[1].value(updatedAmount);
   }
-  if (eventID == 2) {
+  if (eventID == 1) {
     Na.permeability = updatedAmount;
     // NOTE: Why is this function call empty?
     FormulaInputCalculation();
   }
-  if (eventID == 3) {
+  if (eventID == 2) {
     Cl.permeability = updatedAmount;
     FormulaInputCalculation();
   }
-  if (eventID == 4) {
+  if (eventID == 3) {
     K.permeability = updatedAmount;
     FormulaInputCalculation();
   }
@@ -281,12 +278,15 @@ function disableInputForParticle(particleType) {
   var particle_id = particleMapper[particleType].id;
   inside_id = particle_id + 1;
   outside_id = particle_id + 1 + row;
+
+  if(!document.getElementById(inside_id).disabled) {
   input[inside_id].attribute('disabled', '');
   input[outside_id].attribute('disabled', '');
   plusButton[inside_id].attribute('disabled', '');
   minusButton[inside_id].attribute('disabled', '');
   plusButton[outside_id].attribute('disabled', '');
   minusButton[outside_id].attribute('disabled', '');
+  }
 
   animationSequencer.current().setContainerDisplays(particleType, false);
 }
@@ -300,12 +300,14 @@ function enableInputForParticle(particleType) {
   inside_id = particle_id + 1;
   outside_id = particle_id + 1 + row;
 
+  if(document.getElementById(inside_id).disabled) {
   input[inside_id].removeAttribute('disabled');
   input[outside_id].removeAttribute('disabled');
   plusButton[inside_id].removeAttribute('disabled');
   minusButton[inside_id].removeAttribute('disabled');
   plusButton[outside_id].removeAttribute('disabled');
   minusButton[outside_id].removeAttribute('disabled');
+  }
 
   animationSequencer.current().setContainerDisplays(particleType, true);
 }

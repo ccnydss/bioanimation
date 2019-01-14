@@ -6,27 +6,47 @@ function renderUI(id, mode) {
     break;
 
     case "simulatorSetting":
-    document.getElementById('simulatorSetting').style.display = (mode) ? "flex" : "none";
+    document.getElementById('simulatorSetting').className = (mode) ? "" : "hidden";
+    break;
+
+    case "questionsdiv":
+    document.getElementById('questionsdiv').className = (mode) ? "" : "hidden";
+    break;
+
+    case "NernstEqn":
+    document.getElementById('NernstEqn').style.display = (mode) ? "initial" : "none";
+    break;
+
+    case "GoldmanEqn":
+    document.getElementById('GoldmanEqn').style.display = (mode) ? "initial" : "none";
     break;
 
     case "NernstSetting":
-    document.getElementById('NernstSetting').style.display = (mode) ? "initial" : "none";
+    document.getElementById('NernstSetting').style.display = (mode) ? "block" : "none";
+    document.getElementById('setting').style.display = (mode) ? "initial" : "none";
     break;
 
     case "GoldmanSetting":
-    document.getElementById('GoldmanSetting').style.display = (mode) ? "initial" : "none";
-    break;
-
-    case "helpQuestion":
-    document.getElementById('helpQuestion').style.display = (mode) ? "initial" : "none";
-    break;
-
-    case "helpSetting":
-    document.getElementById('helpSetting').style.height = (mode) ? "initial" : "100%";
+    document.getElementById('GoldmanSetting').style.display = (mode) ? "block" : "none";
+    document.getElementById('setting').style.display = (mode) ? "initial" : "none";
     break;
 
     case "dataPlot":
-    document.getElementById('dataPlot').style.display = (mode) ? "initial" : "none";
+    document.getElementById('dataPlot').className = (mode) ? "" : "hidden";
+    //Note chartjs chart has a class called 'chartjs-render-monitor' by default, but this class is conflict with our animation
+    break;
+
+    case "simCanvasPause":
+    document.getElementById('simCanvasPause').style.display = (mode) ? "flex" : "none";
+    if(mode) {noloop();} else {loop()};
+    break;
+
+    case "leftbar":
+    document.getElementById('leftbar').style.display = (mode) ? "flex" : "none";
+    break;
+
+    case "simCanvasFrame":
+    document.getElementById('simCanvasFrame').style.display = (mode) ? "flex" : "none";
     break;
   }
 }
@@ -41,7 +61,8 @@ function makeUIs(creation) {
     var answer = 0;
 
     equations[1] = createElement('h3', 'Answer: ' + answer + 'V');
-    equations[1].class('qoptions');
+    equations[1].id('answer');
+    equations[1].class('answer');
     equations[1].parent('equationdiv');
 
     // Radio buttons to select ions to include
@@ -148,21 +169,27 @@ function makeUIs(creation) {
   }
 
   // NOTE: Might want to rename this function
-  function redrawUI(questionBox) {
+  function redrawUI(hide) {
     // input: Boolean
     // usage: True is for initializing the UI; False is for recreating UI when browser window is resized (responsive UI)
 
-    if (questionBox == true) {
+    if (hide == true) {
       equationContainerHeighthMul = equationHeightPercent;
     } else {
       equationContainerHeighthMul = 1;
     }
 
-    adjustUISize(equationContainerHeighthMul);
-    canvas.size(canWidth, canHeight);
+    setTimeout(
+      function() {
+      adjustUISize(equationContainerHeighthMul);
+      canvas.size(canWidth, canHeight);
 
-    //Relative to parent coordinate
-    animationSequencer.current().setContainerSizes(canWidth, canHeight);
+      //Relative to parent coordinate
+      animationSequencer.current().setContainerSizes(canWidth, canHeight);
+    },250
+  ) //Let the menu fade out for 250ms first
+
+    renderUI("questionsdiv", hide)
   }
 
   function adjustUISize(multiple) {
@@ -194,3 +221,7 @@ function makeUIs(creation) {
     particleControl.size(simuWidth, 0.1 * 0.80 * (windowHeight - 36));
     canvas.size(canWidth, canHeight);
   }
+
+function showPause(option) {
+renderUI("simCanvasFrame",option)
+}

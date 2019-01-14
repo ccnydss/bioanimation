@@ -100,41 +100,58 @@ class Plot {
           ]
         },
         legend: {
-          onClick: function(e, legendItem) {
-            var ci = this.chart;
-            var index = legendItem.datasetIndex;
-
-            if (simulatorMode == "Nernst" & index != 3) { //index 3 is the net voltage
-              var checkBoxParticle = document.getElementById('checkbox' + particleTypes[index]).innerText;
-
-              checkboxes[index].checked(true)
-              graph.hidePlot(index, false);
-              enableInputForParticle(checkBoxParticle);
-
-              ci.data.datasets.forEach(function(e, i) {
-                if (i !== index & i !=3) {
-                  var checkBoxParticle = document.getElementById('checkbox' + particleTypes[i]).innerText;
-
-                  checkboxes[i].checked(false)
-                  graph.hidePlot(i, true);
-                  disableInputForParticle(checkBoxParticle);
-                }
-              })
-            }
-          }
+          onClick: this.onClick.bind(this)
         },
         animation: false
       }
     });
   }
 
+  onClick(e, legendItem) {
+
+      var ci = this.m_data_chart;
+      var curGraph = this;
+
+      var index = legendItem.datasetIndex;
+
+      if (simulatorMode == "Nernst" & index != 3) { //index 3 is the net voltage
+        var checkBoxParticle = document.getElementById('checkbox' + particleTypes[index]).innerText;
+
+        checkboxes[index].checked(true)
+        curGraph.hidePlot(index, false);
+      // Note grpah is a global variable that define the cur dataChart!!
+        enableInputForParticle(checkBoxParticle);
+
+          if (mainSim.m_pause) { //If the plot is paused, change the plot particle
+            var particleType = particleTypes[index];
+            var voltage = calculateNernst(particleType);
+            var dataset = ci.data.datasets[index].data;
+                ci.data.datasets[index].data = dataset;
+          }
+
+          console.log(ci.data.datasets)
+    ci.data.datasets.forEach(function(e, i) {
+              if (i !== index && i !=3) {
+                var checkBoxParticle = document.getElementById('checkbox' + particleTypes[i]).innerText;
+
+                checkboxes[i].checked(false)
+                curGraph.hidePlot(i, true);
+                disableInputForParticle(checkBoxParticle);
+              }
+        })
+        
+        ci.update();
+
+      }
+  }
+
   plot() {
-    if (!mainSim.m_pause && dataChartInitialize) { //If the plot is not paused
+    if (!mainSim.m_pause) { //If the plot is not paused
       for (var i = 0; i < 4; i++) {
         if (i < 3) {
           var particleType = particleTypes[i];
           var voltage = calculateNernst(particleType);
-        } else if (i == 3) {
+        } else if (i == 3) { // the net voltage
           var voltage = calculateGoldman();
         }
 

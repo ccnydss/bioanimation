@@ -20,9 +20,7 @@ function makeLayout() {
   leftBox = createDiv("");
   leftBox.id('leftbar');
   leftBox.parent('firstBox');
-
-  var leftbarStatus = document.getElementById("leftbar");
-  leftbarStatus.style.display = "flex";
+  renderUI("leftbar",true)
 
   // Create the div to actually contain the questions.
   questions = createDiv("");
@@ -65,32 +63,43 @@ function makeLayout() {
   simulatorSetting = createElement("div", "Simulation Settings");
   simulatorSetting.id('simulatorSetting');
   simulatorSetting.parent("equationdiv");
-  document.getElementById('simulatorSetting').style.display = "none";
+  renderUI('simulatorSetting',false);
+
+  var table = createElement('table')
+  table.id('setting');
+  table.parent('simulatorSetting');
+  table.addClass('setting');
+  document.getElementById(table.id()).style.display = "none";
 
   makeTable(
     "NernstSetting",
-    "equationdiv",
+    "setting",
     ["T"],
+    ["Enter Temperature..."],
     ["K"],
-    [tempSetting, Na.charge]
+    [tempSetting]
   );
 
   makeTable(
     "GoldmanSetting",
-    "equationdiv",
-    ["T", "p<sub>Na</sub>", "p<sub>Cl</sub>", "p<sub>K</sub>"],
-    ["K", "", "", ""],
-    [tempSetting, Na.permeability, Cl.permeability, K.permeability]
+    "setting",
+    ["p<sub>Na</sub>", "p<sub>Cl</sub>", "p<sub>K</sub>"],
+    ["Enter Na permeability...","Enter Cl permeability...","Enter K permeability..."],
+    ["", "", ""],
+    [Na.permeability, Cl.permeability, K.permeability]
   );
 
+
   // Plot window
-  dataPlot = createDiv('<canvas id="dataPlot"></canvas>');
-  dataPlot.parent('equationdiv');
-  var dataPlot = document.querySelector('#dataPlot')
-  dataPlot.style.display = "none";
+  var dataPlot = document.createElement("canvas");
+  dataPlot.id = 'dataPlot';
+  document.querySelector('#equationdiv').appendChild(dataPlot);
+  renderUI('dataPlot',false);
 
   simulator = createDiv("");
   simulator.id('sim');
+  document.getElementById("sim").onmouseover = function() {showPause(true)};
+  document.getElementById("sim").onmouseout = function() {showPause(false)};
   simulator.parent('secondBox');
   simulator.size(0.65 * windowWidth, 0.65 * (windowHeight - 36));
 
@@ -102,6 +111,16 @@ function makeLayout() {
   simCanvasPause.id('simCanvasPause');
   simCanvasPause.parent('sim');
   document.getElementById('simCanvasPause').style.display = "none";
+
+  simCanvasFrame = createElement("div", "");
+  simCanvasFrame.id('simCanvasFrame');
+  simCanvasFrame.parent('sim');
+  document.getElementById('simCanvasFrame').style.display = "none";
+
+  simCanvasPauseIcon = createElement("div", "❚❚");
+  simCanvasPauseIcon.id('simCanvasPauseIcon');
+  simCanvasPauseIcon.parent('simCanvasFrame');
+  document.getElementById("simCanvasPauseIcon").onclick = function() {mainSim.pause()};
 
   // Now to create the canvas
   canvas = createCanvas(canWidth, canHeight);
@@ -186,43 +205,37 @@ function hideQuestion(evt) {
   renderUI(curUI,hide)
 
   renderUI("dataPlot", hide)
-  renderUI("helpSetting", hide)
-  renderUI("helpQuestion", !hide)
 
   redrawUI(!hide);
 }
 
-function makeTable(id, parent, content, contentUnit, contentDefaultValue, prevLength) {
-  var table = createElement('table')
+function makeTable(id, parent, content, placeholder, contentUnit, contentDefaultValue, prevLength) {
 
-  table.id(id);
-  table.parent(parent);
+  var settingPart = createDiv('');
+  settingPart.id(id)
+  settingPart.parent(parent);
 
   var tableRow = content.length;
 
-  document.getElementById(table.id()).style.display = "none";
-
   for (var i = 0; i < tableRow; i++) {
     var trow = createElement('tr');
-    trow.parent(table);
+    trow.parent(settingPart);
 
-    var td0 = createElement('td');
+    var td0 = createElement('label', content[i]);
     td0.parent(trow);
 
-    var td1 = createElement('td');
-    td1.parent(trow);
-
-    simSettingText = createElement('h4', content[i]);
-    simSettingText.parent(td0);
-
-    simSetting[i] = createInput();
+    simSetting[i] = createInput().attribute('placeholder', placeholder[i]);;
     simSetting[i].parent(parent);
     simSetting[i].value(contentDefaultValue[i])
-    simSetting[i].parent(td1);
+    simSetting[i].parent(trow);
     simSetting[i].id(i);
-    simSetting[i].input(ChangesimulatorSetting);
+    simSetting[i].input(changeSimulatorSetting);
 
-    var td3 = createElement('td', contentUnit[i]);
+    var td3 = createDiv(contentUnit[i]);
     td3.parent(trow);
+    if(contentUnit[i]) {
+    td3.addClass('unit');
+    }
+
   }
 }

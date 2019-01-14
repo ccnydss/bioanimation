@@ -14,9 +14,11 @@ class Simulator {
     if (!this.m_pause) {
       loop();
       document.getElementById('simCanvasPause').style.display = "none";
+      document.getElementById('simCanvasPauseIcon').innerText = "❚❚";
     } else {
       noLoop();
       document.getElementById('simCanvasPause').style.display = "flex";
+      document.getElementById('simCanvasPauseIcon').innerText = "►";
     }
   }
 
