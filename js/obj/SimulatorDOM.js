@@ -58,10 +58,30 @@ class SimulatorDOM {
     this.m_simulatorSetting = ec("div", 'simulatorSetting', 'equationdiv', { content: "Simulation Settings" })
     this.m_sim.renderUI('simulatorSetting',false);
 
+    this.m_settingTable = ec("div", 'setting', 'simulatorSetting', { className: 'setting' });
+    this.m_sim.renderUI("setting", false);
+
+    makeTable (
+      "NernstSetting",
+      "setting",
+      ["T"],
+      ["Enter Temperature..."],
+      ["K"],
+      [mainSim.m_settings.temperature]
+    );
+
+    makeTable (
+      "GoldmanSetting",
+      "setting",
+      ["p<sub>Na</sub>", "p<sub>Cl</sub>", "p<sub>K</sub>"],
+      ["Enter Na permeability...","Enter Cl permeability...","Enter K permeability..."],
+      ["", "", ""],
+      [Na.permeability, Cl.permeability, K.permeability]
+    );
+
     // Plot window
     this.m_dataPlot = document.createElement("canvas");
     this.m_dataPlot.id = 'dataPlot';
-
     document.querySelector('#equationdiv').appendChild(this.m_dataPlot);
     this.m_sim.renderUI('dataPlot',false);
 
@@ -69,9 +89,14 @@ class SimulatorDOM {
     this.m_simulator.size(0.65 * windowWidth, 0.65 * (windowHeight - 36));
 
     this.m_simCanvasPause = ec("div", 'simCanvasPause', 'sim', { content: "Paused" });
+    document.getElementById('simCanvasPause').style.display = "none";
+    document.getElementById("sim").onmouseover = function() {showPause(true)};
+    document.getElementById("sim").onmouseout = function() {showPause(false)};
 
     this.m_simCanvasFrame = ec("div", 'simCanvasFrame', 'sim')
     this.m_simCanvasPauseIcon = ec("div", 'simCanvasPauseIcon', 'simCanvasFrame', { content: "❚❚"})
+    document.getElementById('simCanvasFrame').style.display = "none";
+    document.getElementById("simCanvasPauseIcon").onclick = function() {mainSim.pause()};
 
     // Now to create the canvas
     this.m_canvas = this.canvasCreate(this.m_simulator.size().width, this.m_simulator.size().height - 8);

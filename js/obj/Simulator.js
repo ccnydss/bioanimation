@@ -80,6 +80,10 @@ class Simulator {
       document.getElementById("hidebarText").innerText = (mode) ? ">" : "<";
       break;
 
+      case "setting":
+      document.getElementById("setting").style.display = (mode) ? "initial" : "none";
+      break;
+
       case "simulatorSetting":
       document.getElementById('simulatorSetting').className = (mode) ? "" : "hidden";
       break;

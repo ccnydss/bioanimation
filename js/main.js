@@ -14,8 +14,9 @@ var animationSequencer;
 function setup() {
   noFill();
 
-  // Defines the simulator's layout as well as "canWidth", "canHeight"
-  makeLayout();
+  // Defines the simulator's HTML DOM layout as well as "canWidth", "canHeight"
+  mainSim.m_dom.setup();
+  mainSim.m_dom.adjustUISize();
 
   graph = new Plot();
   help = new Help();
@@ -24,7 +25,6 @@ function setup() {
   var cw = mainSim.m_dom.getSize().width;
   var ch = mainSim.m_dom.getSize().height;
 
-  console.log("the sizes are...", cw, ch);
   bioMainSequence = new BioMain(cw, ch);
   test1Seq = new Test1(cw, ch);
 
