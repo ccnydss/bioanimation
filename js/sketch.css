@@ -193,7 +193,13 @@ th {
   text-align: center;
 }
 
-.control button {
+.qoptions input {
+  width: 40px;
+  height: 20px;
+  text-align: center;
+}
+
+.qoptions button {
   height: 30px;
   width: 30px;
   border-radius: 5px;

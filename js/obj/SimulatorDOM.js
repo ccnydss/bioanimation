@@ -105,8 +105,10 @@ class SimulatorDOM {
 
     this.m_simCanvasPause = ec("div", 'simCanvasPause', 'sim', { content: "Paused" });
     document.getElementById('simCanvasPause').style.display = "none";
-    document.getElementById("sim").onmouseover = function() {showPause(true)};
-    document.getElementById("sim").onmouseout = function() {showPause(false)};
+
+    var self = this;
+    document.getElementById("sim").addEventListener("mouseover", function(e, x=true) { self.showPause(x) });
+    document.getElementById("sim").addEventListener("mouseout", function(e, x=false) { self.showPause(x) });
 
     this.m_simCanvasFrame = ec("div", 'simCanvasFrame', 'sim')
     this.m_simCanvasPauseIcon = ec("div", 'simCanvasPauseIcon', 'simCanvasFrame', { content: "❚❚"})
@@ -275,6 +277,10 @@ class SimulatorDOM {
   canvasSize(w, h) {
     this.setSize(w, h);
     this.m_canvas.size(w, h);
+  }
+
+  showPause(option) {
+    this.m_sim.renderUI("simCanvasFrame", option)
   }
 
   adjustUISize() {

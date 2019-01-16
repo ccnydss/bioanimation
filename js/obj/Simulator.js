@@ -197,10 +197,6 @@ class Simulator {
     this.redrawUI(drawWithQuestions);
   }
 
-  showPause(option) {
-    this.renderUI("simCanvasFrame", option)
-  }
-
   redrawUI(hide) {
     // input: Boolean
     // usage: True is for initializing the UI; False is for recreating UI when browser window is resized (responsive UI)
