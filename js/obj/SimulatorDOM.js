@@ -101,7 +101,7 @@ class SimulatorDOM {
     this.m_sim.renderUI('dataPlot',false);
 
     this.m_simulator = ec("div", 'sim', 'secondBox');
-    this.m_simulator.size(0.65 * windowWidth, 0.65 * (windowHeight - 36));
+    // this.m_simulator.size(0.65 * windowWidth, 0.65 * (windowHeight - 36));
 
     this.m_simCanvasPause = ec("div", 'simCanvasPause', 'sim', { content: "Paused" });
     document.getElementById('simCanvasPause').style.display = "none";

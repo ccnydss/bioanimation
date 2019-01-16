@@ -204,16 +204,10 @@ class Simulator {
     // usage: True is for initializing the UI; False is for recreating UI when browser window is resized (responsive UI)
 
     this.m_dom.m_sidebar_current = hide ? this.m_dom.m_sidebar_size_multiple : 1;
-
-    var self = this;
-    // setTimeout (
-    //   function() {
-        // self.m_dom.adjustUISize();
-    //
-    //     //Relative to parent coordinate
-        animationSequencer.current().setContainerSizes(self.m_dom.m_canvas_width, self.m_dom.m_canvas_height);
-    //   },250
-    // ) //Let the menu fade out for 250ms first
+    this.m_dom.adjustUISize();
+    
+    var { width, height } = this.m_dom.getSize();
+    animationSequencer.current().setContainerSizes(width, height);
 
     this.renderUI("questionsdiv", hide)
   }

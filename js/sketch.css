@@ -61,11 +61,11 @@ th {
 }
 
 #leftbar, #sim {
-  height: 65%
+  height: 65%;
 }
 
 #leftbar.hidden {
-  height: 0%
+  height: 0%;
 }
 
 /* *****************************
