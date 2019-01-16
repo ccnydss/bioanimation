@@ -9,6 +9,8 @@ class SimulatorDOM {
 
     this.m_canvas_size_multiple = 0.65;   // Canvas width and height will be 65% of the screen's width and height.
 
+    this.m_questionHeader = "Goldman-Hodgkin-Katz";
+    
     this.m_canvas_width;
     this.m_canvas_height;
 
@@ -72,7 +74,7 @@ class SimulatorDOM {
 
     // Create the div to actually contain the questions.
     this.m_questions = ec("div", 'questionsdiv', 'leftbar');
-    this.m_questionTitle = ec("h3", 'questionTitle', 'questionsdiv', { content: 'Goldman-Hodgkin-Katz' })
+    this.m_questionTitle = ec("h3", 'questionTitle', 'questionsdiv', { content: this.m_questionHeader })
 
     var questionsText = "Calculate the equilibrium potential for Na and K using the Nernst equation for the following conditions";
     this.m_question = ec("p", 'q1', 'questionsdiv', { className: 'questions', content: questionsText });
