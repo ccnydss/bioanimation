@@ -215,6 +215,8 @@ th {
   display: flex;
   /* justify-content: flex-start; */
   justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 10px;
 }
 
 #NernstButton, #GoldmanButton {
