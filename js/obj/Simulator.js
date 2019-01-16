@@ -9,8 +9,6 @@ class Simulator {
     this.m_mode = "Nernst";
     this.m_particle_types = ["Na", "Cl", "K"];
 
-    this.m_checkboxes = [];
-
     this.m_settings = {
       temperature: 37 + 273.13,           // 37 is the human body temperature
       gas_constant: 8.314,                // Ideal gas constant
@@ -53,19 +51,6 @@ class Simulator {
       animationSequencer.next(false);
       updateAll();
       break;
-    }
-  }
-
-  addCheckbox(checkbox) {
-    this.m_checkboxes.push(checkbox);
-  }
-
-  checkbox(index, bool=null) {
-    console.log()
-    if (bool != null) {
-      this.m_checkboxes[index].checked(bool);
-    } else {
-      return this.m_checkboxes[index].checked();
     }
   }
 
@@ -183,6 +168,14 @@ class Simulator {
       } else if (K.display == true) {
         FormulaInputCalculation("K");
       }
+    }
+  }
+
+  setAnswer(answer) {
+    if (answer == "N/A") {
+      this.m_dom.m_equationResult.html('Answer: N/A - Particle Disabled');
+    } else {
+      this.m_dom.m_equationResult.html('Answer: ' + answer.toFixed(4) + 'V');
     }
   }
 

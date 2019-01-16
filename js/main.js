@@ -31,7 +31,7 @@ function setup() {
   animationSequencer = new SequenceManager([bioMainSequence, test1Seq])
   animationSequencer.setup();
 
-  makeUIs(true);
+  mainSim.m_dom.createControls();
 
   startNernst();
 

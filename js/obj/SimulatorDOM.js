@@ -13,16 +13,31 @@ class SimulatorDOM {
     this.m_canvas_height;
 
     this.m_controls = [];
+    this.m_checkboxes = [];
 
     this.m_buttons = {
       "plus": [],
       "minus": []
     };
 
+    this.m_equationResult = 0;
+
     this.m_textboard = []
     this.m_inputs = []
     this.m_setting_fields = []
-    this.m_equations = []
+  }
+
+  addCheckbox(checkbox) {
+    this.m_checkboxes.push(checkbox);
+  }
+
+  checkbox(index, bool=null) {
+    console.log()
+    if (bool != null) {
+      this.m_checkboxes[index].checked(bool);
+    } else {
+      return this.m_checkboxes[index].checked();
+    }
   }
 
   setup() {
@@ -122,6 +137,109 @@ class SimulatorDOM {
     this.m_controls = [this.m_control0, this.m_control1, this.m_control2, this.m_control3, this.m_control4, this.m_control5];
 
     this.m_particleControl = ec("div", 'particleControl', 'simulatorInputContainer');
+  }
+
+  createControls() {
+    var ec = this.elementCreator;
+    var answer = 0;
+
+    this.m_equationResult = ec("h3", 'answer', 'equationdiv', { className: 'answer', content: 'Answer: ' + answer + 'V'})
+
+    // Radio buttons to select ions to include
+    for (var i = 0; i < this.m_sim.numParticleTypes(); i++) {
+      var chk = createCheckbox(this.m_sim.m_particle_types[i], false);
+      chk.class('checkboxes');
+      chk.id('checkbox' + this.m_sim.m_particle_types[i]);
+      chk.parent('particleControl');
+      chk.changed(checkedEvent);
+
+      this.addCheckbox(chk);
+    }
+
+    NernstButton = ec("button", 'NernstButton', 'particleControl', { content: "Nernst", mousePressed: startNernst });
+    GoldmanButton = ec("button", 'GoldmanButton', 'particleControl', { content: "Goldman", mousePressed: startGoldman });
+
+    var row = 4;
+    for (var k = 0; k < animationSequencer.current().getNumContainers() * row; k++) {
+      if (k == 0) {
+        var text = 'Extracellular Control:';
+      } else if (k == row) {
+        var text = 'Intracellular Control:';
+      } else {
+        var id = (k % row) - 1;
+        var particleType = mainSim.m_particle_types[id];
+        var particleLocation = (k <= 3) ? "outside" : "inside";
+
+        var particleSuffix = (k <= 3) ?
+        "out" :
+        "in";
+        var particleCharge = (particleMapper[particleType].charge == 1) ?
+        "+" :
+        "-";
+        var text = '[' + particleType + '<sup>' + particleCharge + '</sup>]' + '<sub>' + particleSuffix + '</sub>&nbsp;';
+        var Value = bioMainSequence.getNumParticles(particleLocation, particleType);
+      }
+      if (k == 0 || k == row) {
+        textboard[k] = createElement('h4', text);
+        textboard[k].class('qoptions');
+        textboard[k].parent(mainSim.m_dom.m_controls[k]);
+
+        createElement('br').parent(mainSim.m_dom.m_controls[k]);
+
+        var table = createElement('table')
+        table.class("table qoptions");
+        table.id("table" + k);
+        table.parent(mainSim.m_dom.m_controls[k + 1]);
+      } else {
+        var trow = createElement('tr');
+        if (k < row) {
+          trow.parent("table0");
+        } else {
+          trow.parent("table" + row);
+        }
+
+        textboard[k] = createElement('h4', text);
+        textboard[k].class('qoptions');
+
+        var td0 = createElement('td');
+        textboard[k].parent(td0);
+        td0.parent(trow);
+        input[k] = createInput();
+        input[k].value(Value)
+        input[k].id(k);
+        input[k].class('qoptions');
+        var td1 = createElement('td');
+        input[k].parent(td1);
+        td1.parent(trow);
+        input[k].input(changeNumParticles);
+
+        plusButton[k] = createButton('+');
+        plusButton[k].id(k);
+
+        plusButton[k].attribute("data-ptype", particleType);
+        plusButton[k].attribute("data-location", particleLocation);
+        plusButton[k].style("background-color", particleMapper[particleType].color)
+        plusButton[k].mousePressed(insertParticle);
+        plusButton[k].class('qoptions');
+
+        var td2 = createElement('td');
+        plusButton[k].parent(td2);
+        td2.parent(trow);
+
+        minusButton[k] = createButton('-');
+        minusButton[k].id(k);
+
+        minusButton[k].attribute("data-ptype", particleType);
+        minusButton[k].attribute("data-location", particleLocation);
+        minusButton[k].style("background-color", particleMapper[particleType].color)
+        minusButton[k].mousePressed(removeParticle);
+        minusButton[k].class('qoptions');
+
+        var td3 = createElement('td');
+        minusButton[k].parent(td3);
+        td3.parent(trow);
+      }
+    }
   }
 
   elementCreator(element, eid, parent, options = { content: '', className: '', mousePressed: null }) {

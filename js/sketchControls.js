@@ -30,7 +30,7 @@ function startNernst(evt) {
       //Just enable it by default?
 
       //enable its particles
-      mainSim.checkbox(j, true);
+      mainSim.m_dom.checkbox(j, true);
       enableInputForParticle(checkBoxParticle);
       animationSequencer.current().setContainerDisplays(checkBoxParticle, true);
 
@@ -40,9 +40,9 @@ function startNernst(evt) {
       FormulaInputCalculation(checkBoxParticle);
 
       //disable other ions if they are on?
-    } else if (checkBoxParticle != mainSim.m_nernst_particle && mainSim.checkbox(j)) {
+    } else if (checkBoxParticle != mainSim.m_nernst_particle && mainSim.m_dom.checkbox(j)) {
       //disable others particles
-      mainSim.checkbox(j, false);
+      mainSim.m_dom.checkbox(j, false);
       disableInputForParticle(checkBoxParticle);
       animationSequencer.current().setContainerDisplays(checkBoxParticle, false);
 
@@ -83,10 +83,10 @@ function startGoldman(evt) {
 
     var checkBoxParticle = document.getElementById('checkbox' + mainSim.m_particle_types[j]).innerText;
 
-    if (!mainSim.checkbox(j)) {
+    if (!mainSim.m_dom.checkbox(j)) {
 
       //enable those particles
-      mainSim.checkbox(j, true);
+      mainSim.m_dom.checkbox(j, true);
       animationSequencer.current().setContainerDisplays(checkBoxParticle, true);
       enableInputForParticle(checkBoxParticle);
     }
@@ -127,10 +127,10 @@ function checkedEvent(evt) {
 
           var checkBoxParticle = document.getElementById('checkbox' + mainSim.m_particle_types[j]).innerText;
 
-          if (mainSim.checkbox(j) && checkBoxParticle != particleType && particleMapper[checkBoxParticle].display == true) {
+          if (mainSim.m_dom.checkbox(j) && checkBoxParticle != particleType && particleMapper[checkBoxParticle].display == true) {
 
             //Disable those particles
-            mainSim.checkbox(j, false);
+            mainSim.m_dom.checkbox(j, false);
             animationSequencer.current().setContainerDisplays(checkBoxParticle, false);
             disableInputForParticle(checkBoxParticle);
 
@@ -151,18 +151,16 @@ function FormulaInputCalculation(particleType) {
   // input: string;
   // usage: "Na", "Cl", "K"
   // output: float;
+  var answer = "N/A";
 
   if (mainSim.simMode() == "Nernst") {
-    if (particleMapper[particleType]["display"]) {
-      var answer = calculateNernst(particleType);
-    } else {
-      equations[1].html('Answer: N/A - Particle Disabled');
-      return;
-    }
+    if (particleMapper[particleType]["display"])
+      answer = calculateNernst(particleType);
   } else {
-    var answer = calculateGoldman();
+    answer = calculateGoldman();
   }
-  equations[1].html('Answer: ' + answer.toFixed(4) + 'V');
+
+  mainSim.setAnswer(answer);
 }
 
 function calculateNernst(particleType) {

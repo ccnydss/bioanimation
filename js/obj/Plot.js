@@ -115,7 +115,7 @@ class Plot {
     if (mainSim.simMode() == "Nernst" & index != 3) { //index 3 is the net voltage
       var checkBoxParticle = document.getElementById('checkbox' + mainSim.m_particle_types[index]).innerText;
 
-      mainSim.checkbox(index, true);
+      mainSim.m_dom.checkbox(index, true);
       curGraph.hidePlot(index, false);
       // Note grpah is a global variable that define the cur dataChart!!
       enableInputForParticle(checkBoxParticle);
@@ -135,7 +135,7 @@ class Plot {
         if (i !== index && i != 3) {
           var checkBoxParticle = document.getElementById('checkbox' + mainSim.m_particle_types[i]).innerText;
 
-          mainSim.checkbox(i, false);
+          mainSim.m_dom.checkbox(i, false);
           curGraph.hidePlot(i, true);
 
           disableInputForParticle(checkBoxParticle);
