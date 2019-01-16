@@ -75,6 +75,8 @@ class Simulator {
 
       case "questionsdiv":
       document.getElementById('questionsdiv').className = (mode) ? "" : "hidden";
+      document.getElementById('leftbar').className = (mode) ? "" : "hidden";
+      document.getElementById('equationContainer').className = (mode) ? "" : "fullsize";
       break;
 
       case "NernstEqn":
@@ -204,15 +206,14 @@ class Simulator {
     this.m_dom.m_sidebar_current = hide ? this.m_dom.m_sidebar_size_multiple : 1;
 
     var self = this;
-    setTimeout (
-      function() {
-        self.m_dom.adjustUISize();
-
-        //Relative to parent coordinate
-        var { width, height } = self.m_dom.getSize();
-        animationSequencer.current().setContainerSizes(width, height);
-      }, 250
-    ) //Let the menu fade out for 250ms first
+    // setTimeout (
+    //   function() {
+        // self.m_dom.adjustUISize();
+    //
+    //     //Relative to parent coordinate
+        animationSequencer.current().setContainerSizes(self.m_dom.m_canvas_width, self.m_dom.m_canvas_height);
+    //   },250
+    // ) //Let the menu fade out for 250ms first
 
     this.renderUI("questionsdiv", hide)
   }

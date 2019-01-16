@@ -293,33 +293,35 @@ class SimulatorDOM {
 
     // Complement's width and height
     // aka, 0.35 multiplier instead of 0.65
-    var compWidth = (1 - this.m_canvas_size_multiple) * windowWidth;
-    var compHeight = (1 - this._canvas_size_multiple) * adjustedWindowHeight;
+    // var compWidth = (1 - this.m_canvas_size_multiple) * windowWidth;
+    // var compHeight = (1 - this._canvas_size_multiple) * adjustedWindowHeight;
+    //
+    // var sideHeight = this.m_sidebar_current * adjustedWindowHeight;
+    // var compSideHeight = (1 - this.m_sidebar_current) * adjustedWindowHeight;
+    //
+    // this.m_stage.size(windowWidth, adjustedWindowHeight);
+    // this.m_firstBox.size(compWidth, adjustedWindowHeight);
+    // this.m_secondBox.size(newCanWidth, adjustedWindowHeight);
+    //
+    // this.m_questions.size(compWidth, compSideHeight);
+    // this.m_equationContainer.size(compWidth, sideHeight);
+    //
+    // this.m_leftBox.size(compWidth, compSideHeight);
+    //
+    // this.m_hideBar.size(compWidth, 20);
+    // this.m_equi.size(compWidth, 40);
+    //
+    // this.m_equation.size(compWidth, sideHeight - 40 - 20);
+    // this.m_simulator.size(newCanWidth, newCanHeight);
+    //
+    // this.m_simulatorInputContainer.size(newCanWidth, compHeight);
+    //
+    // this.m_simulatorInput.size(newCanWidth, 0.90 * newCanHeight);
+    // this.m_controlsLeft.size(newCanWidth / 2, 0.35 * newCanHeight);
+    // this.m_controlsRight.size(newCanWidth / 2, 0.35 * newCanHeight);
+    // this.m_particleControl.size(newCanWidth, 0.1 * 0.80 * adjustedWindowHeight);
 
-    var sideHeight = this.m_sidebar_current * adjustedWindowHeight;
-    var compSideHeight = (1 - this.m_sidebar_current) * adjustedWindowHeight;
-
-    this.m_stage.size(windowWidth, adjustedWindowHeight);
-    this.m_firstBox.size(compWidth, adjustedWindowHeight);
-    this.m_secondBox.size(newCanWidth, adjustedWindowHeight);
-
-    this.m_questions.size(compWidth, compSideHeight);
-    this.m_equationContainer.size(compWidth, sideHeight);
-
-    this.m_leftBox.size(compWidth, compSideHeight);
-
-    this.m_hideBar.size(compWidth, 20);
-    this.m_equi.size(compWidth, 40);
-
-    this.m_equation.size(compWidth, sideHeight - 40 - 20);
-    this.m_simulator.size(newCanWidth, newCanHeight);
-
-    this.m_simulatorInputContainer.size(newCanWidth, compHeight);
-
-    this.m_simulatorInput.size(newCanWidth, 0.90 * newCanHeight);
-    this.m_controlsLeft.size(newCanWidth / 2, 0.35 * newCanHeight);
-    this.m_controlsRight.size(newCanWidth / 2, 0.35 * newCanHeight);
-    this.m_particleControl.size(newCanWidth, 0.1 * 0.80 * adjustedWindowHeight);
+    // console.log("adjustUISize", this);
 
     this.canvasSize (
       newCanWidth,

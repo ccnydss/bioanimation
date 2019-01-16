@@ -1,4 +1,3 @@
-
 function renderMathEqn() {
   var nernstEqn = document.getElementById("NernstEqn");
   var goldmanEqn = document.getElementById("GoldmanEqn");
