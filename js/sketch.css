@@ -551,7 +551,7 @@ Simulation Equation & Setting layer
   color: white;
 }
 
-#helpPage div div {
+.clone {
   /* background-color: blue; */
   display: flex;
   flex-direction: column;
@@ -561,7 +561,7 @@ Simulation Equation & Setting layer
   justify-content: center;
   align-items: center;
   border: 1px solid white;
-  padding: 10px;
+  /* padding: 10px; */
 }
 
 #pauseButton {
