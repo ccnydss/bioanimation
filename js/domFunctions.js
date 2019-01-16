@@ -168,7 +168,7 @@ function makeLayout() {
   particleControl.id('particleControl');
   particleControl.parent('simulatorInputContainer');
 
-  mainSim.m_dom.adjustUISize();
+  // mainSim.m_dom.adjustUISize();
 }
 
 function renderMathEqn() {

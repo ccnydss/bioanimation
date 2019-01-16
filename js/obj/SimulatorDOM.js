@@ -60,6 +60,7 @@ class SimulatorDOM {
     document.querySelector('#equationdiv').appendChild(this.m_dataPlot);
     this.m_sim.renderUI('dataPlot',false);
 
+
     this.m_simulator = ec("div", 'sim', 'secondBox');
     this.m_simulator.size(0.65 * windowWidth, 0.65 * (windowHeight - 36));
 
@@ -103,10 +104,10 @@ class SimulatorDOM {
     return createCanvas(w, h);
   }
 
-  canvasSize(w, h) {
-    this.setSize(w, h);
-    this.m_canvas.size(w, h);
-  }
+  // canvasSize(w, h) {
+  //   this.setSize(w, h);
+  //   this.m_canvas.size(w, h);
+  // }
 
 
 // function showPause(option) {
@@ -123,33 +124,33 @@ class SimulatorDOM {
 
     // Complement's width and height
     // aka, 0.35 multiplier instead of 0.65
-    var compWidth = (1 - this.m_canvas_size_multiple) * windowWidth;
-    var compHeight = (1 - this._canvas_size_multiple) * adjustedWindowHeight;
+    // var compWidth = (1 - this.m_canvas_size_multiple) * windowWidth;
+    // var compHeight = (1 - this.m_canvas_size_multiple) * adjustedWindowHeight;
+    //
+    // var sideHeight = this.m_sidebar_current * adjustedWindowHeight;
+    // var compSideHeight = (1 - this.m_sidebar_current) * adjustedWindowHeight;
+    //
+    // this.m_stage.size(windowWidth, adjustedWindowHeight);
+    // this.m_firstBox.size(compWidth, adjustedWindowHeight);
+    // this.m_secondBox.size(newCanWidth, adjustedWindowHeight);
+    //
+    // this.m_questions.size(compWidth, compSideHeight);
+    // this.m_equationContainer.size(compWidth, sideHeight);
+    //
+    // this.m_leftBox.size(compWidth, compSideHeight);
+    //
+    // this.m_hideBar.size(compWidth, 20);
+    // this.m_equi.size(compWidth, 40);
+    //
+    // this.m_equation.size(compWidth, sideHeight - 40 - 20);
+    // this.m_simulator.size(newCanWidth, newCanHeight);
+    //
+    // simulatorInputContainer.size(newCanWidth, compHeight);
 
-    var sideHeight = this.m_sidebar_current * adjustedWindowHeight;
-    var compSideHeight = (1 - this.m_sidebar_current) * adjustedWindowHeight;
-
-    this.m_stage.size(windowWidth, adjustedWindowHeight);
-    this.m_firstBox.size(compWidth, adjustedWindowHeight);
-    this.m_secondBox.size(newCanWidth, adjustedWindowHeight);
-
-    this.m_questions.size(compWidth, compSideHeight);
-    this.m_equationContainer.size(compWidth, sideHeight);
-
-    this.m_leftBox.size(compWidth, compSideHeight);
-
-    this.m_hideBar.size(compWidth, 20);
-    this.m_equi.size(compWidth, 40);
-
-    this.m_equation.size(compWidth, sideHeight - 40 - 20);
-    this.m_simulator.size(newCanWidth, newCanHeight);
-
-    simulatorInputContainer.size(newCanWidth, compHeight);
-
-    simulatorInput.size(newCanWidth, 0.90 * newCanHeight);
-    controlsLeft.size(newCanWidth / 2, 0.35 * newCanHeight);
-    controlsRight.size(newCanWidth / 2, 0.35 * newCanHeight);
-    particleControl.size(newCanWidth, 0.1 * 0.80 * adjustedWindowHeight);
+    // simulatorInput.size(newCanWidth, 0.50 * newCanHeight);
+    // controlsLeft.size(newCanWidth / 2, 0.35 * newCanHeight);
+    // controlsRight.size(newCanWidth / 2, 0.35 * newCanHeight);
+    // particleControl.size(newCanWidth, 0.1 * 0.80 * adjustedWindowHeight);
 
     this.canvasSize (
       newCanWidth,

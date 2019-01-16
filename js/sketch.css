@@ -1,21 +1,20 @@
+/* *****************************
+All the simulator layers
+All the General setting
+***************************** */
+
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
 
-html {
+html, body, #stage {
   width: 100%;
   height: 100%;
 }
 
 body {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  /* background-color: #7A9D96; */
   font-family: 'Open Sans', sans-serif;
   color: #fff;
   box-sizing: border-box;
@@ -35,44 +34,56 @@ th {
 
 #stage {
   display: flex;
-  /* flex-direction: column; */
-  width: 100%;
-  height: 100%;
-  border-style: solid;
-  border-color: #88BDBC;
-  border-width: 5px;
+  justify-content: center;
+  align-items: center;
+  border: solid #88BDBC 5px;
   overflow: hidden;
 }
 
 #firstBox, #secondBox {
   display: flex;
   flex-direction: column;
+  height: 100%
 }
 
-#simulatorInputContainer, #equationsContainer {
-  display: flex;
-  flex-direction: column;
+#firstBox {
+  width: 35%
+}
+#secondBox {
+  width: 65%
 }
 
-.flex-container {
-  justify-content: center;
-  align-items: center;
-}
 
 #leftbar {
   display: flex;
   flex-direction: column;
   background-color: #88BDBC;
-  /* transition:width 1.0s ease-out; */
-  /* padding-right:10px; */
 }
+
+#leftbar, #sim {
+  height: 65%
+}
+
+#leftbar.hidden {
+  height: 0%
+}
+
+/* *****************************
+#leftbar
+#questionsdiv <--
+#questionsTitle
+#q1
+#equationContainer
+
+Simulation Question layer
+***************************** */
 
 #questionsdiv {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  /* padding-right: 10px; */
   overflow-y: scroll;
+  height: 100%
 }
 
 #questionsdiv h3 {
@@ -89,14 +100,64 @@ th {
   padding-bottom: 20px;
 }
 
-#hidebar {
-  padding: 5px;
-}
-
 .questions {
   height: 80%;
   padding: 10px;
   font-size: 0.95em;
+}
+
+/* *****************************
+#leftbar
+#questionsdiv
+#equationContainer <--
+#hidebar
+#equationdiv
+#simulatorSetting
+#dataPlot
+#NernstEqn/#GoldmanEqn
+#answer
+#equilibrate-button
+
+Simulation Equation & Setting layer
+***************************** */
+
+#simulatorInputContainer, #equationContainer {
+  display: flex;
+  flex-direction: column;
+  height: 35%
+}
+
+#equationContainer.fullsize {
+  height: 100%
+}
+
+#equationContainer, #leftbar, #equationdiv, #q1 {
+  transition: height 0.3s ease-in;
+}
+
+#hidebar {
+  display: flex;
+  align-items: center;
+  vertical-align: middle;
+  justify-content: center;
+  background-color: #60a3bc;
+  height: 20px;
+    padding: 5px;
+}
+
+#hidebar:hover {
+  background-color: #82ccdd;
+  cursor: pointer;
+}
+
+#hidebarText {
+  word-wrap: break-word;
+  font-family: monospace;
+  /* Placed letter "i" in the center */
+  white-space: pre-wrap;
+  /* this is for displaying whitespaces including Moz-FF.*/
+  font-size: 18px;
+  transform: rotate(90deg);
 }
 
 #equationdiv {
@@ -104,12 +165,7 @@ th {
   background-color: #4F4A41;
   display:flex;
   flex-direction: column;
-}
-
-#equationdiv img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+  height: calc(100% - 20px - 40px)
 }
 
 #equationdiv select {
@@ -118,10 +174,135 @@ th {
   text-align: center;
 }
 
+#simulatorSetting {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+/* https://stackoverflow.com/questions/3331353/transitions-on-the-display-property */
+#simulatorSetting, #questionsdiv, #dataPlot{
+  transition-property: visibility, opacity;
+  transition-duration: 0s, .5s;
+}
+
+#simulatorSetting.hidden, #questionsdiv.hidden, #dataPlot.hidden {
+  opacity: 0;
+  visibility: hidden;
+  transition-property: opacity, visibility;
+  transition-duration: .5s, 0s;
+  transition-delay: 0s, .5s;
+}
+
+.setting {
+  display: block;
+  text-align: center;
+}
+.setting tr {
+  position: relative;
+  font-weight: 400;
+  font-style: normal;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  color: rgba(0,0,0,.87);
+  margin:5px;
+}
+.setting tr label {
+  border-radius:4px 0px 0px 4px;
+  box-sizing:border-box;
+  color:rgba(255, 255, 255, 1);
+  background-color:rgba(255, 255, 255, 1);
+  background-color:#74b9ff;
+  cursor:default;
+  font-family:Lato, "Helvetica Neue", Arial, Helvetica, sans-serif;
+  font-size:14px;
+  font-weight:700;
+  height:30px;
+  padding: 11px;
+  padding-top: 5.5px;
+  width:40px;
+}
+
+#NernstSetting tr:nth-child(1) label {
+  background-color:#74b9ff;
+  padding-left: 12px;
+  padding-top: 7px;
+}
+#GoldmanSetting tr:nth-child(1) label {
+  background-color:rgb(245, 206, 40);
+}
+#GoldmanSetting tr:nth-child(2) label {
+  background-color:rgb(205, 92, 92);
+}
+#GoldmanSetting tr:nth-child(3) label {
+  background-color:rgb(53, 178, 53);
+}
+
+.setting tr input {
+  box-sizing:border-box;
+  color:rgba(0, 0, 0, 0.87);
+  display:block;
+  font-size:14px;
+  font-weight:400;
+  height:30px;
+  line-height:17px;
+  max-width:100%;
+  outline: none;
+  border: 1px solid #DDDDDD;
+  padding: 14px 9.5px;
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -ms-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
+}
+
+#NernstSetting tr:nth-child(1) input:focus {
+  box-shadow: 0 0 5px #74b9ff;
+  border: 1px solid #74b9ff;
+}
+
+#GoldmanSetting tr:nth-child(1) input:focus {
+  box-shadow: 0 0 5px rgb(245, 206, 40);
+  border: 1px solid rgb(245, 206, 40);
+}
+
+#GoldmanSetting tr:nth-child(2) input:focus {
+  box-shadow: 0 0 5px rgb(205, 92, 92);
+  border: 1px solid rgb(205, 92, 92);
+}
+
+#GoldmanSetting tr:nth-child(3) input:focus {
+  box-shadow: 0 0 5px rgb(53, 178, 53);
+  border: 1px solid rgb(53, 178, 53);
+}
+
+.setting tr div {
+  border-radius:0px 4px 4px 0px;
+  box-sizing:border-box;
+  cursor:default;
+  font-family:Lato, "Helvetica Neue", Arial, Helvetica, sans-serif;
+  font-size:14px;
+  font-weight:700;
+  height:30px;
+  padding: 11px;
+  padding-top: 5.5px;
+  width:31.4375px;
+}
+
+.unit {
+  background-color:rgb(232, 232, 232);
+  color:rgba(0, 0, 0, 0.5);
+}
+
+
 #simInput {
   background-color: #4F4A41;
   display: flex;
   flex-direction: row;
+  height: 80%
 }
 
 .can {
@@ -133,6 +314,7 @@ th {
   padding: 5px;
   display: flex;
   flex-direction: column;
+  width: 50%;
 }
 
 #questionBotton {
@@ -153,10 +335,6 @@ th {
   font-size: 16px;
 }
 
-#equationContainer, #leftbar, #equationdiv, #q1 {
-  transition: height 0.3s ease-in;
-}
-
 .control {
   display: flex;
   justify-content: flex-start;
@@ -167,20 +345,21 @@ th {
   margin-left: 5px;
   vertical-align: middle;
   align-self: flex-end;
-    margin-top: auto;
+  margin-top: auto;
 }
 
 .answer {
-  margin-left: 5px;
   vertical-align: middle;
   align-self: flex-end;
-    margin-top: auto;
-    text-align: center;
-    width: 100%;
-    border-radius: 5px;
-    /* border: solid 2px #d63031;
-    color: #ecf0f1; */
-    color: #74b9ff;
+  margin-top: auto;
+  text-align: center;
+  width: 35%;
+  /* border-radius: 5px; */
+  /* border: solid 2px #d63031;
+  color: #ecf0f1; */
+  position: absolute;
+  bottom: 50px;
+  color: #74b9ff;
 }
 
 .control h3 {
@@ -213,17 +392,15 @@ th {
 #particleControl {
   background-color: #4F4A41;
   display: flex;
-  /* justify-content: flex-start; */
   justify-content: center;
-  align-items: flex-end;
   padding-bottom: 10px;
+  height: 20%;
 }
 
 #NernstButton, #GoldmanButton {
   border: none;
   text-align: center;
   text-decoration: none;
-  /* padding:10px; */
   width: 20%;
   height: 36px;
   margin-left: 20px;
@@ -251,8 +428,7 @@ th {
   text-align: center;
   text-decoration: none;
   font-size: 1.1em;
-  width: 35%;
-  /* font-weight: bold; */
+  height: 40px;
 }
 
 #equilibrate-button:hover, #equilibrate-button:active, #equilibrate-button:focus {
@@ -265,42 +441,10 @@ th {
   display: block;
 }
 
-/*  CC  */
-#hidebar {
-  display: flex;
-  align-items: center;
-  vertical-align: middle;
-  justify-content: center;
-  background-color: #60a3bc;
-}
-
-#hidebar:hover {
-  background-color: #82ccdd;
-  cursor: pointer;
-}
-
-#hidebarText {
-  /* width:1%; */
-  word-wrap: break-word;
-  font-family: monospace;
-  /* Placed letter "i" in the center */
-  white-space: pre-wrap;
-  /* this is for displaying whitespaces including Moz-FF.*/
-  font-size: 18px;
-  transform: rotate(90deg);
-  /* align-items: center;
-vertical-align: middle;
-  justify-content: center;
-    align-self: center; */
-}
-
-
-
 #simCanvasPause {
   z-index: 1;
   background-color: gray;
   opacity: 0.7;
-  /* padding:16px; */
   font-size: 24px;
   top: calc(36px + 5px);
   width: calc(65% - 5px);
@@ -314,9 +458,6 @@ vertical-align: middle;
 
 #simCanvasFrame {
   z-index: 2;
-  /* background-color: gray; */
-  /* opacity: 0.7; */
-  /* padding:16px; */
   font-size: 24px;
   top: calc(36px + 5px);
   width: calc(65% - 5px);
@@ -331,7 +472,6 @@ vertical-align: middle;
 #simCanvasPauseIcon {
   background-color: gray;
   opacity: 0.7;
-  /* padding:16px; */
   font-size: 24px;
   width: 50px;
   height: 50px;
@@ -344,12 +484,12 @@ vertical-align: middle;
   opacity: 1;
   cursor: pointer;
   -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome and Opera */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+  supported by Chrome and Opera */
 }
 
 /* Header */
@@ -365,6 +505,11 @@ vertical-align: middle;
   justify-content: flex-end;
   align-items: flex-end;
   background-color: #333333;
+  height: 36px;
+}
+
+#root {
+  height: calc(100% - 36px)
 }
 
 #containerHeader li {
@@ -372,11 +517,9 @@ vertical-align: middle;
   list-style-type: none;
   border: none;
   text-decoration: none;
-  /* padding:16px; */
   color: white;
   width: 20%;
   height: 36px;
-  /* margin-left: 20px; */
   background-color: #333333;
   justify-content: center;
   align-items: center;
@@ -429,134 +572,3 @@ vertical-align: middle;
 .control input:disabled, button:disabled {
   cursor: not-allowed;
 }
-
-#simulatorSetting {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding-top: 20px;
-  padding-bottom: 10px;
-}
-/* https://stackoverflow.com/questions/3331353/transitions-on-the-display-property */
-#simulatorSetting, #questionsdiv{
-    transition-property: visibility, opacity;
-    transition-duration: 0s, 1s;
-}
-
-#dataPlot {
-    transition: max-height 0.25s ease-in;
-}
-#simulatorSetting.hidden, #questionsdiv.hidden {
-    opacity: 0;
-    visibility: hidden;
-    transition-property: opacity, visibility;
-    transition-duration: 1s, 0s;
-    transition-delay: 0s, 1s;
-}
-
-#dataPlot.hidden {
-    max-height: 0;
-    transition: max-height 0.15s ease-out;
- }
-
-.setting {
-  display: block;
-  text-align: center;
-}
-.setting tr {
-  position: relative;
-  font-weight: 400;
-  font-style: normal;
-  display: -webkit-inline-box;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  color: rgba(0,0,0,.87);
-  margin:5px;
-}
-.setting tr label {
-  border-radius:4px 0px 0px 4px;
-  box-sizing:border-box;
-  color:rgba(255, 255, 255, 1);
-  background-color:rgba(255, 255, 255, 1);
-background-color:#74b9ff;
-  cursor:default;
-  font-family:Lato, "Helvetica Neue", Arial, Helvetica, sans-serif;
-  font-size:14px;
-  font-weight:700;
-  height:30px;
-  padding: 11px;
-  padding-top: 5.5px;
-  width:40px;
-}
-
-  #NernstSetting tr:nth-child(1) label {
-  background-color:#74b9ff;
-  padding-left: 12px;
-  padding-top: 7px;
-  }
-  #GoldmanSetting tr:nth-child(1) label {
-  background-color:rgb(245, 206, 40);
-  }
-  #GoldmanSetting tr:nth-child(2) label {
-  background-color:rgb(205, 92, 92);
-  }
-  #GoldmanSetting tr:nth-child(3) label {
-  background-color:rgb(53, 178, 53);
-  }
-
-.setting tr input {
-  box-sizing:border-box;
-  color:rgba(0, 0, 0, 0.87);
-  display:block;
-  font-size:14px;
-  font-weight:400;
-  height:30px;
-  line-height:17px;
-  max-width:100%;
-  outline: none;
-  border: 1px solid #DDDDDD;
-  padding: 14px 9.5px;
-  -webkit-transition: all 0.30s ease-in-out;
-  -moz-transition: all 0.30s ease-in-out;
-  -ms-transition: all 0.30s ease-in-out;
-  -o-transition: all 0.30s ease-in-out;
-  }
-
-  #NernstSetting tr:nth-child(1) input:focus {
-  box-shadow: 0 0 5px #74b9ff;
-  border: 1px solid #74b9ff;
-  }
-
-  #GoldmanSetting tr:nth-child(1) input:focus {
-  box-shadow: 0 0 5px rgb(245, 206, 40);
-  border: 1px solid rgb(245, 206, 40);
-  }
-
-  #GoldmanSetting tr:nth-child(2) input:focus {
-  box-shadow: 0 0 5px rgb(205, 92, 92);
-  border: 1px solid rgb(205, 92, 92);
-  }
-
-  #GoldmanSetting tr:nth-child(3) input:focus {
-  box-shadow: 0 0 5px rgb(53, 178, 53);
-  border: 1px solid rgb(53, 178, 53);
-  }
-
-.setting tr div {
-  border-radius:0px 4px 4px 0px;
-  box-sizing:border-box;
-  cursor:default;
-  font-family:Lato, "Helvetica Neue", Arial, Helvetica, sans-serif;
-  font-size:14px;
-  font-weight:700;
-  height:30px;
-  padding: 11px;
-  padding-top: 5.5px;
-  width:31.4375px;
-  }
-
-  .unit {
-      background-color:rgb(232, 232, 232);
-      color:rgba(0, 0, 0, 0.5);
-  }
