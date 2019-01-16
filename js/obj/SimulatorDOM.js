@@ -12,6 +12,8 @@ class SimulatorDOM {
     this.m_canvas_width;
     this.m_canvas_height;
 
+    this.m_controls = [];
+
     this.m_buttons = {
       "plus": [],
       "minus": []
@@ -32,7 +34,7 @@ class SimulatorDOM {
 
     // The right sidebar for displaying questions.
     this.m_leftBox = ec("div", 'leftbar', 'firstBox');
-    this.m_sim.renderUI("leftbar",true)
+    this.m_sim.renderUI("leftbar", true);
 
     // Create the div to actually contain the questions.
     this.m_questions = ec("div", 'questionsdiv', 'leftbar');
@@ -48,6 +50,9 @@ class SimulatorDOM {
     this.m_hideBar = ec("div", 'hidebar', 'equationContainer', { mousePressed: hideQuestion });
     this.m_hideBarText = ec("div", 'hidebarText', 'hidebar', { content: "<" });
     this.m_equation = ec("div", 'equationdiv', 'equationContainer');
+
+    renderMathEqn();
+
     this.m_equi = ec("button", 'equilibrate-button', 'equationContainer', { content: "Equilibrate", mousePressed: startEquilibrate });
 
     this.m_simulatorSetting = ec("div", 'simulatorSetting', 'equationdiv', { content: "Simulation Settings" })
@@ -72,6 +77,26 @@ class SimulatorDOM {
     this.m_canvas = this.canvasCreate(this.m_simulator.size().width, this.m_simulator.size().height - 8);
     this.m_canvas.id ('can');
     this.m_canvas.parent('sim');
+
+    // Div to contain the simulatorInput
+    this.m_simulatorInputContainer = ec("div", 'simulatorInputContainer', 'secondBox');
+    this.m_simulatorInput = ec("div", 'simInput', 'simulatorInputContainer');
+
+    //Control UI ----------------------------
+    this.m_controlsLeft = ec("div", 'controls', 'simInput');
+    this.m_controlsRight = ec("div", 'controls', 'simInput');
+
+    this.m_control0 = ec("div", 'control', this.m_controlsLeft);
+    this.m_control1 = ec("div", 'control', this.m_controlsLeft);
+    this.m_control2 = ec("div", 'control', this.m_controlsLeft);
+
+    this.m_control3 = ec("div", 'control', this.m_controlsRight);
+    this.m_control4 = ec("div", 'control', this.m_controlsRight);
+    this.m_control5 = ec("div", 'control', this.m_controlsRight);
+
+    this.m_controls = [this.m_control0, this.m_control1, this.m_control2, this.m_control3, this.m_control4, this.m_control5];
+
+    this.m_particleControl = ec("div", 'particleControl', 'simulatorInputContainer');
   }
 
   elementCreator(element, eid, parent, options = { content: '', className: '', mousePressed: null }) {
@@ -108,11 +133,6 @@ class SimulatorDOM {
     this.m_canvas.size(w, h);
   }
 
-
-// function showPause(option) {
-// renderUI("simCanvasFrame",option)
-// }
-
   adjustUISize() {
     // input: Floats
     // usage: Resizing the question/equation window; 0.35 (including question), 1 (excluding question)
@@ -144,12 +164,12 @@ class SimulatorDOM {
     this.m_equation.size(compWidth, sideHeight - 40 - 20);
     this.m_simulator.size(newCanWidth, newCanHeight);
 
-    simulatorInputContainer.size(newCanWidth, compHeight);
+    this.m_simulatorInputContainer.size(newCanWidth, compHeight);
 
-    simulatorInput.size(newCanWidth, 0.90 * newCanHeight);
-    controlsLeft.size(newCanWidth / 2, 0.35 * newCanHeight);
-    controlsRight.size(newCanWidth / 2, 0.35 * newCanHeight);
-    particleControl.size(newCanWidth, 0.1 * 0.80 * adjustedWindowHeight);
+    this.m_simulatorInput.size(newCanWidth, 0.90 * newCanHeight);
+    this.m_controlsLeft.size(newCanWidth / 2, 0.35 * newCanHeight);
+    this.m_controlsRight.size(newCanWidth / 2, 0.35 * newCanHeight);
+    this.m_particleControl.size(newCanWidth, 0.1 * 0.80 * adjustedWindowHeight);
 
     this.canvasSize (
       newCanWidth,
