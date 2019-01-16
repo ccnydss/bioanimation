@@ -214,7 +214,7 @@ function disableInputForParticle(particleType) {
   inside_id = particle_id + 1;
   outside_id = particle_id + 1 + row;
 
-  if(!document.getElementById(inside_id).disabled) {
+  if(!input[inside_id].elt.disabled) {
     input[inside_id].attribute('disabled', '');
     input[outside_id].attribute('disabled', '');
     plusButton[inside_id].attribute('disabled', '');
@@ -235,11 +235,7 @@ function enableInputForParticle(particleType) {
   inside_id = particle_id + 1;
   outside_id = particle_id + 1 + row;
 
-  console.log(inside_id, outside_id, document.getElementById(inside_id));
-
-  console.log("checkign condition", document.getElementById(inside_id).disabled);
-  
-  if (document.getElementById(inside_id).disabled) {
+  if (input[inside_id].elt.disabled) {
     input[inside_id].removeAttribute('disabled');
     input[outside_id].removeAttribute('disabled');
     plusButton[inside_id].removeAttribute('disabled');

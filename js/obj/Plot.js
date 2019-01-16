@@ -133,10 +133,11 @@ class Plot {
         console.log("For each, ", e, i);
         console.log(i !== index && i != 3);
         if (i !== index && i != 3) {
-          var checkBoxParticle = document.getElementById('checkbox' + mainSim.m_particle_types[index]).innerText;
+          var checkBoxParticle = document.getElementById('checkbox' + mainSim.m_particle_types[i]).innerText;
 
           mainSim.checkbox(i, false);
           curGraph.hidePlot(i, true);
+
           disableInputForParticle(checkBoxParticle);
         }
       })
