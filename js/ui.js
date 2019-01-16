@@ -54,15 +54,14 @@ function makeUIs(creation) {
       if (k == 0 || k == row) {
         textboard[k] = createElement('h4', text);
         textboard[k].class('qoptions');
-        textboard[k].parent(eval("control" + k));
+        textboard[k].parent(mainSim.m_dom.m_controls[k]);
 
-        createElement('br').parent(eval("control" + k));
+        createElement('br').parent(mainSim.m_dom.m_controls[k]);
 
         var table = createElement('table')
         table.class("table qoptions");
         table.id("table" + k);
-        table.parent(eval("control" + (
-          k + 1)));
+        table.parent(mainSim.m_dom.m_controls[k + 1]);
         } else {
           var trow = createElement('tr');
           if (k < row) {

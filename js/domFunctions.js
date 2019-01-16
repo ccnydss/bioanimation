@@ -20,8 +20,8 @@ function makeLayout() {
   // leftBox.id('leftbar');
   // leftBox.parent('firstBox');
 
-  var leftbarStatus = document.getElementById("leftbar");
-  leftbarStatus.style.display = "flex";
+  // var leftbarStatus = document.getElementById("leftbar");
+  // leftbarStatus.style.display = "flex";
 
   // // Create the div to actually contain the questions.
   // questions = createDiv("");
@@ -58,8 +58,6 @@ function makeLayout() {
   // equi.id('equilibrate-button');
   // equi.parent('equationContainer');
   // equi.mousePressed(startEquilibrate);
-
-  renderMathEqn();
 
   // simulatorSetting = createElement("div", "Simulation Settings");
   // simulatorSetting.id('simulatorSetting');
@@ -122,51 +120,51 @@ function makeLayout() {
 
   document.getElementById("simCanvasPauseIcon").onclick = function() {mainSim.pause()};
 
-  // Div to contain the simulatorInput
-  simulatorInputContainer = createDiv("");
-  simulatorInputContainer.id('simulatorInputContainer');
-  simulatorInputContainer.parent('secondBox');
-
-  simulatorInput = createDiv('');
-  simulatorInput.id('simInput');
-  simulatorInput.parent('simulatorInputContainer');
-
-  //Control UI ----------------------------
-  controlsLeft = createDiv('');
-  controlsLeft.class ('controls');
-  controlsLeft.parent('simInput');
-
-  controlsRight = createDiv('');
-  controlsRight.class ('controls');
-  controlsRight.parent('simInput');
-
-  control0 = createDiv('');
-  control0.class ('control');
-  control0.parent(controlsLeft);
-
-  control1 = createDiv('');
-  control1.class ('control');
-  control1.parent(controlsLeft);
-
-  control2 = createDiv('');
-  control2.class ('control');
-  control2.parent(controlsLeft);
-
-  control3 = createDiv('');
-  control3.class ('control');
-  control3.parent(controlsRight);
-
-  control4 = createDiv('');
-  control4.class ('control');
-  control4.parent(controlsRight);
-
-  control5 = createDiv('');
-  control5.class ('control');
-  control5.parent(controlsRight);
-
-  particleControl = createDiv('');
-  particleControl.id('particleControl');
-  particleControl.parent('simulatorInputContainer');
+  // // Div to contain the simulatorInput
+  // simulatorInputContainer = createDiv("");
+  // simulatorInputContainer.id('simulatorInputContainer');
+  // simulatorInputContainer.parent('secondBox');
+  //
+  // simulatorInput = createDiv('');
+  // simulatorInput.id('simInput');
+  // simulatorInput.parent('simulatorInputContainer');
+  //
+  // //Control UI ----------------------------
+  // controlsLeft = createDiv('');
+  // controlsLeft.class ('controls');
+  // controlsLeft.parent('simInput');
+  //
+  // controlsRight = createDiv('');
+  // controlsRight.class ('controls');
+  // controlsRight.parent('simInput');
+  //
+  // control0 = createDiv('');
+  // control0.class ('control');
+  // control0.parent(controlsLeft);
+  //
+  // control1 = createDiv('');
+  // control1.class ('control');
+  // control1.parent(controlsLeft);
+  //
+  // control2 = createDiv('');
+  // control2.class ('control');
+  // control2.parent(controlsLeft);
+  //
+  // control3 = createDiv('');
+  // control3.class ('control');
+  // control3.parent(controlsRight);
+  //
+  // control4 = createDiv('');
+  // control4.class ('control');
+  // control4.parent(controlsRight);
+  //
+  // control5 = createDiv('');
+  // control5.class ('control');
+  // control5.parent(controlsRight);
+  //
+  // particleControl = createDiv('');
+  // particleControl.id('particleControl');
+  // particleControl.parent('simulatorInputContainer');
 
   // mainSim.m_dom.adjustUISize();
 }
