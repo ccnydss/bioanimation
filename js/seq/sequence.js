@@ -41,6 +41,10 @@ class SequenceManager {
   next(reset=true) {
     if (this.len()) {
       this.m_seqitr = (this.m_seqitr + 1) % this.len();
+
+      var {width, height} = mainSim.m_dom.getSize();
+      this.current().setContainerSizes(width, height);
+
       if (reset) this.current().reset();
     }
   }
@@ -48,6 +52,10 @@ class SequenceManager {
   prev(reset=true) {
     if (this.len()) {
       this.m_seqitr = (this.m_seqitr == 0) ? this.len() - 1 : this.m_seqitr - 1;
+      
+      var {width, height} = mainSim.m_dom.getSize();
+      this.current().setContainerSizes(width, height);
+
       if (reset) this.current().reset();
     }
   }
