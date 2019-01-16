@@ -197,14 +197,9 @@ class Simulator {
     this.redrawUI(drawWithQuestions);
   }
 
-  // redrawUI(enableQuestionBox) {
-  //   // input: Boolean
-  //   // usage: True is for initializing the UI; False is for recreating UI when browser window is resized (responsive UI)
-  //   this.m_dom.m_sidebar_current = enableQuestionBox ? this.m_dom.m_sidebar_size_multiple : 1;
-  //
-  //   this.m_dom.adjustUISize();
-  //   animationSequencer.current().setContainerSizes(this.m_dom.m_canvas_width, this.m_dom.m_canvas_height);
-  // }
+  showPause(option) {
+    this.renderUI("simCanvasFrame", option)
+  }
 
   redrawUI(hide) {
     // input: Boolean
@@ -218,8 +213,9 @@ class Simulator {
         self.m_dom.adjustUISize();
 
         //Relative to parent coordinate
-        animationSequencer.current().setContainerSizes(self.m_dom.m_canvas_width, self.m_dom.m_canvas_height);
-      },250
+        var { width, height } = self.m_dom.getSize();
+        animationSequencer.current().setContainerSizes(width, height);
+      }, 250
     ) //Let the menu fade out for 250ms first
 
     this.renderUI("questionsdiv", hide)

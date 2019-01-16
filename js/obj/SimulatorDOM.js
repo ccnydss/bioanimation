@@ -156,10 +156,11 @@ class SimulatorDOM {
       this.addCheckbox(chk);
     }
 
-    NernstButton = ec("button", 'NernstButton', 'particleControl', { content: "Nernst", mousePressed: startNernst });
-    GoldmanButton = ec("button", 'GoldmanButton', 'particleControl', { content: "Goldman", mousePressed: startGoldman });
+    this.m_NernstButton = ec("button", 'NernstButton', 'particleControl', { content: "Nernst", mousePressed: startNernst });
+    this.m_GoldmanButton = ec("button", 'GoldmanButton', 'particleControl', { content: "Goldman", mousePressed: startGoldman });
 
     var row = 4;
+
     for (var k = 0; k < animationSequencer.current().getNumContainers() * row; k++) {
       if (k == 0) {
         var text = 'Extracellular Control:';
@@ -177,7 +178,7 @@ class SimulatorDOM {
         "+" :
         "-";
         var text = '[' + particleType + '<sup>' + particleCharge + '</sup>]' + '<sub>' + particleSuffix + '</sub>&nbsp;';
-        var Value = bioMainSequence.getNumParticles(particleLocation, particleType);
+        var Value = animationSequencer.current().getNumParticles(particleLocation, particleType);
       }
       if (k == 0 || k == row) {
         textboard[k] = createElement('h4', text);

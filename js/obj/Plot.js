@@ -127,11 +127,7 @@ class Plot {
         ci.data.datasets[index].data = dataset;
       }
 
-      console.log(ci.data.datasets)
-
       ci.data.datasets.forEach(function(e, i) {
-        console.log("For each, ", e, i);
-        console.log(i !== index && i != 3);
         if (i !== index && i != 3) {
           var checkBoxParticle = document.getElementById('checkbox' + mainSim.m_particle_types[i]).innerText;
 

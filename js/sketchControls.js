@@ -59,11 +59,11 @@ function startGoldman(evt) {
 
   //Remove old text
   if (document.getElementById('MathJax-Element-1-Frame')) {
-    renderUI('NernstEqn',false);
-    renderUI('GoldmanEqn',true);
+    mainSim.renderUI('NernstEqn', false);
+    mainSim.renderUI('GoldmanEqn', true);
 
     if (mainSim.questionsAreHidden()) { //Only appear setting when question box disappear
-      renderUI('GoldmanSetting', true);
+      mainSim.renderUI('GoldmanSetting', true);
     }
   }
 

@@ -5,8 +5,6 @@ var plusButton = [],
   input = [],       // NOTE: above
   simSetting = [];
 
-var equations = [];
-
 var mainSim = new Simulator();
 var graph;
 var animationSequencer;
