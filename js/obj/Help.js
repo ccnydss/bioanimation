@@ -101,7 +101,7 @@ class Help {
 
       case "equationContainer-clone":
 
-      var text = (equationContainerHeighthMul == equationHeightPercent) ?
+      var text = mainSim.questionsAreHidden() ?
       'This is the equation area, you can also click "arrow" button to show up the setting menu' :
       'This is the equation, setting and c area, you can also click "arrow" button to show up the question';
       break;
