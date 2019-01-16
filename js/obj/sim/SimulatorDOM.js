@@ -62,11 +62,12 @@ class SimulatorDOM {
     this.m_equationContainer = ec("div", 'equationContainer', 'firstBox');
 
     // The right sidebar for displaying questions.
-    this.m_hideBar = ec("div", 'hidebar', 'equationContainer', { mousePressed: hideQuestion });
+    this.m_hideBar = ec("div", 'hidebar', 'equationContainer', { mousePressed: this.hideQuestion.bind(this) });
     this.m_hideBarText = ec("div", 'hidebarText', 'hidebar', { content: "<" });
-    this.m_equation = ec("div", 'equationdiv', 'equationContainer');
 
-    renderMathEqn();
+    this.m_equation = ec("div", 'equationdiv', 'equationContainer');
+    this.m_equation.child('NernstEqn');   // Attach nernst equation, defined in sketch.html with id 'NernstEqn'
+    this.m_equation.child('GoldmanEqn');  // Same as nersnt, with goldman
 
     this.m_equi = ec("button", 'equilibrate-button', 'equationContainer', { content: "Equilibrate", mousePressed: startEquilibrate });
 
@@ -97,18 +98,16 @@ class SimulatorDOM {
     // Plot window
     this.m_dataPlot = document.createElement("canvas");
     this.m_dataPlot.id = 'dataPlot';
-    document.querySelector('#equationdiv').appendChild(this.m_dataPlot);
+    this.m_equation.child(this.m_dataPlot);
     this.m_sim.renderUI('dataPlot',false);
 
+    var self=this;
     this.m_simulator = ec("div", 'sim', 'secondBox');
-    // this.m_simulator.size(0.65 * windowWidth, 0.65 * (windowHeight - 36));
+    this.m_simulator.mouseOver(function(e, x=true) { self.showPause(x) });
+    this.m_simulator.mouseOut(function(e, x=false) { self.showPause(x) });
 
     this.m_simCanvasPause = ec("div", 'simCanvasPause', 'sim', { content: "Paused" });
-    document.getElementById('simCanvasPause').style.display = "none";
-
-    var self = this;
-    document.getElementById("sim").addEventListener("mouseover", function(e, x=true) { self.showPause(x) });
-    document.getElementById("sim").addEventListener("mouseout", function(e, x=false) { self.showPause(x) });
+    this.m_simCanvasPause.style('display', 'none');
 
     this.m_simCanvasFrame = ec("div", 'simCanvasFrame', 'sim')
     this.m_simCanvasPauseIcon = ec("div", 'simCanvasPauseIcon', 'simCanvasFrame', { content: "❚❚"})
@@ -125,8 +124,8 @@ class SimulatorDOM {
     this.m_simulatorInput = ec("div", 'simInput', 'simulatorInputContainer');
 
     //Control UI ----------------------------
-    this.m_controlsLeft = ec("div", 'controls', 'simInput');
-    this.m_controlsRight = ec("div", 'controls', 'simInput');
+    this.m_controlsLeft = ec("div", 'controls', 'simInput', { className: 'controls' });
+    this.m_controlsRight = ec("div", 'controls', 'simInput', { className: 'controls' });
 
     this.m_control0 = ec("div", 'control', this.m_controlsLeft);
     this.m_control1 = ec("div", 'control', this.m_controlsLeft);
@@ -283,6 +282,23 @@ class SimulatorDOM {
     this.m_sim.renderUI("simCanvasFrame", option)
   }
 
+  hideQuestion(evt) {
+    // input: the element that triggered the event (hide buttons [arrow]);
+    var show = this.m_sim.questionsAreHidden(); // Check if the questions are already hidden. If TRUE, we should show them. If FALSE, we should hide them.
+    var hide = !show;
+
+    //Turn the question menu off
+    this.m_sim.renderUI("hidebarText", hide)
+    this.m_sim.renderUI("simulatorSetting", hide)
+
+    var curUI = (this.m_sim.simMode() == "Nernst") ? "NernstSetting" : "GoldmanSetting"
+    this.m_sim.renderUI(curUI, hide)
+
+    this.m_sim.renderUI("dataPlot", hide)
+
+    this.m_sim.redrawUI(show);
+  }
+
   adjustUISize() {
     // input: Floats
     // usage: Resizing the question/equation window; 0.35 (including question), 1 (excluding question)
@@ -290,38 +306,6 @@ class SimulatorDOM {
 
     var newCanWidth = this.m_canvas_size_multiple * windowWidth;
     var newCanHeight = (this.m_canvas_size_multiple * adjustedWindowHeight) - 4;
-
-    // Complement's width and height
-    // aka, 0.35 multiplier instead of 0.65
-    // var compWidth = (1 - this.m_canvas_size_multiple) * windowWidth;
-    // var compHeight = (1 - this._canvas_size_multiple) * adjustedWindowHeight;
-    //
-    // var sideHeight = this.m_sidebar_current * adjustedWindowHeight;
-    // var compSideHeight = (1 - this.m_sidebar_current) * adjustedWindowHeight;
-    //
-    // this.m_stage.size(windowWidth, adjustedWindowHeight);
-    // this.m_firstBox.size(compWidth, adjustedWindowHeight);
-    // this.m_secondBox.size(newCanWidth, adjustedWindowHeight);
-    //
-    // this.m_questions.size(compWidth, compSideHeight);
-    // this.m_equationContainer.size(compWidth, sideHeight);
-    //
-    // this.m_leftBox.size(compWidth, compSideHeight);
-    //
-    // this.m_hideBar.size(compWidth, 20);
-    // this.m_equi.size(compWidth, 40);
-    //
-    // this.m_equation.size(compWidth, sideHeight - 40 - 20);
-    // this.m_simulator.size(newCanWidth, newCanHeight);
-    //
-    // this.m_simulatorInputContainer.size(newCanWidth, compHeight);
-    //
-    // this.m_simulatorInput.size(newCanWidth, 0.90 * newCanHeight);
-    // this.m_controlsLeft.size(newCanWidth / 2, 0.35 * newCanHeight);
-    // this.m_controlsRight.size(newCanWidth / 2, 0.35 * newCanHeight);
-    // this.m_particleControl.size(newCanWidth, 0.1 * 0.80 * adjustedWindowHeight);
-
-    // console.log("adjustUISize", this);
 
     this.canvasSize (
       newCanWidth,
