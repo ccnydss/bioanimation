@@ -174,11 +174,7 @@ class Simulator {
   }
 
   setAnswer(answer) {
-    if (answer == "N/A") {
-      this.m_dom.m_equationResult.html('Answer: N/A - Particle Disabled');
-    } else {
-      this.m_dom.m_equationResult.html('Answer: ' + answer.toFixed(4) + 'V');
-    }
+    this.m_dom.m_equationResult.html('Answer: ' + answer);
   }
 
   buttonModeSwitch() {
@@ -205,7 +201,7 @@ class Simulator {
 
     this.m_dom.m_sidebar_current = hide ? this.m_dom.m_sidebar_size_multiple : 1;
     this.m_dom.adjustUISize();
-    
+
     var { width, height } = this.m_dom.getSize();
     animationSequencer.current().setContainerSizes(width, height);
 

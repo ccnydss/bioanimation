@@ -151,13 +151,13 @@ function FormulaInputCalculation(particleType) {
   // input: string;
   // usage: "Na", "Cl", "K"
   // output: float;
-  var answer = "N/A";
+  var answer = "N/A - Particle Disabled";
 
   if (mainSim.simMode() == "Nernst") {
     if (particleMapper[particleType]["display"])
-      answer = calculateNernst(particleType);
+      answer = calculateNernst(particleType).toFixed(4) + ' V';
   } else {
-    answer = calculateGoldman();
+    answer = calculateGoldman().toFixed(4) + ' V';
   }
 
   mainSim.setAnswer(answer);
