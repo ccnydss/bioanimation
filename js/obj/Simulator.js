@@ -61,6 +61,7 @@ class Simulator {
   }
 
   checkbox(index, bool=null) {
+    console.log()
     if (bool != null) {
       this.m_checkboxes[index].checked(bool);
     } else {

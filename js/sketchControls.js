@@ -235,7 +235,11 @@ function enableInputForParticle(particleType) {
   inside_id = particle_id + 1;
   outside_id = particle_id + 1 + row;
 
-  if(document.getElementById(inside_id).disabled) {
+  console.log(inside_id, outside_id, document.getElementById(inside_id));
+
+  console.log("checkign condition", document.getElementById(inside_id).disabled);
+  
+  if (document.getElementById(inside_id).disabled) {
     input[inside_id].removeAttribute('disabled');
     input[outside_id].removeAttribute('disabled');
     plusButton[inside_id].removeAttribute('disabled');
