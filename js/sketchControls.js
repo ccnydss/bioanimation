@@ -151,7 +151,7 @@ function FormulaInputCalculation(particleType) {
   // input: string;
   // usage: "Na", "Cl", "K"
   // output: float;
-  var answer = "N/A - Particle Disabled";
+  var answer = null;
 
   if (mainSim.simMode() == "Nernst") {
     if (particleMapper[particleType]["display"])
@@ -160,7 +160,7 @@ function FormulaInputCalculation(particleType) {
     answer = calculateGoldman().toFixed(4) + ' V';
   }
 
-  mainSim.setAnswer(answer);
+  if (answer) mainSim.setAnswer(answer);
 }
 
 function calculateNernst(particleType) {
@@ -212,14 +212,7 @@ function disableInputForParticle(particleType) {
   inside_id = particle_id + 1;
   outside_id = particle_id + 1 + row;
 
-  if(!input[inside_id].elt.disabled) {
-    input[inside_id].attribute('disabled', '');
-    input[outside_id].attribute('disabled', '');
-    plusButton[inside_id].attribute('disabled', '');
-    minusButton[inside_id].attribute('disabled', '');
-    plusButton[outside_id].attribute('disabled', '');
-    minusButton[outside_id].attribute('disabled', '');
-  }
+  mainSim.m_dom.disableParticleID(inside_id, outside_id);
 
   animationSequencer.current().setContainerDisplays(particleType, false);
 }
@@ -233,14 +226,7 @@ function enableInputForParticle(particleType) {
   inside_id = particle_id + 1;
   outside_id = particle_id + 1 + row;
 
-  if (input[inside_id].elt.disabled) {
-    input[inside_id].removeAttribute('disabled');
-    input[outside_id].removeAttribute('disabled');
-    plusButton[inside_id].removeAttribute('disabled');
-    minusButton[inside_id].removeAttribute('disabled');
-    plusButton[outside_id].removeAttribute('disabled');
-    minusButton[outside_id].removeAttribute('disabled');
-  }
+  mainSim.m_dom.enableParticleID(inside_id, outside_id);
 
   animationSequencer.current().setContainerDisplays(particleType, true);
 }
@@ -263,12 +249,12 @@ function updateInputs(particleType, location, id) {
   : "outside";
 
   var oldInput = location == "outside"
-  ? input[id + 1]
-  : input[id + row + 1];
+  ? mainSim.m_dom.m_inputs[id + 1]
+  : mainSim.m_dom.m_inputs[id + row + 1];
 
   var transferInput = location == "outside"
-  ? input[id + row + 1]
-  : input[id + 1];
+  ? mainSim.m_dom.m_inputs[id + row + 1]
+  : mainSim.m_dom.m_inputs[id + 1];
 
   var oldAmount = animationSequencer.current().getNumParticles(location, particleType);
   var transferAmount = animationSequencer.current().getNumParticles(transferLocation, particleType);

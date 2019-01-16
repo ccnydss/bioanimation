@@ -49,7 +49,7 @@ function changeNumParticles(evt) {
   var numParticles = animationSequencer.current().getNumParticles(particleLocation, particleType);
   var MaxParticles = animationSequencer.current().MAX_PARTICLES;
 
-  var updatedAmount = input[eventID].value();
+  var updatedAmount = mainSim.m_dom.m_inputs[eventID].value();
 
   // If the amount entered is invalid, alert user
   if (
@@ -62,7 +62,7 @@ function changeNumParticles(evt) {
   } else if (updatedAmount > MaxParticles) {
     // If the amount entered is greater than the maximum, force it to maximum and alert user
 
-    input[eventID].value(MaxParticles);
+    mainSim.m_dom.m_inputs[eventID].value(MaxParticles);
     updatedAmount = MaxParticles;
     alert("Maximum amount is " + MaxParticles + ".");
   }

@@ -2,20 +2,20 @@
 
 class Simulator {
   constructor() {
+    this.m_particle_types = ["Na", "Cl", "K"];
+
     this.m_pause = false;
 
     this.m_dom = new SimulatorDOM(this)
 
     this.m_mode = "Nernst";
-    this.m_particle_types = ["Na", "Cl", "K"];
+    this.m_nernst_particle = "Na";       // Contains the currently selected particle in Nernst mode
 
     this.m_settings = {
       temperature: 37 + 273.13,           // 37 is the human body temperature
       gas_constant: 8.314,                // Ideal gas constant
       faraday: 96485.3329                 // Faraday's constant
     };
-
-    this.m_nernst_particle = "Na";       // For Nernst mode
   }
 
   pause() {
@@ -134,43 +134,25 @@ class Simulator {
   changeSimulatorSettings(evt) {
     // input: the element that triggered the event (Input buttons);
 
+    var updatedAmount = evt.target.value;
     var eventID = evt.target.id;
-    //0 = temperature
-    //1 = charge *Removed*
-    //1 = temperature
-    //2 = Pna
-    //3 = Pcl
-    //4 = Pk
 
     if (eventID == 0) {
-      tempSetting = updatedAmount;
-      simSetting[0].value(updatedAmount);
+      // Set temperature
+      this.m_settings.temperature = updatedAmount;
+      this.m_dom.m_settings[eventID].value(updatedAmount);
     }
     if (eventID == 1) {
       Na.permeability = updatedAmount;
-      // NOTE: Why is this function call empty?
-      FormulaInputCalculation();
     }
     if (eventID == 2) {
       Cl.permeability = updatedAmount;
-      FormulaInputCalculation();
     }
     if (eventID == 3) {
       K.permeability = updatedAmount;
-      FormulaInputCalculation();
     }
 
-    if (simulatorMode == "Goldman") {
-      FormulaInputCalculation();
-    } else {
-      if (Na.display == true) {
-        FormulaInputCalculation("Na");
-      } else if (Cl.display == true) {
-        FormulaInputCalculation("Cl");
-      } else if (K.display == true) {
-        FormulaInputCalculation("K");
-      }
-    }
+    FormulaInputCalculation(this.m_nernst_particle);
   }
 
   setAnswer(answer) {
@@ -178,15 +160,12 @@ class Simulator {
   }
 
   buttonModeSwitch() {
-    var NernstButtonStatus = document.getElementById("NernstButton");
-    var GoldmanButtonStatus = document.getElementById("GoldmanButton");
-
     if (this.m_mode == "Nernst") {
-      NernstButtonStatus.style.backgroundColor = "#74b9ff";
-      GoldmanButtonStatus.style.backgroundColor = "#dfe6e9";
+      this.m_dom.m_NernstButton.style('backgroundColor', "#74b9ff");
+      this.m_dom.m_GoldmanButton.style('backgroundColor', "#dfe6e9");
     } else {
-      NernstButtonStatus.style.backgroundColor = "#dfe6e9";
-      GoldmanButtonStatus.style.backgroundColor = "#74b9ff";
+      this.m_dom.m_NernstButton.style('backgroundColor', "#dfe6e9");
+      this.m_dom.m_GoldmanButton.style('backgroundColor', "#74b9ff");
     }
   }
 
