@@ -101,6 +101,7 @@ function keyPressed() {
 
 function windowResized() {
   mainSim.resize();
+  help.resize();
 }
 
 function checkedEvent(evt) {

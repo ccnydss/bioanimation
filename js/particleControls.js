@@ -8,6 +8,9 @@ function startEquilibrate(evt) {
   }
 }
 
+function highLightInput(evt) {
+  evt.target.setSelectionRange(0,  evt.target.value.length)
+}
 function insertParticle(evt) {
   // Add a particle to its array
   // Return the new number of particles of this type

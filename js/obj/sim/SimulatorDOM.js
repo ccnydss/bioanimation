@@ -69,7 +69,7 @@ class SimulatorDOM {
     this.m_equation.child('NernstEqn');   // Attach nernst equation, defined in sketch.html with id 'NernstEqn'
     this.m_equation.child('GoldmanEqn');  // Same as nersnt, with goldman
 
-    this.m_equi = ec("button", 'equilibrate-button', 'equationContainer', { content: "Equilibrate", mousePressed: startEquilibrate });
+    this.m_equi = ec("button", 'equilibrateButton', 'equationContainer', { content: "Equilibrate", mousePressed: startEquilibrate });
 
     this.m_simulatorSetting = ec("div", 'simulatorSetting', 'equationdiv', { content: "Simulation Settings" })
     this.m_sim.renderUI('simulatorSetting',false);
@@ -100,6 +100,8 @@ class SimulatorDOM {
     this.m_dataPlot.id = 'dataPlot';
     this.m_equation.child(this.m_dataPlot);
     this.m_sim.renderUI('dataPlot',false);
+
+    this.m_helpDummy = ec("div", 'helpDummy', 'equationdiv');
 
     var self=this;
     this.m_simulator = ec("div", 'sim', 'secondBox');
@@ -214,6 +216,7 @@ class SimulatorDOM {
         input[k].parent(td1);
         td1.parent(trow);
         input[k].input(changeNumParticles);
+        input[k].mouseClicked(highLightInput)
 
         plusButton[k] = createButton('+');
         plusButton[k].id(k);

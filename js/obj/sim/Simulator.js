@@ -70,13 +70,20 @@ class Simulator {
       break;
 
       case "simulatorSetting":
-      document.getElementById('simulatorSetting').className = (mode) ? "" : "hidden";
+      if (mode) {
+      document.getElementById('simulatorSetting').classList.remove("hidden")
+      } else { document.getElementById('simulatorSetting').classList.add("hidden")}
       break;
 
       case "questionsdiv":
-      document.getElementById('questionsdiv').className = (mode) ? "" : "hidden";
-      document.getElementById('leftbar').className = (mode) ? "" : "hidden";
-      document.getElementById('equationContainer').className = (mode) ? "" : "fullsize";
+      if (mode) {
+      document.getElementById('questionsdiv').classList.remove("hidden")
+      document.getElementById('leftbar').classList.remove("hidden")
+      document.getElementById('equationContainer').classList.remove("fullsize")
+      } else { document.getElementById('questionsdiv').classList.add("hidden")
+      document.getElementById('leftbar').classList.add("hidden")
+      document.getElementById('equationContainer').classList.add("fullsize")}
+
       break;
 
       case "NernstEqn":
@@ -98,7 +105,9 @@ class Simulator {
       break;
 
       case "dataPlot":
-      document.getElementById('dataPlot').className = (mode) ? "" : "hidden";
+      if (mode) {
+      document.getElementById('dataPlot').classList.remove("hidden")
+      } else { document.getElementById('dataPlot').classList.add("hidden")}
       //Note chartjs chart has a class called 'chartjs-render-monitor' by default, but this class is conflict with our animation
       break;
 
@@ -205,7 +214,7 @@ class Simulator {
 
     this.m_dom.m_sidebar_current = hide ? this.m_dom.m_sidebar_size_multiple : 1;
     this.m_dom.adjustUISize();
-    
+
     var { width, height } = this.m_dom.getSize();
     animationSequencer.current().setContainerSizes(width, height);
 
