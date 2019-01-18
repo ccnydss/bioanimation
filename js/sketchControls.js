@@ -206,13 +206,9 @@ function calculateGoldman() {
 function disableInputForParticle(particleType) {
   // input: string;
   // usage: "Na", "Cl", "K"
-
-  var row = 4;
   var particle_id = particleMapper[particleType].id;
-  inside_id = particle_id + 1;
-  outside_id = particle_id + 1 + row;
 
-  mainSim.m_dom.disableParticleID(inside_id, outside_id);
+  mainSim.m_dom.disableParticleID(particle_id);
 
   animationSequencer.current().setContainerDisplays(particleType, false);
 }
@@ -220,13 +216,9 @@ function disableInputForParticle(particleType) {
 function enableInputForParticle(particleType) {
   // input: string;
   // usage: "Na", "Cl", "K"
-
-  var row = 4;
   var particle_id = particleMapper[particleType].id;
-  inside_id = particle_id + 1;
-  outside_id = particle_id + 1 + row;
 
-  mainSim.m_dom.enableParticleID(inside_id, outside_id);
+  mainSim.m_dom.enableParticleID(particle_id);
 
   animationSequencer.current().setContainerDisplays(particleType, true);
 }
@@ -243,18 +235,12 @@ function updateAll() {
 }
 
 function updateInputs(particleType, location, id) {
-  var row = 4;
   var transferLocation = (location == "outside")
   ? "inside"
   : "outside";
 
-  var oldInput = location == "outside"
-  ? mainSim.m_dom.m_inputs[id + 1]
-  : mainSim.m_dom.m_inputs[id + row + 1];
-
-  var transferInput = location == "outside"
-  ? mainSim.m_dom.m_inputs[id + row + 1]
-  : mainSim.m_dom.m_inputs[id + 1];
+  var oldInput = mainSim.m_dom.m_sim_controls[location].rows[id];
+  var transferInput = mainSim.m_dom.m_sim_controls[transferLocation].rows[id];
 
   var oldAmount = animationSequencer.current().getNumParticles(location, particleType);
   var transferAmount = animationSequencer.current().getNumParticles(transferLocation, particleType);

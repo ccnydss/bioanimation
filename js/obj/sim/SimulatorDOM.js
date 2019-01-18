@@ -10,41 +10,29 @@ class SimulatorDOM {
     this.m_canvas_size_multiple = 0.65;   // Canvas width and height will be 65% of the screen's width and height.
 
     this.m_questionHeader = "Goldman-Hodgkin-Katz";
-    
+
     this.m_canvas_width;
     this.m_canvas_height;
-
-    this.m_controls = [];
-    this.m_checkboxes = [];
 
     this.m_equationResult = 0;
 
     this.m_sim_controls = {
       inside: {
+        label: "Intracellular",
         header: null,
-        inputs: [],
-        buttons: {
-          "plus": [],
-          "minus": []
-        }
+        table: null,
+        rows: []
       },
       outside: {
+        label: "Extracellular",
         header: null,
-        inputs: [],
-        buttons: {
-          "plus": [],
-          "minus": []
-        }
+        table: null,
+        rows: []
       }
     };
 
-    this.m_buttons = {
-      "plus": [],
-      "minus": []
-    };
-    this.m_textboard = []
-    this.m_inputs = []
-    this.m_setting_fields = []
+    this.m_controls = [];
+    this.m_checkboxes = [];
 
     this.m_settings = [] // Array of settings HTML fields, to replace 'simSetting'
   }
@@ -62,7 +50,7 @@ class SimulatorDOM {
   }
 
   setup() {
-    var ec = this.elementCreator;
+    var ec = elementCreator;
 
     this.m_stage = ec("div", 'stage', 'root', { className: 'flex-container' });
     this.m_firstBox = ec("div", 'firstBox', 'stage');
@@ -148,107 +136,67 @@ class SimulatorDOM {
     this.m_controlsLeft = ec("div", 'controls', 'simInput', { className: 'controls' });
     this.m_controlsRight = ec("div", 'controls', 'simInput', { className: 'controls' });
 
-    this.m_control0 = ec("div", 'control', this.m_controlsLeft);
-    this.m_control1 = ec("div", 'control', this.m_controlsLeft);
-    this.m_control2 = ec("div", 'control', this.m_controlsLeft);
+    this.m_control0 = ec("div", 'control0', this.m_controlsLeft);
+    this.m_control1 = ec("div", 'control1', this.m_controlsLeft);
+    this.m_control2 = ec("div", 'control4', this.m_controlsRight);
+    this.m_control3 = ec("div", 'control5', this.m_controlsRight);
 
-    this.m_control3 = ec("div", 'control', this.m_controlsRight);
-    this.m_control4 = ec("div", 'control', this.m_controlsRight);
-    this.m_control5 = ec("div", 'control', this.m_controlsRight);
-
-    this.m_controls = [this.m_control0, this.m_control1, this.m_control2, this.m_control3, this.m_control4, this.m_control5];
+    this.m_controls = [this.m_control0, this.m_control1, this.m_control2, this.m_control3];
 
     this.m_particleControl = ec("div", 'particleControl', 'simulatorInputContainer');
   }
 
   createControls() {
-    var ec = this.elementCreator;
+    var ec = elementCreator;
     var answer = 0;
 
-    this.m_equationResult = ec("h3", 'answer', 'equationdiv', { className: 'answer', content: 'Answer: ' + answer + 'V'})
+    this.m_equationResult = ec("h3", 'answer', 'equationdiv', { className: 'answer', content: 'Answer: ' + answer + 'V'});
 
-    // Radio buttons to select ions to include
+    // Create the radio buttons to select particles
     for (var i = 0; i < this.m_sim.numParticleTypes(); i++) {
-      var chk = createCheckbox(this.m_sim.m_particle_types[i], false);
+      var name = this.m_sim.m_particle_types[i];
+
+      var chk = createCheckbox(name, false);
       chk.class('checkboxes');
-      chk.id('checkbox' + this.m_sim.m_particle_types[i]);
+      chk.id('checkbox' + name);
       chk.parent('particleControl');
       chk.changed(checkedEvent);
 
       this.addCheckbox(chk);
-    }
+    };
 
+    // Create the nernst buttons
     this.m_NernstButton = ec("button", 'NernstButton', 'particleControl', { content: "Nernst", mousePressed: startNernst });
     this.m_GoldmanButton = ec("button", 'GoldmanButton', 'particleControl', { content: "Goldman", mousePressed: startGoldman });
 
-    var row = 4;
+    var control = 0;
 
-    for (var k = 0; k < animationSequencer.current().getNumContainers() * row; k++) {
-      if (k == 0) {
-        var text = 'Extracellular Control:';
-      } else if (k == row) {
-        var text = 'Intracellular Control:';
-      } else {
-        var id = (k % row) - 1;
-        var particleType = this.m_sim.m_particle_types[id];
-        var particleLocation = (k <= 3) ? "outside" : "inside";
+    for (var locStr in this.m_sim_controls) {
+      var location = this.m_sim_controls[locStr];
 
-        var particleSuffix = (k <= 3) ?
-        "out" :
-        "in";
-        var particleCharge = (particleMapper[particleType].charge == 1) ?
-        "+" :
-        "-";
-        var text = '[' + particleType + '<sup>' + particleCharge + '</sup>]' + '<sub>' + particleSuffix + '</sub>&nbsp;';
-        var Value = animationSequencer.current().getNumParticles(particleLocation, particleType);
-      };
+      location.header = ec("h4", '', this.m_controls[control], {
+        content: location.label
+      });
 
-      if (k == 0 || k == row) {
-        this.m_textboard[k] = this.elementCreator("h4", '', this.m_controls[k], { content: text, className: 'qoptions' });
-        createElement('br').parent(this.m_controls[k]);
+      location.table = ec("table", '', this.m_controls[control + 1], {
+        className: 'table qoptions'
+      });
 
-        var table = this.elementCreator("table", 'table' + k, this.m_controls[k + 1], { className: 'table qoptions' });
-      } else {
-        var par = k < row ? "table0" : "table" + row;
-        var trow = this.elementCreator("tr", '', par);
+      for (var i = 0; i < this.m_sim.numParticleTypes(); i++) {
+        var name = this.m_sim.m_particle_types[i];
+        var { sign, color } = particleMapper[name];
 
-        var td0 = this.elementCreator("td", '', trow);
-        this.m_textboard[k] = this.elementCreator("h4", '', td0, { content: text, className: 'qoptions' });
+        var label = '[' + name + '<sup>' + sign + '</sup>]'
+        label += '<sub>' + locStr.slice(0, -4) + '</sub>&nbsp;';
 
-        var td1 = this.elementCreator("td", '', trow);
-        this.m_inputs[k] = this.elementCreator("input", k, td1, { className: 'qoptions' });
-        this.m_inputs[k].value(Value)
-        this.m_inputs[k].class('qoptions');
-        this.m_inputs[k].input(changeNumParticles);
+        var value = animationSequencer.current().getNumParticles(locStr, name);
 
-        var td2 = this.elementCreator("td", '', trow);
-        this.m_buttons.plus[k] = this.elementCreator("button", k, td2, { content: "+", className: 'qoptions', mousePressed: insertParticle });
-        this.m_buttons.plus[k].attribute("data-ptype", particleType);
-        this.m_buttons.plus[k].attribute("data-location", particleLocation);
-        this.m_buttons.plus[k].style("background-color", particleMapper[particleType].color)
-
-        var td3 = this.elementCreator("td", '', trow);
-        this.m_buttons.minus[k] = this.elementCreator("button", k, td3, { content: "-", className: 'qoptions', mousePressed: removeParticle });
-        this.m_buttons.minus[k].attribute("data-ptype", particleType);
-        this.m_buttons.minus[k].attribute("data-location", particleLocation);
-        this.m_buttons.minus[k].style("background-color", particleMapper[particleType].color)
+        location.rows[i] = new InputRow(label, value, true, color);
+        location.rows[i].create(location.table, i, name, locStr);
       }
+
+      control += 2;
     }
-  }
-
-  elementCreator(element, eid, parent, options = { content: '', className: '', mousePressed: null }) {
-    var { content, className, mousePressed } = options;
-
-    var elm = createElement(element, content);
-    elm.id(eid);
-    elm.class(className);
-    elm.parent(parent);
-
-    if (mousePressed) {
-      elm.mousePressed(mousePressed);
-    }
-
-    return elm;
   }
 
   setSize(w, h) {
@@ -306,49 +254,33 @@ class SimulatorDOM {
   }
 
   // NOTE: create a single "toggleParticleID()" method
-  disableParticleID(inside_id, outside_id) {
-    if (!this.m_inputs[inside_id].elt.disabled) {
-      this.m_inputs[inside_id].attribute('disabled', '');
-      this.m_inputs[outside_id].attribute('disabled', '');
-
-      this.m_buttons.plus[inside_id].attribute('disabled', '');
-      this.m_buttons.minus[inside_id].attribute('disabled', '');
-
-      this.m_buttons.plus[outside_id].attribute('disabled', '');
-      this.m_buttons.minus[outside_id].attribute('disabled', '');
-    }
+  disableParticleID(id) {
+    this.m_sim_controls.inside.rows[id].enable(false);
+    this.m_sim_controls.outside.rows[id].enable(false);
   }
 
-  enableParticleID(inside_id, outside_id) {
-    if (this.m_inputs[inside_id].elt.disabled) {
-      this.m_inputs[inside_id].removeAttribute('disabled');
-      this.m_inputs[outside_id].removeAttribute('disabled');
-
-      this.m_buttons.plus[inside_id].removeAttribute('disabled');
-      this.m_buttons.minus[inside_id].removeAttribute('disabled');
-
-      this.m_buttons.plus[outside_id].removeAttribute('disabled');
-      this.m_buttons.minus[outside_id].removeAttribute('disabled');
-    }
+  enableParticleID(id) {
+    this.m_sim_controls.inside.rows[id].enable(true);
+    this.m_sim_controls.outside.rows[id].enable(true);
   }
 
   makeTable(id, parent, content, placeholder, contentUnit, contentDefaultValue, prevLength) {
-    var settingPart = this.elementCreator("div", id, parent);
+    var settingPart = elementCreator("div", id, parent);
 
     var tableRow = content.length;
 
     for (var i = 0; i < tableRow; i++) {
-      var trow = this.elementCreator("tr", '', settingPart);
-      var td0 = this.elementCreator("label", '', trow, { content: content[i]} );
+      var trow = elementCreator("tr", '', settingPart);
+      var td0 = elementCreator("label", '', trow, { content: content[i]} );
 
-      var inputElement = this.elementCreator("input", this.m_settings.length, trow);
+      var inputElement = elementCreator("input", this.m_settings.length, trow);
       inputElement.value(contentDefaultValue[i]);
       inputElement.attribute('placeholder', placeholder[i]);
       inputElement.input(this.m_sim.changeSimulatorSettings.bind(this.m_sim));
 
       this.m_settings.push(inputElement);
 
-      var td3 = this.elementCreator("div", '', trow, { content: contentUnit[i] });
+      var td3 = elementCreator("div", '', trow, { content: contentUnit[i] });
 
       if (contentUnit[i]) {
         td3.addClass('unit');

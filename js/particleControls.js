@@ -12,28 +12,20 @@ function insertParticle(evt) {
   // Add a particle to its array
   // Return the new number of particles of this type
   var eventID = evt.target.id;
-  var row = 4;
-  var id = (eventID % row) - 1;
-  var particleType = mainSim.m_particle_types[id];
-  var particleLocation = (eventID < row) ?
-    "outside" :
-    "inside";
+  var particleType = evt.target.attributes['data-ptype'].value;
+  var particleLocation = evt.target.attributes['data-location'].value;
 
   animationSequencer.current().insertNewParticle(particleLocation, particleType);
-  updateInputs(particleType, particleLocation, id);
+  updateInputs(particleType, particleLocation, eventID);
 }
 
 function removeParticle(evt) {
   var eventID = evt.target.id;
-  var row = 4;
-  var id = (eventID % row) - 1;
-  var particleType = mainSim.m_particle_types[id];
-  var particleLocation = (eventID < row) ?
-    "outside" :
-    "inside";
+  var particleType = evt.target.attributes['data-ptype'].value;
+  var particleLocation = evt.target.attributes['data-location'].value;
 
   animationSequencer.current().removeParticle(particleLocation, particleType, 0);
-  updateInputs(particleType, particleLocation, id);
+  updateInputs(particleType, particleLocation, eventID);
 }
 
 function changeNumParticles(evt) {

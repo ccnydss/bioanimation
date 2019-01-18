@@ -46,3 +46,17 @@ function loadText(url, tag) {
   xmlhttp.send();
 }
 
+function elementCreator(element, eid, parent, options = { content: '', className: '', mousePressed: null }) {
+  var { content, className, mousePressed } = options;
+
+  var elm = createElement(element, content);
+  elm.id(eid);
+  elm.class(className);
+  elm.parent(parent);
+
+  if (mousePressed) {
+    elm.mousePressed(mousePressed);
+  }
+
+  return elm;
+}
