@@ -1,10 +1,3 @@
-//Just for initializing
-var plusButton = [],
-  minusButton = [],
-  textboard = [],   // NOTE: More specific variable name
-  input = [],       // NOTE: above
-  simSetting = [];
-
 var mainSim = new Simulator();
 var graph;
 var animationSequencer;

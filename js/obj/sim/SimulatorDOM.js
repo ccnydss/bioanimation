@@ -15,16 +15,36 @@ class SimulatorDOM {
     this.m_controls = [];
     this.m_checkboxes = [];
 
+    this.m_equationResult = 0;
+
+    this.m_sim_controls = {
+      inside: {
+        header: null,
+        inputs: [],
+        buttons: {
+          "plus": [],
+          "minus": []
+        }
+      },
+      outside: {
+        header: null,
+        inputs: [],
+        buttons: {
+          "plus": [],
+          "minus": []
+        }
+      }
+    };
+
     this.m_buttons = {
       "plus": [],
       "minus": []
     };
-
-    this.m_equationResult = 0;
-
     this.m_textboard = []
     this.m_inputs = []
     this.m_setting_fields = []
+
+    this.m_settings = [] // Array of settings HTML fields, to replace 'simSetting'
   }
 
   addCheckbox(checkbox) {
@@ -32,7 +52,6 @@ class SimulatorDOM {
   }
 
   checkbox(index, bool=null) {
-    console.log()
     if (bool != null) {
       this.m_checkboxes[index].checked(bool);
     } else {
@@ -77,7 +96,7 @@ class SimulatorDOM {
     this.m_settingTable = ec("div", 'setting', 'simulatorSetting', { className: 'setting' });
     this.m_sim.renderUI("setting", false);
 
-    makeTable (
+    this.makeTable (
       "NernstSetting",
       "setting",
       ["T"],
@@ -86,7 +105,7 @@ class SimulatorDOM {
       [mainSim.m_settings.temperature]
     );
 
-    makeTable (
+    this.makeTable (
       "GoldmanSetting",
       "setting",
       ["p<sub>Na</sub>", "p<sub>Cl</sub>", "p<sub>K</sub>"],
@@ -171,7 +190,7 @@ class SimulatorDOM {
         var text = 'Intracellular Control:';
       } else {
         var id = (k % row) - 1;
-        var particleType = mainSim.m_particle_types[id];
+        var particleType = this.m_sim.m_particle_types[id];
         var particleLocation = (k <= 3) ? "outside" : "inside";
 
         var particleSuffix = (k <= 3) ?
@@ -182,67 +201,39 @@ class SimulatorDOM {
         "-";
         var text = '[' + particleType + '<sup>' + particleCharge + '</sup>]' + '<sub>' + particleSuffix + '</sub>&nbsp;';
         var Value = animationSequencer.current().getNumParticles(particleLocation, particleType);
-      }
+      };
+
       if (k == 0 || k == row) {
-        textboard[k] = createElement('h4', text);
-        textboard[k].class('qoptions');
-        textboard[k].parent(mainSim.m_dom.m_controls[k]);
+        this.m_textboard[k] = this.elementCreator("h4", '', this.m_controls[k], { content: text, className: 'qoptions' });
+        createElement('br').parent(this.m_controls[k]);
 
-        createElement('br').parent(mainSim.m_dom.m_controls[k]);
-
-        var table = createElement('table')
-        table.class("table qoptions");
-        table.id("table" + k);
-        table.parent(mainSim.m_dom.m_controls[k + 1]);
+        var table = this.elementCreator("table", 'table' + k, this.m_controls[k + 1], { className: 'table qoptions' });
       } else {
-        var trow = createElement('tr');
-        if (k < row) {
-          trow.parent("table0");
-        } else {
-          trow.parent("table" + row);
-        }
+        var par = k < row ? "table0" : "table" + row;
+        var trow = this.elementCreator("tr", '', par);
 
-        textboard[k] = createElement('h4', text);
-        textboard[k].class('qoptions');
+        var td0 = this.elementCreator("td", '', trow);
+        this.m_textboard[k] = this.elementCreator("h4", '', td0, { content: text, className: 'qoptions' });
 
-        var td0 = createElement('td');
-        textboard[k].parent(td0);
-        td0.parent(trow);
-        input[k] = createInput();
-        input[k].value(Value)
-        input[k].id(k);
-        input[k].class('qoptions');
-        var td1 = createElement('td');
-        input[k].parent(td1);
-        td1.parent(trow);
-        input[k].input(changeNumParticles);
-        input[k].mouseClicked(highLightInput)
+        var td1 = this.elementCreator("td", '', trow);
+        this.m_inputs[k] = this.elementCreator("input", k, td1, { className: 'qoptions' });
+        this.m_inputs[k].value(Value)
+        this.m_inputs[k].class('qoptions');
+        this.m_inputs[k].input(changeNumParticles);
+        this.m_inputs[k].mouseClicked(highLightInput)
 
-        plusButton[k] = createButton('+');
-        plusButton[k].id(k);
 
-        plusButton[k].attribute("data-ptype", particleType);
-        plusButton[k].attribute("data-location", particleLocation);
-        plusButton[k].style("background-color", particleMapper[particleType].color)
-        plusButton[k].mousePressed(insertParticle);
-        plusButton[k].class('qoptions');
+        var td2 = this.elementCreator("td", '', trow);
+        this.m_buttons.plus[k] = this.elementCreator("button", k, td2, { content: "+", className: 'qoptions', mousePressed: insertParticle });
+        this.m_buttons.plus[k].attribute("data-ptype", particleType);
+        this.m_buttons.plus[k].attribute("data-location", particleLocation);
+        this.m_buttons.plus[k].style("background-color", particleMapper[particleType].color)
 
-        var td2 = createElement('td');
-        plusButton[k].parent(td2);
-        td2.parent(trow);
-
-        minusButton[k] = createButton('-');
-        minusButton[k].id(k);
-
-        minusButton[k].attribute("data-ptype", particleType);
-        minusButton[k].attribute("data-location", particleLocation);
-        minusButton[k].style("background-color", particleMapper[particleType].color)
-        minusButton[k].mousePressed(removeParticle);
-        minusButton[k].class('qoptions');
-
-        var td3 = createElement('td');
-        minusButton[k].parent(td3);
-        td3.parent(trow);
+        var td3 = this.elementCreator("td", '', trow);
+        this.m_buttons.minus[k] = this.elementCreator("button", k, td3, { content: "-", className: 'qoptions', mousePressed: removeParticle });
+        this.m_buttons.minus[k].attribute("data-ptype", particleType);
+        this.m_buttons.minus[k].attribute("data-location", particleLocation);
+        this.m_buttons.minus[k].style("background-color", particleMapper[particleType].color)
       }
     }
   }
@@ -314,5 +305,56 @@ class SimulatorDOM {
       newCanWidth,
       newCanHeight
     );
+  }
+
+  // NOTE: create a single "toggleParticleID()" method
+  disableParticleID(inside_id, outside_id) {
+    if (!this.m_inputs[inside_id].elt.disabled) {
+      this.m_inputs[inside_id].attribute('disabled', '');
+      this.m_inputs[outside_id].attribute('disabled', '');
+
+      this.m_buttons.plus[inside_id].attribute('disabled', '');
+      this.m_buttons.minus[inside_id].attribute('disabled', '');
+
+      this.m_buttons.plus[outside_id].attribute('disabled', '');
+      this.m_buttons.minus[outside_id].attribute('disabled', '');
+    }
+  }
+
+  enableParticleID(inside_id, outside_id) {
+    if (this.m_inputs[inside_id].elt.disabled) {
+      this.m_inputs[inside_id].removeAttribute('disabled');
+      this.m_inputs[outside_id].removeAttribute('disabled');
+
+      this.m_buttons.plus[inside_id].removeAttribute('disabled');
+      this.m_buttons.minus[inside_id].removeAttribute('disabled');
+
+      this.m_buttons.plus[outside_id].removeAttribute('disabled');
+      this.m_buttons.minus[outside_id].removeAttribute('disabled');
+    }
+  }
+
+  makeTable(id, parent, content, placeholder, contentUnit, contentDefaultValue, prevLength) {
+    var settingPart = this.elementCreator("div", id, parent);
+
+    var tableRow = content.length;
+
+    for (var i = 0; i < tableRow; i++) {
+      var trow = this.elementCreator("tr", '', settingPart);
+      var td0 = this.elementCreator("label", '', trow, { content: content[i]} );
+
+      var inputElement = this.elementCreator("input", this.m_settings.length, trow);
+      inputElement.value(contentDefaultValue[i]);
+      inputElement.attribute('placeholder', placeholder[i]);
+      inputElement.input(this.m_sim.changeSimulatorSettings.bind(this.m_sim));
+
+      this.m_settings.push(inputElement);
+
+      var td3 = this.elementCreator("div", '', trow, { content: contentUnit[i] });
+
+      if (contentUnit[i]) {
+        td3.addClass('unit');
+      }
+    }
   }
 }
