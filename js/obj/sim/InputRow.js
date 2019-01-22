@@ -51,7 +51,7 @@ class InputRow {
     buttons.plus = elementCreator("button", id, table.td2, {
       content: "+",
       className: 'qoptions',
-      mousePressed: insertParticle
+      mousePressed: changeNumParticles
     });
     buttons.plus.attribute("data-location", particleLocation);
     buttons.plus.attribute("data-ptype", particleType);
@@ -60,7 +60,7 @@ class InputRow {
     buttons.minus = elementCreator("button", id, table.td3, {
       content: "-",
       className: 'qoptions',
-      mousePressed: removeParticle
+      mousePressed: changeNumParticles
     });
     buttons.minus.attribute("data-location", particleLocation);
     buttons.minus.attribute("data-ptype", particleType);

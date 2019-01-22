@@ -12,40 +12,7 @@ function highLightInput(evt) {
   evt.target.setSelectionRange(0, evt.target.value.length)
 }
 
-function inputParticle(evt) {
-  var particleType = evt.target.attributes['data-ptype'].value;
-  var particleLocation = evt.target.attributes['data-location'].value;
-
-  console.log("the event is");
-}
-
-function insertParticle(evt) {
-  // Add a particle to its array
-  // Return the new number of particles of this type
-  console.log("hey insertParticle, the event is", evt);
-
-  var eventID = evt.target.id;
-  var particleType = evt.target.attributes['data-ptype'].value;
-  var particleLocation = evt.target.attributes['data-location'].value;
-
-  animationSequencer.current().insertNewParticle(particleLocation, particleType);
-  updateInputs(particleType, particleLocation, eventID);
-}
-
-function removeParticle(evt) {
-  console.log("hey removeParticle, the event is", evt);
-
-  var eventID = evt.target.id;
-  var particleType = evt.target.attributes['data-ptype'].value;
-  var particleLocation = evt.target.attributes['data-location'].value;
-
-  animationSequencer.current().removeParticle(particleLocation, particleType, 0);
-  updateInputs(particleType, particleLocation, eventID);
-}
-
 function changeNumParticles(evt, updatedAmount=evt.target.value) {
-  console.log("hey changeNumparticles, the event is", evt);
-
   // input: the element that triggered the event (Input buttons);
   var eventID = evt.target.id;
 
@@ -55,7 +22,12 @@ function changeNumParticles(evt, updatedAmount=evt.target.value) {
   var numParticles = animationSequencer.current().getNumParticles(particleLocation, particleType);
   var MaxParticles = animationSequencer.current().MAX_PARTICLES;
 
-  console.log("updatedAmount", updatedAmount);
+  if (!updatedAmount) {
+    var symbol = evt.target.innerText;
+    var current = mainSim.m_dom.m_sim_controls.controls[particleLocation].rows[eventID].value();
+    updatedAmount = (symbol == "+") ? current + 1 : current - 1;
+  }
+
   // If the amount entered is invalid, alert user
   if (
     isNaN(updatedAmount) ||
@@ -77,13 +49,15 @@ function changeNumParticles(evt, updatedAmount=evt.target.value) {
   // If the amount entered is less than 0, increase the amount
   if (updatedAmount > numParticles) {
     for (var i = 0; i < difference; i++) {
-      insertParticle(evt);
+      animationSequencer.current().insertNewParticle(particleLocation, particleType);
     }
   } else if (updatedAmount < numParticles) {
     for (var i = 0; i < difference; i++) {
-      removeParticle(evt);
+      animationSequencer.current().removeParticle(particleLocation, particleType, 0);
     }
   }
+
+  updateInputs(particleType, particleLocation, eventID);
 }
 
 function selectParticle(pArray, tPoint) {
