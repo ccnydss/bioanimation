@@ -116,7 +116,6 @@ class Plot {
 
       mainSim.m_dom.m_sim_controls.checkbox(index, true);
       curGraph.hidePlot(index, false);
-      // Note grpah is a global variable that define the cur dataChart!!
       enableInputForParticle(checkBoxParticle);
 
       if (mainSim.m_pause) { //If the plot is paused, change the plot particle
