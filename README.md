@@ -1,3 +1,3 @@
 # bioanimation
 
-URL: https://alexmat2on.github.io/bioanimation/
+URL: https://ccnydss.github.io/bioanimation/
