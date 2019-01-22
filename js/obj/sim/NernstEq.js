@@ -5,36 +5,38 @@ class NernstEq {
   }
 
   start(evt) {
+    var sim = this.m_sim;
+
     //Graphics & Text
-    this.m_sim.renderUI('GoldmanSetting', false)
+    sim.renderUI('GoldmanSetting', false)
 
     //Remove old text
     if (document.getElementById('MathJax-Element-1-Frame')) {
-      this.m_sim.renderUI('GoldmanEqn',false)
-      this.m_sim.renderUI('NernstEqn',true)
+      sim.renderUI('GoldmanEqn',false)
+      sim.renderUI('NernstEqn',true)
 
-      if (this.m_sim.questionsAreHidden()) { //Only appear setting when question box disappear
-        this.m_sim.renderUI('NernstSetting', true);
+      if (sim.questionsAreHidden()) { //Only appear setting when question box disappear
+        sim.renderUI('NernstSetting', true);
       }
     }
 
     //Add new text
     loadText("questions.json", "nernst_1");
 
-    this.m_sim.simMode("Nernst");
+    sim.simMode("Nernst");
 
     //disable the net in the plot
     graph.hidePlot(3, true);
 
     //enable last selected Ions
-    for (var j = 0; j < this.m_sim.numParticleTypes(); j++) {
-      var checkBoxParticle = document.getElementById('checkbox' + this.m_sim.m_particle_types[j]).innerText;
-      if (checkBoxParticle == this.m_sim.m_nernst_particle) {
+    for (var j = 0; j < sim.numParticleTypes(); j++) {
+      var checkBoxParticle = sim.m_dom.m_sim_controls.checkboxes[j].elt.innerText;
+      if (checkBoxParticle == sim.m_nernst_particle) {
 
         //Just enable it by default?
 
         //enable its particles
-        this.m_sim.m_dom.m_sim_controls.checkbox(j, true);
+        sim.m_dom.m_sim_controls.checkbox(j, true);
         enableInputForParticle(checkBoxParticle);
         animationSequencer.current().setContainerDisplays(checkBoxParticle, true);
 
@@ -44,9 +46,9 @@ class NernstEq {
         FormulaInputCalculation(checkBoxParticle);
 
         //disable other ions if they are on?
-      } else if (checkBoxParticle != this.m_sim.m_nernst_particle && this.m_sim.m_dom.m_sim_controls.checkbox(j)) {
+      } else if (checkBoxParticle != sim.m_nernst_particle && sim.m_dom.m_sim_controls.checkbox(j)) {
         //disable others particles
-        this.m_sim.m_dom.m_sim_controls.checkbox(j, false);
+        sim.m_dom.m_sim_controls.checkbox(j, false);
         disableInputForParticle(checkBoxParticle);
         animationSequencer.current().setContainerDisplays(checkBoxParticle, false);
 

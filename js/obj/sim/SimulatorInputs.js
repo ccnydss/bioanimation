@@ -57,10 +57,11 @@ class SimulatorInputs {
       var name = this.m_dom.m_sim.m_particle_types[i];
 
       var chk = createCheckbox(name, false);
-      chk.class('checkboxes');
-      chk.id('checkbox' + name);
+      chk.addClass('checkboxes');
       chk.parent('particleControl');
-      chk.changed(checkedEvent);
+      chk.attribute('data-id', i);
+      chk.attribute('data-ptype', name);
+      chk.changed(this.checkedEvent.bind(this));
 
       this.addCheckbox(chk);
     };
@@ -68,7 +69,7 @@ class SimulatorInputs {
     // Create the nernst buttons
     var startNernst = this.m_dom.m_sim.m_nernst_eq.start.bind(this.m_dom.m_sim.m_nernst_eq);
     var startGoldman = this.m_dom.m_sim.m_goldman_eq.start.bind(this.m_dom.m_sim.m_goldman_eq);
-    
+
     this.m_NernstButton = ec("button", 'NernstButton', 'particleControl', { content: "Nernst", mousePressed: startNernst });
     this.m_GoldmanButton = ec("button", 'GoldmanButton', 'particleControl', { content: "Goldman", mousePressed: startGoldman });
 
@@ -136,5 +137,52 @@ class SimulatorInputs {
     this.updateInputs("K", "inside", 2);
 
     FormulaInputCalculation("Na");
+  }
+
+  checkedEvent(evt) {
+    // input: the element that triggered the event (Input buttons);
+    var checkboxID = evt.target.attributes["data-id"].value;
+
+    if (this.m_dom.m_sim.simMode() == "Goldman") {
+      // evt.target.checked(true); //Left checkbox checked by default
+    } else {
+      var particleType = evt.target.attributes["data-ptype"].value;
+
+      animationSequencer.current().setContainerDisplays(particleType, this.checkbox(checkboxID));
+
+      if (!this.checkbox(checkboxID)) {
+        disableInputForParticle(particleType);
+      } else {
+        enableInputForParticle(particleType);
+
+        //Nernst Mode, only allow enable of one particle
+        if (this.m_dom.m_sim.simMode() == "Nernst") {
+
+          this.m_dom.m_sim.m_nernst_particle = particleType;
+
+          for (var j = 0; j < this.m_dom.m_sim.numParticleTypes(); j++) {
+            var checkBoxParticle = this.m_dom.m_sim_controls.checkboxes[j].elt.innerText;
+
+            if (
+              this.m_dom.m_sim_controls.checkbox(j) &&
+              checkBoxParticle != particleType &&
+              particleMapper[checkBoxParticle].display
+            ) {
+              //Disable those particles
+              this.m_dom.m_sim_controls.checkbox(j, false);
+              animationSequencer.current().setContainerDisplays(checkBoxParticle, false);
+              disableInputForParticle(checkBoxParticle);
+
+              //Also disable the particle in the plot
+              graph.hidePlot(j, true);
+            } else if (particleMapper[checkBoxParticle]["display"]) {
+              //Enable the particle in the plot
+              graph.hidePlot(j, false);
+            }
+          }
+        }
+      }
+      FormulaInputCalculation(particleType)
+    }
   }
 }

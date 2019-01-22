@@ -112,7 +112,7 @@ class Plot {
     var index = legendItem.datasetIndex;
 
     if (mainSim.simMode() == "Nernst" & index != 3) { //index 3 is the net voltage
-      var checkBoxParticle = document.getElementById('checkbox' + mainSim.m_particle_types[index]).innerText;
+      var checkBoxParticle = mainSim.m_dom.m_sim_controls.checkboxes[index].elt.innerText;
 
       mainSim.m_dom.m_sim_controls.checkbox(index, true);
       curGraph.hidePlot(index, false);
@@ -128,7 +128,7 @@ class Plot {
 
       ci.data.datasets.forEach(function(e, i) {
         if (i !== index && i != 3) {
-          var checkBoxParticle = document.getElementById('checkbox' + mainSim.m_particle_types[i]).innerText;
+          var checkBoxParticle = mainSim.m_dom.m_sim_controls.checkboxes[i].elt.innerText;
 
           mainSim.m_dom.m_sim_controls.checkbox(i, false);
           curGraph.hidePlot(i, true);

@@ -7,50 +7,6 @@ function windowResized() {
   help.resize();
 }
 
-function checkedEvent(evt) {
-  // input: the element that triggered the event (Input buttons);
-
-  if (mainSim.simMode() == "Goldman") {
-    // evt.target.checked(true); //Left checkbox checked by default
-  } else {
-    var particleType = this.elt.innerText;
-
-    animationSequencer.current().setContainerDisplays(particleType, this.checked());
-
-    if (this.checked() == false) {
-      disableInputForParticle(particleType);
-    } else {
-      enableInputForParticle(particleType);
-
-      //Nernst Mode, only allow enable of one particle
-      if (mainSim.simMode() == "Nernst") {
-
-        mainSim.m_nernst_particle = this.elt.innerText;
-
-        for (var j = 0; j < mainSim.numParticleTypes(); j++) {
-
-          var checkBoxParticle = document.getElementById('checkbox' + mainSim.m_particle_types[j]).innerText;
-
-          if (mainSim.m_dom.m_sim_controls.checkbox(j) && checkBoxParticle != particleType && particleMapper[checkBoxParticle].display == true) {
-
-            //Disable those particles
-            mainSim.m_dom.m_sim_controls.checkbox(j, false);
-            animationSequencer.current().setContainerDisplays(checkBoxParticle, false);
-            disableInputForParticle(checkBoxParticle);
-
-            //Also disable the particle in the plot
-            graph.hidePlot(j, true);
-          } else if (particleMapper[checkBoxParticle]["display"] == true) {
-            //Enable the particle in the plot
-            graph.hidePlot(j, false);
-          }
-        }
-      }
-    }
-    FormulaInputCalculation(particleType)
-  }
-}
-
 function FormulaInputCalculation(particleType) {
   // input: string;
   // usage: "Na", "Cl", "K"
