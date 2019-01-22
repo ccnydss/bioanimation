@@ -43,6 +43,8 @@ class InputRow {
     });
     this.dom.input.value(this.m_value);
     this.dom.input.input(changeNumParticles);
+    this.dom.input.attribute("data-location", particleLocation);
+    this.dom.input.attribute("data-ptype", particleType);
     this.dom.input.mouseClicked(highLightInput);
 
     // Create the plus button and minus button

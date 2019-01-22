@@ -9,12 +9,21 @@ function startEquilibrate(evt) {
 }
 
 function highLightInput(evt) {
-  evt.target.setSelectionRange(0,  evt.target.value.length)
+  evt.target.setSelectionRange(0, evt.target.value.length)
+}
+
+function inputParticle(evt) {
+  var particleType = evt.target.attributes['data-ptype'].value;
+  var particleLocation = evt.target.attributes['data-location'].value;
+
+  console.log("the event is");
 }
 
 function insertParticle(evt) {
   // Add a particle to its array
   // Return the new number of particles of this type
+  console.log("hey insertParticle, the event is", evt);
+
   var eventID = evt.target.id;
   var particleType = evt.target.attributes['data-ptype'].value;
   var particleLocation = evt.target.attributes['data-location'].value;
@@ -24,6 +33,8 @@ function insertParticle(evt) {
 }
 
 function removeParticle(evt) {
+  console.log("hey removeParticle, the event is", evt);
+
   var eventID = evt.target.id;
   var particleType = evt.target.attributes['data-ptype'].value;
   var particleLocation = evt.target.attributes['data-location'].value;
@@ -32,18 +43,19 @@ function removeParticle(evt) {
   updateInputs(particleType, particleLocation, eventID);
 }
 
-function changeNumParticles(evt) {
+function changeNumParticles(evt, updatedAmount=evt.target.value) {
+  console.log("hey changeNumparticles, the event is", evt);
+
   // input: the element that triggered the event (Input buttons);
   var eventID = evt.target.id;
 
-  var particleType = mainSim.m_particle_types[eventID];
+  var particleType = evt.target.attributes['data-ptype'].value;
   var particleLocation = evt.target.attributes['data-location'].value;
 
   var numParticles = animationSequencer.current().getNumParticles(particleLocation, particleType);
   var MaxParticles = animationSequencer.current().MAX_PARTICLES;
 
-  var updatedAmount = mainSim.m_dom.m_inputs[eventID].value();
-
+  console.log("updatedAmount", updatedAmount);
   // If the amount entered is invalid, alert user
   if (
     isNaN(updatedAmount) ||
@@ -55,7 +67,7 @@ function changeNumParticles(evt) {
   } else if (updatedAmount > MaxParticles) {
     // If the amount entered is greater than the maximum, force it to maximum and alert user
 
-    mainSim.m_dom.m_inputs[eventID].value(MaxParticles);
+    mainSim.m_dom.m_sim_controls.controls[particleLocation].rows[eventID].value(MaxParticles);
     updatedAmount = MaxParticles;
     alert("Maximum amount is " + MaxParticles + ".");
   }
