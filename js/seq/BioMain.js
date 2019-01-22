@@ -252,7 +252,7 @@ class BioMain extends Sequence {
 
         // Recursively call equilibrate until all particles have transferred over.
         self.equilibrate(particleType);
-        updateInputs(particleType, originalContainer, id);
+        mainSim.m_dom.m_sim_controls.updateInputs(particleType, originalContainer, id);
       }
     }
   }

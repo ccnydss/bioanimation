@@ -1,5 +1,5 @@
 class InputRow {
-  constructor(label, value, enabled, color) {
+  constructor(label, value, enabled, color, updateInputs) {
     this.m_label = label;
     this.m_value = value;
     this.m_enabled = enabled;
@@ -20,6 +20,8 @@ class InputRow {
         minus: null
       }
     }
+
+    this.updateInputs = updateInputs;
   }
 
   create(parent, id, particleType, particleLocation) {
@@ -42,16 +44,16 @@ class InputRow {
       className: 'qoptions'
     });
     this.dom.input.value(this.m_value);
-    this.dom.input.input(changeNumParticles);
+    this.dom.input.input(this.changeNumParticles.bind(this));
     this.dom.input.attribute("data-location", particleLocation);
     this.dom.input.attribute("data-ptype", particleType);
-    this.dom.input.mouseClicked(highLightInput);
+    this.dom.input.mouseClicked(this.highLightInput);
 
     // Create the plus button and minus button
     buttons.plus = elementCreator("button", id, table.td2, {
       content: "+",
       className: 'qoptions',
-      mousePressed: changeNumParticles
+      mousePressed: this.changeNumParticles.bind(this)
     });
     buttons.plus.attribute("data-location", particleLocation);
     buttons.plus.attribute("data-ptype", particleType);
@@ -60,7 +62,7 @@ class InputRow {
     buttons.minus = elementCreator("button", id, table.td3, {
       content: "-",
       className: 'qoptions',
-      mousePressed: changeNumParticles
+      mousePressed: this.changeNumParticles.bind(this)
     });
     buttons.minus.attribute("data-location", particleLocation);
     buttons.minus.attribute("data-ptype", particleType);
@@ -104,7 +106,7 @@ class InputRow {
 
     if (!updatedAmount) {
       var symbol = evt.target.innerText;
-      var current = mainSim.m_dom.m_sim_controls.controls[particleLocation].rows[eventID].value();
+      var current = this.value();
       updatedAmount = (symbol == "+") ? current + 1 : current - 1;
     }
 
@@ -119,7 +121,7 @@ class InputRow {
     } else if (updatedAmount > MaxParticles) {
       // If the amount entered is greater than the maximum, force it to maximum and alert user
 
-      mainSim.m_dom.m_sim_controls.controls[particleLocation].rows[eventID].value(MaxParticles);
+      this.value(MaxParticles);
       updatedAmount = MaxParticles;
       alert("Maximum amount is " + MaxParticles + ".");
     }
@@ -137,6 +139,10 @@ class InputRow {
       }
     }
 
-    updateInputs(particleType, particleLocation, eventID);
+    this.updateInputs(particleType, particleLocation, eventID);
+  }
+
+  highLightInput(evt) {
+    evt.target.setSelectionRange(0, evt.target.value.length)
   }
 }

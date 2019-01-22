@@ -89,7 +89,7 @@ class SimulatorInputs {
 
         var value = animationSequencer.current().getNumParticles(locStr, name);
 
-        location.rows[i] = new InputRow(label, value, true, color);
+        location.rows[i] = new InputRow(label, value, true, color, this.updateInputs.bind(this));
         location.rows[i].create(location.table, i, name, locStr);
       }
     }
@@ -105,5 +105,33 @@ class SimulatorInputs {
     } else {
       return this.checkboxes[index].checked();
     }
+  }
+
+  updateInputs(particleType, location, id) {
+    var transferLocation = (location == "outside")
+    ? "inside"
+    : "outside";
+
+    var oldAmount = animationSequencer.current().getNumParticles(location, particleType);
+    var transferAmount = animationSequencer.current().getNumParticles(transferLocation, particleType);
+
+    var oldInput = this.controls[location].rows[id];
+    var transferInput = this.controls[transferLocation].rows[id];
+
+    oldInput.value(oldAmount);
+    transferInput.value(transferAmount);
+
+    FormulaInputCalculation(particleType);
+  }
+
+  updateAll() {
+    this.updateInputs("Na", "outside", 0);
+    this.updateInputs("Na", "inside", 0);
+    this.updateInputs("Cl", "outside", 1);
+    this.updateInputs("Cl", "inside", 1);
+    this.updateInputs("K", "outside", 2);
+    this.updateInputs("K", "inside", 2);
+
+    FormulaInputCalculation("Na");
   }
 }

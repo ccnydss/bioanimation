@@ -44,12 +44,12 @@ class Simulator {
 
       case Q_key:
       animationSequencer.prev(false);
-      updateAll();
+      this.m_dom.m_sim_controls.updateAll();
       break;
 
       case W_key:
       animationSequencer.next(false);
-      updateAll();
+      this.m_dom.m_sim_controls.updateAll();
       break;
     }
   }

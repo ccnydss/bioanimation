@@ -223,31 +223,3 @@ function enableInputForParticle(particleType) {
 
   animationSequencer.current().setContainerDisplays(particleType, true);
 }
-
-function updateAll() {
-  updateInputs("Na", "outside", 0);
-  updateInputs("Na", "inside", 0);
-  updateInputs("Cl", "outside", 1);
-  updateInputs("Cl", "inside", 1);
-  updateInputs("K", "outside", 2);
-  updateInputs("K", "inside", 2);
-
-  FormulaInputCalculation("Na");
-}
-
-function updateInputs(particleType, location, id) {
-  var transferLocation = (location == "outside")
-  ? "inside"
-  : "outside";
-
-  var oldInput = mainSim.m_dom.m_sim_controls.controls[location].rows[id];
-  var transferInput = mainSim.m_dom.m_sim_controls.controls[transferLocation].rows[id];
-
-  var oldAmount = animationSequencer.current().getNumParticles(location, particleType);
-  var transferAmount = animationSequencer.current().getNumParticles(transferLocation, particleType);
-
-  oldInput.value(oldAmount);
-  transferInput.value(transferAmount);
-
-  FormulaInputCalculation(particleType);
-}

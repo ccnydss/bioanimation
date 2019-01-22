@@ -8,10 +8,6 @@ function startEquilibrate(evt) {
   }
 }
 
-function highLightInput(evt) {
-  evt.target.setSelectionRange(0, evt.target.value.length)
-}
-
 function selectParticle(pArray, tPoint) {
   // Select the particle that is closest to the channel
   var minimumDistance = 1000000;
