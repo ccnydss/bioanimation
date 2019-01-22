@@ -1,55 +1,48 @@
 function startEquilibrate(evt) {
   // input: the element that triggered the event; however this input is unused in this function
 
-  for (var i = 0; i < particleTypes.length; i++) {
-    if (particleMapper[particleTypes[i]].display) {
-      animationSequencer.current().equilibrate(particleTypes[i]);
+  for (var i = 0; i < mainSim.numParticleTypes(); i++) {
+    if (particleMapper[mainSim.m_particle_types[i]].display) {
+      animationSequencer.current().equilibrate(mainSim.m_particle_types[i]);
     }
   }
+}
+
+function highLightInput(evt) {
+  evt.target.setSelectionRange(0,  evt.target.value.length)
 }
 
 function insertParticle(evt) {
   // Add a particle to its array
   // Return the new number of particles of this type
   var eventID = evt.target.id;
-  var row = 4;
-  var id = (eventID % row) - 1;
-  var particleType = particleTypes[id];
-  var particleLocation = (eventID < row) ?
-    "outside" :
-    "inside";
+  var particleType = evt.target.attributes['data-ptype'].value;
+  var particleLocation = evt.target.attributes['data-location'].value;
 
   animationSequencer.current().insertNewParticle(particleLocation, particleType);
-  updateInputs(particleType, particleLocation, id);
+  updateInputs(particleType, particleLocation, eventID);
 }
 
 function removeParticle(evt) {
   var eventID = evt.target.id;
-  var row = 4;
-  var id = (eventID % row) - 1;
-  var particleType = particleTypes[id];
-  var particleLocation = (eventID < row) ?
-    "outside" :
-    "inside";
+  var particleType = evt.target.attributes['data-ptype'].value;
+  var particleLocation = evt.target.attributes['data-location'].value;
 
   animationSequencer.current().removeParticle(particleLocation, particleType, 0);
-  updateInputs(particleType, particleLocation, id);
+  updateInputs(particleType, particleLocation, eventID);
 }
 
 function changeNumParticles(evt) {
   // input: the element that triggered the event (Input buttons);
   var eventID = evt.target.id;
-  var row = 4;
-  var id = (eventID % row) - 1;
-  var particleType = particleTypes[id];
-  var particleLocation = (eventID < row) ?
-    "outside" :
-    "inside";
+
+  var particleType = mainSim.m_particle_types[eventID];
+  var particleLocation = evt.target.attributes['data-location'].value;
 
   var numParticles = animationSequencer.current().getNumParticles(particleLocation, particleType);
   var MaxParticles = animationSequencer.current().MAX_PARTICLES;
 
-  var updatedAmount = input[eventID].value();
+  var updatedAmount = mainSim.m_dom.m_inputs[eventID].value();
 
   // If the amount entered is invalid, alert user
   if (
@@ -62,7 +55,7 @@ function changeNumParticles(evt) {
   } else if (updatedAmount > MaxParticles) {
     // If the amount entered is greater than the maximum, force it to maximum and alert user
 
-    input[eventID].value(MaxParticles);
+    mainSim.m_dom.m_inputs[eventID].value(MaxParticles);
     updatedAmount = MaxParticles;
     alert("Maximum amount is " + MaxParticles + ".");
   }

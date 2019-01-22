@@ -35,7 +35,7 @@ function createChannels(membrane, numOfChannels) {
           _br: channelBR,
           _bl: channelBL
         },
-        particleTypes[i - 1]
+        mainSim.m_particle_types[i - 1]
       )
     );
   }

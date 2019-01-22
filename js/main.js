@@ -1,21 +1,3 @@
-//Just for initializing
-var particleTypes = ["Na", "Cl", "K"];
-
-var plusButton = [],
-  minusButton = [],
-  textboard = [],   // NOTE: More specific variable name
-  input = [],       // NOTE: above
-  simSetting = [];
-
-var equations = [];
-
-var canWidth;
-var canHeight;
-
-var lastNernstParticle = "Na";
-
-var tempSetting = (37 + 273.13);
-
 var mainSim = new Simulator();
 var graph;
 var animationSequencer;
@@ -23,28 +5,32 @@ var animationSequencer;
 function setup() {
   noFill();
 
-  // Defines the simulator's layout as well as "canWidth", "canHeight"
-  makeLayout();
+  // Defines the simulator's HTML DOM layout as well as "canWidth", "canHeight"
+  mainSim.m_dom.setup();
+  mainSim.m_dom.adjustUISize();
 
   graph = new Plot();
+  help = new Help();
 
-  // Create the animation sequencer
-  bioMainSequence = new BioMain();
-  test1Seq = new Test1();
+  // Create the animation sequences
+  var cw = mainSim.m_dom.getSize().width;
+  var ch = mainSim.m_dom.getSize().height;
+
+  bioMainSequence = new BioMain(cw, ch);
+  test1Seq = new Test1(cw, ch);
+
   animationSequencer = new SequenceManager([bioMainSequence, test1Seq])
   animationSequencer.setup();
 
-  makeUIs(true);
+  mainSim.m_dom.m_sim_controls.create();
 
-  dataChartInitialize = false; //This variable is used to solve Synchronous problem
   startNernst();
-  dataChartInitialize = true;
 
   //Only show one particle at the beginning
   disableInputForParticle("Cl");
   disableInputForParticle("K");
 
-  FormulaInputCalculation(particleTypes[0]);
+  FormulaInputCalculation("Na");
 }
 
 function draw() {

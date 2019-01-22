@@ -1,11 +1,11 @@
 class Test1 extends BioMain {
-  constructor() {
-    super();
+  constructor(canWidth, canHeight) {
+    super(canWidth, canHeight);
   }
 
   setup(s = this.m_state) {
     // Create channels
-    s.channels = createChannels(s.membrane, particleTypes.length);
+    s.channels = createChannels(s.membrane, mainSim.numParticleTypes());
 
     // Initialize containers with particles
     for (var loc in s.containers) {

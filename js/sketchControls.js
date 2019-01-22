@@ -1,64 +1,53 @@
-var NernstButtonStatus;
-var GoldmanButtonStatus;
-var simulatorMode;
-
 function startNernst(evt) {
   // input: the event DOM object; however this input is unused in this function
 
+  //Graphics & Text
+  mainSim.renderUI('GoldmanSetting', false)
+
   //Remove old text
   if (document.getElementById('MathJax-Element-1-Frame')) {
-    document.getElementById('NernstEqn').style.display = "inline";
-    document.getElementById('GoldmanEqn').style.display = "none";
+    mainSim.renderUI('GoldmanEqn',false)
+    mainSim.renderUI('NernstEqn',true)
 
-    if (equationContainerHeighthMul != 0.35) { //Only appear setting when question box disappear
-      document.getElementById('GoldmanSetting').style.display = "none";
-      document.getElementById('NernstSetting').style.display = "initial";
+    if (mainSim.questionsAreHidden()) { //Only appear setting when question box disappear
+      mainSim.renderUI('NernstSetting', true);
     }
   }
 
   //Add new text
   loadText("questions.json", "nernst_1");
 
-  simulatorMode = "Nernst";
-
-  var NernstButtonStatus = document.getElementById("NernstButton");
-  var GoldmanButtonStatus = document.getElementById("GoldmanButton");
-
-  NernstButtonStatus.style.backgroundColor = "#74b9ff";
-  GoldmanButtonStatus.style.backgroundColor = "#dfe6e9";
+  mainSim.simMode("Nernst");
 
   //disable the net in the plot
-  if (dataChartInitialize)
-    graph.hidePlot(3, true);
+  graph.hidePlot(3, true);
 
   //enable last selected Ions
-  for (var j = 0; j < particleTypes.length; j++) {
-    var checkBoxParticle = document.getElementById('checkbox' + particleTypes[j]).innerText;
-    if (checkBoxParticle == lastNernstParticle) {
+  for (var j = 0; j < mainSim.numParticleTypes(); j++) {
+    var checkBoxParticle = document.getElementById('checkbox' + mainSim.m_particle_types[j]).innerText;
+    if (checkBoxParticle == mainSim.m_nernst_particle) {
 
       //Just enable it by default?
 
       //enable its particles
-      checkboxes[j].checked(true)
+      mainSim.m_dom.m_sim_controls.checkbox(j, true);
       enableInputForParticle(checkBoxParticle);
       animationSequencer.current().setContainerDisplays(checkBoxParticle, true);
 
       //Also enable the particle in the plot
-      if (dataChartInitialize)
-        graph.hidePlot(j, false);
+      graph.hidePlot(j, false);
 
       FormulaInputCalculation(checkBoxParticle);
 
       //disable other ions if they are on?
-    } else if (checkBoxParticle != lastNernstParticle & checkboxes[j].checked()) {
+    } else if (checkBoxParticle != mainSim.m_nernst_particle && mainSim.m_dom.m_sim_controls.checkbox(j)) {
       //disable others particles
-      checkboxes[j].checked(false)
+      mainSim.m_dom.m_sim_controls.checkbox(j, false);
       disableInputForParticle(checkBoxParticle);
       animationSequencer.current().setContainerDisplays(checkBoxParticle, false);
 
       //Also disable the particle in the plot
-      if (dataChartInitialize)
-        graph.hidePlot(j, true);
+      graph.hidePlot(j, true);
     }
   }
 }
@@ -70,12 +59,11 @@ function startGoldman(evt) {
 
   //Remove old text
   if (document.getElementById('MathJax-Element-1-Frame')) {
-    document.getElementById('NernstEqn').style.display = "none";
-    document.getElementById('GoldmanEqn').style.display = "inline";
+    mainSim.renderUI('NernstEqn', false);
+    mainSim.renderUI('GoldmanEqn', true);
 
-    if (equationContainerHeighthMul != 0.35) { //Only appear setting when question box disappear
-      document.getElementById('NernstSetting').style.display = "none";
-      document.getElementById('GoldmanSetting').style.display = "initial";
+    if (mainSim.questionsAreHidden()) { //Only appear setting when question box disappear
+      mainSim.renderUI('GoldmanSetting', true);
     }
   }
 
@@ -83,26 +71,22 @@ function startGoldman(evt) {
   loadText("questions.json", "goldman_1");
 
   //Particles & functionality
-  simulatorMode = "Goldman";
-  var NernstButtonStatus = document.getElementById("NernstButton");
-  var GoldmanButtonStatus = document.getElementById("GoldmanButton")
-  GoldmanButtonStatus.style.backgroundColor = "#74b9ff";
-  NernstButtonStatus.style.backgroundColor = "#dfe6e9";
+  mainSim.simMode("Goldman");
 
   //enable the net in the plot
   graph.hidePlot(3, false);
 
   //enable all Ions
-  for (var j = 0; j < particleTypes.length; j++) {
-  //enable all the particle in the plot
-  graph.hidePlot(j, false);
+  for (var j = 0; j < mainSim.numParticleTypes(); j++) {
+    //enable all the particle in the plot
+    graph.hidePlot(j, false);
 
-    var checkBoxParticle = document.getElementById('checkbox' + particleTypes[j]).innerText;
+    var checkBoxParticle = document.getElementById('checkbox' + mainSim.m_particle_types[j]).innerText;
 
-    if (!checkboxes[j].checked()) {
+    if (!mainSim.m_dom.m_sim_controls.checkbox(j)) {
 
       //enable those particles
-      checkboxes[j].checked(true)
+      mainSim.m_dom.m_sim_controls.checkbox(j, true);
       animationSequencer.current().setContainerDisplays(checkBoxParticle, true);
       enableInputForParticle(checkBoxParticle);
     }
@@ -115,55 +99,16 @@ function keyPressed() {
   mainSim.keyInput();
 }
 
-function ChangesimulatorSetting(evt) {
-  // input: the element that triggered the event (Input buttons);
-
-  var eventID = evt.target.id;
-  //0 = temperature
-  //1 = charge *Removed*
-  //1 = temperature
-  //2 = Pna
-  //3 = Pcl
-  //4 = Pk
-  var updatedAmount = simSetting[eventID].value();
-
-  if (eventID == 0 || eventID == 1) {
-    tempSetting = updatedAmount;
-    simSetting[0].value(updatedAmount);
-    simSetting[1].value(updatedAmount);
-  }
-  if (eventID == 2) {
-    Na.permeability = updatedAmount;
-    // NOTE: Why is this function call empty?
-    FormulaInputCalculation();
-  }
-  if (eventID == 3) {
-    Cl.permeability = updatedAmount;
-    FormulaInputCalculation();
-  }
-  if (eventID == 4) {
-    K.permeability = updatedAmount;
-    FormulaInputCalculation();
-  }
-
-  if (simulatorMode == "Goldman") {
-    FormulaInputCalculation();
-  } else {
-    if (Na.display == true) {
-      FormulaInputCalculation("Na");
-    } else if (Cl.display == true) {
-      FormulaInputCalculation("Cl");
-    } else if (K.display == true) {
-      FormulaInputCalculation("K");
-    }
-  }
+function windowResized() {
+  mainSim.resize();
+  help.resize();
 }
 
 function checkedEvent(evt) {
   // input: the element that triggered the event (Input buttons);
 
-  if (simulatorMode == "Goldman") {
-    this.checked(true); //Left checkbox checked by default
+  if (mainSim.simMode() == "Goldman") {
+    // evt.target.checked(true); //Left checkbox checked by default
   } else {
     var particleType = this.elt.innerText;
 
@@ -175,25 +120,24 @@ function checkedEvent(evt) {
       enableInputForParticle(particleType);
 
       //Nernst Mode, only allow enable of one particle
-      if (simulatorMode == "Nernst") {
+      if (mainSim.simMode() == "Nernst") {
 
-        lastNernstParticle = this.elt.innerText;
+        mainSim.m_nernst_particle = this.elt.innerText;
 
-        for (var j = 0; j < particleTypes.length; j++) {
+        for (var j = 0; j < mainSim.numParticleTypes(); j++) {
 
-          // var checkBox = document.getElementById('checkbox'+particleTypes[i])
-          var checkBoxParticle = document.getElementById('checkbox' + particleTypes[j]).innerText;
+          var checkBoxParticle = document.getElementById('checkbox' + mainSim.m_particle_types[j]).innerText;
 
-          if (checkboxes[j].checked() & checkBoxParticle != particleType & particleMapper[checkBoxParticle].display == true) {
+          if (mainSim.m_dom.m_sim_controls.checkbox(j) && checkBoxParticle != particleType && particleMapper[checkBoxParticle].display == true) {
 
             //Disable those particles
-            checkboxes[j].checked(false)
+            mainSim.m_dom.m_sim_controls.checkbox(j, false);
             animationSequencer.current().setContainerDisplays(checkBoxParticle, false);
             disableInputForParticle(checkBoxParticle);
 
             //Also disable the particle in the plot
             graph.hidePlot(j, true);
-        } else if (particleMapper[checkBoxParticle]["display"] == true) {
+          } else if (particleMapper[checkBoxParticle]["display"] == true) {
             //Enable the particle in the plot
             graph.hidePlot(j, false);
           }
@@ -204,41 +148,27 @@ function checkedEvent(evt) {
   }
 }
 
-//Store as global array, so we can checked and unchecked later
-var checkboxes = [];
-
-function NernstFormula(evt) {
-  // input: the element that triggered the event (Input buttons);
-
-  var eventID = evt.target.id;
-  var newParticleType = equations[eventID].value();
-  var particleType = newParticleType;o
-  FormulaInputCalculation(particleType);
-}
-
 function FormulaInputCalculation(particleType) {
   // input: string;
   // usage: "Na", "Cl", "K"
   // output: float;
+  var answer = null;
 
-  if (simulatorMode == "Nernst") {
-    if (particleMapper[particleType]["display"]) {
-      var answer = calculateNernst(particleType);
-    } else {
-      equations[1].html('Answer: N/A - Particle Disabled');
-      return;
-    }
+  if (mainSim.simMode() == "Nernst") {
+    if (particleMapper[particleType]["display"])
+      answer = calculateNernst(particleType).toFixed(4) + ' V';
   } else {
-    var answer = calculateGoldman();
+    answer = calculateGoldman().toFixed(4) + ' V';
   }
-  equations[1].html('Answer: ' + answer.toFixed(4) + 'V');
+
+  if (answer) mainSim.setAnswer(answer);
 }
 
 function calculateNernst(particleType) {
   // input: string;
-  var R = 8.314; // ideal gas constant
-  var T = tempSetting; // 37 is the Human Body temperature
-  var F = 96485.3329; // Faraday's constant
+  var R = mainSim.m_settings.gas_constant; // ideal gas constant
+  var T = mainSim.m_settings.temperature; // 37 is the Human Body temperature
+  var F = mainSim.m_settings.faraday; // Faraday's constant
   var z = particleMapper[particleType]["charge"];
 
   var Xout = animationSequencer.current().getNumParticles("outside", particleType);
@@ -248,14 +178,15 @@ function calculateNernst(particleType) {
 }
 
 function calculateGoldman() {
-  var R = 8.314; // ideal gas constant
-  var T = tempSetting; // 37 is the Human Body temperature
-  var F = 96485.3329; // Faraday's constant
+  var R = mainSim.m_settings.gas_constant; // ideal gas constant
+  var T = mainSim.m_settings.temperature; // 37 is the Human Body temperature
+  var F = mainSim.m_settings.faraday; // Faraday's constant
+
   var numerator = 0;
   var denominator = 0;
   // Accumulate sums for numerator and denominator
-  for (var i = 0; i < particleTypes.length; i++) {
-    var particleType = particleTypes[i];
+  for (var i = 0; i < mainSim.numParticleTypes(); i++) {
+    var particleType = mainSim.m_particle_types[i];
     if (particleMapper[particleType].display) {
       var numOutside = animationSequencer.current().getNumParticles("outside", particleType);
       var numInside = animationSequencer.current().getNumParticles("inside", particleType);
@@ -276,17 +207,9 @@ function calculateGoldman() {
 function disableInputForParticle(particleType) {
   // input: string;
   // usage: "Na", "Cl", "K"
-
-  var row = 4;
   var particle_id = particleMapper[particleType].id;
-  inside_id = particle_id + 1;
-  outside_id = particle_id + 1 + row;
-  input[inside_id].attribute('disabled', '');
-  input[outside_id].attribute('disabled', '');
-  plusButton[inside_id].attribute('disabled', '');
-  minusButton[inside_id].attribute('disabled', '');
-  plusButton[outside_id].attribute('disabled', '');
-  minusButton[outside_id].attribute('disabled', '');
+
+  mainSim.m_dom.disableParticleID(particle_id);
 
   animationSequencer.current().setContainerDisplays(particleType, false);
 }
@@ -294,18 +217,9 @@ function disableInputForParticle(particleType) {
 function enableInputForParticle(particleType) {
   // input: string;
   // usage: "Na", "Cl", "K"
-
-  var row = 4;
   var particle_id = particleMapper[particleType].id;
-  inside_id = particle_id + 1;
-  outside_id = particle_id + 1 + row;
 
-  input[inside_id].removeAttribute('disabled');
-  input[outside_id].removeAttribute('disabled');
-  plusButton[inside_id].removeAttribute('disabled');
-  minusButton[inside_id].removeAttribute('disabled');
-  plusButton[outside_id].removeAttribute('disabled');
-  minusButton[outside_id].removeAttribute('disabled');
+  mainSim.m_dom.enableParticleID(particle_id);
 
   animationSequencer.current().setContainerDisplays(particleType, true);
 }
@@ -322,18 +236,12 @@ function updateAll() {
 }
 
 function updateInputs(particleType, location, id) {
-  var row = 4;
   var transferLocation = (location == "outside")
   ? "inside"
   : "outside";
 
-  var oldInput = location == "outside"
-    ? input[id + 1]
-    : input[id + row + 1];
-
-  var transferInput = location == "outside"
-    ? input[id + row + 1]
-    : input[id + 1];
+  var oldInput = mainSim.m_dom.m_sim_controls.controls[location].rows[id];
+  var transferInput = mainSim.m_dom.m_sim_controls.controls[transferLocation].rows[id];
 
   var oldAmount = animationSequencer.current().getNumParticles(location, particleType);
   var transferAmount = animationSequencer.current().getNumParticles(transferLocation, particleType);

@@ -13,36 +13,12 @@
 </head>
 
 <body>
+  <div id="helpPage" style="display:none"></div>
   <div id="containerHeader">
     <li>Equation</li>
     <li>Contact</li>
     <li onclick="helpPageScript()">Help</li>
   </div>
-
-  <div id="helpPage" style="display:none">
-    <div style="height:100%; width:35%">
-      <li id="helpQuestion" style="height:65%; width:100%">This is the question area</li>
-      <li id="helpSetting" style="height:35%; width:100%">This is the equation area, you can also click "arrow" button to show up the setting menu</li>
-    </div>
-
-    <div style="height:100%; width:65%">
-      <li style="height:65%; width:100%;">This is the simulation area</li>
-      <li style="height:35%; width:100%">This is the simulation control area</li>
-    </div>
-  </div>
-
-  <script>
-    function helpPageScript() {
-      var helpPage = document.getElementById("helpPage");
-      if (helpPage.style.display == "none") {
-        // alert("yes")
-        helpPage.style.display = "flex";
-      } else {
-        // alert("no")
-        helpPage.style.display = "none";
-      }
-    }
-  </script>
 
   <div id="root"></div>
 
@@ -52,18 +28,18 @@
 
   <script language="javascript" type="text/javascript" src="helpers.js"></script>
 
-  <script language="javascript" type="text/javascript" src="obj/Point.js"></script>
-  <script language="javascript" type="text/javascript" src="obj/Rectangle.js"></script>
-  <script language="javascript" type="text/javascript" src="obj/Label.js"></script>
-  <script language="javascript" type="text/javascript" src="obj/Container.js"></script>
-  <script language="javascript" type="text/javascript" src="obj/Particle.js"></script>
-  <script language="javascript" type="text/javascript" src="obj/Channel.js"></script>
+  <script language="javascript" type="text/javascript" src="obj/animation/Point.js"></script>
+  <script language="javascript" type="text/javascript" src="obj/animation/Rectangle.js"></script>
+  <script language="javascript" type="text/javascript" src="obj/animation/Label.js"></script>
+  <script language="javascript" type="text/javascript" src="obj/animation/Container.js"></script>
+  <script language="javascript" type="text/javascript" src="obj/animation/Particle.js"></script>
+  <script language="javascript" type="text/javascript" src="obj/animation/Channel.js"></script>
 
-  <script language="javascript" type="text/javascript" src="obj/Simulator.js"></script>
-  <script language="javascript" type="text/javascript" src="obj/Plot.js"></script>
-
-  <script language="javascript" type="text/javascript" src="ui.js"></script>
-  <script language="javascript" type="text/javascript" src="domFunctions.js"></script>
+  <script language="javascript" type="text/javascript" src="obj/sim/InputRow.js"></script>
+  <script language="javascript" type="text/javascript" src="obj/sim/SimulatorInputs.js"></script>
+  <script language="javascript" type="text/javascript" src="obj/sim/SimulatorDOM.js"></script>
+  <script language="javascript" type="text/javascript" src="obj/sim/Simulator.js"></script>
+  <script language="javascript" type="text/javascript" src="obj/sim/Plot.js"></script>
 
   <script language="javascript" type="text/javascript" src="sketchControls.js"></script>
 
@@ -73,6 +49,8 @@
 
   <script language="javascript" type="text/javascript" src="main.js"></script>
   <script language="javascript" type="text/javascript" src="particleControls.js"></script>
+  <script language="javascript" type="text/javascript" src="obj/sim/Help.js"></script>
+
   <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async>
 </script>
 
@@ -81,11 +59,13 @@ $$
 \normalsize
 E_{ion} = \frac{RT}{zF}ln \left( \frac{\text{Ion Out} } {\text{Ion In}} \right)$$
 </section>
+
 <section id="GoldmanEqn" style="display:none">
 $$
 \small
 V_{rest} = \frac{RT}{F}ln \left( \frac{ P_{Na}[Na^+]_{\text{out}} + P_{Cl}[Cl^-]_{\text{in}} + P_{K}[K^-]_{\text{out}} } { P_{Na}[Na^+]_{\text{in}} + P_{Cl}[Cl^-]_{\text{out}} + P_{K}[K^-]_{\text{in}} } \right)$$
 </section>
+
 
 </body>
 
