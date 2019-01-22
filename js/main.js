@@ -24,7 +24,7 @@ function setup() {
 
   mainSim.m_dom.m_sim_controls.create();
 
-  startNernst();
+  mainSim.m_nernst_eq.start();
 
   //Only show one particle at the beginning
   disableInputForParticle("Cl");

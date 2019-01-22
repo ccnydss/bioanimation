@@ -106,7 +106,6 @@ class Plot {
   }
 
   onClick(e, legendItem) {
-
     var ci = this.m_data_chart;
     var curGraph = this;
 
@@ -122,7 +121,7 @@ class Plot {
 
       if (mainSim.m_pause) { //If the plot is paused, change the plot particle
         var particleType = mainSim.m_particle_types[index];
-        var voltage = calculateNernst(mainSim.m_particle_types);
+        var voltage = mainSim.m_nernst_eq.compute(particleType);
         var dataset = ci.data.datasets[index].data;
         ci.data.datasets[index].data = dataset;
       }
@@ -148,9 +147,9 @@ class Plot {
       for (var i = 0; i < 4; i++) {
         if (i < 3) {
           var particleType = mainSim.m_particle_types[i];
-          var voltage = calculateNernst(particleType);
+          var voltage = mainSim.m_nernst_eq.compute(particleType);
         } else if (i == 3) { // the net voltage
-          var voltage = calculateGoldman();
+          var voltage = mainSim.m_goldman_eq.compute();
         }
 
         this.updateData(i, this.m_time, voltage*1000); //*1000 is to convert V to mV

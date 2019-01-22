@@ -66,6 +66,9 @@ class SimulatorInputs {
     };
 
     // Create the nernst buttons
+    var startNernst = this.m_dom.m_sim.m_nernst_eq.start.bind(this.m_dom.m_sim.m_nernst_eq);
+    var startGoldman = this.m_dom.m_sim.m_goldman_eq.start.bind(this.m_dom.m_sim.m_goldman_eq);
+    
     this.m_NernstButton = ec("button", 'NernstButton', 'particleControl', { content: "Nernst", mousePressed: startNernst });
     this.m_GoldmanButton = ec("button", 'GoldmanButton', 'particleControl', { content: "Goldman", mousePressed: startGoldman });
 

@@ -11,6 +11,9 @@ class Simulator {
     this.m_mode = "Nernst";
     this.m_nernst_particle = "Na";       // Contains the currently selected particle in Nernst mode
 
+    this.m_nernst_eq = new NernstEq(this);
+    this.m_goldman_eq = new GoldmanEq(this);
+
     this.m_settings = {
       temperature: 37 + 273.13,           // 37 is the human body temperature
       gas_constant: 8.314,                // Ideal gas constant
