@@ -8,6 +8,10 @@ function startEquilibrate(evt) {
   }
 }
 
+function highLightInput(evt) {
+  evt.target.setSelectionRange(0,  evt.target.value.length)
+}
+
 function insertParticle(evt) {
   // Add a particle to its array
   // Return the new number of particles of this type
@@ -31,12 +35,9 @@ function removeParticle(evt) {
 function changeNumParticles(evt) {
   // input: the element that triggered the event (Input buttons);
   var eventID = evt.target.id;
-  var row = 4;
-  var id = (eventID % row) - 1;
-  var particleType = mainSim.m_particle_types[id];
-  var particleLocation = (eventID < row) ?
-    "outside" :
-    "inside";
+
+  var particleType = mainSim.m_particle_types[eventID];
+  var particleLocation = evt.target.attributes['data-location'].value;
 
   var numParticles = animationSequencer.current().getNumParticles(particleLocation, particleType);
   var MaxParticles = animationSequencer.current().MAX_PARTICLES;

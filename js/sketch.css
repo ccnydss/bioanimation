@@ -116,7 +116,7 @@ Simulation Question layer
 #dataPlot
 #NernstEqn/#GoldmanEqn
 #answer
-#equilibrate-button
+#equilibrateButton
 
 Simulation Equation & Setting layer
 ***************************** */
@@ -427,7 +427,7 @@ Simulation Equation & Setting layer
   box-shadow: 0px 0px 15px lightgrey;
 }
 
-#equilibrate-button {
+#equilibrateButton {
   background-color: #112D32;
   border: none;
   color: white;
@@ -437,7 +437,7 @@ Simulation Equation & Setting layer
   height: 40px;
 }
 
-#equilibrate-button:hover, #equilibrate-button:active, #equilibrate-button:focus {
+#equilibrateButton:hover, #equilibrateButton:active, #equilibrateButton:focus {
   background-color: #353b48;
   box-shadow: 0px 0px 0px lightgrey;
   cursor: pointer;
@@ -541,27 +541,34 @@ Simulation Equation & Setting layer
 #helpPage {
   z-index: 10;
   background-color: gray;
-  opacity: 0.9;
+  opacity: 0.92;
   display: flex;
   position: absolute;
-  width: calc(100% - 4px);
+  width: calc(100% - 4px - 2px);
   height: calc(100% - 36px - 4px);
   top: calc(36px + 2px);
   left: 2px;
   color: white;
+  border-style: solid;
+  border-width: 1px 0 0 1px;
 }
 
 .clone {
-  /* background-color: blue; */
   display: flex;
   flex-direction: column;
   background-color: gray;
-  opacity: 0.9;
   color: white;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid white;
-  /* padding: 10px; */
+}
+
+.clone:hover {
+    background-color: #00b894;
+    cursor: help;
+}
+
+.last {
+  border-style: solid;
+  border-color: white;
+    border-width: 0 1px 1px 0;
 }
 
 #pauseButton {
