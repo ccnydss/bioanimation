@@ -30,7 +30,7 @@ function startNernst(evt) {
       //Just enable it by default?
 
       //enable its particles
-      mainSim.m_dom.checkbox(j, true);
+      mainSim.m_dom.m_sim_controls.checkbox(j, true);
       enableInputForParticle(checkBoxParticle);
       animationSequencer.current().setContainerDisplays(checkBoxParticle, true);
 
@@ -40,9 +40,9 @@ function startNernst(evt) {
       FormulaInputCalculation(checkBoxParticle);
 
       //disable other ions if they are on?
-    } else if (checkBoxParticle != mainSim.m_nernst_particle && mainSim.m_dom.checkbox(j)) {
+    } else if (checkBoxParticle != mainSim.m_nernst_particle && mainSim.m_dom.m_sim_controls.checkbox(j)) {
       //disable others particles
-      mainSim.m_dom.checkbox(j, false);
+      mainSim.m_dom.m_sim_controls.checkbox(j, false);
       disableInputForParticle(checkBoxParticle);
       animationSequencer.current().setContainerDisplays(checkBoxParticle, false);
 
@@ -83,10 +83,10 @@ function startGoldman(evt) {
 
     var checkBoxParticle = document.getElementById('checkbox' + mainSim.m_particle_types[j]).innerText;
 
-    if (!mainSim.m_dom.checkbox(j)) {
+    if (!mainSim.m_dom.m_sim_controls.checkbox(j)) {
 
       //enable those particles
-      mainSim.m_dom.checkbox(j, true);
+      mainSim.m_dom.m_sim_controls.checkbox(j, true);
       animationSequencer.current().setContainerDisplays(checkBoxParticle, true);
       enableInputForParticle(checkBoxParticle);
     }
@@ -127,10 +127,10 @@ function checkedEvent(evt) {
 
           var checkBoxParticle = document.getElementById('checkbox' + mainSim.m_particle_types[j]).innerText;
 
-          if (mainSim.m_dom.checkbox(j) && checkBoxParticle != particleType && particleMapper[checkBoxParticle].display == true) {
+          if (mainSim.m_dom.m_sim_controls.checkbox(j) && checkBoxParticle != particleType && particleMapper[checkBoxParticle].display == true) {
 
             //Disable those particles
-            mainSim.m_dom.checkbox(j, false);
+            mainSim.m_dom.m_sim_controls.checkbox(j, false);
             animationSequencer.current().setContainerDisplays(checkBoxParticle, false);
             disableInputForParticle(checkBoxParticle);
 
@@ -239,8 +239,8 @@ function updateInputs(particleType, location, id) {
   ? "inside"
   : "outside";
 
-  var oldInput = mainSim.m_dom.m_sim_controls[location].rows[id];
-  var transferInput = mainSim.m_dom.m_sim_controls[transferLocation].rows[id];
+  var oldInput = mainSim.m_dom.m_sim_controls.controls[location].rows[id];
+  var transferInput = mainSim.m_dom.m_sim_controls.controls[transferLocation].rows[id];
 
   var oldAmount = animationSequencer.current().getNumParticles(location, particleType);
   var transferAmount = animationSequencer.current().getNumParticles(transferLocation, particleType);

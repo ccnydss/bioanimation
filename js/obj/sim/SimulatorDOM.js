@@ -16,37 +16,9 @@ class SimulatorDOM {
 
     this.m_equationResult = 0;
 
-    this.m_sim_controls = {
-      inside: {
-        label: "Intracellular",
-        header: null,
-        table: null,
-        rows: []
-      },
-      outside: {
-        label: "Extracellular",
-        header: null,
-        table: null,
-        rows: []
-      }
-    };
-
-    this.m_controls = [];
-    this.m_checkboxes = [];
+    this.m_sim_controls = new SimulatorInputs(this);
 
     this.m_settings = [] // Array of settings HTML fields, to replace 'simSetting'
-  }
-
-  addCheckbox(checkbox) {
-    this.m_checkboxes.push(checkbox);
-  }
-
-  checkbox(index, bool=null) {
-    if (bool != null) {
-      this.m_checkboxes[index].checked(bool);
-    } else {
-      return this.m_checkboxes[index].checked();
-    }
   }
 
   setup() {
@@ -128,75 +100,7 @@ class SimulatorDOM {
     this.m_canvas.id ('can');
     this.m_canvas.parent('sim');
 
-    // Div to contain the simulatorInput
-    this.m_simulatorInputContainer = ec("div", 'simulatorInputContainer', 'secondBox');
-    this.m_simulatorInput = ec("div", 'simInput', 'simulatorInputContainer');
-
-    //Control UI ----------------------------
-    this.m_controlsLeft = ec("div", 'controls', 'simInput', { className: 'controls' });
-    this.m_controlsRight = ec("div", 'controls', 'simInput', { className: 'controls' });
-
-    this.m_control0 = ec("div", 'control0', this.m_controlsLeft);
-    this.m_control1 = ec("div", 'control1', this.m_controlsLeft);
-    this.m_control2 = ec("div", 'control4', this.m_controlsRight);
-    this.m_control3 = ec("div", 'control5', this.m_controlsRight);
-
-    this.m_controls = [this.m_control0, this.m_control1, this.m_control2, this.m_control3];
-
-    this.m_particleControl = ec("div", 'particleControl', 'simulatorInputContainer');
-  }
-
-  createControls() {
-    var ec = elementCreator;
-    var answer = 0;
-
-    this.m_equationResult = ec("h3", 'answer', 'equationdiv', { className: 'answer', content: 'Answer: ' + answer + 'V'});
-
-    // Create the radio buttons to select particles
-    for (var i = 0; i < this.m_sim.numParticleTypes(); i++) {
-      var name = this.m_sim.m_particle_types[i];
-
-      var chk = createCheckbox(name, false);
-      chk.class('checkboxes');
-      chk.id('checkbox' + name);
-      chk.parent('particleControl');
-      chk.changed(checkedEvent);
-
-      this.addCheckbox(chk);
-    };
-
-    // Create the nernst buttons
-    this.m_NernstButton = ec("button", 'NernstButton', 'particleControl', { content: "Nernst", mousePressed: startNernst });
-    this.m_GoldmanButton = ec("button", 'GoldmanButton', 'particleControl', { content: "Goldman", mousePressed: startGoldman });
-
-    var control = 0;
-
-    for (var locStr in this.m_sim_controls) {
-      var location = this.m_sim_controls[locStr];
-
-      location.header = ec("h4", '', this.m_controls[control], {
-        content: location.label
-      });
-
-      location.table = ec("table", '', this.m_controls[control + 1], {
-        className: 'table qoptions'
-      });
-
-      for (var i = 0; i < this.m_sim.numParticleTypes(); i++) {
-        var name = this.m_sim.m_particle_types[i];
-        var { sign, color } = particleMapper[name];
-
-        var label = '[' + name + '<sup>' + sign + '</sup>]'
-        label += '<sub>' + locStr.slice(0, -4) + '</sub>&nbsp;';
-
-        var value = animationSequencer.current().getNumParticles(locStr, name);
-
-        location.rows[i] = new InputRow(label, value, true, color);
-        location.rows[i].create(location.table, i, name, locStr);
-      }
-
-      control += 2;
-    }
+    this.m_sim_controls.setup();
   }
 
   setSize(w, h) {
@@ -255,13 +159,13 @@ class SimulatorDOM {
 
   // NOTE: create a single "toggleParticleID()" method
   disableParticleID(id) {
-    this.m_sim_controls.inside.rows[id].enable(false);
-    this.m_sim_controls.outside.rows[id].enable(false);
+    this.m_sim_controls.controls.inside.rows[id].enable(false);
+    this.m_sim_controls.controls.outside.rows[id].enable(false);
   }
 
   enableParticleID(id) {
-    this.m_sim_controls.inside.rows[id].enable(true);
-    this.m_sim_controls.outside.rows[id].enable(true);
+    this.m_sim_controls.controls.inside.rows[id].enable(true);
+    this.m_sim_controls.controls.outside.rows[id].enable(true);
   }
 
   makeTable(id, parent, content, placeholder, contentUnit, contentDefaultValue, prevLength) {

@@ -165,11 +165,11 @@ class Simulator {
 
   buttonModeSwitch() {
     if (this.m_mode == "Nernst") {
-      this.m_dom.m_NernstButton.style('backgroundColor', "#74b9ff");
-      this.m_dom.m_GoldmanButton.style('backgroundColor', "#dfe6e9");
+      this.m_dom.m_sim_controls.m_NernstButton.style('backgroundColor', "#74b9ff");
+      this.m_dom.m_sim_controls.m_GoldmanButton.style('backgroundColor', "#dfe6e9");
     } else {
-      this.m_dom.m_NernstButton.style('backgroundColor', "#dfe6e9");
-      this.m_dom.m_GoldmanButton.style('backgroundColor', "#74b9ff");
+      this.m_dom.m_sim_controls.m_NernstButton.style('backgroundColor', "#dfe6e9");
+      this.m_dom.m_sim_controls.m_GoldmanButton.style('backgroundColor', "#74b9ff");
     }
   }
 
