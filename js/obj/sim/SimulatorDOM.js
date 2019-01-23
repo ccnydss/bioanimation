@@ -145,8 +145,9 @@ class SimulatorDOM {
 
     this.m_sim.renderUI("leftWindow", hide)
 
+    this.m_sim.resize();
     this.m_sim.redrawUI(show);
-    this.adjustUISize(this.getSize().width, this.getSize().height);
+    // this.adjustUISize(this.getSize().width, this.getSize().height);
   }
 
   adjustUISize(width, height) {
@@ -165,8 +166,6 @@ class SimulatorDOM {
       newCanHeight = height;
     }
 
-    console.log("adjusting", newCanWidth, newCanHeight);
-    
     this.canvasSize (
       newCanWidth,
       newCanHeight

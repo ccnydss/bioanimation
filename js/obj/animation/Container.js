@@ -73,6 +73,11 @@ class Container extends Rectangle {
     return this.particles[type].length;
   }
 
+  setSize(_points) {
+    super.setSize(_points);
+    this.label = this.createLabels();
+  }
+
   createLabels() {
     return this.id == "outside" ? new Label(
       "Extracellular",
