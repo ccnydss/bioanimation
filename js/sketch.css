@@ -82,7 +82,6 @@ Simulation Question layer
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  overflow-y: scroll;
   height: 100%
 }
 
@@ -102,8 +101,9 @@ Simulation Question layer
 
 .questions {
   height: 80%;
-  padding: 10px;
+  margin: 15px;
   font-size: 0.95em;
+  overflow-y: auto;
 }
 
 /* *****************************
@@ -333,6 +333,50 @@ Simulation Equation & Setting layer
   text-align: center;
   text-decoration: none;
   font-size: 16px;
+  cursor: pointer;
+  width: 20%;
+}
+
+#questionNext:disabled, #questionPrev:disabled {
+background-color: gray;
+  cursor: not-allowed;
+}
+
+#questionControl {
+  padding-bottom: 10px;
+}
+#questionJumpInput {
+width: 20px;
+text-align: center;
+}
+
+#jumpBtn0 {
+  border: solid 1px;
+}
+
+.jumpBtn:not(:first-child) {
+color: white;
+  background-color: #112D32;
+  width: 25px;
+  border: solid 1px;
+  border-left: none;
+}
+
+.jumpBtn[target] {
+  background-color: #59ABE3;
+}
+
+.jumpDot {
+/* color: white;
+  background-color: #112D32; */
+  cursor: default;
+  padding: 0px 5px;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .control {

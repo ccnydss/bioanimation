@@ -134,8 +134,8 @@ class Simulator {
     if (mode) {
       var header = "Goldman-Hodgkin-Katz";
       if (mode == "Nernst") header = "Nernst Equation";
-      this.m_dom.m_questionHeader = header;
-      this.m_dom.m_questionTitle.html(header);
+      this.m_dom.m_sim_question.m_header = header;
+      this.m_dom.m_sim_question.m_title.html(header);
       this.m_mode = mode;
     } else {
       return this.m_mode;

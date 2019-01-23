@@ -15,7 +15,7 @@ function startNernst(evt) {
   }
 
   //Add new text
-  loadText("questions.json", "nernst_1");
+  mainSim.m_dom.m_sim_question.init("Nernst")
 
   mainSim.simMode("Nernst");
 
@@ -68,7 +68,7 @@ function startGoldman(evt) {
   }
 
   //Add new text
-  loadText("questions.json", "goldman_1");
+  mainSim.m_dom.m_sim_question.init("Goldman");
 
   //Particles & functionality
   mainSim.simMode("Goldman");
