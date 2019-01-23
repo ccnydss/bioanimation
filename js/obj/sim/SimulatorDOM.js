@@ -161,7 +161,6 @@ class SimulatorDOM {
 
   // NOTE: create a single "toggleParticleID()" method
   disableParticleID(id) {
-    console.log("disabling", id, this.m_sim_controls.checkbox(id))
     this.m_sim_controls.controls.inside.rows[id].enable(false);
     this.m_sim_controls.controls.outside.rows[id].enable(false);
     this.m_sim_controls.checkbox(id, false);
