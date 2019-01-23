@@ -62,7 +62,7 @@ function elementCreator(element, eid, parent, options = { content: '', className
 }
 
 // https://stackoverflow.com/questions/10787782/full-height-of-a-html-element-div-including-border-padding-and-margin
-function getStyle(elm,style) {
+function getStyle(elm, style) {
   // usage: obtain the dimension of a DOM element
   // input: DOM element
   // output: int,
@@ -95,7 +95,6 @@ function getStyle(elm,style) {
     return (elmDim+elmMargin);
     break;
   }
-
 }
 
 function helpPageScript() {

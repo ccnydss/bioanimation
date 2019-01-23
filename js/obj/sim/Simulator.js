@@ -1,5 +1,4 @@
 // Purpose: Provide an interface to control the simulation parameters and track state
-
 class Simulator {
   constructor() {
     this.m_particle_types = ["Na", "Cl", "K"];
