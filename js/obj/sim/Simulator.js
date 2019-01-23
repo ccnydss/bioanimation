@@ -71,7 +71,7 @@ class Simulator {
     //Input DOM object/chartjs object, Boolean
     switch (id) {
       case "hidebarText":
-      document.getElementById("hidebarText").innerText = (mode) ? ">" : "<";
+      document.getElementById("hidebarText").innerHTML = (mode) ? '<i class="fas fa-arrow-up"></i> Questions' : '<i class="fas fa-arrow-down"></i> Settings';
       break;
 
       case "setting":

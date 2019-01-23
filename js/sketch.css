@@ -162,7 +162,7 @@ Simulation Equation & Setting layer
   white-space: pre-wrap;
   /* this is for displaying whitespaces including Moz-FF.*/
   font-size: 18px;
-  transform: rotate(90deg);
+  /* transform: rotate(90deg); */
 }
 
 #equationdiv {
