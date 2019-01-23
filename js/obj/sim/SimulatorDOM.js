@@ -10,14 +10,13 @@ class SimulatorDOM {
     this.m_canvas_size_multiple = 0.65;   // Canvas width and height will be 65% of the screen's width and height.
     this.m_canvas_in_leftbar = false;
 
-    this.m_questionHeader = "Goldman-Hodgkin-Katz";
-
     this.m_canvas_width;
     this.m_canvas_height;
 
     this.m_equationResult = 0;
 
     this.m_sim_controls = new SimulatorInputs(this);
+    this.m_sim_question = new Question(this);
 
     this.m_settings = [] // Array of settings HTML fields, to replace 'simSetting'
   }
@@ -32,13 +31,6 @@ class SimulatorDOM {
     // The right sidebar for displaying questions.
     this.m_leftBox = ec("div", 'leftbar', 'firstBox');
     this.m_sim.renderUI("leftbar", true);
-
-    // Create the div to actually contain the questions.
-    this.m_questions = ec("div", 'questionsdiv', 'leftbar');
-    this.m_questionTitle = ec("h3", 'questionTitle', 'questionsdiv', { content: this.m_questionHeader })
-
-    var questionsText = "Calculate the equilibrium potential for Na and K using the Nernst equation for the following conditions";
-    this.m_question = ec("p", 'q1', 'questionsdiv', { className: 'questions', content: questionsText });
 
     // Div to contain the equation
     this.m_equationContainer = ec("div", 'equationContainer', 'firstBox');
@@ -106,6 +98,7 @@ class SimulatorDOM {
     this.m_canvas.parent('sim');
 
     this.m_sim_controls.setup();
+    this.m_sim_question.setup();
   }
 
   setSize(w, h) {

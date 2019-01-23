@@ -20,7 +20,7 @@ class GoldmanEq {
     }
 
     //Add new text
-    loadText("questions.json", "goldman_1");
+    this.m_sim.m_dom.m_sim_question.init("Goldman");
 
     //Particles & functionality
     this.m_sim.simMode("Goldman");
@@ -33,7 +33,6 @@ class GoldmanEq {
       //enable all the particle in the plot
       graph.hidePlot(j, false);
 
-      // var checkBoxParticle = document.getElementById('checkbox' + this.m_sim.m_particle_types[j]).innerText;
       var checkBoxParticle = this.m_sim.m_dom.m_sim_controls.checkboxes[j].elt.innerText;
 
       if (!this.m_sim.m_dom.m_sim_controls.checkbox(j)) {

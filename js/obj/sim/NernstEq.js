@@ -21,7 +21,7 @@ class NernstEq {
     }
 
     //Add new text
-    loadText("questions.json", "nernst_1");
+    sim.m_dom.m_sim_question.init("Nernst");
 
     sim.simMode("Nernst");
 

@@ -29,22 +29,6 @@ function randomFromRanges(arrayOfRanges) {
   return random(selectedChoices[0], selectedChoices[1]);
 }
 
-function loadText(url, tag) {
-  // input1: string;
-  // usage: 'questions.json' (filename)
-  // input2: string
-  // usage: 'goldman_1', 'nernst_1' (Data.name)
-
-  var xmlhttp = new XMLHttpRequest();
-  xmlhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-        var myArr = JSON.parse(this.responseText);
-      document.getElementById("q1").innerHTML = myArr[tag].join('');;
-    }
-  };
-  xmlhttp.open("GET", url, true);
-  xmlhttp.send();
-}
 
 function elementCreator(element, eid, parent, options = { content: '', className: '', mousePressed: null }) {
   var { content, className, mousePressed } = options;

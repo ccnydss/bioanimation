@@ -1,5 +1,4 @@
-
-var helpDubug = true;
+var helpDebug = false;
 
 class Help {
   constructor() {
@@ -28,7 +27,7 @@ class Help {
     var temp = document.createDocumentFragment();
     //See https://developer.mozilla.org/en-US/docs/Web/API/Document/createDocumentFragment
 
-    helpDubug && console.log('Help Page initialize start')
+    helpDebug && console.log('Help Page initialize start')
 
     for (let i = 0; i < sim.children.length; i++) { //1
 
@@ -63,7 +62,7 @@ class Help {
     }
     helpPage.appendChild(temp);
 
-    helpDubug && console.log('Help Page initialize end')
+    helpDebug && console.log('Help Page initialize end')
   }
 
   clear() {
@@ -100,7 +99,7 @@ class Help {
     if(!Object.keys(this.m_list).includes(ui.id) || ui.classList.contains('hidden') || ui.style.display=='none')
     return;
 
-    helpDubug && console.log('Layer '+index+' found. ID is'+ui.id+' childlength is '+ui.children.length)
+    helpDebug && console.log('Layer '+index+' found. ID is'+ui.id+' childlength is '+ui.children.length)
     var layer = this.cloneUI(ui)
 
     return layer
@@ -112,7 +111,7 @@ class Help {
     var clone = document.createElement("div");
     var dim = this.getDim(original)
 
-    helpDubug && console.log(dim)
+    helpDebug && console.log(dim)
 
     clone.style.height = dim[0] + "%"
     clone.style.width = dim[1] + "%"
