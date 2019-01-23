@@ -97,6 +97,25 @@ function getStyle(elm, style) {
   }
 }
 
+function swapElements(p51, p52) {
+    // Convert the p5 objects to their HTML DOMs
+    var obj1 = p51;
+    var obj2 = p52.elt;
+
+    // create marker element and insert it where obj1 is
+    var temp = document.createElement("div");
+    obj1.parentNode.insertBefore(temp, obj1);
+
+    // move obj1 to right before obj2
+    obj2.parentNode.insertBefore(obj1, obj2);
+
+    // move obj2 to right before where obj1 used to be
+    temp.parentNode.insertBefore(obj2, temp);
+
+    // remove temporary marker node
+    temp.parentNode.removeChild(temp);
+}
+
 function helpPageScript() {
   // onclick event trigger by helpPage
   var helpPage = document.getElementById("helpPage");

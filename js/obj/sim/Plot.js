@@ -100,7 +100,9 @@ class Plot {
         legend: {
           onClick: this.onClick.bind(this)
         },
-        animation: false
+        animation: false,
+        responsive: true,
+        maintainAspectRatio: true
       }
     });
   }

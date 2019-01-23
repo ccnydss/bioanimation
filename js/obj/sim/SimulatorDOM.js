@@ -8,6 +8,7 @@ class SimulatorDOM {
     this.m_sidebar_current = 0.35;        // Current value of the sidebar height
 
     this.m_canvas_size_multiple = 0.65;   // Canvas width and height will be 65% of the screen's width and height.
+    this.m_canvas_in_leftbar = false;
 
     this.m_questionHeader = "Goldman-Hodgkin-Katz";
 
@@ -76,11 +77,13 @@ class SimulatorDOM {
       [Na.permeability, Cl.permeability, K.permeability]
     );
 
+    this.m_leftWindow = ec("div", 'leftWindow', 'equationdiv');
+
     // Plot window
     this.m_dataPlot = document.createElement("canvas");
     this.m_dataPlot.id = 'dataPlot';
-    this.m_equation.child(this.m_dataPlot);
-    this.m_sim.renderUI('dataPlot',false);
+    this.m_leftWindow.child(this.m_dataPlot);
+    this.m_sim.renderUI('leftWindow', false);
 
     this.m_helpDummy = ec("div", 'helpDummy', 'equationdiv');
 
@@ -140,19 +143,30 @@ class SimulatorDOM {
     var curUI = (this.m_sim.simMode() == "Nernst") ? "NernstSetting" : "GoldmanSetting"
     this.m_sim.renderUI(curUI, hide)
 
-    this.m_sim.renderUI("dataPlot", hide)
+    this.m_sim.renderUI("leftWindow", hide)
 
     this.m_sim.redrawUI(show);
+    this.adjustUISize(this.getSize().width, this.getSize().height);
   }
 
-  adjustUISize() {
+  adjustUISize(width, height) {
     // input: Floats
     // usage: Resizing the question/equation window; 0.35 (including question), 1 (excluding question)
     var adjustedWindowHeight = windowHeight - 36;
 
-    var newCanWidth = this.m_canvas_size_multiple * windowWidth;
-    var newCanHeight = (this.m_canvas_size_multiple * adjustedWindowHeight) - 4;
+    // var newCanWidth = this.m_canvas_size_multiple * windowWidth;
+    // var newCanHeight = (this.m_canvas_size_multiple * adjustedWindowHeight) - 4;
 
+    var newCanWidth = this.m_simulator.elt.clientWidth;
+    var newCanHeight = this.m_simulator.elt.clientHeight;
+
+    if (width, height) {
+      newCanWidth = width;
+      newCanHeight = height;
+    }
+
+    console.log("adjusting", newCanWidth, newCanHeight);
+    
     this.canvasSize (
       newCanWidth,
       newCanHeight
@@ -170,6 +184,15 @@ class SimulatorDOM {
     this.m_sim_controls.controls.inside.rows[id].enable(true);
     this.m_sim_controls.controls.outside.rows[id].enable(true);
     this.m_sim_controls.checkbox(id, true);
+  }
+
+  swapChart() {
+    swapElements(this.m_dataPlot, this.m_simulator);
+
+    this.m_canvas_size_multiple = (this.m_canvas_in_leftbar) ? 0.65 : 0.35;
+    this.m_canvas_in_leftbar = !this.m_canvas_in_leftbar;
+
+    this.m_sim.resize();
   }
 
   makeTable(id, parent, content, placeholder, contentUnit, contentDefaultValue, prevLength) {

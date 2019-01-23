@@ -38,6 +38,9 @@ class Simulator {
     var spacebar = 32;
     var Q_key = 81;
     var W_key = 87;
+    var S_key = 83;
+
+    console.log("Key input ", keyCode);
 
     switch (keyCode) {
       case spacebar:
@@ -52,6 +55,10 @@ class Simulator {
       case W_key:
       animationSequencer.next(false);
       this.m_dom.m_sim_controls.updateAll();
+      break;
+
+      case S_key:
+      this.m_dom.swapChart();
       break;
     }
   }
@@ -104,6 +111,14 @@ class Simulator {
       case "GoldmanSetting":
       document.getElementById('GoldmanSetting').style.display = (mode) ? "block" : "none";
       document.getElementById('setting').style.display = (mode) ? "initial" : "none";
+      break;
+
+      case "leftWindow":
+      if (mode) {
+        document.getElementById('leftWindow').classList.remove("hidden");
+      } else {
+        document.getElementById('leftWindow').classList.add("hidden");
+      };
       break;
 
       case "dataPlot":
