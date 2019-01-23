@@ -37,7 +37,7 @@ class SimulatorDOM {
 
     // The right sidebar for displaying questions.
     this.m_hideBar = ec("div", 'hidebar', 'equationContainer', { mousePressed: this.hideQuestion.bind(this) });
-    this.m_hideBarText = ec("div", 'hidebarText', 'hidebar', { content: "<" });
+    this.m_hideBarText = ec("div", 'hidebarText', 'hidebar', { content: '<i class="fas fa-arrow-up"></i> Settings' });
 
     this.m_equation = ec("div", 'equationdiv', 'equationContainer');
     this.m_equation.child('NernstEqn');   // Attach nernst equation, defined in sketch.html with id 'NernstEqn'
@@ -185,6 +185,9 @@ class SimulatorDOM {
     this.m_canvas_in_leftbar = !this.m_canvas_in_leftbar;
 
     this.m_sim.resize();
+
+    help.clear();
+    help.initialize();
   }
 
   makeTable(id, parent, content, placeholder, contentUnit, contentDefaultValue, prevLength) {
