@@ -100,36 +100,36 @@ class Plot {
         legend: {
           onClick: this.onClick.bind(this)
         },
-        animation: false
+        animation: false,
+        responsive: true,
+        maintainAspectRatio: true
       }
     });
   }
 
   onClick(e, legendItem) {
-
     var ci = this.m_data_chart;
     var curGraph = this;
 
     var index = legendItem.datasetIndex;
 
     if (mainSim.simMode() == "Nernst" & index != 3) { //index 3 is the net voltage
-      var checkBoxParticle = document.getElementById('checkbox' + mainSim.m_particle_types[index]).innerText;
+      var checkBoxParticle = mainSim.m_dom.m_sim_controls.checkboxes[index].elt.innerText;
 
       mainSim.m_dom.m_sim_controls.checkbox(index, true);
       curGraph.hidePlot(index, false);
-      // Note grpah is a global variable that define the cur dataChart!!
       enableInputForParticle(checkBoxParticle);
 
       if (mainSim.m_pause) { //If the plot is paused, change the plot particle
         var particleType = mainSim.m_particle_types[index];
-        var voltage = calculateNernst(mainSim.m_particle_types);
+        var voltage = mainSim.m_nernst_eq.compute(particleType);
         var dataset = ci.data.datasets[index].data;
         ci.data.datasets[index].data = dataset;
       }
 
       ci.data.datasets.forEach(function(e, i) {
         if (i !== index && i != 3) {
-          var checkBoxParticle = document.getElementById('checkbox' + mainSim.m_particle_types[i]).innerText;
+          var checkBoxParticle = mainSim.m_dom.m_sim_controls.checkboxes[i].elt.innerText;
 
           mainSim.m_dom.m_sim_controls.checkbox(i, false);
           curGraph.hidePlot(i, true);
@@ -148,9 +148,9 @@ class Plot {
       for (var i = 0; i < 4; i++) {
         if (i < 3) {
           var particleType = mainSim.m_particle_types[i];
-          var voltage = calculateNernst(particleType);
+          var voltage = mainSim.m_nernst_eq.compute(particleType);
         } else if (i == 3) { // the net voltage
-          var voltage = calculateGoldman();
+          var voltage = mainSim.m_goldman_eq.compute();
         }
 
         this.updateData(i, this.m_time, voltage*1000); //*1000 is to convert V to mV

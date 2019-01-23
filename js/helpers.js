@@ -29,22 +29,6 @@ function randomFromRanges(arrayOfRanges) {
   return random(selectedChoices[0], selectedChoices[1]);
 }
 
-function loadText(url, tag) {
-  // input1: string;
-  // usage: 'questions.json' (filename)
-  // input2: string
-  // usage: 'goldman_1', 'nernst_1' (Data.name)
-
-  var xmlhttp = new XMLHttpRequest();
-  xmlhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-        var myArr = JSON.parse(this.responseText);
-      document.getElementById("q1").innerHTML = myArr[tag].join('');;
-    }
-  };
-  xmlhttp.open("GET", url, true);
-  xmlhttp.send();
-}
 
 function elementCreator(element, eid, parent, options = { content: '', className: '', mousePressed: null }) {
   var { content, className, mousePressed } = options;
@@ -62,7 +46,7 @@ function elementCreator(element, eid, parent, options = { content: '', className
 }
 
 // https://stackoverflow.com/questions/10787782/full-height-of-a-html-element-div-including-border-padding-and-margin
-function getStyle(elm,style) {
+function getStyle(elm, style) {
   // usage: obtain the dimension of a DOM element
   // input: DOM element
   // output: int,
@@ -95,7 +79,25 @@ function getStyle(elm,style) {
     return (elmDim+elmMargin);
     break;
   }
+}
 
+function swapElements(p51, p52) {
+    // Convert the p5 objects to their HTML DOMs
+    var obj1 = p51;
+    var obj2 = p52.elt;
+
+    // create marker element and insert it where obj1 is
+    var temp = document.createElement("div");
+    obj1.parentNode.insertBefore(temp, obj1);
+
+    // move obj1 to right before obj2
+    obj2.parentNode.insertBefore(obj1, obj2);
+
+    // move obj2 to right before where obj1 used to be
+    temp.parentNode.insertBefore(obj2, temp);
+
+    // remove temporary marker node
+    temp.parentNode.removeChild(temp);
 }
 
 function helpPageScript() {

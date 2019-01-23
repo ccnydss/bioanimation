@@ -1,5 +1,4 @@
 // Purpose: Provide an interface to control the simulation parameters and track state
-
 class Simulator {
   constructor() {
     this.m_particle_types = ["Na", "Cl", "K"];
@@ -10,6 +9,9 @@ class Simulator {
 
     this.m_mode = "Nernst";
     this.m_nernst_particle = "Na";       // Contains the currently selected particle in Nernst mode
+
+    this.m_nernst_eq = new NernstEq(this);
+    this.m_goldman_eq = new GoldmanEq(this);
 
     this.m_settings = {
       temperature: 37 + 273.13,           // 37 is the human body temperature
@@ -36,6 +38,9 @@ class Simulator {
     var spacebar = 32;
     var Q_key = 81;
     var W_key = 87;
+    var S_key = 83;
+
+    console.log("Key input ", keyCode);
 
     switch (keyCode) {
       case spacebar:
@@ -44,12 +49,16 @@ class Simulator {
 
       case Q_key:
       animationSequencer.prev(false);
-      updateAll();
+      this.m_dom.m_sim_controls.updateAll();
       break;
 
       case W_key:
       animationSequencer.next(false);
-      updateAll();
+      this.m_dom.m_sim_controls.updateAll();
+      break;
+
+      case S_key:
+      this.m_dom.swapChart();
       break;
     }
   }
@@ -62,7 +71,7 @@ class Simulator {
     //Input DOM object/chartjs object, Boolean
     switch (id) {
       case "hidebarText":
-      document.getElementById("hidebarText").innerText = (mode) ? ">" : "<";
+      document.getElementById("hidebarText").innerHTML = (mode) ? '<i class="fas fa-arrow-up"></i> Questions' : '<i class="fas fa-arrow-down"></i> Settings';
       break;
 
       case "setting":
@@ -104,6 +113,14 @@ class Simulator {
       document.getElementById('setting').style.display = (mode) ? "initial" : "none";
       break;
 
+      case "leftWindow":
+      if (mode) {
+        document.getElementById('leftWindow').classList.remove("hidden");
+      } else {
+        document.getElementById('leftWindow').classList.add("hidden");
+      };
+      break;
+
       case "dataPlot":
       if (mode) {
       document.getElementById('dataPlot').classList.remove("hidden")
@@ -134,8 +151,8 @@ class Simulator {
     if (mode) {
       var header = "Goldman-Hodgkin-Katz";
       if (mode == "Nernst") header = "Nernst Equation";
-      this.m_dom.m_questionHeader = header;
-      this.m_dom.m_questionTitle.html(header);
+      this.m_dom.m_sim_question.m_header = header;
+      this.m_dom.m_sim_question.m_title.html(header);
       this.m_mode = mode;
     } else {
       return this.m_mode;

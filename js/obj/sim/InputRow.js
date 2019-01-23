@@ -1,5 +1,5 @@
 class InputRow {
-  constructor(label, value, enabled, color) {
+  constructor(label, value, enabled, color, updateInputs) {
     this.m_label = label;
     this.m_value = value;
     this.m_enabled = enabled;
@@ -20,6 +20,8 @@ class InputRow {
         minus: null
       }
     }
+
+    this.updateInputs = updateInputs;
   }
 
   create(parent, id, particleType, particleLocation) {
@@ -42,14 +44,16 @@ class InputRow {
       className: 'qoptions'
     });
     this.dom.input.value(this.m_value);
-    this.dom.input.input(changeNumParticles);
-    this.dom.input.mouseClicked(highLightInput);
+    this.dom.input.input(this.changeNumParticles.bind(this));
+    this.dom.input.attribute("data-location", particleLocation);
+    this.dom.input.attribute("data-ptype", particleType);
+    this.dom.input.mouseClicked(this.highLightInput);
 
     // Create the plus button and minus button
     buttons.plus = elementCreator("button", id, table.td2, {
       content: "+",
       className: 'qoptions',
-      mousePressed: insertParticle
+      mousePressed: this.changeNumParticles.bind(this)
     });
     buttons.plus.attribute("data-location", particleLocation);
     buttons.plus.attribute("data-ptype", particleType);
@@ -58,7 +62,7 @@ class InputRow {
     buttons.minus = elementCreator("button", id, table.td3, {
       content: "-",
       className: 'qoptions',
-      mousePressed: removeParticle
+      mousePressed: this.changeNumParticles.bind(this)
     });
     buttons.minus.attribute("data-location", particleLocation);
     buttons.minus.attribute("data-ptype", particleType);
@@ -88,5 +92,57 @@ class InputRow {
         this.dom.buttons.minus.attribute("disabled", '');
       }
     }
+  }
+
+  changeNumParticles(evt, updatedAmount=evt.target.value) {
+    // input: the element that triggered the event (Input buttons);
+    var eventID = evt.target.id;
+
+    var particleType = evt.target.attributes['data-ptype'].value;
+    var particleLocation = evt.target.attributes['data-location'].value;
+
+    var numParticles = animationSequencer.current().getNumParticles(particleLocation, particleType);
+    var MaxParticles = animationSequencer.current().MAX_PARTICLES;
+
+    if (!updatedAmount) {
+      var symbol = evt.target.innerText;
+      var current = this.value();
+      updatedAmount = (symbol == "+") ? current + 1 : current - 1;
+    }
+
+    // If the amount entered is invalid, alert user
+    if (
+      isNaN(updatedAmount) ||
+      Math.floor(updatedAmount) != updatedAmount ||
+      updatedAmount < 0
+    ) {
+      alert("Please enter valid input.");
+      return;
+    } else if (updatedAmount > MaxParticles) {
+      // If the amount entered is greater than the maximum, force it to maximum and alert user
+
+      this.value(MaxParticles);
+      updatedAmount = MaxParticles;
+      alert("Maximum amount is " + MaxParticles + ".");
+    }
+
+    var difference = Math.abs(updatedAmount - numParticles)
+
+    // If the amount entered is less than 0, increase the amount
+    if (updatedAmount > numParticles) {
+      for (var i = 0; i < difference; i++) {
+        animationSequencer.current().insertNewParticle(particleLocation, particleType);
+      }
+    } else if (updatedAmount < numParticles) {
+      for (var i = 0; i < difference; i++) {
+        animationSequencer.current().removeParticle(particleLocation, particleType, 0);
+      }
+    }
+
+    this.updateInputs(particleType, particleLocation, eventID);
+  }
+
+  highLightInput(evt) {
+    evt.target.setSelectionRange(0, evt.target.value.length)
   }
 }

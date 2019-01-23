@@ -43,6 +43,7 @@ th {
 #firstBox, #secondBox {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   height: 100%
 }
 
@@ -64,6 +65,10 @@ th {
   height: 65%;
 }
 
+#sim {
+  position: relative;
+}
+
 #leftbar.hidden {
   height: 0%;
 }
@@ -82,7 +87,6 @@ Simulation Question layer
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  overflow-y: scroll;
   height: 100%
 }
 
@@ -102,8 +106,9 @@ Simulation Question layer
 
 .questions {
   height: 80%;
-  padding: 10px;
+  margin: 15px;
   font-size: 0.95em;
+  overflow-y: auto;
 }
 
 /* *****************************
@@ -157,7 +162,7 @@ Simulation Equation & Setting layer
   white-space: pre-wrap;
   /* this is for displaying whitespaces including Moz-FF.*/
   font-size: 18px;
-  transform: rotate(90deg);
+  /* transform: rotate(90deg); */
 }
 
 #equationdiv {
@@ -183,12 +188,17 @@ Simulation Equation & Setting layer
   padding-bottom: 10px;
 }
 /* https://stackoverflow.com/questions/3331353/transitions-on-the-display-property */
-#simulatorSetting, #questionsdiv, #dataPlot{
+#simulatorSetting, #questionsdiv, #leftWindow{
   transition-property: visibility, opacity;
   transition-duration: 0s, .5s;
 }
 
-#simulatorSetting.hidden, #questionsdiv.hidden, #dataPlot.hidden {
+#leftWindow {
+  width: 100%;
+  height: 100%;
+}
+
+#simulatorSetting.hidden, #questionsdiv.hidden, #leftWindow.hidden {
   opacity: 0;
   visibility: hidden;
   transition-property: opacity, visibility;
@@ -333,6 +343,50 @@ Simulation Equation & Setting layer
   text-align: center;
   text-decoration: none;
   font-size: 16px;
+  cursor: pointer;
+  width: 20%;
+}
+
+#questionNext:disabled, #questionPrev:disabled {
+background-color: gray;
+  cursor: not-allowed;
+}
+
+#questionControl {
+  padding-bottom: 10px;
+}
+#questionJumpInput {
+width: 20px;
+text-align: center;
+}
+
+#jumpBtn0 {
+  border: solid 1px;
+}
+
+.jumpBtn:not(:first-child) {
+color: white;
+  background-color: #112D32;
+  width: 25px;
+  border: solid 1px;
+  border-left: none;
+}
+
+.jumpBtn[target] {
+  background-color: #59ABE3;
+}
+
+.jumpDot {
+/* color: white;
+  background-color: #112D32; */
+  cursor: default;
+  padding: 0px 5px;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .control {
@@ -452,9 +506,8 @@ Simulation Equation & Setting layer
   background-color: gray;
   opacity: 0.7;
   font-size: 24px;
-  top: calc(36px + 5px);
-  width: calc(65% - 5px);
-  height: calc(65% - 36px + 8px);
+  width: 100%;
+  height: 100%;
   position: absolute;
   color: white;
   display: flex;
@@ -465,9 +518,8 @@ Simulation Equation & Setting layer
 #simCanvasFrame {
   z-index: 2;
   font-size: 24px;
-  top: calc(36px + 5px);
-  width: calc(65% - 5px);
-  height: calc(65% - 36px + 8px);
+  width: 100%;
+  height: 100%;
   position: absolute;
   color: white;
   display: flex;
