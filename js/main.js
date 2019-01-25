@@ -30,6 +30,9 @@ function setup() {
   disableInputForParticle("K");
 
   FormulaInputCalculation("Na");
+  FormulaInputCalculation("Cl");
+  FormulaInputCalculation("K");
+  // FormulaInputCalculation("Net");
 }
 
 function draw() {

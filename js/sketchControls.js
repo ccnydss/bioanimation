@@ -12,15 +12,17 @@ function FormulaInputCalculation(particleType) {
   // usage: "Na", "Cl", "K"
   // output: float;
   var answer = null;
+  var type = particleType;
 
-  if (mainSim.simMode() == "Nernst") {
+  if (mainSim.simMode() == "Nernst" && particleType !== "Net") {
     if (particleMapper[particleType]["display"])
       answer = mainSim.m_nernst_eq.result(particleType);
   } else {
     answer = mainSim.m_goldman_eq.result();
+    type = "Net";
   }
 
-  if (answer) mainSim.setAnswer(answer, particleType);
+  if (answer) mainSim.setAnswer(answer, type);
 }
 
 function disableInputForParticle(particleType) {
