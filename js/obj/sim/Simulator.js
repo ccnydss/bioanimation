@@ -185,8 +185,8 @@ class Simulator {
     FormulaInputCalculation(this.m_nernst_particle);
   }
 
-  setAnswer(answer) {
-    this.m_dom.m_equationResult.html('Answer: ' + answer);
+  setAnswer(answer, type) {
+    this.m_dom.m_equationResult.setAnswer(answer, type);
   }
 
   buttonModeSwitch() {

@@ -20,7 +20,7 @@ function FormulaInputCalculation(particleType) {
     answer = mainSim.m_goldman_eq.result();
   }
 
-  if (answer) mainSim.setAnswer(answer);
+  if (answer) mainSim.setAnswer(answer, particleType);
 }
 
 function disableInputForParticle(particleType) {

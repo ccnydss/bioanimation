@@ -13,7 +13,7 @@ class SimulatorDOM {
     this.m_canvas_width;
     this.m_canvas_height;
 
-    this.m_equationResult = 0;
+    this.m_equationResult = new EquationResult(this);
 
     this.m_sim_controls = new SimulatorInputs(this);
     this.m_sim_question = new Question(this);
@@ -40,7 +40,7 @@ class SimulatorDOM {
     this.m_hideBarText = ec("div", 'hidebarText', 'hidebar', { content: '<i class="fas fa-arrow-up"></i> Settings' });
 
     this.m_equation = ec("div", 'equationdiv', 'equationContainer');
-    this.m_equation.child('NernstEqn');   // Attach nernst equation, defined in sketch.html with id 'NernstEqn'
+    this.m_equation.child('NernstEqn');   // Attach nernst equation LaTeX, defined in sketch.html with id 'NernstEqn'
     this.m_equation.child('GoldmanEqn');  // Same as nersnt, with goldman
 
     this.m_equi = ec("button", 'equilibrateButton', 'equationContainer', { content: "Equilibrate", mousePressed: startEquilibrate });
@@ -97,6 +97,7 @@ class SimulatorDOM {
     this.m_canvas.id ('can');
     this.m_canvas.parent('sim');
 
+    this.m_equationResult.setup();
     this.m_sim_controls.setup();
     this.m_sim_question.setup();
   }

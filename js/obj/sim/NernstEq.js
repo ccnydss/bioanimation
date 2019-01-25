@@ -73,6 +73,6 @@ class NernstEq {
   }
 
   result(type) {
-    return this.compute(type).toFixed(4) + " V";
+    return this.compute(type).toFixed(4);
   }
 }

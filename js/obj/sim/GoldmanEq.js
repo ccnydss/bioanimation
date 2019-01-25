@@ -78,6 +78,6 @@ class GoldmanEq {
   }
 
   result() {
-    return this.compute().toFixed(4) + " V";
+    return this.compute().toFixed(4);
   }
 }

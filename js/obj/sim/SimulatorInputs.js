@@ -46,9 +46,6 @@ class SimulatorInputs {
 
   create() {
     var ec = elementCreator;
-    var answer = 0;
-
-    this.m_dom.m_equationResult = ec("h3", 'answer', 'equationdiv', { className: 'answer', content: 'Answer: ' + answer + 'V'});
 
     var numParticles = this.m_dom.m_sim.numParticleTypes();
 
