@@ -21,7 +21,7 @@ function setup() {
 
   animationSequencer = new SequenceManager([bioMainSequence, test1Seq])
   animationSequencer.setup();
-  
+
   mainSim.m_dom.m_sim_controls.create();
   mainSim.m_nernst_eq.start();
 
