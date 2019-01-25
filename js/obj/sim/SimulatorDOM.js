@@ -43,6 +43,8 @@ class SimulatorDOM {
     this.m_equation.child('NernstEqn');   // Attach nernst equation LaTeX, defined in sketch.html with id 'NernstEqn'
     this.m_equation.child('GoldmanEqn');  // Same as nersnt, with goldman
 
+    this.m_equationResult.setup();
+
     this.m_equi = ec("button", 'equilibrateButton', 'equationContainer', { content: "Equilibrate", mousePressed: startEquilibrate });
 
     this.m_simulatorSetting = ec("div", 'simulatorSetting', 'equationdiv', { content: "Simulation Settings" })
@@ -97,7 +99,6 @@ class SimulatorDOM {
     this.m_canvas.id ('can');
     this.m_canvas.parent('sim');
 
-    this.m_equationResult.setup();
     this.m_sim_controls.setup();
     this.m_sim_question.setup();
   }

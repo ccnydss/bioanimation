@@ -13,8 +13,7 @@ class EquationResult {
   }
 
   setup() {
-    // this.display = elementCreator("h3", 'answer', 'equationdiv', { className: 'answer', content: 'Answer: ' + 0 + 'V'});
-    this.display = elementCreator("table", 'answer', 'equationdiv', { className: 'answer' });
+    this.display = elementCreator("table", 'answer', 'equationContainer', { className: 'answer' });
 
     this.table.Na = elementCreator("tr", 'answer-Na', 'answer', { className: 'answer-row na-bg' });
     this.td0 = elementCreator("td", '', this.table.Na, { content: 'Na' });
