@@ -82,16 +82,29 @@ class InputRow {
     if (setter == null) return this.m_enabled;
     else {
       this.m_enabled = setter;
+      var enableColor = this.m_type.toLowerCase() + "-bg";
+      var disableColor = this.m_type.toLowerCase() + "-disabled";
 
       if (setter) {
         this.dom.input.removeAttribute("disabled");
+
         this.dom.buttons.plus.removeAttribute("disabled");
+        this.dom.buttons.plus.addClass(enableColor);
+        this.dom.buttons.plus.removeClass(disableColor);
+
         this.dom.buttons.minus.removeAttribute("disabled");
+        this.dom.buttons.minus.addClass(enableColor);
+        this.dom.buttons.minus.removeClass(disableColor);
       } else {
         this.dom.input.attribute("disabled", '');
+
         this.dom.buttons.plus.attribute("disabled", '');
-        this.dom.buttons.plus.addClass('')
+        this.dom.buttons.plus.addClass(disableColor);
+        this.dom.buttons.plus.removeClass(enableColor);
+
         this.dom.buttons.minus.attribute("disabled", '');
+        this.dom.buttons.minus.addClass(disableColor);
+        this.dom.buttons.minus.removeClass(enableColor);
       }
     }
   }

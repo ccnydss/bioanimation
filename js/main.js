@@ -28,11 +28,6 @@ function setup() {
   //Only show one particle at the beginning
   disableInputForParticle("Cl");
   disableInputForParticle("K");
-
-  FormulaInputCalculation("Na");
-  FormulaInputCalculation("Cl");
-  FormulaInputCalculation("K");
-  // FormulaInputCalculation("Net");
 }
 
 function draw() {

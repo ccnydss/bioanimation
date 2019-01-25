@@ -632,9 +632,6 @@ color: white;
   padding: 3%;
   position: absolute;
   top: calc(65% - 20px);
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
 }
 
 .control input:disabled, button:disabled {
