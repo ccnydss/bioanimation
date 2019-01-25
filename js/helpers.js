@@ -98,6 +98,13 @@ function swapElements(p51, p52) {
 
     // remove temporary marker node
     temp.parentNode.removeChild(temp);
+
+    if (helpPage.style.display == "flex") {
+      setTimeout(function () {
+    help.clear()
+    help.initialize()
+  }, 100);
+    }
 }
 
 function helpPageScript() {
@@ -106,6 +113,7 @@ function helpPageScript() {
   if (helpPage.style.display == "none") {
     // alert("yes")
     helpPage.style.display = "flex";
+    help.clear()
     help.initialize()
   } else {
     // alert("no")

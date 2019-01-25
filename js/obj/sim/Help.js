@@ -12,7 +12,7 @@ class Help {
       NernstEqn:"Current mode governing equation",
       GoldmanEqn:"Goldman equation",
       simulatorSetting:"In the setting Menu, you can change the setting of temperature and ion permeability",
-      leftWindow: "",
+      leftWindow: " ", //space for add the 'last' class
       dataPlot:"Voltage data plot",
       answer:"Current Voltage in membrane",
       equilibrateButton:"Click this to equilibrate the membrane",
@@ -55,6 +55,14 @@ class Help {
 
             var layer4 = this.createLayer(sim.children[i].children[j].children[k],l)
             if (!layer4) continue;
+
+            for (let m = 0; m < sim.children[i].children[j].children[k].children[l].children.length; m++) { //4
+
+              var layer5 = this.createLayer(sim.children[i].children[j].children[k].children[l],m)
+              if (!layer5) continue;
+
+              layer4.appendChild(layer5);
+            }
 
             layer3.appendChild(layer4);
           }
