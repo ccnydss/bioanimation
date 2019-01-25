@@ -204,6 +204,7 @@ Simulation Equation & Setting layer
   transition-property: opacity, visibility;
   transition-duration: .5s, 0s;
   transition-delay: 0s, .5s;
+  height: 0;
 }
 
 .setting {
@@ -241,6 +242,7 @@ Simulation Equation & Setting layer
   padding-left: 12px;
   padding-top: 7px;
 }
+
 #GoldmanSetting tr:nth-child(1) label {
   background-color:rgb(245, 206, 40);
 }
@@ -404,16 +406,14 @@ color: white;
 
 .answer {
   vertical-align: middle;
-  align-self: flex-end;
-  margin-top: auto;
+  align-self: center;
+  /* margin-top: auto; */
   text-align: center;
-  width: 35%;
-  /* border-radius: 5px; */
-  /* border: solid 2px #d63031;
-  color: #ecf0f1; */
-  position: absolute;
+  width: 100%;
+
+  /* position: absolute; */
   bottom: 50px;
-  color: #74b9ff;
+  color: #000;
 }
 
 .control h3 {

@@ -1,9 +1,9 @@
 class InputRow {
-  constructor(label, value, enabled, color, updateInputs) {
+  constructor(label, value, enabled, type, updateInputs) {
     this.m_label = label;
     this.m_value = value;
     this.m_enabled = enabled;
-    this.m_color = color;
+    this.m_type = type;
 
     this.dom = {
       title: null,
@@ -50,6 +50,7 @@ class InputRow {
     this.dom.input.mouseClicked(this.highLightInput);
 
     // Create the plus button and minus button
+    var colorClass = particleType.toLowerCase() + "-bg";
     buttons.plus = elementCreator("button", id, table.td2, {
       content: "+",
       className: 'qoptions',
@@ -57,7 +58,7 @@ class InputRow {
     });
     buttons.plus.attribute("data-location", particleLocation);
     buttons.plus.attribute("data-ptype", particleType);
-    buttons.plus.style("background-color", this.m_color);
+    buttons.plus.addClass(colorClass);
 
     buttons.minus = elementCreator("button", id, table.td3, {
       content: "-",
@@ -66,7 +67,7 @@ class InputRow {
     });
     buttons.minus.attribute("data-location", particleLocation);
     buttons.minus.attribute("data-ptype", particleType);
-    buttons.minus.style("background-color", this.m_color);
+    buttons.minus.addClass(colorClass);
   }
 
   value(setter) {
@@ -89,6 +90,7 @@ class InputRow {
       } else {
         this.dom.input.attribute("disabled", '');
         this.dom.buttons.plus.attribute("disabled", '');
+        this.dom.buttons.plus.addClass('')
         this.dom.buttons.minus.attribute("disabled", '');
       }
     }

@@ -90,7 +90,7 @@ class SimulatorInputs {
 
         var value = animationSequencer.current().getNumParticles(locStr, name);
 
-        location.rows[i] = new InputRow(label, value, true, color, this.updateInputs.bind(this));
+        location.rows[i] = new InputRow(label, value, true, name, this.updateInputs.bind(this));
         location.rows[i].create(location.table, i, name, locStr);
       }
     }

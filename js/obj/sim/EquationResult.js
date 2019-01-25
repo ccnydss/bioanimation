@@ -15,19 +15,20 @@ class EquationResult {
   setup() {
     // this.display = elementCreator("h3", 'answer', 'equationdiv', { className: 'answer', content: 'Answer: ' + 0 + 'V'});
     this.display = elementCreator("table", 'answer', 'equationdiv', { className: 'answer' });
-    this.table.Na = elementCreator("tr", 'answer-Na', 'answer', { className: 'answer-row' });
+
+    this.table.Na = elementCreator("tr", 'answer-Na', 'answer', { className: 'answer-row na-bg' });
     this.td0 = elementCreator("td", '', this.table.Na, { content: 'Na' });
     this.td1 = elementCreator("td", '', this.table.Na, { content: this.values.Na });
 
-    this.table.Cl = elementCreator("tr", 'answer-Cl', 'answer', { className: 'answer-row' });
+    this.table.Cl = elementCreator("tr", 'answer-Cl', 'answer', { className: 'answer-row cl-bg' });
     this.td2 = elementCreator("td", '', this.table.Cl, { content: 'Cl' });
     this.td3 = elementCreator("td", '', this.table.Cl, { content: this.values.Cl });
 
-    this.table.K = elementCreator("tr", 'answer-K', 'answer', { className: 'answer-row' });
+    this.table.K = elementCreator("tr", 'answer-K', 'answer', { className: 'answer-row k-bg' });
     this.td4 = elementCreator("td", '', this.table.K, { content: 'K' });
     this.td5 = elementCreator("td", '', this.table.K, { content: this.values.K });
 
-    this.table.Net = elementCreator("tr", 'answer-Net', 'answer', { className: 'answer-row' });
+    this.table.Net = elementCreator("tr", 'answer-Net', 'answer', { className: 'answer-row net-bg' });
     this.td6 = elementCreator("td", '', this.table.Net, { content: 'Net' });
     this.td7 = elementCreator("td", '', this.table.Net, { content: this.values.Net });
   }
