@@ -5,19 +5,185 @@
   <meta charset="utf-8">
   <meta name="viewport" width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0>
 
-  <link rel="shortcut icon" href="js/img/microscope.png" type="image/png">
+  <link rel="shortcut icon" href="img/microscope.png" type="image/png">
 
-  <link rel="stylesheet" type="text/css" href="styles.css">
+  <link rel="stylesheet" type="text/css" href="sketch.css">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+
+  <!--[if IE]>
+  <style>
+  #browserDetection section div:first-child {
+    font-size: 40px;
+  }
+
+  #browserDetection section div:last-child {
+    font-size: 30px;
+  }
+  </style>
+  <![endif]-->
+  <!-- For IE 10+ -->
+  <style>
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  #browserDetection section div:first-child {
+    font-size: 40px;
+  }
+
+  #browserDetection section div:last-child {
+    font-size: 30px;
+  }
+   }
+   @media only screen and (max-width: 1060px) {
+     #browserDetection section div:first-child {
+       font-size: 30px;
+     }
+     #browserDetection section div:last-child {
+       font-size: 20px;
+     }
+   }
+   @media only screen and (max-width: 860px) {
+     #browserDetection section div:first-child {
+       height: 20%;
+       font-size: 25px;
+     }
+     #browserDetection section div:last-child {
+       height: 10%;
+       font-size: 20px;
+     }
+   }
+   @media only screen and (max-width: 615px) {
+     #browserDetection section div:first-child {
+       height: 20%;
+       font-size: 15px;
+     }
+     #browserDetection section div:last-child {
+       height: 10%;
+       font-size: 10px;
+     }
+     #browserDetectionTable > i {
+       font-size: 15px;
+     }
+   }
+}
+  </style>
 
 </head>
 
 <body>
-  <div id="simulator">
+  <div style="display:none" id="browserDetection" class="container">
+    <section style="flex-direction: column;" class="container center">
+        <div class="container center" ><i id="browserDetectionText"><i class="fas fa-exclamation-circle"></i>IE</i> doesn't support bioanimation</div>
+        <div class="container center" >Please update it to the follow version</div>
+    </section>
+    <section class="container center">
 
-    <iframe src="js/sketch.html" width="900px" height="800px">
+      <table id="browserDetectionTable">
+  <tr>
+    <th>Browser</th>
+    <th>Support Version</th>
+  </tr>
+  <tr>
+    <td><i class="fab fa-internet-explorer"> Internet Explorer</i></td>
+    <td>Not supported</td>
+  </tr>
+  <tr>
+    <td><i class="fab fa-edge"> Microsoft Edge</i></td>
+    <td><i class="fas fa-download"></i><a target="_blank" href='https://www.microsoft.com/en-us/windows/microsoft-edge'>v. 42</a></td>
+  </tr>
+  <tr>
+    <td><i class="fab fa-chrome"> Chrome</i></td>
+    <td><i class="fas fa-download"></i><a target="_blank" href='https://www.google.com/chrome/'>v. 68</a></td>
+  </tr>
+  <!-- <tr>
+    <td><i class="fab fa-chrome"></i>Chrome for Android</td>
+    <td>v. 68</td>
+  </tr> -->
+  <tr>
+    <td><i class="fab fa-firefox"> Firefox</i></td>
+    <td><i class="fas fa-download"></i><a target="_blank" href='https://www.mozilla.org/en-US/firefox/new/'>v. 61</a></td>
+  </tr>
+  <tr>
+    <td><i class="fab fa-safari"> Safari</i></td>
+    <td><i class="fas fa-download"></i><a target="_blank" href='https://www.apple.com/safari/'>v. 11</a></td>
+  </tr>
+  <!-- <tr>
+    <td><i class="fab fa-safari"></i>iOS Safari</td>
+    <td>v. 11.4</td>
+  </tr> -->
+  <tr>
+    <td><i class="fab fa-opera"> Opera</i></td>
+    <td><i class="fas fa-download"></i><a target="_blank" href='https://www.opera.com/download'>v. 54</a></td>
+  </tr>
+  <tr>
+    <td><i class="fas fa-desktop"></i><i style="padding-left: 5px" class="fab">Desktop App</i></td>
+    <td><i class="fas fa-download"></i><a target="_blank" href=''>v. 1</a></td>
+  </tr>
+</table>
+
+    </section>
   </div>
+
+  <div id="helpPage" style="display:none"></div>
+  <div id="containerHeader">
+    <li>Equation</li>
+    <li>Contact</li>
+    <li onclick="helpPageScript()">Help</li>
+  </div>
+
+  <div id="root"></div>
+
+    <script language="javascript" type="text/javascript" src="js/browserDetection.js"></script>
+
+  <script language="javascript" type="text/javascript" src="js/p5/p5.min.js"></script>
+  <script language="javascript" type="text/javascript" src="js/p5/p5.dom.min.js"></script>
+  <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+
+  <script language="javascript" type="text/javascript" src="js/helpers.js"></script>
+
+  <script language="javascript" type="text/javascript" src="js/obj/animation/Point.js"></script>
+  <script language="javascript" type="text/javascript" src="js/obj/animation/Rectangle.js"></script>
+  <script language="javascript" type="text/javascript" src="js/obj/animation/Label.js"></script>
+  <script language="javascript" type="text/javascript" src="js/obj/animation/Container.js"></script>
+  <script language="javascript" type="text/javascript" src="js/obj/animation/Particle.js"></script>
+  <script language="javascript" type="text/javascript" src="js/obj/animation/Channel.js"></script>
+
+  <script language="javascript" type="text/javascript" src="js/obj/sim/NernstEq.js"></script>
+  <script language="javascript" type="text/javascript" src="js/obj/sim/GoldmanEq.js"></script>
+  <script language="javascript" type="text/javascript" src="js/obj/sim/Help.js"></script>
+  <script language="javascript" type="text/javascript" src="js/obj/sim/InputRow.js"></script>
+  <script language="javascript" type="text/javascript" src="js/obj/sim/Plot.js"></script>
+  <script language="javascript" type="text/javascript" src="js/obj/sim/Question.js"></script>
+  <script language="javascript" type="text/javascript" src="js/obj/sim/EquationResult.js"></script>
+  <script language="javascript" type="text/javascript" src="js/obj/sim/SimulatorInputs.js"></script>
+  <script language="javascript" type="text/javascript" src="js/obj/sim/SimulatorDOM.js"></script>
+  <script language="javascript" type="text/javascript" src="js/obj/sim/Simulator.js"></script>
+
+  <script language="javascript" type="text/javascript" src="js/sketchControls.js"></script>
+
+  <script language="javascript" type="text/javascript" src="js/seq/sequence.js"></script>
+  <script language="javascript" type="text/javascript" src="js/seq/BioMain.js"></script>
+  <script language="javascript" type="text/javascript" src="js/seq/Test1.js"></script>
+
+  <script language="javascript" type="text/javascript" src="js/main.js"></script>
+  <script language="javascript" type="text/javascript" src="js/particleControls.js"></script>
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async>
+</script>
+
+<section id="NernstEqn" style="display:none">
+$$
+\normalsize
+E_{ion} = \frac{RT}{zF}ln \left( \frac{\text{Ion Out} } {\text{Ion In}} \right)$$
+</section>
+
+<section id="GoldmanEqn" style="display:none">
+$$
+\small
+V_{rest} = \frac{RT}{F}ln \left( \frac{ P_{Na}[Na^+]_{\text{out}} + P_{Cl}[Cl^-]_{\text{in}} + P_{K}[K^-]_{\text{out}} } { P_{Na}[Na^+]_{\text{in}} + P_{Cl}[Cl^-]_{\text{out}} + P_{K}[K^-]_{\text{in}} } \right)$$
+</section>
+
 
 </body>
 
