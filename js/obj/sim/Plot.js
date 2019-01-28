@@ -12,10 +12,13 @@ class Plot {
   constructor() {
     this.m_time = 0;
     this.m_max_x = 31;
-    this.m_max_y = 0.10*1000; //*1000 is to convert V to mV;
+
+    this.m_max_y_default = 0.10/110*100
+    this.m_max_y = this.m_max_y_default; //*1000 is to convert V to mV;
     this.m_interval = 1000; // 1 second
 
     this.m_data_chart;
+    this.m_data_chart_global_voltage = [];
 
     this.initialize();
     setInterval(this.plot.bind(this), this.m_interval);
@@ -65,46 +68,9 @@ class Plot {
           }
         ]
       },
-      options: {
-        scales: {
-          xAxes: [
-            {
-              type: 'linear',
-              position: 'bottom',
-              ticks: {
-                beginAtZero: true,
-                steps: 1,
-                stepValue: 1,
-                max: this.m_max_x - 1
-              },
-              scaleLabel: {
-                display: true,
-                labelString: 'sec'
-              }
-            }
-          ],
-          yAxes: [
-            {
-              ticks: {
-                min: -this.m_max_y,
-                stepSize: 2 * this.m_max_y/6,
-                max: this.m_max_y
-              },
-              scaleLabel: {
-                display: true,
-                labelString: 'mV'
-              }
-            }
-          ]
-        },
-        legend: {
-          onClick: this.onClick.bind(this)
-        },
-        animation: false,
-        responsive: true,
-        maintainAspectRatio: true
-      }
     });
+
+    this.resizeAxis();
   }
 
   onClick(e, legendItem) {
@@ -145,6 +111,7 @@ class Plot {
 
   plot() {
     if (!mainSim.m_pause) { //If the plot is not paused
+
       for (var i = 0; i < 4; i++) {
         if (i < 3) {
           var particleType = mainSim.m_particle_types[i];
@@ -177,15 +144,83 @@ class Plot {
       y: y
     }
 
+    if(!this.m_data_chart_global_voltage[index])
+    this.m_data_chart_global_voltage[index] = [];
+
+    this.m_data_chart_global_voltage[index].push(y)
+
     dataset.push(newData);
     if (dataset.length >= this.m_max_x + 1) {
       dataset.shift(); //Remove the first number if the plot is full
+      this.m_data_chart_global_voltage[index].shift()
+
       dataset.forEach(function(element) {
         element.x--
       });
+
     }
 
     this.m_data_chart.data.datasets[index].data = dataset;
+
+    var maxVoltage = this.m_data_chart_global_voltage[index].max()/1000 //To mV
+        //Resize y-axis automatically
+        if(this.m_max_y<maxVoltage) {
+          this.m_max_y = maxVoltage
+          this.resizeAxis();
+        } else if(maxVoltage > this.m_max_y_default) {
+          this.m_max_y = maxVoltage
+          this.resizeAxis();
+        } else if(this.m_max_y != this.m_max_y_default) {
+          this.m_max_y=this.m_max_y_default
+          this.resizeAxis();
+        }
+
+    this.m_data_chart.update();
+  }
+
+  resizeAxis() {
+    //Resize y-axis automatically
+    this.m_data_chart.options = {
+      scales: {
+        xAxes: [
+          {
+            type: 'linear',
+            position: 'bottom',
+            ticks: {
+              beginAtZero: true,
+              steps: 1,
+              stepValue: 1,
+              max: this.m_max_x - 1
+            },
+            scaleLabel: {
+              display: true,
+              labelString: 'sec'
+            }
+          }
+        ],
+        yAxes: [
+          {
+            ticks: {
+              min: -this.m_max_y*1100,
+              stepSize: (2*1100 * this.m_max_y)/6,
+              max: this.m_max_y*1100
+            },
+            scaleLabel: {
+              display: true,
+              labelString: 'mV'
+            }
+          }
+        ]
+      },
+      legend: {
+        onClick: this.onClick.bind(this)
+      },
+      animation: false,
+      responsive: true,
+      maintainAspectRatio: true
+    }
+
+
     this.m_data_chart.update();
   }
 }
