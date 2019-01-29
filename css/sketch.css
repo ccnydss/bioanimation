@@ -67,6 +67,11 @@ th {
 
 #sim {
   position: relative;
+  background-color: #fffbea;
+}
+
+#leftWindow #sim {
+  height: 100%;
 }
 
 #leftbar.hidden {
@@ -202,12 +207,7 @@ Simulation Equation & Setting layer
   transition-duration: 0s, .5s;
 }
 
-/* #leftWindow {
-  width: 100%;
-  height: 100%;
-} */
-
-#simulatorSetting.hidden, #questionsdiv.hidden, #leftWindow.hidden {
+#simulatorSetting.hidden, #questionsdiv.hidden , #leftWindow.hidden {
   opacity: 0;
   visibility: hidden;
   transition-property: opacity, visibility, height;

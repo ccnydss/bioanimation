@@ -157,6 +157,10 @@ class SimulatorDOM {
     var newCanWidth = this.m_simulator.elt.clientWidth;
     var newCanHeight = this.m_simulator.elt.clientHeight;
 
+    if (this.m_canvas_in_leftbar) {
+      newCanHeight = 0.75 * newCanWidth;
+    }
+
     if (width, height) {
       newCanWidth = width;
       newCanHeight = height;
