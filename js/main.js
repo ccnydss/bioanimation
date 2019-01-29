@@ -1,3 +1,22 @@
+// Browser Checking
+try {
+  var mainSim = new Simulator();
+}
+catch(error) {
+  if(error) {
+    document.getElementsByTagName('body')[0].style.backgroundColor = '#ecf0f1';
+    document.getElementById('browserDetection').style.display = '';
+    document.getElementById('containerHeader').style.display = 'none';
+    document.getElementById('root').style.display = 'none';
+    document.getElementById('root').innerHTML = '';
+  }
+} finally {
+  // cleanup
+  // document.write("<script ...src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>");
+  // console.log('not IE')
+}
+
+
 var mainSim = new Simulator();
 var graph;
 var animationSequencer;
@@ -24,6 +43,7 @@ function setup() {
 
   mainSim.m_dom.m_sim_controls.create();
   mainSim.m_nernst_eq.start();
+  mainSim.renderUI('NernstEqn', true);
 
   //Only show one particle at the beginning
   disableInputForParticle("Cl");

@@ -128,6 +128,7 @@ Simulation Equation & Setting layer
 
 #simulatorInputContainer {
   justify-content: space-between;
+  padding: 10px;
 }
 
 #equationContainer {
@@ -139,10 +140,6 @@ Simulation Equation & Setting layer
   display: flex;
   flex-direction: column;
   height: 35%;
-}
-
-#simulatorInputContainer {
-  padding: 10px;
 }
 
 #equationContainer.fullsize {
@@ -160,7 +157,7 @@ Simulation Equation & Setting layer
   justify-content: center;
   background-color: #60a3bc;
   height: 20px;
-    padding: 5px;
+  padding: 5px;
 }
 
 #hidebar:hover {
@@ -205,10 +202,10 @@ Simulation Equation & Setting layer
   transition-duration: 0s, .5s;
 }
 
-#leftWindow {
+/* #leftWindow {
   width: 100%;
   height: 100%;
-}
+} */
 
 #simulatorSetting.hidden, #questionsdiv.hidden, #leftWindow.hidden {
   opacity: 0;
@@ -623,7 +620,7 @@ color: white;
 .last {
   border-style: solid;
   border-color: white;
-    border-width: 0 1px 1px 0;
+  border-width: 0 1px 1px 0;
 }
 
 #pauseButton {
@@ -636,4 +633,102 @@ color: white;
 
 .control input:disabled, button:disabled {
   cursor: not-allowed;
+}
+
+#browserDetection {
+  height: 100%;
+  width: 100%;
+  background-color: #ecf0f1;
+  flex-direction: column;
+}
+
+#browserDetection section:first-child {
+  height: 40%;
+}
+#browserDetection section:last-child {
+  height: 60%;
+  background-color: #ecf0f1;
+}
+
+
+#browserDetectionText {
+  color:#c0392b;
+  padding-right: 12px;
+  font-style: normal;
+}
+
+#browserDetection section div:first-child {
+  height: 30%;
+  color: #2c3e50;
+  font-size: 50px;
+}
+
+#browserDetection section div:last-child {
+  height: 30%;
+  color: #e74c3c;
+  font-size: 40px;
+font-weight: bold;
+}
+
+@media only screen and (max-width: 1060px) {
+  #browserDetection section div:first-child {
+    font-size: 40px;
+  }
+  #browserDetection section div:last-child {
+    font-size: 30px;
+  }
+}
+@media only screen and (max-width: 860px) {
+  #browserDetection section div:first-child {
+    font-size: 30px;
+  }
+  #browserDetection section div:last-child {
+    font-size: 20px;
+  }
+}
+@media only screen and (max-width: 615px) {
+  #browserDetection section div:first-child {
+    height: 20%;
+    font-size: 17px;
+  }
+  #browserDetection section div:last-child {
+    height: 10%;
+    font-size: 15px;
+  }
+  #browserDetectionTable > i {
+    font-size: 15px;
+  }
+}
+
+
+#browserDetection section table {
+    font-size: 20px;
+    color: black;
+}
+
+#browserDetectionTable {
+  height:80%;
+}
+
+#curBrowser {
+  background-color: #c0392b;
+  color: white !important;
+}
+
+.center {
+  justify-content: center;
+}
+
+code {
+  white-space: pre;
+  font-family: Consolas, Courier New, monospace;
+}
+
+.fa-download {
+  padding-right: 5px;
+}
+
+/* p5js create this by default... it causes a bug in IE */
+#defaultCanvas0 {
+  display: none;
 }
