@@ -49,37 +49,10 @@ class EquationResult {
         this.table[row].elt.classList.add(enableColor);
         this.table[row].elt.classList.remove(disableColor);
       }
-
-      console.log("upating", this.table[row]);
     }
 
     this.table[type].elt.classList.remove(thisDisable);
     this.table[type].elt.classList.add(thisEnable);
-
-
-    // if (type == "Net") {
-    //   for (var row in this.table) {
-    //     var enableColor = row.toLowerCase() + "-bg";
-    //     var disableColor = row.toLowerCase() + "-disabled";
-    //
-    //     this.table[row].removeClass(disableColor);
-    //     this.table[row].addClass(enableColor);
-    //     console.log("updating all", row);
-    //   }
-    // } else {
-    //   for (var row in this.table) {
-    //     var enableColor = row.toLowerCase() + "-bg";
-    //     var disableColor = row.toLowerCase() + "-disabled";
-    //
-    //     console.log("updating in nernst", type, this.table[row]);
-    //
-    //     this.table[row].removeClass(enableColor);
-    //     this.table[row].addClass(disableColor);
-    //   }
-    //
-    //   this.table[type].removeClass(type.toLowerCase() + "-disabled");
-    //   this.table[type].addClass(type.toLowerCase() + "-bg");
-    // }
   }
 
   setAnswer(answer, type) {

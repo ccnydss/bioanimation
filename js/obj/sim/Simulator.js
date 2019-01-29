@@ -40,8 +40,6 @@ class Simulator {
     var W_key = 87;
     var S_key = 83;
 
-    console.log("Key input ", keyCode);
-
     switch (keyCode) {
       case spacebar:
       this.pause();
@@ -81,10 +79,8 @@ class Simulator {
       case "simulatorSetting":
       if (mode) {
         document.getElementById('simulatorSetting').classList.remove("hidden");
-        // document.getElementById('simulatorSetting').style.display = "block";
       } else {
         document.getElementById('simulatorSetting').classList.add("hidden");
-        // document.getElementById('simulatorSetting').style.display = "none";
       }
       break;
 
@@ -122,10 +118,8 @@ class Simulator {
       case "leftWindow":
       if (mode) {
         document.getElementById('leftWindow').classList.remove("hidden");
-        // document.getElementById('leftWindow').style.display = "block";
       } else {
         document.getElementById('leftWindow').classList.add("hidden");
-        // document.getElementById('leftWindow').style.display = "none";
       };
       break;
 

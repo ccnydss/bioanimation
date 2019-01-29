@@ -28,7 +28,6 @@ class Particle {
 
   move(container_context) {
     // Pass in a Container object the particle should be constrained inside.
-
     if (this.collidable) {
       this.bounce(container_context);
     } else {
@@ -40,6 +39,11 @@ class Particle {
     }
 
     this.draw();
+  }
+
+  moveCenter() {
+    this.center.x += this.m_velocity.x;
+    this.center.y += this.m_velocity.y;
   }
 
   bounce(container) {
@@ -133,11 +137,6 @@ class Particle {
   nextPastLeft(bl) {
     // Will particle cross left wall in next frame?
     return this.center.x + this.m_velocity.x - this.r < bl.x;
-  }
-
-  moveCenter() {
-    this.center.x += this.m_velocity.x;
-    this.center.y += this.m_velocity.y;
   }
 
   setDisplay(disp) {

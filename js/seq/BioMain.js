@@ -106,6 +106,13 @@ class BioMain extends Sequence {
     );
 
     s.channels = createChannels(s.membrane, mainSim.numParticleTypes());
+
+    s.containers.outside.draw(true);
+    s.containers.inside.draw(true);
+    s.membrane.draw();
+    for (const channel of s.channels) {
+      channel.draw();
+    }
   }
 
   setContainerDisplays(particleType, boolValue) {

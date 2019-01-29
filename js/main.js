@@ -16,8 +16,6 @@ catch(error) {
   // console.log('not IE')
 }
 
-
-var mainSim = new Simulator();
 var graph;
 var animationSequencer;
 
