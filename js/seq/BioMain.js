@@ -3,7 +3,7 @@ class BioMain extends Sequence {
     super();
 
     this.MEMBRANE_WIDTH = 25;
-    this.MAX_PARTICLES = 25;
+    this.MAX_PARTICLES = 500;
     this.MIN_PARTICLES = 1;
 
     // Initial state for the animation
