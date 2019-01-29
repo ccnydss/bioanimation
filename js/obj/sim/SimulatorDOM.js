@@ -53,12 +53,13 @@ class SimulatorDOM {
     this.m_settingTable = ec("div", 'setting', 'simulatorSetting', { className: 'setting' });
     this.m_sim.renderUI("setting", false);
 
+    var temperatureIcon = '<i class="fas fa-thermometer-half"></i>';
     this.makeTable (
       "NernstSetting",
       "setting",
-      ["T"],
+      [temperatureIcon],
       ["Enter Temperature..."],
-      ["K"],
+      ["℃"],
       [mainSim.m_settings.temperature]
     );
 

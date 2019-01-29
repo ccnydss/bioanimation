@@ -12,16 +12,16 @@ class Container extends Rectangle {
     };
   }
 
-  draw(drawOnce=false) {
+  draw( moveParticle=true ) {
     super.draw();
     this.label.draw();
 
     for (var ptype in this.particles) {
       for ( const p of this.particles[ptype] ) {
         p.color();
-        
-        if (drawOnce) p.draw();
-        else p.move(this);
+
+        if (moveParticle) p.move(this);
+        else p.draw();
       }
     }
   }

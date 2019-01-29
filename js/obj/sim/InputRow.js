@@ -47,6 +47,7 @@ class InputRow {
     this.dom.input.input(this.changeNumParticles.bind(this));
     this.dom.input.attribute("data-location", particleLocation);
     this.dom.input.attribute("data-ptype", particleType);
+    this.dom.input.attribute("type", "text");
     this.dom.input.mouseClicked(this.highLightInput);
 
     // Create the plus button and minus button
@@ -132,6 +133,7 @@ class InputRow {
       updatedAmount < 0
     ) {
       alert("Please enter valid input.");
+      evt.target.value = "";
       return;
     } else if (updatedAmount > MaxParticles) {
       // If the amount entered is greater than the maximum, force it to maximum and alert user
