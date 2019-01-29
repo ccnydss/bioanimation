@@ -90,7 +90,7 @@ class SimulatorDOM {
     this.m_simCanvasPause.style('display', 'none');
 
     this.m_simCanvasFrame = ec("div", 'simCanvasFrame', 'sim')
-    this.m_simCanvasPauseIcon = ec("div", 'simCanvasPauseIcon', 'simCanvasFrame', { content: "❚❚"})
+    this.m_simCanvasPauseIcon = ec("div", 'simCanvasPauseIcon', 'simCanvasFrame', { content: '<i class="fas fa-pause"></i>' })
     document.getElementById('simCanvasFrame').style.display = "none";
     document.getElementById("simCanvasPauseIcon").onclick = function() {mainSim.pause()};
 

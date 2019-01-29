@@ -26,11 +26,11 @@ class Simulator {
     if (!this.m_pause) {
       loop();
       document.getElementById('simCanvasPause').style.display = "none";
-      document.getElementById('simCanvasPauseIcon').innerText = "❚❚";
+      document.getElementById('simCanvasPauseIcon').innerHTML = '<i class="fas fa-pause"></i>';
     } else {
       noLoop();
       document.getElementById('simCanvasPause').style.display = "flex";
-      document.getElementById('simCanvasPauseIcon').innerText = "►";
+      document.getElementById('simCanvasPauseIcon').innerHTML = '<i class="fas fa-play"></i>';
     }
   }
 
