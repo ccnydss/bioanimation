@@ -59,7 +59,7 @@ class SimulatorDOM {
       "setting",
       [temperatureIcon],
       ["Enter Temperature..."],
-      ["℃"],
+      ["K"],
       [mainSim.m_settings.temperature]
     );
 
