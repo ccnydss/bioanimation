@@ -1,0 +1,57 @@
+.na-color {
+  color: rgb(245, 206, 40);
+}
+
+.na-bg {
+  background-color: rgb(245, 206, 40);
+}
+
+.na-disabled {
+  color: #999;
+  background-color: rgb(178, 155, 52);
+}
+
+/* ************************************************************************** */
+
+.cl-color {
+  color: rgb(205, 92, 92);
+}
+
+.cl-bg {
+  background-color: rgb(205, 92, 92);
+}
+
+.cl-disabled {
+  color: #999;
+  background-color: rgb(143, 86, 86);
+}
+
+/* ************************************************************************** */
+
+.k-color {
+  color: rgb(53, 178, 53);
+}
+
+.k-bg {
+  background-color: rgb(53, 178, 53);
+}
+
+.k-disabled {
+  color: #999;
+  background-color: rgb(61, 92, 61);
+}
+
+/* ************************************************************************** */
+
+.net-color {
+  color: #74b9ff;
+}
+
+.net-bg {
+  background-color: #74b9ff;
+}
+
+.net-disabled {
+  color: #999;
+  background-color: rgb(56, 102, 148);
+}

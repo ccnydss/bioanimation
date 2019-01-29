@@ -80,18 +80,24 @@ class Simulator {
 
       case "simulatorSetting":
       if (mode) {
-      document.getElementById('simulatorSetting').classList.remove("hidden")
-      } else { document.getElementById('simulatorSetting').classList.add("hidden")}
+        document.getElementById('simulatorSetting').classList.remove("hidden");
+        // document.getElementById('simulatorSetting').style.display = "block";
+      } else {
+        document.getElementById('simulatorSetting').classList.add("hidden");
+        // document.getElementById('simulatorSetting').style.display = "none";
+      }
       break;
 
       case "questionsdiv":
       if (mode) {
-      document.getElementById('questionsdiv').classList.remove("hidden")
-      document.getElementById('leftbar').classList.remove("hidden")
-      document.getElementById('equationContainer').classList.remove("fullsize")
-      } else { document.getElementById('questionsdiv').classList.add("hidden")
-      document.getElementById('leftbar').classList.add("hidden")
-      document.getElementById('equationContainer').classList.add("fullsize")}
+        document.getElementById('questionsdiv').classList.remove("hidden")
+        document.getElementById('leftbar').classList.remove("hidden")
+        document.getElementById('equationContainer').classList.remove("fullsize")
+      } else {
+        document.getElementById('questionsdiv').classList.add("hidden")
+        document.getElementById('leftbar').classList.add("hidden")
+        document.getElementById('equationContainer').classList.add("fullsize")
+    }
 
       break;
 
@@ -116,8 +122,10 @@ class Simulator {
       case "leftWindow":
       if (mode) {
         document.getElementById('leftWindow').classList.remove("hidden");
+        // document.getElementById('leftWindow').style.display = "block";
       } else {
         document.getElementById('leftWindow').classList.add("hidden");
+        // document.getElementById('leftWindow').style.display = "none";
       };
       break;
 
