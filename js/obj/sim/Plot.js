@@ -11,13 +11,19 @@ Chart.plugins.register({
 class Plot {
   constructor() {
     this.m_time = 0;
-    this.m_max_x = 31;
+
+    this.multiple = 1;
+    this.m_max_x = 5 + 1;
+    this.m_plot_gap = 1
 
     this.m_max_y_default = 0.10/110*100
     this.m_max_y = this.m_max_y_default; //*1000 is to convert V to mV;
-    this.m_interval = 1000; // 1 second
+    this.m_interval = 1000/this.multiple; // 1 second
 
     this.m_data_chart;
+    this.m_data_chart_clone = [];
+    this.m_data_chart_clone_gap = [];
+
     this.m_data_chart_global_voltage = [];
 
     this.initialize();
@@ -123,11 +129,12 @@ class Plot {
         this.updateData(i, this.m_time, voltage*1000); //*1000 is to convert V to mV
       }
 
-      this.m_time++;
+      this.m_time=this.m_time+1/this.multiple;
 
-      if (this.m_time >= this.m_max_x) {
-        this.m_time = this.m_max_x;
+      if (this.m_time > this.m_max_x - 1) {
+        this.m_time = 0;
       }
+
     }
   }
 
@@ -137,32 +144,70 @@ class Plot {
 
   updateData(index, x, y) {
     // Input: chartjs object, int, int, int, int
-    var dataset = this.m_data_chart.data.datasets[index].data;
+   var dataset = this.m_data_chart.data.datasets[index].data;
+
+         //Copy the complete plot from clone
 
     var newData = {
       x: x,
       y: y
     }
 
+        // console.log(dataset)
+
     if(!this.m_data_chart_global_voltage[index])
     this.m_data_chart_global_voltage[index] = [];
 
-    this.m_data_chart_global_voltage[index].push(y)
+    if(!this.m_data_chart_clone_gap[index])
+    this.m_data_chart_clone_gap[index] = 0
 
-    dataset.push(newData);
-    if (dataset.length >= this.m_max_x + 1) {
-      dataset.shift(); //Remove the first number if the plot is full
-      this.m_data_chart_global_voltage[index].shift()
+    this.m_data_chart_global_voltage[index][x*this.multiple] = y
 
-      dataset.forEach(function(element) {
-        element.x--
-      });
+    dataset[x*this.multiple] = newData
+
+    var prevValue;
+
+    var plotLength = this.m_max_x - this.m_plot_gap
+
+    var prevIndex;
+              // console.log('plotLength '+(dataset.length-1)/this.multiple+' plotLength '+plotLength)
+        if (dataset.length/this.multiple >= plotLength) {
+
+      for (let i = 0;i<this.multiple;i++) {
+
+        var prevIndex = this.m_data_chart_clone_gap[index];
+
+        prevValue = this.m_data_chart_global_voltage[index][prevIndex];
+
+          console.log('x '+x+' prev '+prevIndex)
+        this.m_data_chart_global_voltage[index][prevIndex] = NaN
+
+        dataset[prevIndex] = {
+          x: prevIndex,
+          y: NaN
+        }
+      }
+
+      this.m_data_chart_clone_gap[index]++
+      if(this.m_data_chart_clone_gap[index]>this.m_max_x-1) this.m_data_chart_clone_gap[index]=0
 
     }
+    // if (dataset.length/this.multiple >= this.m_max_x + 1) {
+    //   // dataset.pop(); //Remove the last number if the plot is full
+    //   // this.m_data_chart_global_voltage[index].pop()
+    //
+    //   var target = this
+    //   dataset.forEach(function(element) {
+    //     element.x=element.x + 1/target.multiple
+    //   });
+    //
+    // }
 
     this.m_data_chart.data.datasets[index].data = dataset;
 
-    var maxVoltage = this.m_data_chart_global_voltage[index].max()/1000 //To mV
+    var maxVoltage = Math.abs(this.m_data_chart_global_voltage[index].max()/1000) //To mV
+
+      // console.log(maxVoltage)
         //Resize y-axis automatically
         if(this.m_max_y<maxVoltage) {
           this.m_max_y = maxVoltage
@@ -175,7 +220,18 @@ class Plot {
           this.resizeAxis();
         }
 
+        console.log(this.m_data_chart.data.datasets[index].data);
     this.m_data_chart.update();
+
+     prevIndex = ((prevIndex)>0) ? prevIndex-1 : 0
+
+    console.log(prevIndex)
+    dataset[prevIndex] = {
+      x: prevIndex,
+      y: prevValue
+    }
+        this.m_data_chart.data.datasets[index].data = dataset;
+
   }
 
   resizeAxis() {
