@@ -16,15 +16,15 @@ class EquationResult {
     this.display = elementCreator("table", 'answer', 'equationContainer', { className: 'answer' });
 
     this.table.Na = elementCreator("tr", 'answer-Na', 'answer', { className: 'answer-row na-bg' });
-    this.td0 = elementCreator("td", '', this.table.Na, { content: 'Na' });
+    this.td0 = elementCreator("td", '', this.table.Na, { content: 'Na<sup>+</sup>' });
     this.td1 = elementCreator("td", '', this.table.Na, { content: this.values.Na });
 
     this.table.Cl = elementCreator("tr", 'answer-Cl', 'answer', { className: 'answer-row cl-disabled' });
-    this.td2 = elementCreator("td", '', this.table.Cl, { content: 'Cl' });
+    this.td2 = elementCreator("td", '', this.table.Cl, { content: 'Cl<sup>-</sup>' });
     this.td3 = elementCreator("td", '', this.table.Cl, { content: this.values.Cl });
 
     this.table.K = elementCreator("tr", 'answer-K', 'answer', { className: 'answer-row k-disabled' });
-    this.td4 = elementCreator("td", '', this.table.K, { content: 'K' });
+    this.td4 = elementCreator("td", '', this.table.K, { content: 'K<sup>+</sup>' });
     this.td5 = elementCreator("td", '', this.table.K, { content: this.values.K });
 
     this.table.Net = elementCreator("tr", 'answer-Net', 'answer', { className: 'answer-row net-disabled' });
