@@ -33,7 +33,7 @@ class SimulatorDOM {
     this.m_sim.renderUI("leftbar", true);
 
     // Div to contain the equation
-    this.m_equationContainer = ec("div", 'equationContainer', 'firstBox');
+    this.m_equationContainer = ec("div", 'equationContainer', 'firstBox', { className: 'bottom-scroll' });
 
     // The right sidebar for displaying questions.
     this.m_hideBar = ec("div", 'hidebar', 'equationContainer', { mousePressed: this.hideQuestion.bind(this) });

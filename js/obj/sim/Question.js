@@ -37,11 +37,11 @@ class Question {
       var ec = elementCreator;
 
       // Create the div to actually contain the questions.
-      this.m_container = ec("div", 'questionsdiv', 'leftbar');
+      this.m_container = ec("div", 'questionsdiv', 'leftbar', { className: "questions-scroll"});
       this.m_title = ec("h3", 'questionTitle', 'questionsdiv', { content: this.m_header })
 
       var questionsText = "Calculate the equilibrium potential for Na and K using the Nernst equation for the following conditions";
-      this.m_text = ec("p", 'q1', 'questionsdiv', { className: 'questions', content: questionsText });
+      this.m_text = ec("p", 'q1', 'questionsdiv', { className: 'questions questions-scroll', content: questionsText });
 
       this.m_control = ec("div", 'questionControl', 'questionsdiv', { className: 'container'} );
       this.m_prev = ec("button", 'questionPrev', 'questionControl', { content: 'Previous' });

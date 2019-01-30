@@ -1,0 +1,37 @@
+.questions-scroll {
+  scrollbar-color: #488483 #88bdbc;
+  scrollbar-width: thin;
+}
+
+.questions-scroll::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.questions-scroll::-webkit-scrollbar-track {
+  background-color: #88bdbc;
+}
+
+.questions-scroll::-webkit-scrollbar-thumb {
+  background-color: #488483;
+  -webkit-border-radius: 10px;
+}
+
+.bottom-scroll {
+  scrollbar-color: #2a2722 #4f4a41;
+  scrollbar-width: thin;
+}
+
+.bottom-scroll::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.bottom-scroll::-webkit-scrollbar-track {
+  background-color: #4f4a41;
+}
+
+.bottom-scroll::-webkit-scrollbar-thumb {
+  background-color: #2a2722;
+  -webkit-border-radius: 10px;
+}

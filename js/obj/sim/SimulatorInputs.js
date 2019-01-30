@@ -26,7 +26,7 @@ class SimulatorInputs {
     var ec = elementCreator;
 
     // Div to contain the simulatorInput
-    this.m_simulatorInputContainer = ec("div", 'simulatorInputContainer', 'secondBox');
+    this.m_simulatorInputContainer = ec("div", 'simulatorInputContainer', 'secondBox', { className: 'bottom-scroll' });
     this.m_simulatorInput = ec("div", 'simInput', 'simulatorInputContainer');
 
     //Control UI ----------------------------

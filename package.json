@@ -6,7 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
-    "dist": "electron-builder"
+    "dist": "electron-builder",
+    "dist-win": "electron-builder build --win",
+    "dist-lin": "electron-builder build --linux",
+    "dist-all": "electron-builder build -mwl"
   },
   "repository": {
     "type": "git",
@@ -25,7 +28,8 @@
   "build": {
     "appId": "com.ccnydss.bioanimation",
     "mac": {
-      "category": "public.app-category.education"
+      "category": "public.app-category.education",
+      "target": "tar.gz"
     },
     "win": {
       "target": "nsis"
