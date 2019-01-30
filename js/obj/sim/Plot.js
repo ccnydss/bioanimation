@@ -13,17 +13,17 @@ class Plot {
     this.m_time = 0;
 
     this.multiple = 4; //can only set to non prime number... such as 1 2 4 10
-    this.m_max_x = 5 + 1;
+    this.m_max_x = 30 + 1;
 
     this.m_max_y_default = 0.10/130*100
     this.m_max_y = this.m_max_y_default; //*1000 is to convert V to mV;
     this.m_interval = 1000/this.multiple; // 1 second
 
     this.m_data_chart;
-    this.m_data_chart_clone = [];
-    this.m_data_chart_clone_gap = [];
 
     this.m_data_chart_global_voltage = [];
+    this.m_point_color_leading = ['#e74c3c','#f1c40f','#2c3e50','#8e44ad']
+    this.m_point_color_default = [Na.color, Cl.color, K.color, 'gray']
 
     this.initialize();
     setInterval(this.plot.bind(this), this.m_interval);
@@ -40,40 +40,50 @@ class Plot {
             label: 'Na',
             fill: false,
             data: [],
-            pointRadius: 0,
-            borderColor: Na.color,
-            backgroundColor: Na.color,
+            pointRadius: 1,
+            borderColor: this.m_point_color_default[0],
+            backgroundColor: this.m_point_color_default[0],
+            pointBorderColor: [],
+            pointBackgroundColor: [],
           },
           {
             label: 'Cl',
             fill: false,
             data: [],
-            pointRadius: 0,
-            borderColor: Cl.color,
-            backgroundColor: Cl.color,
+            pointRadius: 1,
+            borderColor: this.m_point_color_default[1],
+            backgroundColor: this.m_point_color_default[1],
+            pointBorderColor: [],
+            pointBackgroundColor: [],
             hidden: true,
           },
           {
             label: 'K',
             fill: false,
             data: [],
-            pointRadius: 0,
-            borderColor: K.color,
-            backgroundColor: K.color,
+            pointRadius: 1,
+            borderColor: this.m_point_color_default[2],
+            backgroundColor: this.m_point_color_default[2],
+            pointBorderColor: [],
+            pointBackgroundColor: [],
             hidden: true,
           },
           {
             label: 'Net',
             fill: false,
             data: [],
-            pointRadius: 0,
+            pointRadius: 1,
             borderColor: 'gray',
             backgroundColor: 'gray',
+            pointBorderColor: [],
+            pointBackgroundColor: [],
             hidden: true,
           }
         ]
       },
     });
+
+
 
     this.resizeAxis();
   }
@@ -138,14 +148,16 @@ class Plot {
   }
 
   hidePlot(legendIndex, value) {
+    // Input1: int
+    // Input2: Boolean
     this.m_data_chart.getDatasetMeta(legendIndex).hidden = value;
   }
 
   updateData(index, x, y) {
-    // Input: chartjs object, int, int, int, int
-   var dataset = this.m_data_chart.data.datasets[index].data;
-
-         //Copy the complete plot from clone
+    // Input1: int
+    // Input2: int
+    // Input3: int
+    var dataset = this.m_data_chart.data.datasets[index].data;
 
     var newData = {
       x: x,
@@ -160,33 +172,57 @@ class Plot {
 
     dataset[x*this.multiple] = newData
 
+    //Create the gap
+    for (let i = 0;i<round((this.m_max_x-1)/5);i++) {
 
-    if (dataset.length/this.multiple >= this.m_max_x + 1) {
-      // dataset.pop(); //Remove the last number if the plot is full
-      // this.m_data_chart_global_voltage[index].pop()
-
-      var target = this
-      dataset.forEach(function(element) {
-        element.x=element.x + 1/target.multiple
-      });
-
-    }
-
-    this.m_data_chart.data.datasets[index].data = dataset;
-
-    var maxVoltage = 0;
-    if(mainSim.simMode() == "Nernst") {
-      maxVoltage = Math.abs(this.m_data_chart_global_voltage[index].max()/1000) //To mV
-    } else {
-      for(let i = 0; i < 4; i++) {
-        var localMax = Math.abs(this.m_data_chart_global_voltage[i].max()/1000) //To mV
-
-        maxVoltage = (localMax>maxVoltage) ? localMax : maxVoltage;
+      if ( (x+1/this.multiple*(i+1)) > this.m_max_x - 1) {
+        var nextData = {
+          x: (this.multiple-i),
+          y: NaN
+        }
+        var nextIndex = (this.multiple-i);
+      } else {
+        var nextData = {
+          x: x+1/this.multiple*(i+1),
+          y: NaN
+        }
+        var nextIndex = x*this.multiple+1+i;
       }
+      dataset[nextIndex] = nextData
     }
 
-      // console.log(maxVoltage)
-        //Resize y-axis automatically
+
+    //Change the leading point color
+      this.m_data_chart.data.datasets[index].pointBackgroundColor[x*this.multiple] = this.m_point_color_leading[index];
+      this.m_data_chart.data.datasets[index].pointBorderColor[x*this.multiple] = this.m_point_color_leading[index];
+
+      var prevIndex = (x>0) ? x*this.multiple-1 : (this.m_max_x - 1)*this.multiple
+      this.m_data_chart.data.datasets[index].pointBackgroundColor[prevIndex] =  this.m_point_color_default[index];
+      this.m_data_chart.data.datasets[index].pointBorderColor[prevIndex] =  this.m_point_color_default[index];
+
+
+    this.checkYaxis(index);
+
+
+        this.m_data_chart.data.datasets[index].data = dataset;
+        this.m_data_chart.data.datasets[index].data;
+    this.m_data_chart.update();
+
+
+  }
+
+  checkYaxis(index) {
+        var maxVoltage = 0;
+        if(mainSim.simMode() == "Nernst") {
+          maxVoltage = Math.abs(this.m_data_chart_global_voltage[index].max()/1000) //To mV
+        } else {
+          for(let i = 0; i < 4; i++) {
+            var localMax = Math.abs(this.m_data_chart_global_voltage[i].max()/1000) //To mV
+
+            maxVoltage = (localMax>maxVoltage) ? localMax : maxVoltage;
+          }
+        }
+
         if(this.m_max_y<maxVoltage) {
           this.m_max_y = maxVoltage
           this.resizeAxis();
@@ -197,15 +233,7 @@ class Plot {
           this.m_max_y=this.m_max_y_default
           this.resizeAxis();
         }
-
-        console.log(maxVoltage)
-
-        console.log(this.m_data_chart.data.datasets[index].data)
-    this.m_data_chart.update();
-
-
   }
-
   resizeAxis() {
     //Resize y-axis automatically
     this.m_data_chart.options = {
