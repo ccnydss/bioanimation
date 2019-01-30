@@ -135,18 +135,20 @@ Simulation Equation & Setting layer
   justify-content: space-between;
   padding: 10px;
   overflow: auto;
+  height: 35%;
 }
 
 #equationContainer {
   overflow-y: auto;
   overflow-x: hidden;
+  height: calc(35% - 20px);
+  justify-content: space-between;
 }
 
 #simulatorInputContainer, #equationContainer {
   background-color: #4F4A41;
   display: flex;
   flex-direction: column;
-  height: 35%;
 }
 
 #equationContainer.fullsize {
@@ -184,6 +186,7 @@ Simulation Equation & Setting layer
 
 #equationdiv {
   padding: 5px;
+  margin: 10px 0;
   background-color: #4F4A41;
   display:flex;
   flex-shrink: 0;
@@ -327,7 +330,8 @@ Simulation Equation & Setting layer
   background-color: #4F4A41;
   display: flex;
   flex-direction: row;
-  flex: 1;
+  flex: 1 1 auto;
+  flex-shrink: 0;
 }
 
 .can {
@@ -464,7 +468,7 @@ color: white;
   background-color: #4F4A41;
   display: flex;
   justify-content: center;
-  flex: 0;
+  flex: 0 0 auto;
 }
 
 #NernstButton, #GoldmanButton, #equilibrateButton {
@@ -753,4 +757,8 @@ code {
     font-size: 52px;
     flex-direction: column;
     background-color: #2c3e50;
+}
+
+.MJXc-display {
+  margin: 0 !important;
 }

@@ -32,12 +32,12 @@ class SimulatorDOM {
     this.m_leftBox = ec("div", 'leftbar', 'firstBox');
     this.m_sim.renderUI("leftbar", true);
 
+    // Drawer button to go up
+    this.m_hideBar = ec("div", 'hidebar', 'firstBox', { mousePressed: this.hideQuestion.bind(this) });
+    this.m_hideBarText = ec("div", 'hidebarText', 'hidebar', { content: '<i class="fas fa-arrow-up"></i> Settings' });
+
     // Div to contain the equation
     this.m_equationContainer = ec("div", 'equationContainer', 'firstBox', { className: 'bottom-scroll' });
-
-    // The right sidebar for displaying questions.
-    this.m_hideBar = ec("div", 'hidebar', 'equationContainer', { mousePressed: this.hideQuestion.bind(this) });
-    this.m_hideBarText = ec("div", 'hidebarText', 'hidebar', { content: '<i class="fas fa-arrow-up"></i> Settings' });
 
     this.m_equation = ec("div", 'equationdiv', 'equationContainer');
     this.m_equation.child('NernstEqn');   // Attach nernst equation LaTeX, defined in sketch.html with id 'NernstEqn'
