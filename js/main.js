@@ -20,6 +20,16 @@ var graph;
 var animationSequencer;
 
 function setup() {
+
+  if(getOS()== 'iOS' ||getOS()== 'Android' ) {
+      document.getElementsByTagName('body')[0].style.backgroundColor = '#ecf0f1';
+      document.getElementById('platformDetection').style.display = '';
+      document.getElementById('containerHeader').style.display = 'none';
+      document.getElementById('root').style.display = 'none';
+      document.getElementById('root').innerHTML = '';
+      return;
+  }
+
   noFill();
 
   // Defines the simulator's HTML DOM layout as well as "canWidth", "canHeight"
