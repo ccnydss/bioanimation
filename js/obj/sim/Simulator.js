@@ -176,6 +176,7 @@ class Simulator {
         this.m_dom.m_settings[eventID].value(updatedAmount);
       } else {
         alert("Max temperature is 40 C");
+        this.m_settings.temperature = 313.15;
         this.m_dom.m_settings[eventID].value(313.15);
       }
     }
