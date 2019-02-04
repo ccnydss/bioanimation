@@ -10,7 +10,7 @@ function startEquilibrate(evt) {
 
 function selectParticle(pArray, tPoint) {
   // Select the particle that is closest to the channel
-  var minimumDistance = 1000000;
+  var minimumDistance = pArray[0].center.distance(tPoint);
   var minPoint = 0;
 
   for (var i = 0; i < pArray.length; i++) {

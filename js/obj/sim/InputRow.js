@@ -40,15 +40,33 @@ class InputRow {
     });
 
     // Create the text input for number of particles
-    this.dom.input = elementCreator("input", id, table.td1, {
-      className: 'qoptions'
-    });
+    // this.dom.input = elementCreator("input", id, table.td1, {
+    //   className: 'qoptions'
+    // });
+
+    this.dom.input = createInput("");
+    this.dom.input.id(id);
+    this.dom.input.class('qoptions');
+
     this.dom.input.value(this.m_value);
     this.dom.input.input(this.changeNumParticles.bind(this));
     this.dom.input.attribute("data-location", particleLocation);
     this.dom.input.attribute("data-ptype", particleType);
     this.dom.input.attribute("type", "text");
     this.dom.input.mouseClicked(this.highLightInput);
+    this.dom.input.parent(table.td1);
+
+
+    // this.dom.input = document.createElement("INPUT");
+    // this.dom.input.setAttribute("id", id);
+    // this.dom.input.setAttribute("class", "qoptions");
+    // this.dom.input.setAttribute("type", "text");
+    // this.dom.input.setAttribute("data-ptype", particleType);
+    // this.dom.input.setAttribute("data-location", particleLocation);
+    // this.dom.input.value = this.m_value;
+    // this.dom.input.oninput = this.changeNumParticles.bind(this);
+    // this.dom.input.onclick = this.highLightInput;
+    // table.td1.elt.appendChild(this.dom.input);
 
     // Create the plus button and minus button
     var colorClass = particleType.toLowerCase() + "-bg";
@@ -113,6 +131,8 @@ class InputRow {
   changeNumParticles(evt, updatedAmount=evt.target.value) {
     // input: the element that triggered the event (Input buttons);
     var eventID = evt.target.id;
+
+    console.log("t", this, evt.target.value);
 
     var particleType = evt.target.attributes['data-ptype'].value;
     var particleLocation = evt.target.attributes['data-location'].value;
