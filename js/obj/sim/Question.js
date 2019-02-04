@@ -28,7 +28,8 @@ class Question {
     document.getElementById("q1").innerHTML = this.m_question_list[mode][0]
     if(this.m_jumpDiv) {
       this.refresh(0)
-      this.focus(0)}
+      this.focus(0)
+    }
 
       this.checkDisable('prev')
     }
