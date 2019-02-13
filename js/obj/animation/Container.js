@@ -10,6 +10,11 @@ class Container extends Rectangle {
       "Cl" : [],
       "K" : []
     };
+    this.transfers = {
+      "Na" : [],
+      "Cl" : [],
+      "K" : []
+    };
   }
 
   draw( moveParticle=true ) {
@@ -22,6 +27,13 @@ class Container extends Rectangle {
 
         if (moveParticle) p.move(this);
         else p.draw();
+      }
+
+      for ( const t of this.transfers[ptype] ) {
+        t.color();
+
+        if (moveParticle) t.move(this);
+        else t.draw();
       }
     }
   }
@@ -43,7 +55,7 @@ class Container extends Rectangle {
     this.particles[type].splice(index, 1);
   }
 
-  createNewParticle(type) {
+  createNewParticle(type, coordinates) {
     var xRange = this.tr.x - this.tl.x - 100;
     var yRange = this.br.y - this.tr.y - 100;
 
@@ -53,12 +65,16 @@ class Container extends Rectangle {
 
     var velocity = createVector(velocities[x_vel], velocities[y_vel]);
 
-    // Get random location
-    var randomX = this.tl.x + particleMapper[type].diameter + (Math.floor(Math.random() * xRange));
-    var randomY = this.tl.y + particleMapper[type].diameter + (Math.floor(Math.random() * yRange));
+    if (coordinates == null) {
+      // Get random location
+      var randomX = this.tl.x + particleMapper[type].diameter + (Math.floor(Math.random() * xRange));
+      var randomY = this.tl.y + particleMapper[type].diameter + (Math.floor(Math.random() * yRange));
 
-    return new particleMapper[type](
-      new Point(randomX, randomY),
+      coordinates = new Point(randomX, randomY);
+    }
+
+    return new particleMapper[type] (
+      coordinates,
       velocity,
       true
     );

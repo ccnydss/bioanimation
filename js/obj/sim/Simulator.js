@@ -163,6 +163,11 @@ class Simulator {
     this.buttonModeSwitch();
   }
 
+  updateInputs(amount, particleID) {
+    this.m_dom.m_sim_controls.controls["outside"].rows[particleID].value(amount);
+    this.m_dom.m_sim_controls.controls["inside"].rows[particleID].value(amount);
+  }
+
   changeSimulatorSettings(evt) {
     // input: the element that triggered the event (Input buttons);
 
@@ -195,6 +200,15 @@ class Simulator {
 
   setAnswer(answer, type) {
     this.m_dom.m_equationResult.setAnswer(answer, type);
+  }
+
+  computeAll(selected) {
+    this.setAnswer(this.m_nernst_eq.result("Na"), "Na");
+    this.setAnswer(this.m_nernst_eq.result("K"), "K");
+    this.setAnswer(this.m_nernst_eq.result("Cl"), "Cl");
+    this.setAnswer(this.m_goldman_eq.result(), "Net");
+
+    this.m_dom.m_equationResult.setSelected(selected);
   }
 
   buttonModeSwitch() {

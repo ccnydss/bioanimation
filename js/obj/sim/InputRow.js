@@ -1,9 +1,10 @@
 class InputRow {
-  constructor(label, value, enabled, type, updateInputs) {
+  constructor(label, value, enabled, type, inputs) {
     this.m_label = label;
     this.m_value = value;
     this.m_enabled = enabled;
     this.m_type = type;
+    this.m_inputs = inputs;
 
     this.dom = {
       title: null,
@@ -20,8 +21,6 @@ class InputRow {
         minus: null
       }
     }
-
-    this.updateInputs = updateInputs;
   }
 
   create(parent, id, particleType, particleLocation) {
@@ -56,18 +55,6 @@ class InputRow {
     this.dom.input.mouseClicked(this.highLightInput);
     this.dom.input.parent(table.td1);
 
-
-    // this.dom.input = document.createElement("INPUT");
-    // this.dom.input.setAttribute("id", id);
-    // this.dom.input.setAttribute("class", "qoptions");
-    // this.dom.input.setAttribute("type", "text");
-    // this.dom.input.setAttribute("data-ptype", particleType);
-    // this.dom.input.setAttribute("data-location", particleLocation);
-    // this.dom.input.value = this.m_value;
-    // this.dom.input.oninput = this.changeNumParticles.bind(this);
-    // this.dom.input.onclick = this.highLightInput;
-    // table.td1.elt.appendChild(this.dom.input);
-
     // Create the plus button and minus button
     var colorClass = particleType.toLowerCase() + "-bg";
     buttons.plus = elementCreator("button", id, table.td2, {
@@ -90,7 +77,10 @@ class InputRow {
   }
 
   value(setter) {
-    if (setter == null) return this.m_value;
+    if (typeof setter === 'undefined') {
+      this.m_value = Number(this.m_value);
+      return this.m_value;
+    }
     else {
       this.m_value = setter;
       this.dom.input.value(setter);
@@ -129,16 +119,16 @@ class InputRow {
   }
 
   changeNumParticles(evt, updatedAmount=evt.target.value) {
+    // Called by the plus/minus buttons, and also the text field input
     // input: the element that triggered the event (Input buttons);
     var eventID = evt.target.id;
-
-    console.log("t", this, evt.target.value);
 
     var particleType = evt.target.attributes['data-ptype'].value;
     var particleLocation = evt.target.attributes['data-location'].value;
 
     var numParticles = animationSequencer.current().getNumParticles(particleLocation, particleType);
-    var MaxParticles = animationSequencer.current().MAX_PARTICLES;
+    var maxParticles = animationSequencer.current().MAX_PARTICLES;
+    var minParticles = animationSequencer.current().MIN_PARTICLES;
 
     if (!updatedAmount) {
       var symbol = evt.target.innerText;
@@ -149,34 +139,37 @@ class InputRow {
     // If the amount entered is invalid, alert user
     if (
       isNaN(updatedAmount) ||
-      Math.floor(updatedAmount) != updatedAmount ||
       updatedAmount < 0
     ) {
-      alert("Please enter valid input.");
-      evt.target.value = "";
+      alert("Please enter a valid number.");
+      evt.target.value = updatedAmount.slice(0, -1); // Erase the last character
       return;
-    } else if (updatedAmount > MaxParticles) {
+    } else if (updatedAmount > maxParticles) {
       // If the amount entered is greater than the maximum, force it to maximum and alert user
-
-      this.value(MaxParticles);
-      updatedAmount = MaxParticles;
-      alert("Maximum amount is " + MaxParticles + ".");
+      alert("Maximum amount is " + maxParticles + ".");
+      updatedAmount = maxParticles;
+    } else if (updatedAmount < minParticles) {
+      alert("Must have at least " + minParticles + " particle.");
+      updatedAmount = minParticles;
     }
 
-    var difference = Math.abs(updatedAmount - numParticles)
+    this.value(updatedAmount);
+    this.m_inputs.m_dom.m_sim.computeAll(particleType);
+
+    var updatedParticles = round(updatedAmount);
+
+    var difference = Math.abs(updatedParticles - numParticles)
 
     // If the amount entered is less than 0, increase the amount
-    if (updatedAmount > numParticles) {
+    if (updatedParticles > numParticles) {
       for (var i = 0; i < difference; i++) {
         animationSequencer.current().insertNewParticle(particleLocation, particleType);
       }
-    } else if (updatedAmount < numParticles) {
+    } else if (updatedParticles < numParticles) {
       for (var i = 0; i < difference; i++) {
         animationSequencer.current().removeParticle(particleLocation, particleType, 0);
       }
     }
-
-    this.updateInputs(particleType, particleLocation, eventID);
   }
 
   highLightInput(evt) {
