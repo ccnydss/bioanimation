@@ -34,7 +34,9 @@ class EquationResult {
 
   update(answer, type) {
     this.table[type].child()[1].innerText = answer + " V";
+  }
 
+  toggle(type) {
     var thisEnable = type.toLowerCase() + "-bg";
     var thisDisable = type.toLowerCase() + "-disabled";
 
@@ -58,5 +60,9 @@ class EquationResult {
   setAnswer(answer, type) {
     this.values[type] = answer;
     this.update(answer, type);
+  }
+
+  setSelected(type) {
+    this.toggle(type);
   }
 }

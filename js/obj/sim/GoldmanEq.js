@@ -59,8 +59,8 @@ class GoldmanEq {
     for (var i = 0; i < this.m_sim.numParticleTypes(); i++) {
       var particleType = this.m_sim.m_particle_types[i];
       if (particleMapper[particleType].display) {
-        var numOutside = animationSequencer.current().getNumParticles("outside", particleType);
-        var numInside = animationSequencer.current().getNumParticles("inside", particleType);
+        var numOutside = this.m_sim.m_dom.m_sim_controls.concentration(particleType, "outside");
+        var numInside = this.m_sim.m_dom.m_sim_controls.concentration(particleType, "inside");
 
         if (particleMapper[particleType].charge > 0) {
           numerator += particleMapper[particleType].permeability * numOutside;

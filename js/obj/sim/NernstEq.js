@@ -65,8 +65,8 @@ class NernstEq {
     var F = this.m_sim.m_settings.faraday; // Faraday's constant
     var z = particleMapper[particleType]["charge"];
 
-    var Xout = animationSequencer.current().getNumParticles("outside", particleType);
-    var Xin = animationSequencer.current().getNumParticles("inside", particleType);
+    var Xout = this.m_sim.m_dom.m_sim_controls.concentration(particleType, "outside");
+    var Xin = this.m_sim.m_dom.m_sim_controls.concentration(particleType, "inside");
 
     var answer = (R * T) / (z * F) * Math.log(Xout / Xin);
     return answer;

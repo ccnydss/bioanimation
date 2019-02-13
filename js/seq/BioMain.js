@@ -3,7 +3,7 @@ class BioMain extends Sequence {
     super();
 
     this.MEMBRANE_WIDTH = 25;
-    this.MAX_PARTICLES = 500;
+    this.MAX_PARTICLES = 999;
     this.MIN_PARTICLES = 1;
 
     // Initial state for the animation
@@ -128,6 +128,10 @@ class BioMain extends Sequence {
     return this.m_state.containers[container].particles[particleType];
   }
 
+  getTransfers(container, particleType) {
+    return this.m_state.containers[container].transfers[particleType];
+  }
+
   getNumParticles(container, particleType) {
     return this.m_state.containers[container].countParticles(particleType);
   }
@@ -147,120 +151,259 @@ class BioMain extends Sequence {
   }
 
   equilibrate(particleType) {
-    // input: string;
-    // usage: "Na", "Cl", "K"
-    // Brings outside and inside concentrations into equilibrium
+    // Get concentration (i.e., decimal values)
+    var concOutside = mainSim.m_dom.m_sim_controls.concentration(particleType, "outside");
+    var concInside = mainSim.m_dom.m_sim_controls.concentration(particleType, "inside");
 
+    // Get particle population (i.e., integer values)
     var numOutside = this.getNumParticles("outside", particleType);
     var numInside = this.getNumParticles("inside", particleType);
 
-    var particleAmount = numOutside + numInside;
+    // Get the values that should be after equilibrium is reached
+    var concEqui = (concOutside + concInside) / 2;
+    var numEqui = round(concEqui);
 
-    // The equilibrium function: how top and bottom should be split.
-    var equiAmount = Math.floor(particleAmount / 2);
+    // Determine the transfer order. Which container to which container?
+    var originalContainer, targetContainer;
+    if (concOutside > concInside) {
+      // More on the outside, we need to move to the inside.
 
-    // if either top or bottom has equilibrium amount, we can return
-    if (numOutside == equiAmount || numInside == equiAmount) {
-      return;
+      originalContainer = "outside";
+      targetContainer = "inside";
+
+      for (let i = 0; i < numOutside - numEqui; i++) {
+        this.transferOut(originalContainer, particleType);
+        this.transferIn(targetContainer, particleType);
+      }
+
+    } else if (concOutside < concInside) {
+      // More on the inside, we need to move to the outside.
+      originalContainer = "inside";
+      targetContainer = "outside";
+
+      for (let i = 0; i < numInside - numEqui; i++) {
+        this.transferOut(originalContainer, particleType);
+        this.transferIn(targetContainer, particleType);
+      }
     }
 
-    var originLocation = numOutside > numInside ?
-      "outside" :
-      "inside";
+    // Now, we need to check if we need to add or remove an additional
+    //  particle, due to float arithmetic.
 
-    var transferLocation = numOutside > numInside ?
-      "inside" :
-      "outside";
+    //  i.e., consider the concentrations "2" and "1". No particles will be
+    //  moved by the equilibration function above. But the result will be
+    //  "1.5" and "1.5", meaning we should have 2 particles in both containers.
+    //  We need to transferIn a particle to the container that only has 1 particle
 
-    // The number of particles that need to be transferred to each equilibrium
+    // Update particle counts because the above transfers might have changed it.
+    numOutside = this.getNumParticles("outside", particleType);
+    numInside = this.getNumParticles("inside", particleType);
+
+    var roundedEqui = round(concEqui);
+
+    if (roundedEqui > numOutside ) {
+      this.transferIn("outside", particleType);
+    } else if (roundedEqui < numOutside) {
+      this.transferOut("outside", particleType);
+    } else if (roundedEqui > numInside) {
+      this.transferIn("inside", particleType);
+    } else if (roundedEqui < numInside) {
+      this.transferOut("inside", particleType);
+    }
+
     var id = particleMapper[particleType].id;
-
-    this.transferParticle(originLocation, transferLocation, particleType, id);
+    mainSim.updateInputs(concEqui, id);
   }
 
-  transferParticle(originalContainer, targetContainer, particleType, id) {
-    var currentArray = this.getParticles(originalContainer, particleType);
-    if (currentArray.length == 0) return;
+  transferIn(target, particleType) {
+    // Create and move new particle from the channel's center
+    // into the "target" container.
 
-    var transferArray = this.getParticles(targetContainer, particleType);
+    // To transferIn to the OUTSIDE, the particle must move up.
+    // To transferIn to the INSIDE, the particle must move down.
 
-    // Determine which cell channel the particle should move towards.
-    // If the particle is in the top division
+    // Operates in two stages:
+    //    1. Create new particle in the channel center.
+    //    2. Add it to the particle array and set velocity.
+
+    var state = this.m_state;
+
+    var id = particleMapper[particleType].id;
+
     var targetY = 0;
-    var yOffset = 25; // Set the destination slightly ABOVE (or BELOW) the target channel
-    var topIsTarget = false;
-    var transitionVector; // Which way (up or down) the particle will move as it crosses channels
+    var yOffset = 25;   // Set the destination slightly ABOVE or BELOW the target channel.
 
-    if (originalContainer == "outside") {
-      // If the particle is in the top division
-      var targetChannel = this.m_state.channels[id].tl;
+    var topIsTarget = false;
+    var transitionVector; // Velocity (speed + direction) the particle moves.
+    var afterVelocity;
+
+    // ==========================================================
+    var targetChannel;
+    var chanWidth = state.channels[id].width;
+    var chanHeight = state.channels[id].height;
+
+    var chanCenterX = floor(chanWidth / 2 + 1);
+    var chanCenterY = floor(chanHeight / 2 + 1);
+
+    if (target == "inside") {
+      // The particle is going to the top container
+      // Get a point at the top of the channel
+      targetChannel = state.channels[id].tl;
 
       targetY = targetChannel.y - yOffset;
       transitionVector = createVector(0, 3);
       topIsTarget = false;
     } else {
-      // If the particle is in the bottom division
-      var targetChannel = this.m_state.channels[id].bl;
+      // Get a point at the bottom of the channel
+      targetChannel = state.channels[id].bl;
 
       targetY = targetChannel.y + yOffset;
       transitionVector = createVector(0, -3);
       topIsTarget = true;
     }
 
-    // Get the offset from corner of the channel to its center.
-    var cWidth = this.m_state.channels[0].width;
-    var cHeight = this.m_state.channels[0].height;
-
-    var horizontalOffset = Math.floor(cWidth / 2 + 1);
-    var verticalOffset = Math.floor(cHeight / 2 + 1);
-
-    // Choose a particle to move to other side.
-    var targetPoint = new Point(
-      targetChannel.x + horizontalOffset,
+    var targetPoint = new Point (
+      targetChannel.x + chanCenterX,
       targetY
     );
 
-    var movePclIndex = selectParticle(currentArray, targetPoint);
-    var movePcl = currentArray[movePclIndex];
+    var startPoint = new Point (
+      targetChannel.x + chanCenterX,
+      targetChannel.y - chanCenterY
+    );
 
-    // Calculate angle needed to move particle towards channel center.
-    var newDirection = atan2(
+    // =================================================
+    var targetArray = this.getParticles(target, particleType);
+
+    var newPart = new particleMapper[particleType] (
+      startPoint,
+      transitionVector,
+      false
+    );
+
+    newPart.onContainerChange = function (newCenterX, newCenterY) {
+      // NOTE: Use onContainerChange to enable collidable and set random
+      //        velocity after the particle is fully inside the container
+
+      var isWithinOutside = (
+        target == "outside" &&
+        newCenterY < targetChannel.y - chanHeight - newPart.r
+      );
+
+      var isWithinInside = (
+        target == "inside" &&
+        newCenterY > targetChannel.y + chanHeight + newPart.r
+      );
+
+      if (isWithinOutside || isWithinInside) {
+        var afterVelocity = newPart.randomDirection(topIsTarget);
+
+        newPart.setVelocity(afterVelocity);
+        newPart.collidable = true;
+        newPart.display = particleMapper[particleType].display;
+      }
+    }
+    targetArray.push(newPart);
+  }
+
+  transferOut(target, particleType) {
+    // Pick a particle inside of "target" and move it into the center
+    // of its channel. Then delete it from the array.
+
+    // To transferOut of the OUTSIDE, the particle must move downwards.
+    // To transferOut of the INSIDE, the particle must move upwards.
+
+    // Operates in three stages:
+    //    1. Change particle's angle to move toward a point below (or above) channel
+    //    2. Move the particle straight up/down to the channel center.
+    //    3. Delete the particle from the container array.
+
+    var state = this.m_state;
+
+    var id = particleMapper[particleType].id;
+
+    var targetY = 0;
+    var yOffset = 25;   // Set the destination slightly ABOVE or BELOW the target channel.
+
+    var topIsTarget = false;
+    var transitionVector; // Velocity (speed + direction) the particle moves.
+
+    // ==========================================================
+    var targetChannel;
+    var chanWidth = state.channels[id].width;
+    var chanHeight = state.channels[id].height;
+
+    var chanCenterX = floor(chanWidth / 2 + 1);
+    var chanCenterY = floor(chanHeight / 2 + 1);
+
+    if (target == "outside") {
+      // The particle is in the top container
+      // Get a point at the top of the channel
+      targetChannel = state.channels[id].tl;
+
+      targetY = targetChannel.y - yOffset;
+      transitionVector = createVector(0, 3);
+      topIsTarget = false;
+    } else {
+      // Get a point at the bottom of the channel
+      targetChannel = state.channels[id].bl;
+
+      targetY = targetChannel.y + yOffset;
+      transitionVector = createVector(0, -3);
+      topIsTarget = true;
+    }
+
+    var targetPoint = new Point (
+      targetChannel.x + chanCenterX,
+      targetY
+    );
+
+    // =================================================
+    var targetArray = this.getParticles(target, particleType);
+    var transfersArray = this.getTransfers(target, particleType);
+
+    // Choose particle to move to other side
+    var movePclIndex = selectParticle(targetArray, targetPoint);
+    var movePcl = targetArray[movePclIndex];
+
+    transfersArray.push(movePcl);
+    targetArray.splice(movePclIndex, 1);
+
+    // Calculate angle needed to move particle towards the channel point
+    var newDirection = atan2 (
       targetPoint.y - movePcl.center.y,
       targetPoint.x - movePcl.center.x
     );
 
-    // Change velocity of particle to move in the direction of the channel.
+    // Change velocity of particle to move in the direction of the channel point.
     movePcl.setVelocity(p5.Vector.fromAngle(newDirection));
 
     // Disable this particle's collision
     movePcl.collidable = false;
 
     var self = this;
-
     movePcl.onContainerChange = function(newCenterX, newCenterY) {
-      if ( movePcl.nearToPoint(targetPoint) ) {
+      if ( movePcl.nearToPoint(targetPoint) )
         movePcl.setVelocity(transitionVector);
-      }
 
-      var cond1 = (originalContainer == "outside" && newCenterY > targetChannel.y + cHeight + movePcl.r);
-      var cond2 = (originalContainer == "inside" && newCenterY < targetChannel.y - cHeight - movePcl.r);
+      var leftOutside = (
+        target == "outside" &&
+        newCenterY > targetChannel.y + chanCenterY + movePcl.r
+      );
 
-      if (cond1 || cond2) {
-        // Copy the particle to create a clone of the instance
-        var newPart = clone(movePcl);
-        newPart.collidable = true;
+      var leftInside = (
+        target == "inside" &&
+        newCenterY < targetChannel.y - chanCenterY - movePcl.r
+      );
 
-        var afterVelocity = newPart.randomDirection(topIsTarget);
-        newPart.setVelocity(afterVelocity);
-
-        // Remove the selected particle in the array, aka movePcl
-        currentArray.splice(movePclIndex, 1);
-        transferArray.push(newPart);
-
-        // Recursively call equilibrate until all particles have transferred over.
-        self.equilibrate(particleType);
-        mainSim.m_dom.m_sim_controls.updateInputs(particleType, originalContainer, id);
-      }
+      // If the particle has left the container it as in and is now in
+      // the center of the membrane channel (i.e., invisible to the user)
+      if (leftOutside || leftInside)
+        transfersArray.splice(0, 1);
     }
+  }
+
+  otherLocation(location) {
+    return location == "inside" ? "outside" : "inside";
   }
 }

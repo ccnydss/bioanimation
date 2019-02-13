@@ -90,7 +90,7 @@ class SimulatorInputs {
 
         var value = animationSequencer.current().getNumParticles(locStr, name);
 
-        location.rows[i] = new InputRow(label, value, true, name, this.updateInputs.bind(this));
+        location.rows[i] = new InputRow(label, value, true, name, this);
         location.rows[i].create(location.table, i, name, locStr);
       }
     }
@@ -106,6 +106,16 @@ class SimulatorInputs {
     } else {
       return this.checkboxes[index].checked();
     }
+  }
+
+  concentration(particleType, location) {
+    var id = particleMapper[particleType].id;
+    return this.controls[location].rows[id].value();
+  }
+
+  setConcentration(particleType, location, amount) {
+    var id = particleMapper[particleType].id;
+    this.controls[location].rows[id].value(amount);
   }
 
   updateInputs(particleType, location, id) {
