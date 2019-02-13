@@ -203,16 +203,20 @@ class BioMain extends Sequence {
 
     if (roundedEqui > numOutside ) {
       this.transferIn("outside", particleType);
+
     } else if (roundedEqui < numOutside) {
       this.transferOut("outside", particleType);
+
     } else if (roundedEqui > numInside) {
       this.transferIn("inside", particleType);
+
     } else if (roundedEqui < numInside) {
       this.transferOut("inside", particleType);
     }
 
     var id = particleMapper[particleType].id;
     mainSim.updateInputs(concEqui, id);
+    mainSim.computeAll(particleType);
   }
 
   transferIn(target, particleType) {

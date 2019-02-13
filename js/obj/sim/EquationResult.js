@@ -37,6 +37,7 @@ class EquationResult {
   }
 
   toggle(type) {
+    console.log("Getting toggled", type);
     var thisEnable = type.toLowerCase() + "-bg";
     var thisDisable = type.toLowerCase() + "-disabled";
 
@@ -63,6 +64,12 @@ class EquationResult {
   }
 
   setSelected(type) {
-    this.toggle(type);
+    var mode = this.dom.m_sim.simMode();
+    
+    if (mode == "Nernst") {
+      this.toggle(type);
+    } else {
+      this.toggle("Net");
+    }
   }
 }
