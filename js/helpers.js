@@ -107,19 +107,11 @@ function swapElements(p51, p52) {
     }
 }
 
-function helpPageScript() {
-  // onclick event trigger by helpPage
-  var helpPage = document.getElementById("helpPage");
-  if (helpPage.style.display == "none") {
-    // alert("yes")
-    helpPage.style.display = "flex";
-    help.clear()
-    help.initialize()
-  } else {
-    // alert("no")
-    helpPage.style.display = "none";
-    help.clear()
-  }
+function openPage(target) {
+  //Input 1: string
+
+  mainSim.toggleTab(target);
+
 }
 
 // https://stackoverflow.com/questions/1669190/find-the-min-max-element-of-an-array-in-javascript

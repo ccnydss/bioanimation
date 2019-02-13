@@ -19,17 +19,17 @@
   <!--[if IE]>
   <style>
   #browserDetection section div:first-child {
-    font-size: 40px;
-  }
+  font-size: 40px;
+}
 
-  #browserDetection section div:last-child {
-    font-size: 30px;
-  }
-  </style>
-  <![endif]-->
-  <!-- For IE 10+ -->
-  <style>
-  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+#browserDetection section div:last-child {
+font-size: 30px;
+}
+</style>
+<![endif]-->
+<!-- For IE 10+ -->
+<style>
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
   #browserDetection section div:first-child {
     font-size: 40px;
   }
@@ -37,40 +37,40 @@
   #browserDetection section div:last-child {
     font-size: 30px;
   }
-   }
-   @media only screen and (max-width: 1060px) {
-     #browserDetection section div:first-child {
-       font-size: 30px;
-     }
-     #browserDetection section div:last-child {
-       font-size: 20px;
-     }
-   }
-   @media only screen and (max-width: 860px) {
-     #browserDetection section div:first-child {
-       height: 20%;
-       font-size: 25px;
-     }
-     #browserDetection section div:last-child {
-       height: 10%;
-       font-size: 20px;
-     }
-   }
-   @media only screen and (max-width: 615px) {
-     #browserDetection section div:first-child {
-       height: 20%;
-       font-size: 15px;
-     }
-     #browserDetection section div:last-child {
-       height: 10%;
-       font-size: 10px;
-     }
-     #browserDetectionTable > i {
-       font-size: 15px;
-     }
-   }
 }
-  </style>
+@media only screen and (max-width: 1060px) {
+  #browserDetection section div:first-child {
+    font-size: 30px;
+  }
+  #browserDetection section div:last-child {
+    font-size: 20px;
+  }
+}
+@media only screen and (max-width: 860px) {
+  #browserDetection section div:first-child {
+    height: 20%;
+    font-size: 25px;
+  }
+  #browserDetection section div:last-child {
+    height: 10%;
+    font-size: 20px;
+  }
+}
+@media only screen and (max-width: 615px) {
+  #browserDetection section div:first-child {
+    height: 20%;
+    font-size: 15px;
+  }
+  #browserDetection section div:last-child {
+    height: 10%;
+    font-size: 10px;
+  }
+  #browserDetectionTable > i {
+    font-size: 15px;
+  }
+}
+}
+</style>
 
 </head>
 
@@ -83,114 +83,258 @@
 
   <div style="display:none" id="browserDetection" class="container">
     <section style="flex-direction: column;" class="container center">
-        <div class="container center" ><i id="browserDetectionText"><i class="fas fa-exclamation-circle"></i>IE</i> doesn't support bioanimation</div>
-        <div class="container center" >Please update it to the follow version</div>
+      <div class="container center" ><i id="browserDetectionText"><i class="fas fa-exclamation-circle"></i>IE</i> doesn't support bioanimation</div>
+      <div class="container center" >Please update it to the follow version</div>
     </section>
     <section class="container center">
 
       <table id="browserDetectionTable">
-  <tr>
-    <th>Browser</th>
-    <th>Support Version</th>
-  </tr>
-  <tr>
-    <td><i class="fab fa-internet-explorer"> Internet Explorer</i></td>
-    <td>Not supported</td>
-  </tr>
-  <tr>
-    <td><i class="fab fa-edge"> Microsoft Edge</i></td>
-    <td><i class="fas fa-download"></i><a target="_blank" href='https://www.microsoft.com/en-us/windows/microsoft-edge'>v. 42</a></td>
-  </tr>
-  <tr>
-    <td><i class="fab fa-chrome"> Chrome</i></td>
-    <td><i class="fas fa-download"></i><a target="_blank" href='https://www.google.com/chrome/'>v. 68</a></td>
-  </tr>
-  <!-- <tr>
-    <td><i class="fab fa-chrome"></i>Chrome for Android</td>
-    <td>v. 68</td>
-  </tr> -->
-  <tr>
-    <td><i class="fab fa-firefox"> Firefox</i></td>
-    <td><i class="fas fa-download"></i><a target="_blank" href='https://www.mozilla.org/en-US/firefox/new/'>v. 61</a></td>
-  </tr>
-  <tr>
-    <td><i class="fab fa-safari"> Safari</i></td>
-    <td><i class="fas fa-download"></i><a target="_blank" href='https://www.apple.com/safari/'>v. 11</a></td>
-  </tr>
-  <!-- <tr>
-    <td><i class="fab fa-safari"></i>iOS Safari</td>
-    <td>v. 11.4</td>
-  </tr> -->
-  <tr>
-    <td><i class="fab fa-opera"> Opera</i></td>
-    <td><i class="fas fa-download"></i><a target="_blank" href='https://www.opera.com/download'>v. 54</a></td>
-  </tr>
-  <tr>
-    <td><i class="fas fa-desktop"></i><i style="padding-left: 5px" class="fab">Desktop App</i></td>
-    <td><i class="fas fa-download"></i><a target="_blank" href=''>v. 1</a></td>
-  </tr>
-</table>
+        <tr>
+          <th>Browser</th>
+          <th>Support Version</th>
+        </tr>
+        <tr>
+          <td><i class="fab fa-internet-explorer"> Internet Explorer</i></td>
+          <td>Not supported</td>
+        </tr>
+        <tr>
+          <td><i class="fab fa-edge"> Microsoft Edge</i></td>
+          <td><i class="fas fa-download"></i><a target="_blank" href='https://www.microsoft.com/en-us/windows/microsoft-edge'>v. 42</a></td>
+        </tr>
+        <tr>
+          <td><i class="fab fa-chrome"> Chrome</i></td>
+          <td><i class="fas fa-download"></i><a target="_blank" href='https://www.google.com/chrome/'>v. 68</a></td>
+        </tr>
+        <!-- <tr>
+        <td><i class="fab fa-chrome"></i>Chrome for Android</td>
+        <td>v. 68</td>
+      </tr> -->
+      <tr>
+        <td><i class="fab fa-firefox"> Firefox</i></td>
+        <td><i class="fas fa-download"></i><a target="_blank" href='https://www.mozilla.org/en-US/firefox/new/'>v. 61</a></td>
+      </tr>
+      <tr>
+        <td><i class="fab fa-safari"> Safari</i></td>
+        <td><i class="fas fa-download"></i><a target="_blank" href='https://www.apple.com/safari/'>v. 11</a></td>
+      </tr>
+      <!-- <tr>
+      <td><i class="fab fa-safari"></i>iOS Safari</td>
+      <td>v. 11.4</td>
+    </tr> -->
+    <tr>
+      <td><i class="fab fa-opera"> Opera</i></td>
+      <td><i class="fas fa-download"></i><a target="_blank" href='https://www.opera.com/download'>v. 54</a></td>
+    </tr>
+    <tr>
+      <td><i class="fas fa-desktop"></i><i style="padding-left: 5px" class="fab">Desktop App</i></td>
+      <td><i class="fas fa-download"></i><a target="_blank" href=''>v. 1</a></td>
+    </tr>
+  </table>
 
-    </section>
-  </div>
+</section>
+</div>
 
-  <div id="helpPage" style="display:none"></div>
-  <div id="containerHeader">
-    <li>About</li>
-    <li>Contact</li>
-    <li onclick="helpPageScript()">Help</li>
-  </div>
+<div id="helpPage" style="display:none"></div>
+<div id="aboutPage" style="display:none">
 
-  <div id="root"></div>
+  <script src="js/about.js"></script>
+  <section>
 
-  <script language="javascript" type="text/javascript" src="js/browserDetection.js"></script>
 
-  <script language="javascript" type="text/javascript" src="js/p5/p5.min.js"></script>
-  <script language="javascript" type="text/javascript" src="js/p5/p5.dom.min.js"></script>
-  <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+    <nav>
+      $$
+      \begin{align*}
+      & E_{ion} = \frac{RT}{zF}ln \left( \frac{\text{Ion Out} } {\text{Ion In}} \right)
 
-  <script language="javascript" type="text/javascript" src="js/helpers.js"></script>
+      \end{align*}
 
-  <script language="javascript" type="text/javascript" src="js/obj/animation/Point.js"></script>
-  <script language="javascript" type="text/javascript" src="js/obj/animation/Rectangle.js"></script>
-  <script language="javascript" type="text/javascript" src="js/obj/animation/Label.js"></script>
-  <script language="javascript" type="text/javascript" src="js/obj/animation/Container.js"></script>
-  <script language="javascript" type="text/javascript" src="js/obj/animation/Particle.js"></script>
-  <script language="javascript" type="text/javascript" src="js/obj/animation/Channel.js"></script>
+      $$
+    </nav>
 
-  <script language="javascript" type="text/javascript" src="js/obj/sim/NernstEq.js"></script>
-  <script language="javascript" type="text/javascript" src="js/obj/sim/GoldmanEq.js"></script>
-  <script language="javascript" type="text/javascript" src="js/obj/sim/Help.js"></script>
-  <script language="javascript" type="text/javascript" src="js/obj/sim/InputRow.js"></script>
-  <script language="javascript" type="text/javascript" src="js/obj/sim/Plot.js"></script>
-  <script language="javascript" type="text/javascript" src="js/obj/sim/Question.js"></script>
-  <script language="javascript" type="text/javascript" src="js/obj/sim/EquationResult.js"></script>
-  <script language="javascript" type="text/javascript" src="js/obj/sim/SimulatorInputs.js"></script>
-  <script language="javascript" type="text/javascript" src="js/obj/sim/SimulatorDOM.js"></script>
-  <script language="javascript" type="text/javascript" src="js/obj/sim/Simulator.js"></script>
+    <p>In electrochemistry, the Nernst equation is an equation that relates the reduction potential of an electrochemical reaction (half-cell or full cell reaction) to the standard electrode potential, temperature, and activities (often approximated by concentrations) of the chemical species undergoing reduction and oxidation. It is the most important equation in the field of electrochemistry. It was named after Walther Nernst, a German physical chemist who formulated the equation</p>
 
-  <script language="javascript" type="text/javascript" src="js/sketchControls.js"></script>
 
-  <script language="javascript" type="text/javascript" src="js/seq/sequence.js"></script>
-  <script language="javascript" type="text/javascript" src="js/seq/BioMain.js"></script>
-  <script language="javascript" type="text/javascript" src="js/seq/Test1.js"></script>
+    <table>
+      <tr>
+        <td>$$E_{ion}$$</td>
+        <td>the equilibrium potential (Nernst potential) for a given ion</td>
+        <td>Volt</td>
+      </tr>
+      <tr>
+        <td>$$R$$</td>
+        <td>the universal gas constan</td>
+        <td>8.314  J.K<sup>-1</sup>.mol<sup>-1</sup></td>
+      </tr>
+      <tr>
+        <td>$$T$$</td>
+        <td>the temperature</td>
+        <td>Kelvin</td>
+      </tr>
+      <tr>
+        <td>$$z$$</td>
+        <td>the valence of the ionic species. z is +1 for Na+, +1 for K+, +2 for Ca2+</td>
+        <td>Unitless</td>
+      </tr>
+      <tr>
+        <td>$$F$$</td>
+        <td>the Faraday's constant</td>
+        <td>96485 C.mol<sup>-1</sup></td>
+      </tr>
+      <tr>
+        <td>$$\text{Ion Out}$$</td>
+        <td>the concentration of the ionic species in the extracellular fluid</td>
+        <td>Mole</td>
+      </tr>
+      <tr>
+        <td>$$\text{Ion In}$$</td>
+        <td>the concentration of the ionic species in the intracellular fluid</td>
+        <td>Mole</td>
+      </tr>
+    </table>
 
-  <script language="javascript" type="text/javascript" src="js/main.js"></script>
-  <script language="javascript" type="text/javascript" src="js/particleControls.js"></script>
+  </section>
 
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async>
+  <section>
+    <nav>
+      $$
+      \begin{align*}
+
+      & V_{rest} = \frac{RT}{F}ln \left( \frac{ P_{Na}{[Na^+]_{\text{out}}} + P_{Cl}{[Cl^-]_{\text{in}}} + P_{K}{[K^-]_{\text{out}}} } { P_{Na}{[Na^+]_{\text{in}}} + P_{Cl}{[Cl^-]_{\text{out}}} + P_{K}{[K^-]_{\text{in}}} } \right)
+
+      \end{align*}
+      $$
+    </nav>
+
+    <p>Goldman equation is an equation used to calculate the electrical equilibium potential across the cell's membrane in the presence of more than one ions taking into account the selectivity of membrane's permeability. It is derived from the Nernst equation.</p>
+
+
+    <table>
+      <tr>
+        <td>$$V_{rest}$$</td>
+        <td>the membrane potential</td>
+        <td>Volt</td>
+      </tr>
+      <tr>
+        <td>$$R$$</td>
+        <td>the universal gas constan</td>
+        <td>8.314  J.K<sup>-1</sup>.mol<sup>-1</sup></td>
+      </tr>
+      <tr>
+        <td>$$T$$</td>
+        <td>the temperature</td>
+        <td>Kelvin</td>
+      </tr>
+      <tr>
+        <td>$$F$$</td>
+        <td>the Faraday's constant</td>
+        <td>96485 C.mol<sup>-1</sup></td>
+      </tr>
+      <tr>
+        <td>$$P_{Na}$$</td>
+        <td>the membrane permeability for Sodium</td>
+        <td>Unitless</td>
+      </tr>
+      <tr>
+        <td>$$P_{Cl}$$</td>
+        <td>the membrane permeability for Chlorine</td>
+        <td>Unitless</td>
+      </tr>
+      <tr>
+        <td>$$P_{K}$$</td>
+        <td>the membrane permeability for Potassium</td>
+        <td>Unitless</td>
+      </tr>
+      <tr>
+        <td>$$[Na^+]_{\text{out}}$$</td>
+        <td>the concentration of Na in the extracellular fluid</td>
+        <td>Mole</td>
+      </tr>
+      <tr>
+        <td>$$[Na^+]_{\text{in}}$$</td>
+        <td>the concentration of Na in the intracellular fluid</td>
+        <td>Mole</td>
+      </tr>
+      <tr>
+        <td>$$[Cl^-]_{\text{out}}$$</td>
+        <td>the concentration of Cl in the extracellular fluid</td>
+        <td>Mole</td>
+      </tr>
+      <tr>
+        <td>$$[Cl^-]_{\text{in}}$$</td>
+        <td>the concentration of Cl in the intracellular fluid</td>
+        <td>Mole</td>
+      </tr>
+      <tr>
+        <td>$$[K^-]_{\text{out}}$$</td>
+        <td>the concentration of K in the extracellular fluid</td>
+        <td>Mole</td>
+      </tr>
+      <tr>
+        <td>$$[K^-]_{\text{in}}$$</td>
+        <td>the concentration of K in the intracellular fluid</td>
+        <td>Mole</td>
+      </tr>
+    </table>
+  </section>
+
+</div>
+
+<div id="containerHeader">
+  <li onclick="openPage('aboutPage')">About</li>
+  <li>Contact</li>
+  <li onclick="openPage('helpPage')">Help</li>
+</div>
+
+<div id="root"></div>
+
+<script language="javascript" type="text/javascript" src="js/browserDetection.js"></script>
+
+<script language="javascript" type="text/javascript" src="js/p5/p5.min.js"></script>
+<script language="javascript" type="text/javascript" src="js/p5/p5.dom.min.js"></script>
+<script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+
+<script language="javascript" type="text/javascript" src="js/helpers.js"></script>
+
+<script language="javascript" type="text/javascript" src="js/obj/animation/Point.js"></script>
+<script language="javascript" type="text/javascript" src="js/obj/animation/Rectangle.js"></script>
+<script language="javascript" type="text/javascript" src="js/obj/animation/Label.js"></script>
+<script language="javascript" type="text/javascript" src="js/obj/animation/Container.js"></script>
+<script language="javascript" type="text/javascript" src="js/obj/animation/Particle.js"></script>
+<script language="javascript" type="text/javascript" src="js/obj/animation/Channel.js"></script>
+
+<script language="javascript" type="text/javascript" src="js/obj/sim/NernstEq.js"></script>
+<script language="javascript" type="text/javascript" src="js/obj/sim/GoldmanEq.js"></script>
+<script language="javascript" type="text/javascript" src="js/obj/sim/Help.js"></script>
+<script language="javascript" type="text/javascript" src="js/obj/sim/InputRow.js"></script>
+<script language="javascript" type="text/javascript" src="js/obj/sim/Plot.js"></script>
+<script language="javascript" type="text/javascript" src="js/obj/sim/Question.js"></script>
+<script language="javascript" type="text/javascript" src="js/obj/sim/EquationResult.js"></script>
+<script language="javascript" type="text/javascript" src="js/obj/sim/SimulatorInputs.js"></script>
+<script language="javascript" type="text/javascript" src="js/obj/sim/SimulatorDOM.js"></script>
+<script language="javascript" type="text/javascript" src="js/obj/sim/Simulator.js"></script>
+
+<script language="javascript" type="text/javascript" src="js/sketchControls.js"></script>
+
+<script language="javascript" type="text/javascript" src="js/seq/sequence.js"></script>
+<script language="javascript" type="text/javascript" src="js/seq/BioMain.js"></script>
+<script language="javascript" type="text/javascript" src="js/seq/Test1.js"></script>
+
+<script language="javascript" type="text/javascript" src="js/main.js"></script>
+<script language="javascript" type="text/javascript" src="js/particleControls.js"></script>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async>
 </script>
 
 <section id="NernstEqn" style="display:none">
-$$
-\normalsize
-E_{ion} = \frac{RT}{zF}ln \left( \frac{\text{Ion Out} } {\text{Ion In}} \right)$$
+  $$
+  \normalsize
+  E_{ion} = \frac{RT}{zF}ln \left( \frac{\text{Ion Out} } {\text{Ion In}} \right)$$
 </section>
 
 <section id="GoldmanEqn" style="display:none">
-$$
-\small
-V_{rest} = \frac{RT}{F}ln \left( \frac{ P_{Na}[Na^+]_{\text{out}} + P_{Cl}[Cl^-]_{\text{in}} + P_{K}[K^-]_{\text{out}} } { P_{Na}[Na^+]_{\text{in}} + P_{Cl}[Cl^-]_{\text{out}} + P_{K}[K^-]_{\text{in}} } \right)$$
+  $$
+  \small
+  V_{rest} = \frac{RT}{F}ln \left( \frac{ P_{Na}[Na^+]_{\text{out}} + P_{Cl}[Cl^-]_{\text{in}} + P_{K}[K^-]_{\text{out}} } { P_{Na}[Na^+]_{\text{in}} + P_{Cl}[Cl^-]_{\text{out}} + P_{K}[K^-]_{\text{in}} } \right)$$
 </section>
 
 

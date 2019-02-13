@@ -18,6 +18,8 @@ class Simulator {
       gas_constant: 8.314,                // Ideal gas constant
       faraday: 96485.3329                 // Faraday's constant
     };
+
+    this.m_tabList = ['aboutPage','helpPage']
   }
 
   pause() {
@@ -93,7 +95,7 @@ class Simulator {
         document.getElementById('questionsdiv').classList.add("hidden")
         document.getElementById('leftbar').classList.add("hidden")
         document.getElementById('equationContainer').classList.add("fullsize")
-    }
+      }
 
       break;
 
@@ -125,7 +127,7 @@ class Simulator {
 
       case "dataPlot":
       if (mode) {
-      document.getElementById('dataPlot').classList.remove("hidden")
+        document.getElementById('dataPlot').classList.remove("hidden")
       } else { document.getElementById('dataPlot').classList.add("hidden")}
       //Note chartjs chart has a class called 'chartjs-render-monitor' by default, but this class is conflict with our animation
       break;
@@ -143,6 +145,34 @@ class Simulator {
       document.getElementById('simCanvasFrame').style.display = (mode) ? "flex" : "none";
       break;
     }
+  }
+
+  toggleTab(target) {
+    //Input 1: String
+
+    //First, close all other tabs
+    for(let i = 0;i<this.m_tabList.length;i++) {
+      if(this.m_tabList[i] != target) {
+        document.getElementById(this.m_tabList[i]).style.display = 'none'
+        if(this.m_tabList[i]=='helpPage')
+        help.clear()
+      }
+    }
+
+    var page = document.getElementById(target);
+
+    if(page.style.display == "flex") {
+      page.style.display = 'none'
+
+      if(target=='helpPage')
+      help.clear()
+    } else {
+      page.style.display = 'flex'
+      if(target=='helpPage')
+      help.initialize()
+    }
+
+
   }
 
   questionsAreHidden() {
