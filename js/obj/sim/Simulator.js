@@ -19,7 +19,7 @@ class Simulator {
       faraday: 96485.3329                 // Faraday's constant
     };
 
-    this.m_tabList = ['aboutPage','helpPage']
+    this.m_tabList = ['aboutPage','contactPage','helpPage']
   }
 
   pause() {

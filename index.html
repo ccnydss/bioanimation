@@ -10,6 +10,7 @@
   <link rel="stylesheet" type="text/css" href="css/sketch.css">
   <link rel="stylesheet" type="text/css" href="css/particles.css">
   <link rel="stylesheet" type="text/css" href="css/scrolls.css">
+  <link rel="stylesheet" type="text/css" href="css/tabs.css">
 
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
@@ -279,9 +280,29 @@ font-size: 30px;
 
 </div>
 
+<div id="contactPage" style="display:none">
+  <section>
+    <nav>Logo</nav>
+
+    <div>
+      <ul id='firstLine'>
+        <p>build: Jan 1, 2019</p>
+        <p>The City College of New York</p>
+      </ul>
+      <ul id='secondLine'>
+      <p>This project is designed for students to better understand Nernst and Goldman equation. More description.....
+      <p>Lead by Professor Hysell Oviedo and Professor Ching-Jung Chen
+      <br>Designed by Digital Scholarship Services in the Cohen Library</p>
+      <p>Design Credit:</p>
+      <p>For question, please contact xyz@citymail.cuny.edu</p>
+    </ul>
+    </div>
+  </section>
+</div>
+
 <div id="containerHeader">
   <li onclick="openPage('aboutPage')">About</li>
-  <li>Contact</li>
+  <li onclick="openPage('contactPage')">Contact</li>
   <li onclick="openPage('helpPage')">Help</li>
 </div>
 
