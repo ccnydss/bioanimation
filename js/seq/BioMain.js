@@ -125,6 +125,8 @@ class BioMain extends Sequence {
   }
 
   setMembraneColor(p5ColorObj) {
+    // var mycolor = color(255, 0, 0);
+    // Use with animationSequencer.current().setMembraneColor(mycolor)
     this.MEMBRANE_COLOR = p5ColorObj;
     this.m_state.membrane.setColor(this.MEMBRANE_COLOR);
   }
