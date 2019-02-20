@@ -124,6 +124,10 @@ class BioMain extends Sequence {
     this.m_state.containers.outside.setParticleDisplays(particleType, boolValue);
   }
 
+  setContainerColor(ploc, colorObj) {
+    this.m_state.containers[ploc].setColor(colorObj);
+  }
+
   setMembraneColor(p5ColorObj) {
     // var mycolor = color(255, 0, 0);
     // Use with animationSequencer.current().setMembraneColor(mycolor)
