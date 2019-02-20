@@ -91,6 +91,19 @@ class SimulatorDOM {
     this.m_simCanvasPause.style('display', 'none');
 
     this.m_simCanvasFrame = ec("div", 'simCanvasFrame', 'sim')
+    this.m_simCanvasPreset = ec("div", 'simCanvasPreset', 'simCanvasFrame', { content:
+      '<div class="dropdown">'+
+        '<button class="dropbtn">Preset</button>'+
+        '<div class="dropdown-content">'+
+          '<a href="#" class="active" onclick="changePreset(this)">Custom</a>'+
+          '<a href="#" onclick="changePreset(this)">Generic Cell</a>'+
+          '<a href="#" onclick="changePreset(this)">Skeletal Muscle</a>'+
+          '<a href="#" onclick="changePreset(this)">Squid Axon</a>'+
+          '<a href="#" onclick="changePreset(this)">Red Cell</a>'+
+        '</div>'+
+      '</div>'
+   })
+   
     this.m_simCanvasPauseIcon = ec("div", 'simCanvasPauseIcon', 'simCanvasFrame', { content: '<i class="fas fa-pause"></i>' })
     document.getElementById('simCanvasFrame').style.display = "none";
     document.getElementById("simCanvasPauseIcon").onclick = function() {mainSim.pause()};
