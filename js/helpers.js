@@ -124,6 +124,8 @@ function changePreset(elm) {
     } else if (btn[i].textContent == elm.textContent) {
       btn[i].classList.add('active')
 
+      document.getElementsByClassName('dropbtn')[0].textContent = btn[i].textContent;
+
       switch(elm.textContent) {
         case 'Generic Cell':
         //PK+    = 100
@@ -136,6 +138,19 @@ function changePreset(elm) {
         //Cl-_out = 116
         //Cl-_in  = 20
         //Temp    = 37 degree C
+
+        K.permeability = 100;
+        mainSim.updateParticles("K","outside",4.5);
+        mainSim.updateParticles("K","inside",120);
+        Na.permeability = 5;
+        mainSim.updateParticles("Na","outside",145);
+        mainSim.updateParticles("Na","inside",15);
+        Cl.permeability = 10;
+        mainSim.updateParticles("Cl","outside",116);
+        mainSim.updateParticles("Cl","inside",20);
+        mainSim.m_settings.temperature = 273.15 + 37;
+        animationSequencer.current().setContainerColor("inside","blue")
+        animationSequencer.current().setContainerColor("outside","red")
         break;
         case 'Skeletal Muscle':
         //PK+    = 100

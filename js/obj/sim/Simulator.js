@@ -199,6 +199,7 @@ class Simulator {
   }
 
   updateParticles(ptype, ploc, updatedAmount) {
+    //mainSim.updateParticles("Na","outside",13)
     var numParticles = animationSequencer.current().getNumParticles(ploc, ptype);
     var maxParticles = animationSequencer.current().MAX_PARTICLES;
     var minParticles = animationSequencer.current().MIN_PARTICLES;
