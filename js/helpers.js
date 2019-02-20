@@ -82,29 +82,29 @@ function getStyle(elm, style) {
 }
 
 function swapElements(p51, p52) {
-    // Convert the p5 objects to their HTML DOMs
-    var obj1 = p51;
-    var obj2 = p52.elt;
+  // Convert the p5 objects to their HTML DOMs
+  var obj1 = p51;
+  var obj2 = p52.elt;
 
-    // create marker element and insert it where obj1 is
-    var temp = document.createElement("div");
-    obj1.parentNode.insertBefore(temp, obj1);
+  // create marker element and insert it where obj1 is
+  var temp = document.createElement("div");
+  obj1.parentNode.insertBefore(temp, obj1);
 
-    // move obj1 to right before obj2
-    obj2.parentNode.insertBefore(obj1, obj2);
+  // move obj1 to right before obj2
+  obj2.parentNode.insertBefore(obj1, obj2);
 
-    // move obj2 to right before where obj1 used to be
-    temp.parentNode.insertBefore(obj2, temp);
+  // move obj2 to right before where obj1 used to be
+  temp.parentNode.insertBefore(obj2, temp);
 
-    // remove temporary marker node
-    temp.parentNode.removeChild(temp);
+  // remove temporary marker node
+  temp.parentNode.removeChild(temp);
 
-    if (helpPage.style.display == "flex") {
-      setTimeout(function () {
-    help.clear()
-    help.initialize()
-  }, 100);
-    }
+  if (helpPage.style.display == "flex") {
+    setTimeout(function () {
+      help.clear()
+      help.initialize()
+    }, 100);
+  }
 }
 
 function openPage(target) {
@@ -112,6 +112,70 @@ function openPage(target) {
 
   mainSim.toggleTab(target);
 
+}
+
+function changePreset(elm) {
+  //Input 1: DOM element
+
+  var btn = document.querySelectorAll(".dropdown-content a");
+  for(let i = 0;i<btn.length;i++) {
+    if(btn[i].textContent != elm.textContent && btn[i].classList.contains('active')) {
+      btn[i].classList.remove('active')
+    } else if (btn[i].textContent == elm.textContent) {
+      btn[i].classList.add('active')
+
+      switch(elm.textContent) {
+        case 'Generic Cell':
+        //PK+    = 100
+        //K+_out = 4.5
+        //K+_in  = 120
+        //PNa+    = 5
+        //Na+_out = 145
+        //Na+_in  = 15
+        //PCl-    = 10
+        //Cl-_out = 116
+        //Cl-_in  = 20
+        //Temp    = 37 degree C
+        break;
+        case 'Skeletal Muscle':
+        //PK+    = 100
+        //K+_out = 4.5
+        //K+_in  = 150
+        //PNa+    = 1
+        //Na+_out = 145
+        //Na+_in  = 12
+        //PCl-    = 1000
+        //Cl-_out = 116
+        //Cl-_in  = 4.2
+        //Temp    = 37 degree C
+        break;
+        case 'Squid Axon':
+        //PK+    = 100
+        //K+_out = 20
+        //K+_in  = 200
+        //PNa+    = 1
+        //Na+_out = 440
+        //Na+_in  = 50
+        //PCl-    = 10
+        //Cl-_out = 540
+        //Cl-_in  = 40
+        //Temp    = 37 degree C
+        break;
+        case 'Red Cell':
+        //PK+    = 100
+        //K+_out = 4.5
+        //K+_in  = 140
+        //PNa+    = 54
+        //Na+_out = 145
+        //Na+_in  = 11
+        //PCl-    = 21
+        //Cl-_out = 116
+        //Cl-_in  = 80
+        //Temp    = 37 degree C
+        break;
+      }
+    }
+  }
 }
 
 // https://stackoverflow.com/questions/1669190/find-the-min-max-element-of-an-array-in-javascript
