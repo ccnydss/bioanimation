@@ -126,50 +126,17 @@ class InputRow {
     var particleType = evt.target.attributes['data-ptype'].value;
     var particleLocation = evt.target.attributes['data-location'].value;
 
-    var numParticles = animationSequencer.current().getNumParticles(particleLocation, particleType);
-    var maxParticles = animationSequencer.current().MAX_PARTICLES;
-    var minParticles = animationSequencer.current().MIN_PARTICLES;
-
     if (!updatedAmount) {
       var symbol = evt.target.innerText;
       var current = this.value();
       updatedAmount = (symbol == "+") ? current + 1 : current - 1;
     }
 
-    // If the amount entered is invalid, alert user
-    if (
-      isNaN(updatedAmount) ||
-      updatedAmount < 0
-    ) {
-      alert("Please enter a valid number.");
-      evt.target.value = updatedAmount.slice(0, -1); // Erase the last character
-      return;
-    } else if (updatedAmount > maxParticles) {
-      // If the amount entered is greater than the maximum, force it to maximum and alert user
-      alert("Maximum amount is " + maxParticles + ".");
-      updatedAmount = maxParticles;
-    } else if (updatedAmount < minParticles) {
-      alert("Must have at least " + minParticles + " particle.");
-      updatedAmount = minParticles;
-    }
+    // NOTE: Call the Simulator object less directly?
+    // otherwise, renaming the global "mainSim" variable breaks this code
+    mainSim.updateParticles(particleType, particleLocation, updatedAmount);
 
     this.value(updatedAmount);
-    this.m_inputs.m_dom.m_sim.computeAll(particleType);
-
-    var updatedParticles = round(updatedAmount);
-
-    var difference = Math.abs(updatedParticles - numParticles)
-
-    // If the amount entered is less than 0, increase the amount
-    if (updatedParticles > numParticles) {
-      for (var i = 0; i < difference; i++) {
-        animationSequencer.current().insertNewParticle(particleLocation, particleType);
-      }
-    } else if (updatedParticles < numParticles) {
-      for (var i = 0; i < difference; i++) {
-        animationSequencer.current().removeParticle(particleLocation, particleType, 0);
-      }
-    }
   }
 
   highLightInput(evt) {

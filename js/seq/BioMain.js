@@ -3,6 +3,7 @@ class BioMain extends Sequence {
     super();
 
     this.MEMBRANE_WIDTH = 25;
+    this.MEMBRANE_COLOR = color(100, 155, 180, 100);
     this.MAX_PARTICLES = 999;
     this.MIN_PARTICLES = 1;
 
@@ -37,7 +38,7 @@ class BioMain extends Sequence {
           _br: new Point(canWidth, canHeight / 2 + this.MEMBRANE_WIDTH),  // container.inside.tr
           _bl: new Point(0, canHeight / 2 + this.MEMBRANE_WIDTH)          // container.inside.tl
         },
-        color(100, 155, 180, 100)
+        this.MEMBRANE_COLOR
       ),
       channels: []
     };
@@ -47,7 +48,10 @@ class BioMain extends Sequence {
 
   setup(s = this.m_state) {
     // Create channels
-    s.channels = createChannels(s.membrane, mainSim.numParticleTypes());
+    s.channels = createChannels(
+      s.membrane,
+      mainSim.numParticleTypes()
+    );
 
     // Initialize containers with particles
     for (var loc in s.containers) {
@@ -96,7 +100,7 @@ class BioMain extends Sequence {
       }
     );
 
-    s.membrane.setSize(
+    s.membrane.setSize (
       {
         _tl: new Point(0, (canHeight / 2 - this.MEMBRANE_WIDTH)),       // container.outside.bl
         _tr: new Point(canWidth, canHeight / 2 - this.MEMBRANE_WIDTH),  // container.outside.br
@@ -118,6 +122,11 @@ class BioMain extends Sequence {
   setContainerDisplays(particleType, boolValue) {
     this.m_state.containers.inside.setParticleDisplays(particleType, boolValue);
     this.m_state.containers.outside.setParticleDisplays(particleType, boolValue);
+  }
+
+  setMembraneColor(p5ColorObj) {
+    this.MEMBRANE_COLOR = p5ColorObj;
+    this.m_state.membrane.setColor(this.MEMBRANE_COLOR);
   }
 
   getNumContainers() {

@@ -198,6 +198,45 @@ class Simulator {
     this.m_dom.m_sim_controls.controls["inside"].rows[particleID].value(amount);
   }
 
+  updateParticles(ptype, ploc, updatedAmount) {
+    var numParticles = animationSequencer.current().getNumParticles(ploc, ptype);
+    var maxParticles = animationSequencer.current().MAX_PARTICLES;
+    var minParticles = animationSequencer.current().MIN_PARTICLES;
+
+    // If the amount entered is invalid, alert user
+    if (
+      isNaN(updatedAmount) ||
+      updatedAmount < 0
+    ) {
+      alert("Please enter a valid number.");
+      evt.target.value = updatedAmount.slice(0, -1); // Erase the last character
+      return;
+    } else if (updatedAmount > maxParticles) {
+      // If the amount entered is greater than the maximum, force it to maximum and alert user
+      alert("Maximum amount is " + maxParticles + ".");
+      updatedAmount = maxParticles;
+    } else if (updatedAmount < minParticles) {
+      alert("Must have at least " + minParticles + " particle.");
+      updatedAmount = minParticles;
+    }
+
+    this.computeAll(ptype);
+
+    var updatedParticles = round(updatedAmount);
+    var difference = Math.abs(updatedParticles - numParticles);
+
+    // If the amount entered is less than 0, increase the amount
+    if (updatedParticles > numParticles) {
+      for (var i = 0; i < difference; i++) {
+        animationSequencer.current().insertNewParticle(ploc, ptype);
+      }
+    } else if (updatedParticles < numParticles) {
+      for (var i = 0; i < difference; i++) {
+        animationSequencer.current().removeParticle(ploc, ptype, 0);
+      }
+    }
+  }
+
   changeSimulatorSettings(evt) {
     // input: the element that triggered the event (Input buttons);
 
