@@ -193,8 +193,11 @@ class SimulatorDOM {
   }
 
   enableParticleID(id) {
+    var ptype = this.m_sim.m_particle_types[id];
+
     this.m_sim_controls.controls.inside.rows[id].enable(true);
     this.m_sim_controls.controls.outside.rows[id].enable(true);
+    this.m_equationResult.setSelected(ptype);
     this.m_sim_controls.checkbox(id, true);
   }
 

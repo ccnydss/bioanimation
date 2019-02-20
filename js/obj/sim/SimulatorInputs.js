@@ -118,33 +118,33 @@ class SimulatorInputs {
     this.controls[location].rows[id].value(amount);
   }
 
-  updateInputs(particleType, location, id) {
-    var transferLocation = (location == "outside")
-    ? "inside"
-    : "outside";
-
-    var oldAmount = animationSequencer.current().getNumParticles(location, particleType);
-    var transferAmount = animationSequencer.current().getNumParticles(transferLocation, particleType);
-
-    var oldInput = this.controls[location].rows[id];
-    var transferInput = this.controls[transferLocation].rows[id];
-
-    oldInput.value(oldAmount);
-    transferInput.value(transferAmount);
-
-    FormulaInputCalculation(particleType);
-  }
-
-  updateAll() {
-    this.updateInputs("Na", "outside", 0);
-    this.updateInputs("Na", "inside", 0);
-    this.updateInputs("Cl", "outside", 1);
-    this.updateInputs("Cl", "inside", 1);
-    this.updateInputs("K", "outside", 2);
-    this.updateInputs("K", "inside", 2);
-
-    FormulaInputCalculation("Na");
-  }
+  // updateInputs(particleType, location, id) {
+  //   var transferLocation = (location == "outside")
+  //   ? "inside"
+  //   : "outside";
+  //
+  //   var oldAmount = animationSequencer.current().getNumParticles(location, particleType);
+  //   var transferAmount = animationSequencer.current().getNumParticles(transferLocation, particleType);
+  //
+  //   var oldInput = this.controls[location].rows[id];
+  //   var transferInput = this.controls[transferLocation].rows[id];
+  //
+  //   oldInput.value(oldAmount);
+  //   transferInput.value(transferAmount);
+  //
+  //   FormulaInputCalculation(particleType);
+  // }
+  //
+  // updateAll() {
+  //   this.updateInputs("Na", "outside", 0);
+  //   this.updateInputs("Na", "inside", 0);
+  //   this.updateInputs("Cl", "outside", 1);
+  //   this.updateInputs("Cl", "inside", 1);
+  //   this.updateInputs("K", "outside", 2);
+  //   this.updateInputs("K", "inside", 2);
+  //
+  //   FormulaInputCalculation("Na");
+  // }
 
   checkedEvent(evt) {
     // input: the element that triggered the event (Input buttons);
