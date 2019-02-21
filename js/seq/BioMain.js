@@ -4,6 +4,7 @@ class BioMain extends Sequence {
 
     this.MEMBRANE_WIDTH = 25;
     this.MEMBRANE_COLOR = color(100, 155, 180, 100);
+    console.log(this.MEMBRANE_COLOR)
     this.MAX_PARTICLES = 999;
     this.MIN_PARTICLES = 1;
 

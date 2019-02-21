@@ -91,17 +91,19 @@ class SimulatorDOM {
     this.m_simCanvasPause.style('display', 'none');
 
     this.m_simCanvasFrame = ec("div", 'simCanvasFrame', 'sim');
-    this.m_simCanvasPreset = ec("div", 'simCanvasPreset', 'simCanvasFrame', { content:
-      '<div class="dropdown">'+
-        '<div class="dropbtn">Custom</div>'+
-        '<div class="dropdown-content">'+
-          '<a href="#" onclick="changePreset(this)">Generic Cell</a>'+
-          '<a href="#" onclick="changePreset(this)">Skeletal Muscle</a>'+
-          '<a href="#" onclick="changePreset(this)">Squid Axon</a>'+
-          '<a href="#" onclick="changePreset(this)">Red Cell</a>'+
-        '</div>'+
-      '</div>'
-   });
+
+    this.m_simCanvasPreset = ec("div", 'simCanvasPreset', 'simCanvasFrame');
+    this.m_simCanvasPreset_dropdown = ec("div", 'simCanvasPresetDropdown', 'simCanvasPreset', { className: 'dropdown' });
+    this.m_simCanvasPreset_dropbtn = ec("a", 'simCanvasPresetDropBtn', 'simCanvasPresetDropdown', { content: 'Default', className: 'dropbtn' });
+    this.m_simCanvasPreset_Content = ec("div", 'simCanvasPresetContent', 'simCanvasPresetDropdown', { className: 'dropdown-content' });
+    this.m_simCanvasPreset_dropbtn_list = []
+
+    for(let i = 0;i<this.m_sim.m_preset.m_preset_list.length;i++) {
+      this.m_simCanvasPreset_dropbtn_list[i] = ec("a", 'simCanvasPresetDropBtnList'+i, 'simCanvasPresetContent', { content: this.m_sim.m_preset.m_preset_list[i].name });
+      var parent = this;
+      document.getElementById('simCanvasPresetDropBtnList'+i).onclick = function() { parent.m_sim.m_preset.changePreset(parent.m_simCanvasPreset_dropbtn_list[i].elt)};
+      // this.m_simCanvasPreset_dropbtn_list[i].mouseClicked(parent.m_sim.m_preset.changePreset(parent.m_simCanvasPreset_dropbtn_list[i].elt))
+    }
 
     this.m_simCanvasPauseIcon = ec("div", 'simCanvasPauseIcon', 'simCanvasFrame', { content: '<i class="fas fa-pause"></i>' })
     document.getElementById('simCanvasFrame').style.display = "none";

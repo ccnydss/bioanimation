@@ -20,6 +20,7 @@ class Simulator {
     };
 
     this.m_tabList = ['aboutPage','contactPage','helpPage']
+    this.m_preset = new Preset(this);
   }
 
   pause() {
