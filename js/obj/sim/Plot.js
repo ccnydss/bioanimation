@@ -9,7 +9,9 @@ Chart.plugins.register({
 });
 
 class Plot {
-  constructor() {
+  constructor(m_sim) {
+    this.m_sim = m_sim;
+
     this.m_time = 0;
 
     this.multiple = 4; //can only set to non prime number... such as 1 2 4 10
@@ -21,7 +23,7 @@ class Plot {
 
     this.m_data_chart;
 
-    this.m_data_chart_global_voltage = [];
+    // this.m_data_chart_global_voltage = [];
     this.m_point_color_leading = ['#e74c3c','#f1c40f','#2c3e50','#8e44ad']
     this.m_point_color_default = [Na.color, Cl.color, K.color, 'gray']
 
@@ -94,25 +96,25 @@ class Plot {
 
     var index = legendItem.datasetIndex;
 
-    if (mainSim.simMode() == "Nernst" & index != 3) { //index 3 is the net voltage
-      var checkBoxParticle = mainSim.m_dom.m_sim_controls.checkboxes[index].elt.innerText;
+    if (this.m_sim.simMode() == "Nernst" & index != 3) { //index 3 is the net voltage
+      var checkBoxParticle = this.m_sim.m_dom.m_sim_controls.checkboxes[index].elt.innerText;
 
-      mainSim.m_dom.m_sim_controls.checkbox(index, true);
+      this.m_sim.m_dom.m_sim_controls.checkbox(index, true);
       curGraph.hidePlot(index, false);
       enableInputForParticle(checkBoxParticle);
 
-      if (mainSim.m_pause) { //If the plot is paused, change the plot particle
-        var particleType = mainSim.m_particle_types[index];
-        var voltage = mainSim.m_nernst_eq.compute(particleType);
+      if (this.m_sim.m_pause) { //If the plot is paused, change the plot particle
+        var particleType = this.m_sim.m_particle_types[index];
+        var voltage = this.m_sim.m_nernst_eq.compute(particleType);
         var dataset = ci.data.datasets[index].data;
         ci.data.datasets[index].data = dataset;
       }
 
       ci.data.datasets.forEach(function(e, i) {
         if (i !== index && i != 3) {
-          var checkBoxParticle = mainSim.m_dom.m_sim_controls.checkboxes[i].elt.innerText;
+          var checkBoxParticle = this.m_sim.m_dom.m_sim_controls.checkboxes[i].elt.innerText;
 
-          mainSim.m_dom.m_sim_controls.checkbox(i, false);
+          this.m_sim.m_dom.m_sim_controls.checkbox(i, false);
           curGraph.hidePlot(i, true);
 
           disableInputForParticle(checkBoxParticle);
@@ -125,14 +127,14 @@ class Plot {
   }
 
   plot() {
-    if (!mainSim.m_pause) { //If the plot is not paused
+    if (!this.m_sim.m_pause) { //If the plot is not paused
 
       for (var i = 0; i < 4; i++) {
         if (i < 3) {
-          var particleType = mainSim.m_particle_types[i];
-          var voltage = mainSim.m_nernst_eq.compute(particleType);
+          var particleType = this.m_sim.m_particle_types[i];
+          var voltage = this.m_sim.m_nernst_eq.compute(particleType);
         } else if (i == 3) { // the net voltage
-          var voltage = mainSim.m_goldman_eq.compute();
+          var voltage = this.m_sim.m_goldman_eq.compute();
         }
 
         this.updateData(i, this.m_time, voltage*1000); //*1000 is to convert V to mV
@@ -165,10 +167,10 @@ class Plot {
     }
 
 
-    if(!this.m_data_chart_global_voltage[index])
-    this.m_data_chart_global_voltage[index] = []
+    // if(!this.m_data_chart_global_voltage[index])
+    // this.m_data_chart_global_voltage[index] = []
 
-    this.m_data_chart_global_voltage[index][x*this.multiple] = y
+    // this.m_data_chart_global_voltage[index][x*this.multiple] = y
 
     dataset[x*this.multiple] = newData
 
@@ -201,7 +203,13 @@ class Plot {
       this.m_data_chart.data.datasets[index].pointBorderColor[prevIndex] =  this.m_point_color_default[index];
 
 
+      if(this.m_sim.simMode() == "Nernst") {
+        if(this.m_sim.m_dom.m_sim.m_nernst_particle == this.m_sim.m_particle_types[index])
+        this.checkYaxis(index);
+
+      } else {
     this.checkYaxis(index);
+      }
 
 
         this.m_data_chart.data.datasets[index].data = dataset;
@@ -212,27 +220,53 @@ class Plot {
   }
 
   checkYaxis(index) {
-        var maxVoltage = 0;
-        if(mainSim.simMode() == "Nernst") {
-          maxVoltage = Math.abs(this.m_data_chart_global_voltage[index].max()/1000) //To mV
-        } else {
-          for(let i = 0; i < 4; i++) {
-            var localMax = Math.abs(this.m_data_chart_global_voltage[i].max()/1000) //To mV
 
-            maxVoltage = (localMax>maxVoltage) ? localMax : maxVoltage;
+        var maxVoltage = 0;
+        if(this.m_sim.simMode() == "Nernst") {
+
+          // maxVoltage = Math.abs(this.m_data_chart_global_voltage[index].max()/1000) //To mV
+
+          for(let i =0;i<this.m_data_chart.data.datasets[index].data.length;i++) {
+
+            var dataSet = this.m_data_chart.data.datasets[index].data[i];
+                if(dataSet) {
+                  if(Math.abs(dataSet.y/1000)>maxVoltage)
+                  maxVoltage=Math.abs(dataSet.y/1000)
+                }
+          }
+
+
+        } else {
+          for(let j = 0; j < 4; j++) {
+            // var localMax = Math.abs(this.m_data_chart_global_voltage[i].max()/1000) //To mV
+
+            // maxVoltage = (localMax>maxVoltage) ? localMax : maxVoltage;
+
+            for(let i =0;i<this.m_data_chart.data.datasets[j].data.length;i++) {
+
+              var dataSet = this.m_data_chart.data.datasets[j].data[i];
+                  if(dataSet) {
+                    if(Math.abs(dataSet.y/1000)>maxVoltage)
+                    maxVoltage=Math.abs(dataSet.y/1000)
+                  }
+            }
+
           }
         }
 
-        if(this.m_max_y<maxVoltage) {
+        console.log(maxVoltage)
+
+        if(this.m_max_y<=maxVoltage) {
           this.m_max_y = maxVoltage
           this.resizeAxis();
-        } else if(maxVoltage > this.m_max_y_default) {
-          this.m_max_y = maxVoltage
-          this.resizeAxis();
-        } else if(this.m_max_y != this.m_max_y_default) {
-          this.m_max_y=this.m_max_y_default
+        } else if(maxVoltage < this.m_max_y_default) {
+          this.m_max_y = this.m_max_y_default
           this.resizeAxis();
         }
+        // else if(this.m_max_y != this.m_max_y_default) {
+        //   this.m_max_y=this.m_max_y_default
+        //   this.resizeAxis();
+        // }
   }
   resizeAxis() {
     //Resize y-axis automatically
