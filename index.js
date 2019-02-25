@@ -14,7 +14,7 @@ function createWindow () {
   // Check for new updates
    autoUpdater.checkForUpdatesAndNotify();
 
-   console.log("This is an update, v0.1.4");
+   console.log("This is an update, v0.1.5");
 }
 
 function sendStatusToWindow(text) {
