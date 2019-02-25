@@ -137,6 +137,9 @@ class InputRow {
     mainSim.updateParticles(particleType, particleLocation, updatedAmount);
 
     this.value(updatedAmount);
+
+    // Change the Preset text content to custom
+    mainSim.m_dom.m_simCanvasPreset_dropbtn.elt.textContent = 'Custom'
   }
 
   highLightInput(evt) {

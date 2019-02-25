@@ -254,7 +254,7 @@ class Plot {
           }
         }
 
-        console.log(maxVoltage)
+        // console.log(maxVoltage)
 
         if(this.m_max_y<=maxVoltage) {
           this.m_max_y = maxVoltage
