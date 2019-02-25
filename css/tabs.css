@@ -308,8 +308,11 @@ code {
 
 #updateNotifier {
   align-self: center;
-  color: #f90;
   flex: 1;
+}
+
+#updateNotifier a, #currentVersion a {
+  color: #f90;
 }
 
 .MJXc-display {
