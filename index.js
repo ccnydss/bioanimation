@@ -13,6 +13,8 @@ function createWindow () {
 
   // Check for new updates
    autoUpdater.checkForUpdatesAndNotify();
+
+   console.log("This is an update, v0.1.3");
 }
 
 function sendStatusToWindow(text) {
