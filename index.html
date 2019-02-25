@@ -96,14 +96,14 @@ font-size: 30px;
 
           switch(userOS) {
             case "Mac OS":
-              releaseLink = res.assets[0].browser_download_url;
-              break;
+            releaseLink = res.assets[0].browser_download_url;
+            break;
             case "Linux":
-              releaseLink = res.assets[1].browser_download_url;
-              break;
+            releaseLink = res.assets[1].browser_download_url;
+            break;
             case "Windows":
-              releaseLink = res.assets[2].browser_download_url;
-              break;
+            releaseLink = res.assets[2].browser_download_url;
+            break;
           }
 
           var message = "Fully updated";
@@ -119,6 +119,29 @@ font-size: 30px;
           document.getElementById("currentVersion").innerHTML = "| v" + currentNum + " | " + message;
         }
       )
+    } else {
+      fetch("https://api.github.com/repos/ccnydss/bioanimation/releases/latest").then(function(raw) {
+        return raw.json();
+      }).then(function(res) {
+        var userOS = getOS();
+        var releaseLink;
+
+        switch(userOS) {
+          case "Mac OS":
+          releaseLink = res.assets[0].browser_download_url;
+          break;
+          case "Linux":
+          releaseLink = res.assets[1].browser_download_url;
+          break;
+          case "Windows":
+          releaseLink = res.assets[2].browser_download_url;
+          break;
+        }
+
+        console.log("hmmmmm", releaseLink);
+
+        document.getElementById("downloadLink").innerHTML = "<a href='" + releaseLink + "'>v" + latestNum + "</a>"
+      })
     }
 
     function cmpVersion(a, b) {
@@ -147,65 +170,65 @@ font-size: 30px;
     function ltVersion(a, b) {
       return cmpVersion(a, b) < 0;
     }
-  </script>
+    </script>
 
-  <div style="display:none" id="platformDetection" class="container center">
-    <div style="font-size: 26px"><i class="fas fa-frown"></i> Sorry, bioanimation currently doesn't support mobile <i class="fas fa-mobile"></i></div>
-    <div>please run it in a computer <i class="fas fa-laptop"></i></div>
+    <div style="display:none" id="platformDetection" class="container center">
+      <div style="font-size: 26px"><i class="fas fa-frown"></i> Sorry, bioanimation currently doesn't support mobile <i class="fas fa-mobile"></i></div>
+      <div>please run it in a computer <i class="fas fa-laptop"></i></div>
 
-  </div>
+    </div>
 
-  <div style="display:none" id="browserDetection" class="container">
-    <section style="flex-direction: column;" class="container center">
-      <div class="container center" ><i id="browserDetectionText"><i class="fas fa-exclamation-circle"></i>IE</i> doesn't support bioanimation</div>
-      <div class="container center" >Please update it to the follow version</div>
-    </section>
-    <section class="container center">
+    <div style="display:none" id="browserDetection" class="container">
+      <section style="flex-direction: column;" class="container center">
+        <div class="container center" ><i id="browserDetectionText"><i class="fas fa-exclamation-circle"></i>IE</i> doesn't support bioanimation</div>
+        <div class="container center" >Please update it to the follow version</div>
+      </section>
+      <section class="container center">
 
-      <table id="browserDetectionTable">
+        <table id="browserDetectionTable">
+          <tr>
+            <th>Browser</th>
+            <th>Support Version</th>
+          </tr>
+          <tr>
+            <td><i class="fab fa-internet-explorer"> Internet Explorer</i></td>
+            <td>Not supported</td>
+          </tr>
+          <tr>
+            <td><i class="fab fa-edge"> Microsoft Edge</i></td>
+            <td><i class="fas fa-download"></i><a target="_blank" href='https://www.microsoft.com/en-us/windows/microsoft-edge'>v. 42</a></td>
+          </tr>
+          <tr>
+            <td><i class="fab fa-chrome"> Chrome</i></td>
+            <td><i class="fas fa-download"></i><a target="_blank" href='https://www.google.com/chrome/'>v. 68</a></td>
+          </tr>
+          <!-- <tr>
+          <td><i class="fab fa-chrome"></i>Chrome for Android</td>
+          <td>v. 68</td>
+        </tr> -->
         <tr>
-          <th>Browser</th>
-          <th>Support Version</th>
+          <td><i class="fab fa-firefox"> Firefox</i></td>
+          <td><i class="fas fa-download"></i><a target="_blank" href='https://www.mozilla.org/en-US/firefox/new/'>v. 61</a></td>
         </tr>
         <tr>
-          <td><i class="fab fa-internet-explorer"> Internet Explorer</i></td>
-          <td>Not supported</td>
-        </tr>
-        <tr>
-          <td><i class="fab fa-edge"> Microsoft Edge</i></td>
-          <td><i class="fas fa-download"></i><a target="_blank" href='https://www.microsoft.com/en-us/windows/microsoft-edge'>v. 42</a></td>
-        </tr>
-        <tr>
-          <td><i class="fab fa-chrome"> Chrome</i></td>
-          <td><i class="fas fa-download"></i><a target="_blank" href='https://www.google.com/chrome/'>v. 68</a></td>
+          <td><i class="fab fa-safari"> Safari</i></td>
+          <td><i class="fas fa-download"></i><a target="_blank" href='https://www.apple.com/safari/'>v. 11</a></td>
         </tr>
         <!-- <tr>
-        <td><i class="fab fa-chrome"></i>Chrome for Android</td>
-        <td>v. 68</td>
+        <td><i class="fab fa-safari"></i>iOS Safari</td>
+        <td>v. 11.4</td>
       </tr> -->
       <tr>
-        <td><i class="fab fa-firefox"> Firefox</i></td>
-        <td><i class="fas fa-download"></i><a target="_blank" href='https://www.mozilla.org/en-US/firefox/new/'>v. 61</a></td>
+        <td><i class="fab fa-opera"> Opera</i></td>
+        <td><i class="fas fa-download"></i><a target="_blank" href='https://www.opera.com/download'>v. 54</a></td>
       </tr>
       <tr>
-        <td><i class="fab fa-safari"> Safari</i></td>
-        <td><i class="fas fa-download"></i><a target="_blank" href='https://www.apple.com/safari/'>v. 11</a></td>
+        <td><i class="fas fa-desktop"></i><i style="padding-left: 5px" class="fab">Desktop App</i></td>
+        <td><i class="fas fa-download"></i><a target="_blank" href=''>v. 1</a></td>
       </tr>
-      <!-- <tr>
-      <td><i class="fab fa-safari"></i>iOS Safari</td>
-      <td>v. 11.4</td>
-    </tr> -->
-    <tr>
-      <td><i class="fab fa-opera"> Opera</i></td>
-      <td><i class="fas fa-download"></i><a target="_blank" href='https://www.opera.com/download'>v. 54</a></td>
-    </tr>
-    <tr>
-      <td><i class="fas fa-desktop"></i><i style="padding-left: 5px" class="fab">Desktop App</i></td>
-      <td><i class="fas fa-download"></i><a target="_blank" href=''>v. 1</a></td>
-    </tr>
-  </table>
+    </table>
 
-</section>
+  </section>
 </div>
 
 <div id="helpPage" style="display:none"></div>
@@ -364,76 +387,79 @@ font-size: 30px;
         <p>The City College of New York</p>
       </ul>
       <ul id='secondLine'>
-        <p>This project is designed for students to better understand the Nernst and Goldman equation. More description.....
-          <p>Lead by Professor Hysell Oviedo and Professor Ching-Jung Chen
-            <br>Designed by Digital Scholarship Services in the Cohen Library</p>
-            <p>Design Credit:</p>
-            <p>For question, please contact xyz@citymail.cuny.edu</p>
-          </ul>
-        </div>
-      </section>
+        <p>This project is designed for students to better understand the Nernst and Goldman equation. More description.....</p>
+        <p>Lead by Professor Hysell Oviedo and Professor Ching-Jung Chen</p>
+        <br>Designed by Digital Scholarship Services in the Cohen Library</p>
+        <p>Design Credit:</p>
+        <p>For question, please contact xyz@citymail.cuny.edu</p>
+      </ul>
+      <ul id='thirdLine'>
+        <i class="fas fa-desktop"></i><i style="padding-left: 5px" class="fab">Desktop App</i>
+        <i class="fas fa-download"></i><span id="downloadLink"></span>
+      </ul>
     </div>
+  </section>
+</div>
 
-    <div id="containerHeader">
-      <span id="updateNotifier"></span>
-      <li onclick="openPage('aboutPage')">About</li>
-      <li onclick="openPage('contactPage')">Contact</li>
-      <li onclick="openPage('helpPage')">Help</li>
-    </div>
+<div id="containerHeader">
+  <span id="updateNotifier"></span>
+  <li onclick="openPage('aboutPage')">About</li>
+  <li onclick="openPage('contactPage')">Contact</li>
+  <li onclick="openPage('helpPage')">Help</li>
+</div>
 
-    <div id="root"></div>
+<div id="root"></div>
 
-    <script language="javascript" type="text/javascript" src="js/browserDetection.js"></script>
+<script language="javascript" type="text/javascript" src="js/browserDetection.js"></script>
 
-    <script language="javascript" type="text/javascript" src="js/p5/p5.min.js"></script>
-    <script language="javascript" type="text/javascript" src="js/p5/p5.dom.min.js"></script>
-    <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+<script language="javascript" type="text/javascript" src="js/p5/p5.min.js"></script>
+<script language="javascript" type="text/javascript" src="js/p5/p5.dom.min.js"></script>
+<script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
 
-    <script language="javascript" type="text/javascript" src="js/helpers.js"></script>
+<script language="javascript" type="text/javascript" src="js/helpers.js"></script>
 
-    <script language="javascript" type="text/javascript" src="js/obj/animation/Point.js"></script>
-    <script language="javascript" type="text/javascript" src="js/obj/animation/Rectangle.js"></script>
-    <script language="javascript" type="text/javascript" src="js/obj/animation/Label.js"></script>
-    <script language="javascript" type="text/javascript" src="js/obj/animation/Container.js"></script>
-    <script language="javascript" type="text/javascript" src="js/obj/animation/Particle.js"></script>
-    <script language="javascript" type="text/javascript" src="js/obj/animation/Channel.js"></script>
+<script language="javascript" type="text/javascript" src="js/obj/animation/Point.js"></script>
+<script language="javascript" type="text/javascript" src="js/obj/animation/Rectangle.js"></script>
+<script language="javascript" type="text/javascript" src="js/obj/animation/Label.js"></script>
+<script language="javascript" type="text/javascript" src="js/obj/animation/Container.js"></script>
+<script language="javascript" type="text/javascript" src="js/obj/animation/Particle.js"></script>
+<script language="javascript" type="text/javascript" src="js/obj/animation/Channel.js"></script>
 
-    <script language="javascript" type="text/javascript" src="js/obj/sim/NernstEq.js"></script>
-    <script language="javascript" type="text/javascript" src="js/obj/sim/GoldmanEq.js"></script>
-    <script language="javascript" type="text/javascript" src="js/obj/menu/Help.js"></script>
-    <script language="javascript" type="text/javascript" src="js/obj/menu/Preset.js"></script>
-    <script language="javascript" type="text/javascript" src="js/obj/sim/InputRow.js"></script>
-    <script language="javascript" type="text/javascript" src="js/obj/sim/Plot.js"></script>
-    <script language="javascript" type="text/javascript" src="js/obj/menu/Question.js"></script>
-    <script language="javascript" type="text/javascript" src="js/obj/sim/EquationResult.js"></script>
-    <script language="javascript" type="text/javascript" src="js/obj/sim/SimulatorInputs.js"></script>
-    <script language="javascript" type="text/javascript" src="js/obj/sim/SimulatorDOM.js"></script>
-    <script language="javascript" type="text/javascript" src="js/obj/sim/Simulator.js"></script>
+<script language="javascript" type="text/javascript" src="js/obj/sim/NernstEq.js"></script>
+<script language="javascript" type="text/javascript" src="js/obj/sim/GoldmanEq.js"></script>
+<script language="javascript" type="text/javascript" src="js/obj/menu/Help.js"></script>
+<script language="javascript" type="text/javascript" src="js/obj/menu/Preset.js"></script>
+<script language="javascript" type="text/javascript" src="js/obj/sim/InputRow.js"></script>
+<script language="javascript" type="text/javascript" src="js/obj/sim/Plot.js"></script>
+<script language="javascript" type="text/javascript" src="js/obj/menu/Question.js"></script>
+<script language="javascript" type="text/javascript" src="js/obj/sim/EquationResult.js"></script>
+<script language="javascript" type="text/javascript" src="js/obj/sim/SimulatorInputs.js"></script>
+<script language="javascript" type="text/javascript" src="js/obj/sim/SimulatorDOM.js"></script>
+<script language="javascript" type="text/javascript" src="js/obj/sim/Simulator.js"></script>
 
-    <script language="javascript" type="text/javascript" src="js/sketchControls.js"></script>
+<script language="javascript" type="text/javascript" src="js/sketchControls.js"></script>
 
-    <script language="javascript" type="text/javascript" src="js/seq/sequence.js"></script>
-    <script language="javascript" type="text/javascript" src="js/seq/BioMain.js"></script>
-    <script language="javascript" type="text/javascript" src="js/seq/Test1.js"></script>
+<script language="javascript" type="text/javascript" src="js/seq/sequence.js"></script>
+<script language="javascript" type="text/javascript" src="js/seq/BioMain.js"></script>
+<script language="javascript" type="text/javascript" src="js/seq/Test1.js"></script>
 
-    <script language="javascript" type="text/javascript" src="js/main.js"></script>
-    <script language="javascript" type="text/javascript" src="js/particleControls.js"></script>
+<script language="javascript" type="text/javascript" src="js/main.js"></script>
+<script language="javascript" type="text/javascript" src="js/particleControls.js"></script>
 
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async>
-    </script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async>
+</script>
 
-    <section id="NernstEqn" style="display:none">
-      $$
-      \normalsize
-      E_{ion} = \frac{RT}{zF}ln \left( \frac{\text{Ion Out} } {\text{Ion In}} \right)$$
-    </section>
+<section id="NernstEqn" style="display:none">
+  $$
+  \normalsize
+  E_{ion} = \frac{RT}{zF}ln \left( \frac{\text{Ion Out} } {\text{Ion In}} \right)$$
+</section>
 
-    <section id="GoldmanEqn" style="display:none">
-      $$
-      \small
-      V_{rest} = \frac{RT}{F}ln \left( \frac{ P_{Na}[Na^+]_{\text{out}} + P_{Cl}[Cl^-]_{\text{in}} + P_{K}[K^-]_{\text{out}} } { P_{Na}[Na^+]_{\text{in}} + P_{Cl}[Cl^-]_{\text{out}} + P_{K}[K^-]_{\text{in}} } \right)$$
-    </section>
-
+<section id="GoldmanEqn" style="display:none">
+  $$
+  \small
+  V_{rest} = \frac{RT}{F}ln \left( \frac{ P_{Na}[Na^+]_{\text{out}} + P_{Cl}[Cl^-]_{\text{in}} + P_{K}[K^-]_{\text{out}} } { P_{Na}[Na^+]_{\text{in}} + P_{Cl}[Cl^-]_{\text{out}} + P_{K}[K^-]_{\text{in}} } \right)$$
+</section>
 
   </body>
   </html>
