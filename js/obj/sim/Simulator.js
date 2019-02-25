@@ -237,6 +237,9 @@ class Simulator {
         animationSequencer.current().removeParticle(ploc, ptype, 0);
       }
     }
+
+    var id = particleMapper[ptype].id;
+    this.updateInputs(updatedAmount, id);
   }
 
   changeSimulatorSettings(evt) {
