@@ -107,6 +107,7 @@ font-size: 30px;
           var message = "Fully updated";
 
           console.log("current vers, latest vers: ", currentNum, latestNum);
+          console.log("OS version and link", userOS, releaseLink);
 
           if (ltVersion(currentNum, latestNum)) {
             message = "<a href='" + releaseLink + "'>New version (v" + latestNum + ") available</a>";
