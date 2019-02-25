@@ -209,6 +209,10 @@ class Simulator {
     this.m_dom.m_sim_controls.controls["inside"].rows[particleID].value(amount);
   }
 
+  updateInputLoc(particleID, location, amount) {
+    this.m_dom.m_sim_controls.controls[location].rows[particleID].value(amount);
+  }
+
   updateParticles(ptype, ploc, updatedAmount) {
     //mainSim.updateParticles("Na","outside",13)
     var numParticles = animationSequencer.current().getNumParticles(ploc, ptype);
@@ -249,6 +253,9 @@ class Simulator {
         animationSequencer.current().removeParticle(ploc, ptype, 0);
       }
     }
+
+    var id = particleMapper[ptype].id;
+    this.updateInputLoc(id, ploc, updatedAmount);
   }
 
   changeSimulatorSettings(evt) {
