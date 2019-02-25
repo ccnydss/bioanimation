@@ -95,7 +95,7 @@ font-size: 30px;
           console.log("current vers, latest vers: ", currentNum, latestNum);
 
           if (latestNum > currentNum) {
-            message = "<a href='" + releaseLink + "'>New version available</a>";
+            message = "<a href='" + releaseLink + "'>New version (v" + latestNum + ") available</a>";
           }
 
           document.getElementById("currentVersion").innerHTML = "| v" + currentNum + " | " + message;
