@@ -99,7 +99,7 @@ font-size: 30px;
           }
 
           document.getElementById("currentVersion").innerHTML = "| v" + currentNum + " | " + message;
-          document.getElementById("updateStatus").innerHTML = "| " + message;
+          document.getElementById("updateNotifier").innerHTML = message;
       }
     )
   }
@@ -311,11 +311,11 @@ font-size: 30px;
 
 <div id="contactPage" style="display:none">
   <section>
-    <nav>Logo</nav>
+    <nav><img src="img/icon.png" width="100px" style="padding: 10px; background-color: #fff; border-radius: 5%"></img></nav>
 
     <div>
       <ul id='firstLine'>
-        <p>build: Jan 1, 2019 <span id="currentVersion"></span></p>
+        <p>build: Feb 25, 2019 <span id="currentVersion"></span></p>
         <p>The City College of New York</p>
       </ul>
       <ul id='secondLine'>
@@ -330,6 +330,7 @@ font-size: 30px;
 </div>
 
 <div id="containerHeader">
+  <span id="updateNotifier"></span>
   <li onclick="openPage('aboutPage')">About</li>
   <li onclick="openPage('contactPage')">Contact</li>
   <li onclick="openPage('helpPage')">Help</li>
