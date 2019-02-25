@@ -556,24 +556,16 @@ Simulation Equation & Setting layer
   width: 100%;
 }
 
-/* .dropdown {
-opacity: 0.7;
-  background-color: gray;
-  color: white;
-  width: 126px;
-  height: 40px;
-  font-size: 16px;
-  border: none;
-} */
 
 /* Dropdown Button */
 .dropbtn {
 opacity: 0.7;
   background-color: gray;
   color: white;
-  padding: 16px;
   font-size: 16px;
-  border: none;
+  padding: 12px 16px;
+  display: block;
+  min-width: 160px;
 }
 
 /* The container <div> - needed to position the dropdown content */
@@ -590,6 +582,10 @@ opacity: 0.7;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
+}
+
+.dropdown-content:hover {
+  cursor: pointer;
 }
 
 /* Links inside the dropdown */
