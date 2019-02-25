@@ -4,14 +4,14 @@ class SimulatorInputs {
 
     this.controls = {
       inside: {
-        label: "Intracellular",
+        label: "Intracellular (mM)",
         header: null,
         table: null,
         controls: null,
         rows: []
       },
       outside: {
-        label: "Extracellular",
+        label: "Extracellular (mM)",
         header: null,
         table: null,
         controls: null,
@@ -26,8 +26,8 @@ class SimulatorInputs {
     var ec = elementCreator;
 
     // Div to contain the simulatorInput
-    this.m_simulatorInputContainer = ec("div", 'simulatorInputContainer', 'secondBox', { className: 'bottom-scroll' });
-    this.m_simulatorInput = ec("div", 'simInput', 'simulatorInputContainer');
+    this.m_simulatorInputContainer = ec("div", 'simulatorInputContainer', 'secondBox', { className: 'simulatorInputContainer' });
+    this.m_simulatorInput = ec("div", 'simInput', 'simulatorInputContainer', { className: 'simInput' });
 
     //Control UI ----------------------------
     this.m_controlsLeft = ec("div", 'controls', 'simInput', { className: 'controls' });
@@ -41,7 +41,7 @@ class SimulatorInputs {
     this.controls.inside.controls = [this.m_control0, this.m_control1];
     this.controls.outside.controls = [this.m_control2, this.m_control3];
 
-    this.m_particleControl = ec("div", 'particleControl', 'simulatorInputContainer');
+    this.m_particleControl = ec("div", 'particleControl', 'simulatorInputContainer', {className: 'particleControl'});
   }
 
   create() {

@@ -77,8 +77,8 @@ class Preset {
         Cl_out:116,
         Cl_in:80,
         Temp:37, //degree C
-        color_in:"rgba(214,48,49,0.5)",
-        color_out:"rgba(255,118,117,0.39)",
+        color_in:"rgba(214,48,49,1)",
+        color_out:"rgba(255,118,117,1)",
         color_membrane:"rgba(241,144,102,0.6)"
       }
     ]

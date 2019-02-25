@@ -12,7 +12,7 @@ class Help {
       NernstEqn:"Current mode governing equation",
       GoldmanEqn:"Goldman equation",
       simulatorSetting:"In the setting Menu, you can change the setting of temperature and ion permeability",
-      leftWindow: " ", //space for add the 'last' class
+      leftWindow: "", //space for add the 'last' class
       dataPlot:"Voltage data plot",
       answer:"Current Voltage in membrane",
       equilibrateButton:"Click this to equilibrate the membrane",
@@ -21,7 +21,7 @@ class Help {
       simulatorInputContainer:"",
       simInput:"All the particle input",
       particleControl:"All the particle control",
-      helpDummy:""
+      // helpDummy:""
     }
 
   }
@@ -88,51 +88,101 @@ class Help {
   }
 
   resize() {
-    var total = Object.keys(this.m_list).length;
+    // var total = Object.keys(this.m_list).length;
+    //
+    // for (let i = 0; i<total; i++) {
+    //
+    //   var element = document.getElementById(Object.keys(this.m_list)[i]);
+    //   var dim = this.getDim(element)
+    //   var clone = document.getElementById(Object.keys(this.m_list)[i]+"-clone");
+    //
+    //   if(clone) {
+    //     clone.style.height = dim[0] + "%"
+    //     clone.style.width = dim[1] + "%"
+    //     this.helpDummyCheck(clone,element)
+    //   }
+    // }
 
-    for (let i = 0; i<total; i++) {
-
-      var element = document.getElementById(Object.keys(this.m_list)[i]);
-      var dim = this.getDim(element)
-      var clone = document.getElementById(Object.keys(this.m_list)[i]+"-clone");
-
-      if(clone) {
-        clone.style.height = dim[0] + "%"
-        clone.style.width = dim[1] + "%"
-        this.helpDummyCheck(clone,element)
+    //Only dataPlot need to be resize...
+    setTimeout(
+      function() {
+        var original = document.getElementById('dataPlot')
+        var height = (parseFloat(getComputedStyle(original)['height']))
+        document.getElementById('dataPlot-clone').style.height = height + 'px'
       }
+      ,100)
+
     }
-  }
 
 
-  createLayer(parent,index) {
-    // input 1: DOM element
-    // input 2: int
-    // return: DOM element
+    createLayer(parent,index) {
+      // input 1: DOM element
+      // input 2: int
+      // return: DOM element
 
-    var ui = parent.children[index]
-    if(!Object.keys(this.m_list).includes(ui.id) || ui.classList.contains('hidden') || ui.style.display=='none')
-    return;
+      var ui = parent.children[index]
+      if(!Object.keys(this.m_list).includes(ui.id) || ui.classList.contains('hidden') || ui.style.display=='none')
+      return;
 
-    helpDebug && console.log('Layer '+index+' found. ID is'+ui.id+' childlength is '+ui.children.length)
-    var layer = this.cloneUI(ui)
+      helpDebug && console.log('Layer '+index+' found. ID is'+ui.id+' childlength is '+ui.children.length)
+      var layer = this.cloneUI(ui)
 
-    return layer
-  }
+      return layer
+    }
 
-  cloneUI(original) {
-    //Input1: DOM element
+    cloneUI(original) {
+      //Input1: DOM element
 
-    var clone = document.createElement("div");
-    var dim = this.getDim(original)
+      var clone = document.createElement("div");
+      var dim = this.getDim(original)
 
-    helpDebug && console.log(dim)
+      helpDebug && console.log(dim)
+      // console.log(getComputedStyle(original)['display'])
 
-    clone.style.height = dim[0] + "%"
-    clone.style.width = dim[1] + "%"
+      // clone.style.height = dim[0] + "%"
+      // clone.style.width = dim[1] + "%"
 
-    clone.id = original.id+"-clone";
-    clone.classList.add('clone')
+      clone.id = original.id+"-clone";
+      clone.classList = original.classList
+      clone.classList.add('clone')
+      clone.classList.add(original.id)
+
+      var extra = ['NernstEqn',
+      'GoldmanEqn',
+      'answer',
+      'simulatorSetting',
+      'dataPlot']
+      if(extra.includes(original.id)) {
+        // setTimeout(
+        //   function() {
+        var height = (parseFloat(getComputedStyle(original)['height'])
+        // +parseFloat(getComputedStyle(original)['margin'])
+        // +parseFloat(getComputedStyle(original)['padding'])
+      )
+
+      if(original.id=='GoldmanEqn' || original.id=='NernstEqn' )
+      height=height+10+10;
+
+      if(original.id=='answer') {
+        clone.style.paddingTop=height/2 + 'px'
+        clone.style.paddingBottom=height/2 + 'px'
+      } else {
+        clone.style.height=height + 'px'
+      }
+
+
+      // console.log(parseFloat(getComputedStyle(original)['height']) + parseFloat(getComputedStyle(original)['padding']))
+      // }
+      // , 1000);
+    }
+
+    if(getComputedStyle(original)['overflow']=='auto' || getComputedStyle(original)['overflow-y']=='auto') {
+      clone.onscroll = function(e) {
+        original.scrollTop = clone.scrollTop;
+        original.scrollLeft = clone.scrollLeft;
+      };
+    }
+
 
     this.helpDummyCheck(clone,original)
 
@@ -165,7 +215,9 @@ class Help {
 
     target.innerHTML = this.m_list[content]
     if(this.m_list[content]!="") {
+      target.style.display = "flex";
       target.style.justifyContent = "center";
+      target.style.alignItems = "center";
       target.style.textAlign = "center";
       target.classList.add('last')
     }
