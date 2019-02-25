@@ -4,14 +4,14 @@ class SimulatorInputs {
 
     this.controls = {
       inside: {
-        label: "Intracellular",
+        label: "Intracellular (mM)",
         header: null,
         table: null,
         controls: null,
         rows: []
       },
       outside: {
-        label: "Extracellular",
+        label: "Extracellular (mM)",
         header: null,
         table: null,
         controls: null,
