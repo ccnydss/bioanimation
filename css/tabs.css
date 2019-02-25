@@ -1,5 +1,5 @@
 
-#helpPage, #aboutPage, #contactPage {
+#helpPage, #aboutPage {
   z-index: 10;
   /* background-color: gray; */
   background-color: rgba(128, 128, 128,0.92);
@@ -15,7 +15,7 @@
 }
 
 #helpPage {
-background-color: rgba(128, 128, 128,0.85);
+  background-color: rgba(128, 128, 128,0.85);
 }
 
 #aboutPage section {
@@ -100,13 +100,33 @@ background-color: rgba(128, 128, 128,0.85);
 }
 
 #contactPage {
-border: none;
-justify-content: center;
-align-items: center;
+  border: none;
+  justify-content: center;
+  align-items: center;
 }
 
-#contactPage section {
-opacity: 1;
+
+#contactPage {
+  z-index: 10;
+  display: flex;
+  position: absolute;
+  width: calc(100% - 4px - 2px);
+  height: calc(100% - 36px - 4px);
+  top: calc(36px + 2px);
+  left: 2px;
+}
+
+#contactPageHelper {
+  z-index: 5;
+  position: absolute;
+  background-color: rgba(128, 128, 128,0.92);
+  height: 100%;
+  width: 100%;
+}
+
+#contactPageBox {
+  z-index: 10;
+  opacity: 1;
   height: 350px;
   width: 700px;
   display: flex;
@@ -115,19 +135,19 @@ opacity: 1;
   border: solid 5px #f5f6fa;
 }
 
-#contactPage section nav {
-    flex: 4;
-    height: 40%;
-    width: 100%;
-    background-color: #9d7eba;
-    color: white;
-    font-size: 30px;
-    display:flex;
-    justify-content: center;
-    align-items: center;
+#contactPageBox nav {
+  flex: 4;
+  height: 40%;
+  width: 100%;
+  background-color: #9d7eba;
+  color: white;
+  font-size: 30px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
 }
 
-#contactPage section div {
+#contactPageBox div {
   margin: 5px 10px;
   flex: 6;
   height: 60%;
@@ -136,29 +156,29 @@ opacity: 1;
 
 #secondLine {
   margin: 20px 20px;
-    display: flex;
-    flex-direction: column;
-    height: calc(90% - 20px);
+  display: flex;
+  flex-direction: column;
+  height: calc(90% - 20px);
 }
 
 #secondLine p {
-   margin-top: 10px;
+  margin-top: 10px;
 }
 
 #secondLine p:last-child {
-   margin-top: auto;
-   align-self: center;
-   color: #0984e3;
+  margin-top: auto;
+  align-self: center;
+  color: #0984e3;
 }
 
 #firstLine {
   display:flex;
 }
 #firstLine p {
-   margin-top: 0px;
-     flex: 1;
-     color: #ecf0f1;
-     font-size: 14px;
+  margin-top: 0px;
+  flex: 1;
+  color: #ecf0f1;
+  font-size: 14px;
 }
 #firstLine p:last-child {
   display: flex;
@@ -181,9 +201,9 @@ opacity: 1;
 }
 
 /* .hovering:hover {
-  opacity: 0.75;
-  background-color: #00b894;
-  cursor: help;
+opacity: 0.75;
+background-color: #00b894;
+cursor: help;
 } */
 
 .last {
