@@ -76,6 +76,35 @@ font-size: 30px;
 </head>
 
 <body>
+  <script>
+  // Check for updates if electron
+  if (typeof require === "function") {
+    const bioapp = require("electron").remote.app;
+    console.log("bioapp ", bioapp);
+    fetch("https://api.github.com/repos/ccnydss/bioanimation/releases/latest").then (
+      function(raw) {
+        return raw.json();
+      }).then(
+        function(res) {
+          var currentNum = bioapp.getVersion();
+          var latestNum = res.name;
+
+          var releaseLink = res.html_url;
+          var message = "Fully updated";
+
+          console.log("current vers, latest vers: ", currentNum, latestNum);
+
+          if (latestNum > currentNum) {
+            message = "<a href='" + releaseLink + "'>New version available</a>";
+          }
+
+          document.getElementById("currentVersion").innerHTML = "| v" + currentNum + " | " + message;
+          document.getElementById("updateStatus").innerHTML = "| " + message;
+      }
+    )
+  }
+  </script>
+
   <div style="display:none" id="platformDetection" class="container center">
     <div style="font-size: 26px"><i class="fas fa-frown"></i> Sorry, bioanimation currently doesn't support mobile <i class="fas fa-mobile"></i></div>
     <div>please run it in a computer <i class="fas fa-laptop"></i></div>
@@ -286,7 +315,7 @@ font-size: 30px;
 
     <div>
       <ul id='firstLine'>
-        <p>build: Jan 1, 2019 | v0.1.6</p>
+        <p>build: Jan 1, 2019 <span id="currentVersion"></span></p>
         <p>The City College of New York</p>
       </ul>
       <ul id='secondLine'>
