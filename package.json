@@ -1,6 +1,6 @@
 {
   "name": "bioanimation",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "CCNY Electrochemical Gradient Simulator",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,8 @@
     "dist": "electron-builder",
     "dist-win": "electron-builder build --win",
     "dist-lin": "electron-builder build --linux",
-    "dist-all": "electron-builder build -mwl"
+    "dist-all": "electron-builder build -mwl",
+    "publish": "build --win -p always"
   },
   "repository": {
     "type": "git",
@@ -36,6 +37,14 @@
     },
     "linux": {
       "target": "AppImage"
-    }
+    },
+    "publish": [{
+      "provider": "github",
+      "owner": "ccnydss",
+      "repo": "bioanimation"
+    }]
+  },
+  "dependencies": {
+    "electron-updater": "^4.0.6"
   }
 }
