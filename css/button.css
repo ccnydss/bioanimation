@@ -1,0 +1,201 @@
+/* All sims button goes here */
+
+/* Question box buttons */
+
+.controls {
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+#questionBotton {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #112D32;
+}
+
+#questionNext, #questionPrev {
+  background-color: #112D32;
+  border: none;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+  width: 20%;
+}
+
+#questionNext:disabled, #questionPrev:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
+
+#questionControl {
+  padding-bottom: 10px;
+}
+#questionJumpInput {
+  width: 20px;
+  text-align: center;
+}
+
+#jumpBtn0 {
+  border: solid 1px;
+}
+
+.jumpBtn:not(:first-child) {
+  color: white;
+  background-color: #112D32;
+  width: 25px;
+  border: solid 1px;
+  border-left: none;
+}
+
+.jumpBtn[target] {
+  background-color: #59ABE3;
+}
+
+.jumpDot {
+  /* color: white;
+  background-color: #112D32; */
+  cursor: default;
+  padding: 0px 5px;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.control {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.qoptions {
+  margin-left: 5px;
+  vertical-align: middle;
+  align-self: flex-end;
+  margin-top: auto;
+}
+
+.answer {
+  text-align: center;
+  width: 100%;
+  color: #000;
+}
+
+.control h3 {
+  font-size: 25px;
+}
+
+.control input {
+  width: 40px;
+  height: 20px;
+  text-align: center;
+}
+
+.qoptions input {
+  width: 50px;
+  height: 29px;
+  text-align: center;
+
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: none;
+}
+
+.qoptions button {
+  height: 30px;
+  width: 30px;
+  border-radius: 5px;
+  border: none;
+  font-size: 20px;
+  text-align: center;
+}
+
+/* universal button */
+.checkboxes {
+  margin: 5px;
+}
+
+.checkboxes label {
+  margin-left: 5px;
+}
+
+#particleControl {
+  background-color: #4F4A41;
+}
+
+.particleControl {
+  display: flex;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.particleControl {
+  height: calc(36px + 10px + 10px); /* for the clone */
+}
+
+#NernstButton, #GoldmanButton {
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  width: 20%;
+  height: 36px;
+  margin-left: 20px;
+  background-color: #dfe6e9;
+}
+
+.control input:hover {
+  cursor: text;
+  box-shadow: 0px 0px 15px lightgrey;
+}
+
+.checkboxes input {
+  cursor: pointer;
+}
+
+#NernstButton:hover, #GoldmanButton:hover, button:hover {
+  cursor: pointer;
+  box-shadow: 0px 0px 15px lightgrey;
+}
+
+#equilibrateButton {
+background-color: #dfe6e9;
+  font-size: 1.1em;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+      width: 20%;
+}
+
+.equilibrateButton {
+  height: 36px;
+  margin-left: 20px;
+    margin: 10px 0px;
+    /* flex: 0 0 auto; */
+}
+
+#equilibrateButton-clone {
+height: calc(36px + 20px);
+}
+
+#equilibrateButton, #answer {
+  width: 95%;
+  align-self: center;
+}
+
+#equilibrateButton:hover, #equilibrateButton:active, #equilibrateButton:focus {
+  box-shadow: 0px 0px 15px lightgrey;
+  cursor: pointer;
+}
+
+/* #ion-selector {
+  display: block;
+} */

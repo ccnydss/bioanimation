@@ -89,11 +89,19 @@ class Simulator {
 
       case "questionsdiv":
       if (mode) {
-        document.getElementById('questionsdiv').classList.remove("hidden")
+
+        if(!this.m_canvas_in_leftbar) {
+          document.getElementById('questionsdiv').classList.remove("hidden")
+        }
+
         document.getElementById('leftbar').classList.remove("hidden")
+
         document.getElementById('equationContainer').classList.remove("fullsize")
       } else {
-        document.getElementById('questionsdiv').classList.add("hidden")
+        if(!this.m_canvas_in_leftbar) {
+          document.getElementById('questionsdiv').classList.add("hidden")
+        }
+
         document.getElementById('leftbar').classList.add("hidden")
         document.getElementById('equationContainer').classList.add("fullsize")
       }
@@ -121,8 +129,10 @@ class Simulator {
       case "leftWindow":
       if (mode) {
         document.getElementById('leftWindow').classList.remove("hidden");
+        document.getElementById('dataPlot').classList.remove("hidden");
       } else {
         document.getElementById('leftWindow').classList.add("hidden");
+        document.getElementById('dataPlot').classList.add("hidden");
       };
       break;
 
@@ -217,7 +227,9 @@ class Simulator {
       // If the amount entered is greater than the maximum, force it to maximum and alert user
       alert("Maximum amount is " + maxParticles + ".");
       updatedAmount = maxParticles;
-    } else if (updatedAmount < minParticles) {
+    } else if (updatedAmount <= 1 && updatedAmount>0) {
+      updatedAmount = minParticles;
+    } else if (updatedAmount <= minParticles) {
       alert("Must have at least " + minParticles + " particle.");
       updatedAmount = minParticles;
     }

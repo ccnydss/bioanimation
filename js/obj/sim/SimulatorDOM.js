@@ -25,29 +25,29 @@ class SimulatorDOM {
     var ec = elementCreator;
 
     this.m_stage = ec("div", 'stage', 'root', { className: 'flex-container' });
-    this.m_firstBox = ec("div", 'firstBox', 'stage');
-    this.m_secondBox = ec("div", 'secondBox', 'stage');
+    this.m_firstBox = ec("div", 'firstBox', 'stage', { className: 'firstBox' });
+    this.m_secondBox = ec("div", 'secondBox', 'stage', { className: 'secondBox' });
 
     // The right sidebar for displaying questions.
-    this.m_leftBox = ec("div", 'leftbar', 'firstBox');
+    this.m_leftBox = ec("div", 'leftbar', 'firstBox', { className: 'leftbar' });
     this.m_sim.renderUI("leftbar", true);
 
     // Drawer button to go up
-    this.m_hideBar = ec("div", 'hidebar', 'firstBox', { mousePressed: this.hideQuestion.bind(this) });
+    this.m_hideBar = ec("div", 'hidebar', 'firstBox', { className: 'hidebar', mousePressed: this.hideQuestion.bind(this) });
     this.m_hideBarText = ec("div", 'hidebarText', 'hidebar', { content: '<i class="fas fa-arrow-up"></i> Settings' });
 
     // Div to contain the equation
-    this.m_equationContainer = ec("div", 'equationContainer', 'firstBox', { className: 'bottom-scroll' });
+    this.m_equationContainer = ec("div", 'equationContainer', 'firstBox', { className: 'equationContainer' });
 
-    this.m_equation = ec("div", 'equationdiv', 'equationContainer');
+    this.m_equation = ec("div", 'equationdiv', 'equationContainer', { className: 'equationdiv' });
     this.m_equation.child('NernstEqn');   // Attach nernst equation LaTeX, defined in sketch.html with id 'NernstEqn'
     this.m_equation.child('GoldmanEqn');  // Same as nersnt, with goldman
 
     this.m_equationResult.setup();
 
-    this.m_equi = ec("button", 'equilibrateButton', 'equationContainer', { content: "Equilibrate", mousePressed: startEquilibrate });
+    this.m_equi = ec("button", 'equilibrateButton', 'firstBox', { className: 'equilibrateButton', content: "Equilibrate", mousePressed: startEquilibrate });
 
-    this.m_simulatorSetting = ec("div", 'simulatorSetting', 'equationdiv', { content: "Simulation Settings" })
+    this.m_simulatorSetting = ec("div", 'simulatorSetting', 'equationdiv', { className: 'simulatorSetting', content: "Simulation Settings" })
     this.m_sim.renderUI('simulatorSetting',false);
 
     this.m_settingTable = ec("div", 'setting', 'simulatorSetting', { className: 'setting' });
@@ -72,7 +72,7 @@ class SimulatorDOM {
       [Na.permeability, Cl.permeability, K.permeability]
     );
 
-    this.m_leftWindow = ec("div", 'leftWindow', 'equationdiv');
+    this.m_leftWindow = ec("div", 'leftWindow', 'equationdiv', {className: 'leftWindow' });
 
     // Plot window
     this.m_dataPlot = document.createElement("canvas");
@@ -83,7 +83,7 @@ class SimulatorDOM {
     this.m_helpDummy = ec("div", 'helpDummy', 'equationdiv');
 
     var self=this;
-    this.m_simulator = ec("div", 'sim', 'secondBox');
+    this.m_simulator = ec("div", 'sim', 'secondBox', {className: 'sim'});
     this.m_simulator.mouseOver(function(e, x=true) { self.showPause(x) });
     this.m_simulator.mouseOut(function(e, x=false) { self.showPause(x) });
 
@@ -204,6 +204,13 @@ class SimulatorDOM {
 
   swapChart() {
     swapElements(this.m_dataPlot, this.m_simulator);
+
+  //   if(!this.m_canvas_in_leftbar) {
+  //     document.getElementById('dataPlot').classList.remove('hidden')
+  // } else {
+  //   document.getElementById('dataPlot').classList.remove('hidden')
+  //   // this.m_dataPlot.elt.classList.remove('enable')
+  // }
 
     this.m_canvas_size_multiple = (this.m_canvas_in_leftbar) ? 0.65 : 0.35;
     this.m_canvas_in_leftbar = !this.m_canvas_in_leftbar;

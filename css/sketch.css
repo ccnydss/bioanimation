@@ -1,6 +1,27 @@
 /* *****************************
 All the simulator layers
 All the General setting
+The help menu clone will clone this css
+
+The following are the elements list
+firstBox:"",
+leftbar:"The questions will be listed in this area.</br> Please read the questions carefully and make sure you have answer every questions",
+equationContainer:"",
+hidebar:"Click arrow to expanded/hide questions",
+equationdiv:"",
+NernstEqn:"Current mode governing equation",
+GoldmanEqn:"Goldman equation",
+simulatorSetting:"In the setting Menu, you can change the setting of temperature and ion permeability",
+leftWindow: " ", //space for add the 'last' class
+dataPlot:"Voltage data plot",
+answer:"Current Voltage in membrane",
+equilibrateButton:"Click this to equilibrate the membrane",
+secondBox:"",
+sim:"This window will deminstrate the movement of pparticles with the membrane</br>. You can either hover the window or press 'space' to pause the window",
+simulatorInputContainer:"",
+simInput:"All the particle input",
+particleControl:"All the particle control",
+helpDummy:""
 ***************************** */
 
 * {
@@ -40,37 +61,48 @@ th {
   overflow: hidden;
 }
 
-#firstBox, #secondBox {
+#firstBox {
+    background-color: #4F4A41;
+}
+
+.firstBox, .secondBox {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100%
 }
 
-#firstBox {
+.firstBox {
   width: 35%
 }
-#secondBox {
+.secondBox {
   width: 65%
 }
 
 
 #leftbar {
-  display: flex;
-  flex-direction: column;
   background-color: #88BDBC;
 }
 
-#leftbar, #sim {
+
+.leftbar {
+  display: flex;
+  flex-direction: column;
+}
+
+.leftbar, .sim {
   height: 65%;
 }
 
 #sim {
-  position: relative;
   background-color: #fffbea;
 }
 
-#leftWindow #sim {
+.sim {
+  position: relative;
+}
+
+.leftWindow .sim {
   height: 100%;
 }
 
@@ -78,15 +110,6 @@ th {
   height: 0%;
 }
 
-/* *****************************
-#leftbar
-#questionsdiv <--
-#questionsTitle
-#q1
-#equationContainer
-
-Simulation Question layer
-***************************** */
 
 #questionsdiv {
   display: flex;
@@ -116,42 +139,31 @@ Simulation Question layer
   overflow-y: auto;
 }
 
-/* *****************************
-#leftbar
-#questionsdiv
-#equationContainer <--
-#hidebar
-#equationdiv
-#simulatorSetting
-#dataPlot
-#NernstEqn/#GoldmanEqn
-#answer
-#equilibrateButton
 
-Simulation Equation & Setting layer
-***************************** */
-
-#simulatorInputContainer {
+.simulatorInputContainer {
   justify-content: space-between;
   padding: 10px;
   overflow: auto;
   height: 35%;
 }
 
-#equationContainer {
+.equationContainer {
   overflow-y: auto;
   overflow-x: hidden;
-  height: calc(35% - 20px);
-  justify-content: space-between;
+  height: calc(35% - 20px - 36px - 20px);
+  /* justify-content: space-between; */
 }
 
-#simulatorInputContainer, #equationContainer {
-  background-color: #4F4A41;
+.simulatorInputContainer, .equationContainer {
   display: flex;
   flex-direction: column;
 }
 
-#equationContainer.fullsize {
+#simulatorInputContainer, #equationContainer {
+  background-color: #4F4A41;
+}
+
+.equationContainer.fullsize {
   height: 100%
 }
 
@@ -160,14 +172,17 @@ Simulation Equation & Setting layer
 }
 
 #hidebar {
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  vertical-align: middle;
-  justify-content: center;
-  background-color: #60a3bc;
-  height: 20px;
-  padding: 5px;
+background-color: #60a3bc;
+}
+
+.hidebar {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    vertical-align: middle;
+    justify-content: center;
+    height: 20px;
+    padding: 5px;
 }
 
 #hidebar:hover {
@@ -185,21 +200,24 @@ Simulation Equation & Setting layer
 }
 
 #equationdiv {
+background-color: #4F4A41;
+}
+
+.equationdiv {
   padding: 5px;
   margin: 10px 0;
-  background-color: #4F4A41;
   display:flex;
   flex-shrink: 0;
   flex-direction: column;
 }
 
-#equationdiv select {
+/* #equationdiv select {
   width: 45px;
   height: 25px;
   text-align: center;
-}
+} */
 
-#simulatorSetting {
+.simulatorSetting {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -222,6 +240,10 @@ Simulation Equation & Setting layer
   height: 0;
   padding: 0;
 }
+
+/* #dataPlot.hidden {
+  display: none !important;
+} */
 
 .setting {
   display: block;
@@ -328,308 +350,22 @@ Simulation Equation & Setting layer
 
 #simInput {
   background-color: #4F4A41;
+}
+
+.simInput {
   display: flex;
   flex-direction: row;
   flex: 1 1 auto;
   flex-shrink: 0;
 }
 
-.can {
+/* .can {
   margin-left: auto;
   margin-right: auto;
-}
-
-.controls {
-  padding: 5px;
-  display: flex;
-  flex-direction: column;
-  width: 50%;
-}
-
-#questionBotton {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  background-color: #112D32;
-}
-
-#questionNext, #questionPrev {
-  background-color: #112D32;
-  border: none;
-  color: white;
-  padding: 10px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 16px;
-  cursor: pointer;
-  width: 20%;
-}
-
-#questionNext:disabled, #questionPrev:disabled {
-  background-color: gray;
-  cursor: not-allowed;
-}
-
-#questionControl {
-  padding-bottom: 10px;
-}
-#questionJumpInput {
-  width: 20px;
-  text-align: center;
-}
-
-#jumpBtn0 {
-  border: solid 1px;
-}
-
-.jumpBtn:not(:first-child) {
-  color: white;
-  background-color: #112D32;
-  width: 25px;
-  border: solid 1px;
-  border-left: none;
-}
-
-.jumpBtn[target] {
-  background-color: #59ABE3;
-}
-
-.jumpDot {
-  /* color: white;
-  background-color: #112D32; */
-  cursor: default;
-  padding: 0px 5px;
-}
-
-.container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-.control {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-.qoptions {
-  margin-left: 5px;
-  vertical-align: middle;
-  align-self: flex-end;
-  margin-top: auto;
-}
-
-.answer {
-  text-align: center;
-  width: 100%;
-  color: #000;
-}
-
-.control h3 {
-  font-size: 25px;
-}
-
-.control input {
-  width: 40px;
-  height: 20px;
-  text-align: center;
-}
-
-.qoptions input {
-  width: 50px;
-  height: 29px;
-  text-align: center;
-
-  box-sizing: border-box;
-  border-radius: 5px;
-  border: none;
-}
-
-.qoptions button {
-  height: 30px;
-  width: 30px;
-  border-radius: 5px;
-  border: none;
-  font-size: 20px;
-  text-align: center;
-}
-
-.checkboxes {
-  margin: 5px;
-}
-
-.checkboxes label {
-  margin-left: 5px;
-}
-
-#particleControl {
-  background-color: #4F4A41;
-  display: flex;
-  justify-content: center;
-  flex: 0 0 auto;
-}
-
-#NernstButton, #GoldmanButton, #equilibrateButton {
-  border: none;
-  text-align: center;
-  text-decoration: none;
-  width: 20%;
-  height: 36px;
-  margin-left: 20px;
-  background-color: #dfe6e9;
-}
-
-.control input:hover {
-  cursor: text;
-  box-shadow: 0px 0px 15px lightgrey;
-}
-
-.checkboxes input {
-  cursor: pointer;
-}
-
-#NernstButton:hover, #GoldmanButton:hover, button:hover {
-  cursor: pointer;
-  box-shadow: 0px 0px 15px lightgrey;
-}
-
-#equilibrateButton {
-  font-size: 1.1em;
-  margin: 10px 0px;
-  flex: 0 0 auto;
-}
-
-#equilibrateButton, #answer {
-  width: 95%;
-  align-self: center;
-}
-
-#equilibrateButton:hover, #equilibrateButton:active, #equilibrateButton:focus {
-  box-shadow: 0px 0px 15px lightgrey;
-  cursor: pointer;
-}
-
-#ion-selector {
-  display: block;
-}
-
-#simCanvasPause {
-  z-index: 1;
-  background-color: gray;
-  opacity: 0.55;
-  font-size: 24px;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#simCanvasFrame {
-  z-index: 2;
-  font-size: 24px;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  color: white;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-}
-
-#simCanvasPauseIcon{
-  background-color: gray;
-  opacity: 0.7;
-  font-size: 24px;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#simCanvasPreset  {
-  width: 100%;
-}
+} */
 
 
-/* Dropdown Button */
-.dropbtn {
-opacity: 0.7;
-  background-color: gray;
-  color: white;
-  font-size: 16px;
-  padding: 12px 16px;
-  display: block;
-  min-width: 160px;
-}
 
-/* The container <div> - needed to position the dropdown content */
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-/* Dropdown Content (Hidden by Default) */
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-
-.dropdown-content:hover {
-  cursor: pointer;
-}
-
-/* Links inside the dropdown */
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  font-size: 14px;
-}
-
-.dropdown-content a.active {
-background-color: #bdc3c7;
-font-weight: bold;
-}
-
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #ddd;}
-
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {display: block;}
-
-/* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn {background-color: gray; opacity: 1}
-
-#simCanvasPauseIcon:hover, .dropbtn:hover {
-  opacity: 1;
-  cursor: pointer;
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently
-  supported by Chrome and Opera */
-}
-
-/* Header */
-#simulator iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  overflow: hidden;
-}
 
 #containerHeader {
   display: flex;
@@ -661,4 +397,8 @@ font-weight: bold;
   background-color: #111111;
   width: 30%;
   cursor: pointer;
+}
+
+#answer-Na.na-disabled, #answer-Cl.cl-disabled, #answer-K.k-disabled, #answer-Net.net-disabled {
+  display: none;
 }

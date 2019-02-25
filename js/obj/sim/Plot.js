@@ -83,6 +83,10 @@ class Plot {
           }
         ]
       },
+      options: {
+        // maintainAspectRatio :false,
+        //   responsive: false
+      }
     });
 
 
@@ -230,7 +234,7 @@ class Plot {
 
             var dataSet = this.m_data_chart.data.datasets[index].data[i];
                 if(dataSet) {
-                  if(Math.abs(dataSet.y/1000)>maxVoltage)
+                  if(Math.abs(dataSet.y/1000)>maxVoltage && isFinite(dataSet.y))
                   maxVoltage=Math.abs(dataSet.y/1000)
                 }
           }
@@ -246,7 +250,7 @@ class Plot {
 
               var dataSet = this.m_data_chart.data.datasets[j].data[i];
                   if(dataSet) {
-                    if(Math.abs(dataSet.y/1000)>maxVoltage)
+                    if(Math.abs(dataSet.y/1000)>maxVoltage && isFinite(dataSet.y))
                     maxVoltage=Math.abs(dataSet.y/1000)
                   }
             }

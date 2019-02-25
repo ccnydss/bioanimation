@@ -17,21 +17,27 @@
   -webkit-border-radius: 10px;
 }
 
-.bottom-scroll {
+.simulatorInputContainer,
+.bottom-scroll,
+.equationContainer {
   scrollbar-color: #2a2722 #4f4a41;
   scrollbar-width: thin;
 }
 
-.bottom-scroll::-webkit-scrollbar {
+.simulatorInputContainer::-webkit-scrollbar,
+.bottom-scroll::-webkit-scrollbar,
+.equationContainer::-webkit-scrollbar {
   width: 5px;
   height: 5px;
 }
 
-.bottom-scroll::-webkit-scrollbar-track {
+.bottom-scroll::-webkit-scrollbar-track,
+.equationContainer::-webkit-scrollbar-track {
   background-color: #4f4a41;
 }
 
-.bottom-scroll::-webkit-scrollbar-thumb {
+.bottom-scroll::-webkit-scrollbar-thumb,
+.equationContainer::-webkit-scrollbar-thumb {
   background-color: #2a2722;
   -webkit-border-radius: 10px;
 }

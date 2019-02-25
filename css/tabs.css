@@ -167,16 +167,18 @@ opacity: 1;
 
 
 .clone {
-  display: flex;
-  flex-direction: column;
+  /* display: flex;
+  flex-direction: column; */
   /* background-color: gray; */
   color: white;
+  padding: 0px;
+  margin: 0px;
 }
 
-.clone:hover, .eqn:hover {
+/* .clone:hover, .eqn:hover {
   background-color: #00b894;
   cursor: help;
-}
+} */
 
 .last {
   border-style: solid;
