@@ -213,8 +213,10 @@ class Help {
     //Input1: DOM element
     //Input2: Optional text
 
+
     target.innerHTML = this.m_list[content]
     if(this.m_list[content]!="") {
+      // target.classList.add('hovering')
       target.style.display = "flex";
       target.style.justifyContent = "center";
       target.style.alignItems = "center";

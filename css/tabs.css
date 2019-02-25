@@ -175,7 +175,13 @@ opacity: 1;
   margin: 0px;
 }
 
-/* .clone:hover, .eqn:hover {
+.eqn:hover {
+  background-color: #00b894;
+  cursor: help;
+}
+
+/* .hovering:hover {
+  opacity: 0.75;
   background-color: #00b894;
   cursor: help;
 } */
