@@ -135,7 +135,7 @@ class Simulator {
       } else {
         document.getElementById('leftWindow').classList.add("hidden");
         document.getElementById('dataPlot').classList.add("hide");
-        if(document.getElementById('can'))
+        if(document.getElementById('can') && this.m_canvas_in_leftbar)
         document.getElementById('can').classList.add("hidden");
       };
       break;
