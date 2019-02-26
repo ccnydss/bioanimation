@@ -80,7 +80,6 @@ class SimulatorDOM {
     this.m_leftWindow.child(this.m_dataPlot);
     this.m_sim.renderUI('leftWindow', false);
 
-    this.m_helpDummy = ec("div", 'helpDummy', 'equationdiv');
 
     var self=this;
     this.m_simulator = ec("div", 'sim', 'secondBox', {className: 'sim'});
@@ -205,20 +204,24 @@ class SimulatorDOM {
   swapChart() {
     swapElements(this.m_dataPlot, this.m_simulator);
 
-  //   if(!this.m_canvas_in_leftbar) {
-  //     document.getElementById('dataPlot').classList.remove('hidden')
-  // } else {
-  //   document.getElementById('dataPlot').classList.remove('hidden')
-  //   // this.m_dataPlot.elt.classList.remove('enable')
-  // }
+    if(!this.m_canvas_in_leftbar) {
+      document.getElementById('dataPlot').classList.add('visable')
+        document.getElementById('can').classList.remove('visable')
+  } else {
+      document.getElementById('dataPlot').classList.remove('visable')
+        document.getElementById('can').classList.add('visable')
+  }
 
     this.m_canvas_size_multiple = (this.m_canvas_in_leftbar) ? 0.65 : 0.35;
     this.m_canvas_in_leftbar = !this.m_canvas_in_leftbar;
 
     this.m_sim.resize();
 
+    if(helpPage.style.display != 'none') {
     help.clear();
     help.initialize();
+    help.resize();
+    }
   }
 
   makeTable(id, parent, content, placeholder, contentUnit, contentDefaultValue, prevLength) {

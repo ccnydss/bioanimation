@@ -129,17 +129,21 @@ class Simulator {
       case "leftWindow":
       if (mode) {
         document.getElementById('leftWindow').classList.remove("hidden");
-        document.getElementById('dataPlot').classList.remove("hidden");
+        document.getElementById('dataPlot').classList.remove("hide");
+        if(document.getElementById('can'))
+        document.getElementById('can').classList.remove("hidden");
       } else {
         document.getElementById('leftWindow').classList.add("hidden");
-        document.getElementById('dataPlot').classList.add("hidden");
+        document.getElementById('dataPlot').classList.add("hide");
+        if(document.getElementById('can'))
+        document.getElementById('can').classList.add("hidden");
       };
       break;
 
       case "dataPlot":
       if (mode) {
-        document.getElementById('dataPlot').classList.remove("hidden")
-      } else { document.getElementById('dataPlot').classList.add("hidden")}
+        document.getElementById('dataPlot').classList.remove("hide")
+      } else { document.getElementById('dataPlot').classList.add("hide")}
       //Note chartjs chart has a class called 'chartjs-render-monitor' by default, but this class is conflict with our animation
       break;
 
@@ -181,6 +185,7 @@ class Simulator {
       page.style.display = 'flex'
       if(target=='helpPage')
       help.initialize()
+      help.resize()
     }
 
 

@@ -1,7 +1,9 @@
 var helpDebug = false;
 
 class Help {
-  constructor() {
+  constructor(sim) {
+
+    this.m_sim = sim;
 
     this.m_list = {
       firstBox:"",
@@ -17,11 +19,10 @@ class Help {
       answer:"Current Voltage in membrane",
       equilibrateButton:"Click this to equilibrate the membrane",
       secondBox:"",
-      sim:"This window will deminstrate the movement of pparticles with the membrane</br>. You can either hover the window or press 'space' to pause the window",
+      sim:"This window will demonstrate the movement of particles with the membrane</br>. You can either hover the window or press 'space' to pause the window",
       simulatorInputContainer:"",
       simInput:"All the particle input",
-      particleControl:"All the particle control",
-      // helpDummy:""
+      particleControl:"All the particle control"
     }
 
   }
@@ -88,30 +89,34 @@ class Help {
   }
 
   resize() {
-    // var total = Object.keys(this.m_list).length;
-    //
-    // for (let i = 0; i<total; i++) {
-    //
-    //   var element = document.getElementById(Object.keys(this.m_list)[i]);
-    //   var dim = this.getDim(element)
-    //   var clone = document.getElementById(Object.keys(this.m_list)[i]+"-clone");
-    //
-    //   if(clone) {
-    //     clone.style.height = dim[0] + "%"
-    //     clone.style.width = dim[1] + "%"
-    //     this.helpDummyCheck(clone,element)
-    //   }
-    // }
 
+    var current = this;
     //Only dataPlot need to be resize...
     setTimeout(
       function() {
         var original = document.getElementById('dataPlot')
         var height = (parseFloat(getComputedStyle(original)['height']))
-        document.getElementById('dataPlot-clone').style.height = height + 'px'
-      }
-      ,100)
 
+        if(document.getElementById('dataPlot-clone'))
+        document.getElementById('dataPlot-clone').style.height = height + 'px'
+
+        if(current.m_sim.m_dom.m_canvas_in_leftbar) { //Also resize canvas if it is in  leftbar
+          var original = document.getElementById('sim')
+          var height = (parseFloat(getComputedStyle(original)['height']))
+
+          if(document.getElementById('sim-clone'))
+          document.getElementById('sim-clone').style.height = height + 'px'
+
+          //For some reason, when dataPlot is in the main window, the height is not accurate..
+          //So we need to resize here again
+          // if(document.getElementById('dataPlot-clone')) {
+          //   var original = document.getElementById('dataPlot')
+          // var height = (parseFloat(getComputedStyle(original)['height']))
+          // document.getElementById('dataPlot-clone').style.height = height + 40 + 'px'}
+        }
+
+      }
+      ,150)
     }
 
 
@@ -153,8 +158,6 @@ class Help {
       'simulatorSetting',
       'dataPlot']
       if(extra.includes(original.id)) {
-        // setTimeout(
-        //   function() {
         var height = (parseFloat(getComputedStyle(original)['height'])
         // +parseFloat(getComputedStyle(original)['margin'])
         // +parseFloat(getComputedStyle(original)['padding'])
@@ -164,27 +167,42 @@ class Help {
       height=height+10+10;
 
       if(original.id=='answer') {
-        clone.style.paddingTop=height/2 + 'px'
-        clone.style.paddingBottom=height/2 + 'px'
+
+
+        clone.style.paddingTop=height/2 + 5 + 'px'
+        clone.style.paddingBottom=height/2 + 5 + 'px'
+        ////Create additional gap based on non-disabled answer
+        // var answerNumber = document.querySelectorAll('#answer tr')
+        // document.getElementById('answer-Cl').className.includes('disabled')
+        // var totalAnswer = 0;
+        //
+        // for(let i=0;i<answerNumber.length;i++) {
+        //   if(!answerNumber[i].className.includes('disabled'))
+        //   totalAnswer++
+        //
+        // }
+        //
+        //
+        // clone.style.paddingTop=22/2+(totalAnswer-1)*height/6 + 'px'
+        // clone.style.paddingBottom=22/2+(totalAnswer-1)*height/6 + 'px'
       } else {
         clone.style.height=height + 'px'
       }
 
-
-      // console.log(parseFloat(getComputedStyle(original)['height']) + parseFloat(getComputedStyle(original)['padding']))
-      // }
-      // , 1000);
     }
 
     if(getComputedStyle(original)['overflow']=='auto' || getComputedStyle(original)['overflow-y']=='auto') {
+
+      //Initialize the scroll position
+      original.scrollTop = clone.scrollTop;
+      original.scrollLeft = clone.scrollLeft;
+
       clone.onscroll = function(e) {
         original.scrollTop = clone.scrollTop;
         original.scrollLeft = clone.scrollLeft;
       };
     }
 
-
-    this.helpDummyCheck(clone,original)
 
     this.initContent(clone,original.id)
 
@@ -222,33 +240,6 @@ class Help {
       target.style.alignItems = "center";
       target.style.textAlign = "center";
       target.classList.add('last')
-    }
-  }
-
-  helpDummyCheck(clone,original) {
-    //Input1: DOM element
-    //Input2: DOM element
-
-    if (original.id=="helpDummy") {
-
-      if (document.getElementById("simulatorSetting").classList.contains("hidden")) {
-        var eqnDim = this.getDim(document.getElementById("NernstEqn"))
-        var ansDim = this.getDim(document.getElementById("answer"))
-        var height = 100 - eqnDim[0] - ansDim[0]
-        var width = 100 - eqnDim[1] - ansDim[1]
-      } else {
-        var eqnDim = this.getDim(document.getElementById("NernstEqn"))
-        var settingDim = this.getDim(document.getElementById("simulatorSetting"))
-        var plotDim = this.getDim(document.getElementById("dataPlot"))
-        var ansDim = this.getDim(document.getElementById("answer"))
-
-        var height = 100 - eqnDim[0] - ansDim[0] - settingDim[0] - plotDim[0]
-        var width = 100 - eqnDim[1] - ansDim[1] - settingDim[1] - plotDim[1]
-      }
-
-      clone.style.height = height + "%"
-      clone.style.width = width + "%"
-      clone.classList.add('last')
     }
   }
 

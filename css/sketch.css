@@ -241,9 +241,14 @@ background-color: #4F4A41;
   padding: 0;
 }
 
-/* #dataPlot.hidden {
+/* #dataPlot.hide because help.js won't render any element with hidden class */
+#dataPlot.hide, #can.hidden {
   display: none !important;
-} */
+}
+
+#dataPlot.visable, #can.visable {
+  display: block !important;
+}
 
 .setting {
   display: block;

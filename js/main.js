@@ -37,7 +37,7 @@ function setup() {
   mainSim.m_dom.adjustUISize();
 
   graph = new Plot(mainSim);
-  help = new Help();
+  help = new Help(mainSim);
 
   // Create the animation sequences
   var cw = mainSim.m_dom.getSize().width;
