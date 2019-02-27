@@ -143,33 +143,6 @@ font-size: 30px;
         document.getElementById("downloadLink").innerHTML = "<a href='" + releaseLink + "'>v" + latestNum + "</a>"
       })
     }
-
-    function cmpVersion(a, b) {
-      var i, cmp, len;
-      a = (a + '').split('.');
-      b = (b + '').split('.');
-      len = Math.max(a.length, b.length);
-      for( i = 0; i < len; i++ ) {
-        if( a[i] === undefined ) {
-          a[i] = '0';
-        }
-        if( b[i] === undefined ) {
-          b[i] = '0';
-        }
-        cmp = parseInt(a[i], 10) - parseInt(b[i], 10);
-        if( cmp !== 0 ) {
-          return (cmp < 0 ? -1 : 1);
-        }
-      }
-      return 0;
-    }
-
-    function gteVersion(a, b) {
-      return cmpVersion(a, b) >= 0;
-    }
-    function ltVersion(a, b) {
-      return cmpVersion(a, b) < 0;
-    }
     </script>
 
     <div style="display:none" id="platformDetection" class="container center">
@@ -233,23 +206,26 @@ font-size: 30px;
 
 <div id="helpPage" style="display:none"></div>
 <div id="aboutPage" style="display:none">
-
   <script src="js/about.js"></script>
   <section>
-
-
     <nav>
       $$
       \begin{align*}
       & E_{ion} = \frac{RT}{zF}ln \left( \frac{\text{Ion Out} } {\text{Ion In}} \right)
 
       \end{align*}
-
       $$
     </nav>
 
-    <p>In electrochemistry, the Nernst equation is an equation that relates the reduction potential of an electrochemical reaction (half-cell or full cell reaction) to the standard electrode potential, temperature, and activities (often approximated by concentrations) of the chemical species undergoing reduction and oxidation. It is the most important equation in the field of electrochemistry. It was named after Walther Nernst, a German physical chemist who formulated the equation</p>
-
+    <p>
+      In electrochemistry, the Nernst equation is an equation that relates the
+      reduction potential of an electrochemical reaction (half-cell or full
+      cell reaction) to the standard electrode potential, temperature, and
+      activities (often approximated by concentrations) of the chemical species
+      undergoing reduction and oxidation. It is the most important equation in
+      the field of electrochemistry. It was named after Walther Nernst, a
+      German physical chemist who formulated the equation
+    </p>
 
     <table>
       <tr>
@@ -302,7 +278,12 @@ font-size: 30px;
       $$
     </nav>
 
-    <p>Goldman equation is an equation used to calculate the electrical equilibium potential across the cell's membrane in the presence of more than one ions taking into account the selectivity of membrane's permeability. It is derived from the Nernst equation.</p>
+    <p>
+      Goldman equation is an equation used to calculate the electrical
+      equilibium potential across the cell's membrane in the presence of more
+      than one ions taking into account the selectivity of membrane's
+      permeability. It is derived from the Nernst equation.
+    </p>
 
 
     <table>
@@ -377,7 +358,7 @@ font-size: 30px;
 </div>
 
 <div id="contactPage">
-<section id="contactPageHelper" onclick="document.getElementById('contactPage').style.display = 'none'"></section>
+  <section id="contactPageHelper" onclick="document.getElementById('contactPage').style.display = 'none'"></section>
   <section id="contactPageBox">
     <nav><img src="img/icon.png" width="100px" height="100px" style="padding: 10px; background-color: #fff; border-radius: 5%"></img></nav>
 
@@ -394,11 +375,11 @@ font-size: 30px;
         <p>For question, please contact xyz@citymail.cuny.edu</p>
       </ul>
       <!-- <ul id='thirdLine'>
-        <i class="fas fa-desktop"></i><i style="padding-left: 5px" class="fab">Desktop App</i>
-        <i class="fas fa-download"></i><span id="downloadLink"></span>
-      </ul> -->
-    </div>
-  </section>
+      <i class="fas fa-desktop"></i><i style="padding-left: 5px" class="fab">Desktop App</i>
+      <i class="fas fa-download"></i><span id="downloadLink"></span>
+    </ul> -->
+  </div>
+</section>
 </div>
 
 <div id="containerHeader">
@@ -410,13 +391,12 @@ font-size: 30px;
 
 <div id="root"></div>
 
+<script language="javascript" type="text/javascript" src="js/helpers.js"></script>
 <script language="javascript" type="text/javascript" src="js/browserDetection.js"></script>
 
 <script language="javascript" type="text/javascript" src="js/p5/p5.min.js"></script>
 <script language="javascript" type="text/javascript" src="js/p5/p5.dom.min.js"></script>
 <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
-
-<script language="javascript" type="text/javascript" src="js/helpers.js"></script>
 
 <script language="javascript" type="text/javascript" src="js/obj/animation/Point.js"></script>
 <script language="javascript" type="text/javascript" src="js/obj/animation/Rectangle.js"></script>
@@ -461,5 +441,5 @@ font-size: 30px;
   V_{rest} = \frac{RT}{F}ln \left( \frac{ P_{Na}[Na^+]_{\text{out}} + P_{Cl}[Cl^-]_{\text{in}} + P_{K}[K^-]_{\text{out}} } { P_{Na}[Na^+]_{\text{in}} + P_{Cl}[Cl^-]_{\text{out}} + P_{K}[K^-]_{\text{in}} } \right)$$
 </section>
 
-  </body>
-  </html>
+</body>
+</html>

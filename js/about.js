@@ -28,16 +28,15 @@ var aboutListDupl = [
   'MJXc-Node-180'
 ]
 
-setTimeout(
-
+setTimeout (
   function() {
-    for(let i=0;i<aboutList.length;i++) {
+    for (let i = 0; i < aboutList.length; i++) {
       document.querySelector('#aboutPage #'+aboutList[i]).classList.add('eqn')
       document.querySelector('#aboutPage #'+aboutList[i]).onmouseover = function() {eqnOver(this,true)};
       document.querySelector('#aboutPage #'+aboutList[i]).onmouseout = function() {eqnOut(this,true)};
 
       //Link the duplication to the first element
-      if(i>=aboutList.indexOf('MJXc-Node-87') && i<=aboutList.indexOf('MJXc-Node-125')) {
+      if (i >= aboutList.indexOf('MJXc-Node-87') && i <= aboutList.indexOf('MJXc-Node-125')) {
         let j = i - aboutList.indexOf('MJXc-Node-87')
         let duplication = document.querySelector('#aboutPage #'+aboutList[i])
         document.querySelector('#aboutPage #'+aboutListDupl[j]).classList.add('eqn')
@@ -51,9 +50,7 @@ setTimeout(
       document.querySelectorAll('#aboutPage table tr')[i].onmouseover = function() {eqnOver(this,false)};
       document.querySelectorAll('#aboutPage table tr')[i].onmouseout = function() {eqnOut(this,false)};
     }
-  }
-
-  ,3500)
+  }, 3500);
 
   function eqnOver(e,eqn) {
     // Input 1: HTML DOM element

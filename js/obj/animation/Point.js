@@ -1,4 +1,4 @@
-/** Class representing a point on the canvas. */
+/** Class representing a point on the p5.js canvas. */
 class Point {
   /**
    * Create a new point
