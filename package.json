@@ -11,7 +11,7 @@
     "dist-lin": "electron-builder build --linux",
     "dist-all": "electron-builder build -mwl",
     "publish": "electron-builder build -mwl -p always",
-    "docs": "jsdoc -r js -d docs/"
+    "docs": "jsdoc -r js -d docs/ -R HOME.md"
   },
   "repository": {
     "type": "git",
