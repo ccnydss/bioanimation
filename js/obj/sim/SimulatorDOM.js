@@ -100,7 +100,10 @@ class SimulatorDOM {
     for(let i = 0;i<this.m_sim.m_preset.m_preset_list.length;i++) {
       this.m_simCanvasPreset_dropbtn_list[i] = ec("a", 'simCanvasPresetDropBtnList'+i, 'simCanvasPresetContent', { content: this.m_sim.m_preset.m_preset_list[i].name });
       var parent = this;
-      document.getElementById('simCanvasPresetDropBtnList'+i).onclick = function() { parent.m_sim.m_preset.changePreset(parent.m_simCanvasPreset_dropbtn_list[i].elt)};
+
+      this.m_simCanvasPreset_dropbtn_list[i].elt.onclick = function() {
+        parent.m_sim.m_preset.changePreset(parent.m_simCanvasPreset_dropbtn_list[i].elt)
+      };
       // this.m_simCanvasPreset_dropbtn_list[i].mouseClicked(parent.m_sim.m_preset.changePreset(parent.m_simCanvasPreset_dropbtn_list[i].elt))
     }
 

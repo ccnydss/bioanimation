@@ -10,7 +10,8 @@
     "dist-win": "electron-builder build --win",
     "dist-lin": "electron-builder build --linux",
     "dist-all": "electron-builder build -mwl",
-    "publish": "electron-builder build -mwl -p always"
+    "publish": "electron-builder build -mwl -p always",
+    "docs": "jsdoc -r js -d docs/"
   },
   "repository": {
     "type": "git",
@@ -24,7 +25,8 @@
   "homepage": "https://github.com/ccnydss/bioanimation#readme",
   "devDependencies": {
     "electron": "^4.0.3",
-    "electron-builder": "^20.38.5"
+    "electron-builder": "^20.38.5",
+    "jsdoc": "^3.5.5"
   },
   "build": {
     "appId": "com.ccnydss.bioanimation",

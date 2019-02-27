@@ -1,3 +1,4 @@
+/** Point class */
 class Point {
   constructor(_x, _y) {
     this.x = _x;

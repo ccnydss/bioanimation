@@ -6,7 +6,7 @@ var botright_test = new Point(10, 10);
 QUnit.module("Channel Tests");
 
 QUnit.test("constructor", function(assert) {
-  var testCh1 = new Channel(
+  var testCh1 = new Channel (
     {
       _tl: topleft_test,
       _tr: topright_test,
