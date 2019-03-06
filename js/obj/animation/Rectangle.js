@@ -6,20 +6,43 @@ class Rectangle {
    * @param {Object} _points - An object of 4 points with keys named
    * appropriately { _tl: p1, _tr: p2, _bl: p3, _br: p4}
    *
-   * @param {Color} _fillColor - A p5 Color object, or a string that can be
+   * @param {Color|string} _fillColor - A p5 Color object, or a string that can be
    * converted to a color (ex: "#ff0000"). Acts as the color for the inside area.
    *
-   * @param {Color} _borderColor - A p5 Color object, or a string that can be
+   * @param {Color|string} _borderColor - A p5 Color object, or a string that can be
    * converted to a color. Determines the border color, if a border is drawn.
    */
   constructor(_points, _fillColor, _borderColor) {
-    this.setSize(_points);
-
     /** @protected */
     this.fill_color = _fillColor || false;
 
     /** @protected */
     this.border_color = _borderColor || false;
+
+    /** @private
+      * @type {int}
+      */
+    this.tl;
+
+    /** @private */
+    this.tr;
+
+    /** @private */
+    this.bl;
+
+    /** @private */
+    this.br;
+
+    /** @private */
+    this.width;
+
+    /** @private */
+    this.height = Math.abs(_tl.y - _bl.y);
+
+    /** @private */
+    this.center = new Point(this.width / 2, this.height / 2);
+
+    this.setSize(_points);
   }
 
   /**
@@ -41,7 +64,19 @@ class Rectangle {
   }
 
   /**
-   * Resize the Rectangle.
+   * Get the fill Color of the Rectangle
+   * @public
+   *
+   * @returns {Color} A p5 Color object or color string.
+   */
+  color() {
+    return this.fill_color;
+  }
+
+  /**
+   * Resize the Rectangle. Does not allow defining the size in terms of
+   * length/width
+   *
    * @public
    * @param {Object} _points - An object of 4 points with keys named
    * appropriately { _tl: p1, _tr: p2, _bl: p3, _br: p4}
@@ -75,8 +110,8 @@ class Rectangle {
 /** Construct a Rectangle from width/height specifications
  * @memberof Rectangle
  * @param {Point} _corner - Top left corner for the new Rectangle
- * @param {number} _width - The width, in pixels, of the Rectangle
- * @param {number} _height - The height, in pixels, of the Rectangle
+ * @param {integer} _width - The width, in pixels, of the Rectangle
+ * @param {integer} _height - The height, in pixels, of the Rectangle
  * @param {Color} _fill - A p5 Color object or string
  * @param {Color} _border - A p5 Color object or string
  *
