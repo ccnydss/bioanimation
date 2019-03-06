@@ -13,34 +13,59 @@ class Rectangle {
    * converted to a color. Determines the border color, if a border is drawn.
    */
   constructor(_points, _fillColor, _borderColor) {
-    /** @protected */
+    /**
+      * @private
+      * @type {Color|string|boolean}
+      */
     this.fill_color = _fillColor || false;
 
-    /** @protected */
+    /**
+      * @private
+      * @type {Color|string|boolean}
+      */
     this.border_color = _borderColor || false;
 
-    /** @private
-      * @type {int}
+    /**
+      * @private
+      * @type {integer}
       */
     this.tl;
 
-    /** @private */
+    /**
+      * @private
+      * @type {integer}
+      */
     this.tr;
 
-    /** @private */
+    /**
+      * @private
+      * @type {integer}
+      */
     this.bl;
 
-    /** @private */
+    /**
+      * @private
+      * @type {integer}
+      */
     this.br;
 
-    /** @private */
+    /**
+      * @private
+      * @type {integer}
+      */
     this.width;
 
-    /** @private */
-    this.height = Math.abs(_tl.y - _bl.y);
+    /**
+      * @private
+      * @type {integer}
+      */
+    this.height;
 
-    /** @private */
-    this.center = new Point(this.width / 2, this.height / 2);
+    /**
+      * @private
+      * @type {integer}
+      */
+    this.center;
 
     this.setSize(_points);
   }
