@@ -307,12 +307,12 @@ class BioMain extends Sequence {
 
       var isWithinOutside = (
         target == "outside" &&
-        newCenterY < targetChannel.y - chanHeight - newPart.r
+        newCenterY < targetChannel.y - chanHeight - newPart.radius
       );
 
       var isWithinInside = (
         target == "inside" &&
-        newCenterY > targetChannel.y + chanHeight + newPart.r
+        newCenterY > targetChannel.y + chanHeight + newPart.radius
       );
 
       if (isWithinOutside || isWithinInside) {
@@ -408,12 +408,12 @@ class BioMain extends Sequence {
 
       var leftOutside = (
         target == "outside" &&
-        newCenterY > targetChannel.y + chanCenterY + movePcl.r
+        newCenterY > targetChannel.y + chanCenterY + movePcl.radius
       );
 
       var leftInside = (
         target == "inside" &&
-        newCenterY < targetChannel.y - chanCenterY - movePcl.r
+        newCenterY < targetChannel.y - chanCenterY - movePcl.radius
       );
 
       // If the particle has left the container it as in and is now in
