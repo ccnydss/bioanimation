@@ -1,6 +1,17 @@
+/** Create a preset menu attaching to current simulator canvas */
 class Preset {
   constructor(sim) {
-    this.m_preset_list = [
+    /**
+    * Create a new preset menu.
+    * @param {Object} sim - Current simulator
+    * @access public
+    */
+
+    /** @property {String} - The CSS selector string that defined the preset buttons */
+    this.btn_group = ".dropdown-content a";
+
+    /** @property {Dictionary} - A array of preset parameters. */
+    this.preset_list = [
       {
         name:'Default',
         PK:1,
@@ -82,12 +93,17 @@ class Preset {
         color_membrane:"rgba(241,144,102,0.6)"
       }
     ]
-      this.m_sim = sim;
+    this.m_sim = sim;
   }
 
+  /**
+  * Function to check if certain DOM element should be clone in the help menu
+  * @access public
+  * @param {DOM} elm - The target preset button that is being clicked
+  */
   changePreset(elm) {
     //Input 1: DOM element
-    var btn = document.querySelectorAll(".dropdown-content a");
+    var btn = document.querySelectorAll(this.btn_group);
     for(let i = 0;i<btn.length;i++) {
       if(btn[i].textContent != elm.textContent && btn[i].classList.contains('active')) {
         btn[i].classList.remove('active')
@@ -96,26 +112,37 @@ class Preset {
 
         document.getElementsByClassName('dropbtn')[0].textContent = btn[i].textContent;
 
-        for(let j = 0; j < this.m_preset_list.length; j++) {
-          if (this.m_preset_list[j].name == btn[i].textContent) {
+        for(let j = 0; j < this.preset_list.length; j++) {
+          if (this.preset_list[j].name == btn[i].textContent) {
 
-            K.permeability = this.m_preset_list[j].PK;
-            this.m_sim.updateParticles("K","outside",this.m_preset_list[j].K_out);
-            this.m_sim.updateParticles("K","inside",this.m_preset_list[j].K_in);
-            Na.permeability =  this.m_preset_list[j].PNa;
-            this.m_sim.updateParticles("Na","outside",this.m_preset_list[j].Na_out);
-            this.m_sim.updateParticles("Na","inside",this.m_preset_list[j].Na_in);
-            Cl.permeability = this.m_preset_list[j].PCl;
-            this.m_sim.updateParticles("Cl","outside",this.m_preset_list[j].Cl_out);
-            this.m_sim.updateParticles("Cl","inside",this.m_preset_list[j].Cl_in);
-            this.m_sim.m_settings.temperature = 273.15 + this.m_preset_list[j].Temp;
-            animationSequencer.current().setContainerColor("inside",this.m_preset_list[j].color_in)
-            animationSequencer.current().setContainerColor("outside",this.m_preset_list[j].color_out)
-            animationSequencer.current().setMembraneColor(this.m_preset_list[j].color_membrane)
-            if(this.m_sim.simMode() == "Nernst") {
-              this.m_sim.m_goldman_eq.start()
-              this.m_sim.m_nernst_eq.start()
+            K.permeability = this.preset_list[j].PK;
+            this.m_sim.updateParticles("K","outside",this.preset_list[j].K_out);
+            this.m_sim.updateParticles("K","inside",this.preset_list[j].K_in);
+            Na.permeability =  this.preset_list[j].PNa;
+            this.m_sim.updateParticles("Na","outside",this.preset_list[j].Na_out);
+            this.m_sim.updateParticles("Na","inside",this.preset_list[j].Na_in);
+            Cl.permeability = this.preset_list[j].PCl;
+            this.m_sim.updateParticles("Cl","outside",this.preset_list[j].Cl_out);
+            this.m_sim.updateParticles("Cl","inside",this.preset_list[j].Cl_in);
+            this.m_sim.m_settings.temperature = 273.15 + this.preset_list[j].Temp;
+            animationSequencer.current().setContainerColor("inside",this.preset_list[j].color_in)
+            animationSequencer.current().setContainerColor("outside",this.preset_list[j].color_out)
+            animationSequencer.current().setMembraneColor(this.preset_list[j].color_membrane)
+
+            for(let i = 0;i<sim.m_particle_types.length;i++) {
+
+              if(this.m_sim.simMode() == "Nernst") {
+                if (particleMapper[particleType]["display"])
+                this.m_sim.computeAll(m_particle_types[i])
+                // this.m_sim.m_nernst_eq.start()
+              } else {
+                // this.m_sim.m_goldman_eq.start()
+                this.m_sim.computeAll()
+              }
+
             }
+
+
 
           }
         }
