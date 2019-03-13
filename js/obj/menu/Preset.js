@@ -116,31 +116,23 @@ class Preset {
           if (this.preset_list[j].name == btn[i].textContent) {
 
             K.permeability = this.preset_list[j].PK;
-            this.m_sim.updateParticles("K","outside",this.preset_list[j].K_out);
-            this.m_sim.updateParticles("K","inside",this.preset_list[j].K_in);
+            document.querySelector('input[placeholder="Enter K permeability..."]').value = this.preset_list[j].PK
+            this.m_sim.updateParticles("K","outside",this.preset_list[j].K_out,true);
+            this.m_sim.updateParticles("K","inside",this.preset_list[j].K_in,true);
             Na.permeability =  this.preset_list[j].PNa;
-            this.m_sim.updateParticles("Na","outside",this.preset_list[j].Na_out);
-            this.m_sim.updateParticles("Na","inside",this.preset_list[j].Na_in);
+            document.querySelector('input[placeholder="Enter Na permeability..."]').value = this.preset_list[j].PNa
+            this.m_sim.updateParticles("Na","outside",this.preset_list[j].Na_out,true);
+            this.m_sim.updateParticles("Na","inside",this.preset_list[j].Na_in,true);
             Cl.permeability = this.preset_list[j].PCl;
-            this.m_sim.updateParticles("Cl","outside",this.preset_list[j].Cl_out);
-            this.m_sim.updateParticles("Cl","inside",this.preset_list[j].Cl_in);
+            document.querySelector('input[placeholder="Enter Cl permeability..."]').value = this.preset_list[j].PCl
+            this.m_sim.updateParticles("Cl","outside",this.preset_list[j].Cl_out,true);
+            this.m_sim.updateParticles("Cl","inside",this.preset_list[j].Cl_in,true);
             this.m_sim.m_settings.temperature = 273.15 + this.preset_list[j].Temp;
+            document.querySelector('input[placeholder="Enter Temperature..."]').value = 273.15 + this.preset_list[j].Temp
             animationSequencer.current().setContainerColor("inside",this.preset_list[j].color_in)
             animationSequencer.current().setContainerColor("outside",this.preset_list[j].color_out)
             animationSequencer.current().setMembraneColor(this.preset_list[j].color_membrane)
 
-            for(let i = 0;i<sim.m_particle_types.length;i++) {
-
-              if(this.m_sim.simMode() == "Nernst") {
-                if (particleMapper[particleType]["display"])
-                this.m_sim.computeAll(m_particle_types[i])
-                // this.m_sim.m_nernst_eq.start()
-              } else {
-                // this.m_sim.m_goldman_eq.start()
-                this.m_sim.computeAll()
-              }
-
-            }
 
 
 
