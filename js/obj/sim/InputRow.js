@@ -1,4 +1,13 @@
+/** Create ions control table. *///
 class InputRow {
+  /**
+  * Initialize an new ions control table.
+  * @param {string} label - ex: [Na+]in, [K+]out
+  * @param {float} value - Value of ion concentration/Number of ion to display
+  * @param {boolean} enabled - Is current Ion enabled
+  * @param {string} type - Ion type, 'Na', 'Cl', 'K'
+  * @param {DOM} inputs - Current input DOM object
+  */
   constructor(label, value, enabled, type, inputs) {
     this.m_label = label;
     this.m_value = value;
@@ -23,6 +32,14 @@ class InputRow {
     }
   }
 
+    /**
+    * Create an new ions control table.
+    * @param {DOM} parent - The parent DOM table
+    * @param {String} id - The id of control table, range from 0-2 (# of particle)
+    * @param {string} particleType - Ion type, 'Na', 'Cl', 'K'
+    * @param {string} particleLocation - 'inside' or 'outside'
+    * @access public
+    */
   create(parent, id, particleType, particleLocation) {
     var { title, input, table, buttons } = this.dom;
 
@@ -76,6 +93,11 @@ class InputRow {
     buttons.minus.addClass(colorClass);
   }
 
+      /**
+      * Change value of an ions control table.
+      * @param {float} setter - The new value
+      * @access public
+      */
   value(setter) {
     if (typeof setter === 'undefined') {
       this.m_value = Number(this.m_value);
@@ -87,6 +109,11 @@ class InputRow {
     }
   }
 
+  /**
+  * Change value of an ions control table.
+  * @param {boolean} setter - The new enable parameter
+  * @access public
+  */
   enable(setter) {
     if (setter == null) return this.m_enabled;
     else {
@@ -118,6 +145,12 @@ class InputRow {
     }
   }
 
+    /**
+    * Called by the plus/minus buttons, and also the text field input
+    * @param {DOM} evt - the element that triggered the event (Input buttons)
+    * @param {float} updatedAmount=evt.target.value - the value of triggered element
+    * @access private
+    */
   changeNumParticles(evt, updatedAmount=evt.target.value) {
     // Called by the plus/minus buttons, and also the text field input
     // input: the element that triggered the event (Input buttons);
@@ -142,6 +175,12 @@ class InputRow {
     mainSim.m_dom.m_simCanvasPreset_dropbtn.elt.textContent = 'Custom'
   }
 
+      /**
+      * Highlight all the value when user click in the input
+      * By doing this, user can change the input value directly
+      * @param {DOM} evt - the element that triggered the event (Input box)
+      * @access private
+      */
   highLightInput(evt) {
     evt.target.setSelectionRange(0, evt.target.value.length)
   }

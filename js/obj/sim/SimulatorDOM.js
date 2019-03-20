@@ -97,8 +97,8 @@ class SimulatorDOM {
     this.m_simCanvasPreset_Content = ec("div", 'simCanvasPresetContent', 'simCanvasPresetDropdown', { className: 'dropdown-content' });
     this.m_simCanvasPreset_dropbtn_list = []
 
-    for(let i = 0;i<this.m_sim.m_preset.m_preset_list.length;i++) {
-      this.m_simCanvasPreset_dropbtn_list[i] = ec("a", 'simCanvasPresetDropBtnList'+i, 'simCanvasPresetContent', { content: this.m_sim.m_preset.m_preset_list[i].name });
+    for(let i = 0;i<this.m_sim.m_preset.preset_list.length;i++) {
+      this.m_simCanvasPreset_dropbtn_list[i] = ec("a", 'simCanvasPresetDropBtnList'+i, 'simCanvasPresetContent', { content: this.m_sim.m_preset.preset_list[i].name });
       var parent = this;
 
       this.m_simCanvasPreset_dropbtn_list[i].elt.onclick = function() {

@@ -1,9 +1,17 @@
-// Goldman Equation
+/** Create a Goldman Equation system. *///
 class GoldmanEq {
+  /**
+  * Create a Goldman Equation .
+  * @param {Object} sim - Current simulation object
+  */
   constructor(m_sim) {
     this.m_sim = m_sim;
   }
 
+    /**
+    * start a Goldman Equation and clear all Nernst Equation setting.
+    * @access public
+    */
   start() {
     // input: the element that triggered the event; however this input is unused in this function
 
@@ -47,6 +55,11 @@ class GoldmanEq {
     FormulaInputCalculation();
   }
 
+    /**
+    * compute a Goldman Equation based on current simulation setting.
+    * @access private
+    * @returns {number}
+    */
   compute() {
     var R = this.m_sim.m_settings.gas_constant;   // ideal gas constant
     var T = this.m_sim.m_settings.temperature;    // 37 is the Human Body temperature
@@ -77,6 +90,11 @@ class GoldmanEq {
     return answer;
   }
 
+  /**
+  * compute a Goldman Equation based on current simulation setting to 4 decimal points.
+  * @access public
+  * @returns {number}
+  */
   result() {
     return this.compute().toFixed(4);
   }

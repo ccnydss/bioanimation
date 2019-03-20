@@ -23,22 +23,28 @@ class Particle {
   }
 
   draw(xc = this.center.x, yc = this.center.y, d = this.diam) {
-    if (this.display) ellipse(xc, yc, d);
+    // if (this.display) ellipse(xc, yc, d);
+    if(particleMapper[this.type]["display"]) ellipse(xc, yc, d);
   }
 
   move(container_context) {
-    // Pass in a Container object the particle should be constrained inside.
-    if (this.collidable) {
-      this.bounce(container_context);
-    } else {
-      this.moveCenter();
-      this.onContainerChange (
-        this.center.x,
-        this.center.y
-      );
+
+    if(particleMapper[this.type]["display"]) {
+      // Pass in a Container object the particle should be constrained inside.
+      if (this.collidable) {
+        this.bounce(container_context);
+      } else {
+        this.moveCenter();
+        this.onContainerChange (
+          this.center.x,
+          this.center.y
+        );
+      }
+
+      this.draw();
+
     }
 
-    this.draw();
   }
 
   moveCenter() {
@@ -178,6 +184,7 @@ class Na extends Particle {
     super(_center, Na.diameter, _vel, _collidable, Na.color);
 
     this.display = true;
+    this.type = 'Na';
   }
 }
 
@@ -197,6 +204,7 @@ class Cl extends Particle {
     super(_center, Cl.diameter, _vel, _collidable, Cl.color);
 
     this.display = false;
+    this.type = 'Cl';
   }
 }
 
@@ -215,6 +223,7 @@ class K extends Particle {
     super(_center, K.diameter, _vel, _collidable, K.color);
 
     this.display = false;
+    this.type = 'K';
   }
 }
 

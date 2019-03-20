@@ -1,10 +1,17 @@
 var helpDebug = false;
-
+/** Create a help menu based on current simulator UI */
 class Help {
+  /**
+  * Create a new help menu.
+  * @param {Object} sim - Current simulator
+  * @access public
+  */
   constructor(sim) {
 
     this.m_sim = sim;
 
+    /** @property {Dictionary} - A array of setting listing a specific ID and its corresponding help description.
+    * Leave the description empty if that DOM element is just a container */
     this.m_list = {
       firstBox:"",
       leftbar:"The questions will be listed in this area.</br> Please read the questions carefully and make sure you have answer every questions",
@@ -26,7 +33,11 @@ class Help {
     }
 
   }
-
+  /**
+  * Function to initialize the help page, detecting all the ID in the setting,
+  * then clone them to the desired DOM element.
+  * @access public
+  */
   initialize() {
     var sim = document.querySelector("#root #stage");
     var helpPage = document.querySelector("#helpPage");
@@ -80,7 +91,10 @@ class Help {
 
     helpDebug && console.log('Help Page initialize end')
   }
-
+  /**
+  * Function to clear the help page, removing all the element attaching to the help menu
+  * @access public
+  */
   clear() {
     var helpPage = document.querySelector("#helpPage");
     while (helpPage.firstChild) {
@@ -88,6 +102,10 @@ class Help {
     }
   }
 
+  /**
+  * Function to make help menu responsive when resizing the window
+  * @access public
+  */
   resize() {
 
     var current = this;
@@ -107,19 +125,21 @@ class Help {
           if(document.getElementById('sim-clone'))
           document.getElementById('sim-clone').style.height = height + 'px'
 
-          //For some reason, when dataPlot is in the main window, the height is not accurate..
-          //So we need to resize here again
-          // if(document.getElementById('dataPlot-clone')) {
-          //   var original = document.getElementById('dataPlot')
-          // var height = (parseFloat(getComputedStyle(original)['height']))
-          // document.getElementById('dataPlot-clone').style.height = height + 40 + 'px'}
         }
 
       }
       ,150)
     }
 
-
+    /**
+    * Function to check if certain DOM element should be clone in the help menu
+    * @access private
+    * @param {DOM} parent - The target parent DOM element
+    *
+    * @param {Int} index - A child index within the parent DOM element
+    *
+    * @returns {DOM} - If the child index pass the verification, then return the DOM element, else return false
+    */
     createLayer(parent,index) {
       // input 1: DOM element
       // input 2: int
@@ -135,6 +155,11 @@ class Help {
       return layer
     }
 
+    /**
+    * Function to check if certain DOM element should be clone in the help menu
+    * @access private
+    * @param {DOM} original - The desired DOM element to be cloned in help menu
+    */
     cloneUI(original) {
       //Input1: DOM element
 
@@ -142,10 +167,6 @@ class Help {
       var dim = this.getDim(original)
 
       helpDebug && console.log(dim)
-      // console.log(getComputedStyle(original)['display'])
-
-      // clone.style.height = dim[0] + "%"
-      // clone.style.width = dim[1] + "%"
 
       clone.id = original.id+"-clone";
       clone.classList = original.classList
@@ -159,8 +180,6 @@ class Help {
       'dataPlot']
       if(extra.includes(original.id)) {
         var height = (parseFloat(getComputedStyle(original)['height'])
-        // +parseFloat(getComputedStyle(original)['margin'])
-        // +parseFloat(getComputedStyle(original)['padding'])
       )
 
       if(original.id=='GoldmanEqn' || original.id=='NernstEqn' )
@@ -171,20 +190,6 @@ class Help {
 
         clone.style.paddingTop=height/2 + 5 + 'px'
         clone.style.paddingBottom=height/2 + 5 + 'px'
-        ////Create additional gap based on non-disabled answer
-        // var answerNumber = document.querySelectorAll('#answer tr')
-        // document.getElementById('answer-Cl').className.includes('disabled')
-        // var totalAnswer = 0;
-        //
-        // for(let i=0;i<answerNumber.length;i++) {
-        //   if(!answerNumber[i].className.includes('disabled'))
-        //   totalAnswer++
-        //
-        // }
-        //
-        //
-        // clone.style.paddingTop=22/2+(totalAnswer-1)*height/6 + 'px'
-        // clone.style.paddingBottom=22/2+(totalAnswer-1)*height/6 + 'px'
       } else {
         clone.style.height=height + 'px'
       }
@@ -208,25 +213,13 @@ class Help {
 
     return clone
   }
-
-  getDim(reference) {
-    //Input1: DOM element
-
-    var parent = reference.parentNode;
-    var height = getStyle(reference,"height") / getStyle(parent,"height") * 100;
-    var width = getStyle(reference,"width") / getStyle(parent,"width") * 100;
-
-    height = Math.ceil(height);
-    if(height > 95) height = 100;
-
-    width = Math.ceil(width);
-    if(width > 92) width = 100;
-    if(width == 34) width = 35;
-    if(width == 64)  width = 65;
-
-    return [height,width]
-  }
-
+  /**
+  * Function to initialize the clone element's string and css
+  * @access private
+  * @param {DOM} target - The clone element
+  *
+  * @param {String} content - Optional text, can be void
+  */
   initContent(target,content) {
     //Input1: DOM element
     //Input2: Optional text

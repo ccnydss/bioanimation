@@ -218,7 +218,7 @@ class Simulator {
     this.m_dom.m_sim_controls.controls[location].rows[particleID].value(amount);
   }
 
-  updateParticles(ptype, ploc, updatedAmount) {
+  updateParticles(ptype, ploc, updatedAmount, noCompute) {
     //mainSim.updateParticles("Na","outside",13)
     var numParticles = animationSequencer.current().getNumParticles(ploc, ptype);
     var maxParticles = animationSequencer.current().MAX_PARTICLES;
@@ -243,6 +243,7 @@ class Simulator {
       updatedAmount = minParticles;
     }
 
+    if(!noCompute)
     this.computeAll(ptype);
 
     var updatedParticles = round(updatedAmount);

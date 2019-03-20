@@ -37,6 +37,7 @@ function setup() {
 
   graph = new Plot(mainSim);
   help = new Help(mainSim);
+  globals = new globals(mainSim);
 
   // Create the animation sequences
   var cw = mainSim.m_dom.getSize().width;

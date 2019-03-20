@@ -1,9 +1,17 @@
-// Nernst Equation
+/** Create a Nernst Equation system. *///
 class NernstEq {
+  /**
+  * Create a Nernst Equation .
+  * @param {Object} sim - Current simulation object
+  */
   constructor(m_sim) {
     this.m_sim = m_sim;
   }
 
+      /**
+      * start a Nernst Equation and clear all Goldman Equation setting.
+      * @access public
+      */
   start(evt) {
     var sim = this.m_sim;
 
@@ -58,6 +66,12 @@ class NernstEq {
     }
   }
 
+      /**
+      * compute a Nernst Equation based on current ion and simulation setting.
+      * @access private
+      * @param {String} particleType - ion type, such as 'Na','Cl','K'
+      * @returns {number}
+      */
   compute(particleType) {
     // input: string;
     var R = this.m_sim.m_settings.gas_constant; // ideal gas constant
@@ -72,6 +86,12 @@ class NernstEq {
     return answer;
   }
 
+    /**
+    * compute a Nernst Equation based on current ion and simulation setting to 4 decimal points.
+    * @access public
+    * @param {String} particleType - ion type, such as 'Na','Cl','K'
+    * @returns {number}
+    */
   result(type) {
     return this.compute(type).toFixed(4);
   }

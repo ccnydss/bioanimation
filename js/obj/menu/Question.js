@@ -1,24 +1,42 @@
 var questionDebug = false;
 
+/** Create a question menu. */
 class Question {
+  /**
+  * Create a new question menu.
+  * @access public
+  */
   constructor() {
     var current = this
     this.loadJSON(function(response) {
       // Parse JSON string into object
+      /** @property {JSON} - The question list parsed from a JSON file */
       current.m_question_list = JSON.parse(response);
     },'questions.json');
 
+    /** @property {Int} - The minimum page number */
     this.m_min = 1;
+    /** @property {Int} - The current selected page number */
     this.m_current = 1;
+    /** @property {Int} - The current selected index (NOT page) number */
     this.m_current_selection = 0;
+    /** @property {Int} - The maximum index (NOT page) number */
     this.m_max_index = 5;
 
+    /** @property {Boolean} - If true, then previous page button is disabled */
     this.m_prev_disabled = true;
+    /** @property {Boolean} - If true, then next page button is disabled */
     this.m_next_disabled = false;
 
+    /** @property {Boolean} - The current question title */
     this.m_header = "Goldman-Hodgkin-Katz";
   }
 
+  /**
+  * Function to initialize variables in question menu
+  * @access public
+  * @param {String} mode - The current simulation mode
+  */
   init(mode) {
     this.m_current = 1;
     this.m_mode = mode;
@@ -33,6 +51,10 @@ class Question {
     this.checkDisable('prev')
   }
 
+  /**
+  * Function to initialize DOM element in question menu
+  * @access private
+  */
   setup() {
     var ec = elementCreator;
 
@@ -58,6 +80,10 @@ class Question {
     this.m_next.mouseClicked(this.next.bind(this));
   }
 
+  /**
+  * Function to jump to next page in question menu
+  * @access public
+  */
   next() {
     if (this.m_next_disabled)
     return;
@@ -81,6 +107,10 @@ class Question {
     document.getElementById("q1").innerHTML = this.m_question_list[this.m_mode][this.m_current - 1]
   }
 
+  /**
+  * Function to jump to previous page in question menu
+  * @access public
+  */
   prev() {
     if (this.m_prev_disabled)
     return;
@@ -108,12 +138,15 @@ class Question {
     document.getElementById("q1").innerHTML = this.m_question_list[this.m_mode][this.m_current - 1]
   }
 
+  /**
+  * Function to refresh the dots (...) in the question menu
+  * @access private
+  * @param {Int} init - The current selected index.
+  If 0 then create the new jump menu, if >0 then refresh current jump menu
+  */
   refresh(init) {
-    // input1: int
-    // usage: if 0 then create the new jump menu, if >0 then refresh current jump menu
     if (init<=0) {
       this.m_jumpDiv.html('') //delete current container children
-      // if(this.m_jump_list) this.m_jump_list.remove()
       this.m_jump_list = [];
       this.m_jump_dot = [];
     }
@@ -138,6 +171,11 @@ class Question {
 
   }
 
+  /**
+  * Function to jump to desired page
+  * @access private
+  * @param {DOM} evt - The page number DOM that is being clicked
+  */
   jump(evt) {
     var eventHTML = evt.target.innerHTML;
     var eventID = evt.target.id;
@@ -162,6 +200,12 @@ class Question {
 
   }
 
+  /**
+  * Function to load JSON file
+  * @access private
+  * @param {callback} callback
+  * @param {url} url - The file name of the JSON file
+  */
   loadJSON(callback,url) {
 
     var xobj = new XMLHttpRequest();
@@ -176,6 +220,11 @@ class Question {
     xobj.send(null);
   }
 
+  /**
+  * Function add CSS to current active page tab
+  * @access private
+  * @param {Int} index - The current active index number
+  */
   focus(index) {
     this.m_current_selection = index;
     for (let i = 0;i<this.m_max_index;i++) {
@@ -191,8 +240,12 @@ class Question {
     }
   }
 
+  /**
+  * Function check if next/prev button should be disabled or not
+  * @access private
+  * @param {String} mode - (next|prev|both)
+  */
   checkDisable(mode) {
-    // input1: string (next||prev|both)
 
     // enable ... or not
     var allow_index = (this.m_index>=this.m_max_index) ? this.m_max_index : this.m_index
