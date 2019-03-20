@@ -120,6 +120,9 @@ appropriately { _tl: p1, _tr: p2, _bl: p3, _br: p4}</td>
             
                 
 <span class="param-type">Color</span>
+|
+
+<span class="param-type">string</span>
 
 
             
@@ -144,6 +147,9 @@ converted to a color (ex: "#ff0000"). Acts as the color for the inside area.</td
             
                 
 <span class="param-type">Color</span>
+|
+
+<span class="param-type">string</span>
 
 
             
@@ -239,126 +245,6 @@ converted to a color. Determines the border color, if a border is drawn.</td>
     
 
     
-        <h3 class="subsection-title">Members</h3>
-
-        
-            
-<h4 class="name" id="border_color"><span class="type-signature">(protected) </span>border_color<span class="type-signature"></span></h4>
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Rectangle.js.html">Rectangle.js</a>, <a href="Rectangle.js.html#line22">line 22</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="fill_color"><span class="type-signature">(protected) </span>fill_color<span class="type-signature"></span></h4>
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Rectangle.js.html">Rectangle.js</a>, <a href="Rectangle.js.html#line19">line 19</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-    
 
     
         <h3 class="subsection-title">Methods</h3>
@@ -442,7 +328,7 @@ converted to a color. Determines the border color, if a border is drawn.</td>
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">integer</span>
 
 
             
@@ -465,7 +351,7 @@ converted to a color. Determines the border color, if a border is drawn.</td>
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">integer</span>
 
 
             
@@ -562,7 +448,7 @@ converted to a color. Determines the border color, if a border is drawn.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Rectangle.js.html">Rectangle.js</a>, <a href="Rectangle.js.html#line85">line 85</a>
+        <a href="Rectangle.js.html">Rectangle.js</a>, <a href="Rectangle.js.html#line145">line 145</a>
     </li></ul></dd>
     
 
@@ -597,6 +483,114 @@ converted to a color. Determines the border color, if a border is drawn.</td>
     <dd>
         
 <span class="param-type"><a href="Rectangle.html">Rectangle</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="color"><span class="type-signature"></span>color<span class="signature">()</span><span class="type-signature"> &rarr; {Color}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Get the fill Color of the Rectangle
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Rectangle.js.html">Rectangle.js</a>, <a href="Rectangle.js.html#line97">line 97</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A p5 Color object or color string.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Color</span>
 
 
     </dd>
@@ -666,7 +660,7 @@ converted to a color. Determines the border color, if a border is drawn.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Rectangle.js.html">Rectangle.js</a>, <a href="Rectangle.js.html#line28">line 28</a>
+        <a href="Rectangle.js.html">Rectangle.js</a>, <a href="Rectangle.js.html#line76">line 76</a>
     </li></ul></dd>
     
 
@@ -801,7 +795,7 @@ converted to a color. Determines the border color, if a border is drawn.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Rectangle.js.html">Rectangle.js</a>, <a href="Rectangle.js.html#line39">line 39</a>
+        <a href="Rectangle.js.html">Rectangle.js</a>, <a href="Rectangle.js.html#line87">line 87</a>
     </li></ul></dd>
     
 
@@ -843,7 +837,8 @@ converted to a color. Determines the border color, if a border is drawn.</td>
 
 
 <div class="description">
-    Resize the Rectangle.
+    Resize the Rectangle. Does not allow defining the size in terms of
+length/width
 </div>
 
 
@@ -937,7 +932,7 @@ appropriately { _tl: p1, _tr: p2, _bl: p3, _br: p4}</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Rectangle.js.html">Rectangle.js</a>, <a href="Rectangle.js.html#line49">line 49</a>
+        <a href="Rectangle.js.html">Rectangle.js</a>, <a href="Rectangle.js.html#line109">line 109</a>
     </li></ul></dd>
     
 
@@ -981,13 +976,13 @@ appropriately { _tl: p1, _tr: p2, _bl: p3, _br: p4}</td>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Point.html">Point</a></li><li><a href="Rectangle.html">Rectangle</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Particle.html">Particle</a></li><li><a href="Point.html">Point</a></li><li><a href="Rectangle.html">Rectangle</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Feb 27 2019 15:54:45 GMT-0500 (Eastern Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Mar 13 2019 16:00:48 GMT-0400 (Eastern Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -43,19 +43,32 @@ QUnit.test("fromDimensions", function(assert) {
 })
 
 QUnit.test("setColor", function(assert) {
-  var p1 = new Point(0, 0);
-  var p2 = new Point(1, 0);
-  var p3 = new Point(3, 4);
 
-  assert.equal(p1.distance(p2), 1, "distance between p1 and p2 is correct");
-  assert.equal(p1.distance(p3), 5, "distance between p1 and p3 is correct");
+  var p1 = new Point(0, 0);
+  var rect5 = Rectangle.fromDimensions(p1, 5, 10, "#000044");
+
+  rect5.setColor("#ffff00");
+
+  assert.equal(rect5.color(), "#ffff00", "color should match");
 })
 
 QUnit.test("setSize", function(assert) {
   var p1 = new Point(0, 0);
-  var p2 = new Point(1, 0);
-  var p3 = new Point(3, 4);
+  var rect6 = Rectangle.fromDimensions(p1, 2, 6, "#000044");
 
-  assert.equal(p1.distance(p2), 1, "distance between p1 and p2 is correct");
-  assert.equal(p1.distance(p3), 5, "distance between p1 and p3 is correct");
+  var p2 = new Point(5, 0);
+  var p3 = new Point(5, 3);
+  var p4 = new Point(0, 3);
+
+  var group1 = {
+    _tl: p1,
+    _tr: p2,
+    _br: p3,
+    _bl: p4
+  };
+
+  rect6.setSize(group1);
+
+  assert.equal(rect6.width, 5, "Width after resizing should be 5");
+  assert.equal(rect6.height, 3, "Height after resizing should be 3");
 })
