@@ -84,15 +84,16 @@ class Particle {
     return this.fill_color;
   }
 
-  /**
-  * Set and get the fill color of the particle.
-  *
-  * @param {integer} [xc=this.center.x] - The x-coordinate to draw the particle at. Defaults to the center point's x-value.
-  * @param {integer} [yc=this.center.y] - The y-coordinate to draw the particle at. Defaults to the center point's y-value.
-  * @param {integer} [d=this.diameter] - The diameter of the Particle circle that gets drawn. Defaults to member variable-specified diameter.
-  */
-  draw(xc = this.center.x, yc = this.center.y, d = this.diameter) {
-    if (this.display) ellipse(xc, yc, d);
+    /**
+    * Set and get the fill color of the particle.
+    *
+    * @param {integer} [xc=this.center.x] - The x-coordinate to draw the particle at. Defaults to the center point's x-value.
+    * @param {integer} [yc=this.center.y] - The y-coordinate to draw the particle at. Defaults to the center point's y-value.
+    * @param {integer} [d=this.diameter] - The diameter of the Particle circle that gets drawn. Defaults to member variable-specified diameter.
+    */
+  draw(xc = this.center.x, yc = this.center.y, d = this.diam) {
+    // if (this.display) ellipse(xc, yc, d);
+    if(particleMapper[this.type]["display"]) ellipse(xc, yc, d);
   }
 
   /**
@@ -178,18 +179,23 @@ class Particle {
   * @param {Container} container_context - The container (Rectangle) that contains this particle inside of it.
   */
   move(container_context) {
-    // Pass in a Container object the particle should be constrained inside.
-    if (this.collidable) {
-      this.bounce(container_context);
-    } else {
-      this.moveCenter();
-      this.onContainerChange (
-        this.center.x,
-        this.center.y
-      );
+
+    if(particleMapper[this.type]["display"]) {
+      // Pass in a Container object the particle should be constrained inside.
+      if (this.collidable) {
+        this.bounce(container_context);
+      } else {
+        this.moveCenter();
+        this.onContainerChange (
+          this.center.x,
+          this.center.y
+        );
+      }
+
+      this.draw();
+
     }
 
-    this.draw();
   }
 
   /**
@@ -348,6 +354,7 @@ class Na extends Particle {
     super(_center, Na.diameter, _vel, _collidable, Na.color);
 
     this.display = true;
+    this.type = 'Na';
   }
 }
 
@@ -414,6 +421,7 @@ class Cl extends Particle {
     super(_center, Cl.diameter, _vel, _collidable, Cl.color);
 
     this.display = false;
+    this.type = 'Cl';
   }
 }
 
@@ -479,6 +487,7 @@ class K extends Particle {
     super(_center, K.diameter, _vel, _collidable, K.color);
 
     this.display = false;
+    this.type = 'K';
   }
 }
 

@@ -1,4 +1,32 @@
-var helpDebug = false;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: menu/Help.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: menu/Help.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>var helpDebug = false;
 /** Create a help menu based on current simulator UI */
 class Help {
   /**
@@ -14,7 +42,7 @@ class Help {
     * Leave the description empty if that DOM element is just a container */
     this.m_list = {
       firstBox:"",
-      leftbar:"The questions will be listed in this area.</br> Please read the questions carefully and make sure you have answer every questions",
+      leftbar:"The questions will be listed in this area.&lt;/br> Please read the questions carefully and make sure you have answer every questions",
       equationContainer:"",
       hidebar:"Click arrow to expanded/hide questions",
       equationdiv:"",
@@ -26,7 +54,7 @@ class Help {
       answer:"Current Voltage in membrane",
       equilibrateButton:"Click this to equilibrate the membrane",
       secondBox:"",
-      sim:"This window will demonstrate the movement of particles with the membrane</br>. You can either hover the window or press 'space' to pause the window",
+      sim:"This window will demonstrate the movement of particles with the membrane&lt;/br>. You can either hover the window or press 'space' to pause the window",
       simulatorInputContainer:"",
       simInput:"All the particle input",
       particleControl:"All the particle control"
@@ -46,29 +74,29 @@ class Help {
     var temp = document.createDocumentFragment();
     //See https://developer.mozilla.org/en-US/docs/Web/API/Document/createDocumentFragment
 
-    helpDebug && console.log('Help Page initialize start')
+    helpDebug &amp;&amp; console.log('Help Page initialize start')
 
-    for (let i = 0; i < sim.children.length; i++) { //1
+    for (let i = 0; i &lt; sim.children.length; i++) { //1
 
       var layer1 = this.createLayer(sim,i)
       if (!layer1) continue;
 
-      for (let j = 0; j < sim.children[i].children.length; j++) { //2
+      for (let j = 0; j &lt; sim.children[i].children.length; j++) { //2
 
         var layer2 = this.createLayer(sim.children[i],j)
         if (!layer2) continue;
 
-        for (let k = 0; k < sim.children[i].children[j].children.length; k++) { //3
+        for (let k = 0; k &lt; sim.children[i].children[j].children.length; k++) { //3
 
           var layer3 = this.createLayer(sim.children[i].children[j],k)
           if (!layer3) continue;
 
-          for (let l = 0; l < sim.children[i].children[j].children[k].children.length; l++) { //4
+          for (let l = 0; l &lt; sim.children[i].children[j].children[k].children.length; l++) { //4
 
             var layer4 = this.createLayer(sim.children[i].children[j].children[k],l)
             if (!layer4) continue;
 
-            for (let m = 0; m < sim.children[i].children[j].children[k].children[l].children.length; m++) { //4
+            for (let m = 0; m &lt; sim.children[i].children[j].children[k].children[l].children.length; m++) { //4
 
               var layer5 = this.createLayer(sim.children[i].children[j].children[k].children[l],m)
               if (!layer5) continue;
@@ -89,7 +117,7 @@ class Help {
     }
     helpPage.appendChild(temp);
 
-    helpDebug && console.log('Help Page initialize end')
+    helpDebug &amp;&amp; console.log('Help Page initialize end')
   }
   /**
   * Function to clear the help page, removing all the element attaching to the help menu
@@ -149,7 +177,7 @@ class Help {
       if(!Object.keys(this.m_list).includes(ui.id) || ui.classList.contains('hidden') || ui.style.display=='none')
       return;
 
-      helpDebug && console.log('Layer '+index+' found. ID is'+ui.id+' childlength is '+ui.children.length)
+      helpDebug &amp;&amp; console.log('Layer '+index+' found. ID is'+ui.id+' childlength is '+ui.children.length)
       var layer = this.cloneUI(ui)
 
       return layer
@@ -166,7 +194,7 @@ class Help {
       var clone = document.createElement("div");
       var dim = this.getDim(original)
 
-      helpDebug && console.log(dim)
+      helpDebug &amp;&amp; console.log(dim)
 
       clone.id = original.id+"-clone";
       clone.classList = original.classList
@@ -237,3 +265,26 @@ class Help {
   }
 
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Cl.html">Cl</a></li><li><a href="EquationResult.html">EquationResult</a></li><li><a href="globals.html">globals</a></li><li><a href="GoldmanEq.html">GoldmanEq</a></li><li><a href="Help.html">Help</a></li><li><a href="InputRow.html">InputRow</a></li><li><a href="K.html">K</a></li><li><a href="Na.html">Na</a></li><li><a href="NernstEq.html">NernstEq</a></li><li><a href="Particle.html">Particle</a></li><li><a href="Point.html">Point</a></li><li><a href="Preset.html">Preset</a></li><li><a href="Question.html">Question</a></li><li><a href="Rectangle.html">Rectangle</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Mar 20 2019 11:49:43 GMT-0400 (Eastern Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: sim/Global.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,48 +17,33 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: sim/Global.js</h1>
 
     
 
 
 
     
-
-
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
     <section>
-        <article><p>This is the documentation for the bioanimation code.</p>
-<h2>Set up instructions</h2><p>Clone the repository, make sure you have the latest versions of NodeJS and NPM,
-then run <code>npm install</code> inside the bioanimation directory.</p>
-<p>You can run the application directly in the browser by opening <code>index.html</code>,
-or as a desktop Electron application by running <code>npm run start</code> in the console.</p>
-<h2>Scripts</h2><p><code>npm run dist-all</code> will build Electron applications for Windows, Mac OS, and
-Linux.</p>
-<p><code>npm run publish</code> requires a GitHub authentication token defined in an
-environment variable <code>GH_TOKEN</code> that has repo access. This will build the
-Electron application for all platforms and automatically upload them to
-GitHub Releases.</p>
-<p><code>npm run docs</code> will generate the JSDoc documention and output the result in the
-<code>docs/</code> directory.</p></article>
+        <article>
+            <pre class="prettyprint source linenums"><code>/** All the global valuables in the simulation. */
+class globals {
+  /**
+  * Create an new global valuable list.
+  * @param {Object} sim - Current simulation object
+  * @access public
+  */
+  constructor(sim) {
+    // this.m_equationResult = sim.m_dom.m_equationResult;
+    // this.m_nernst_eq = sim.m_nernst_eq;
+    // this.m_goldman_eq = sim.m_goldman_eq;
+
+    this.computeAll = sim.computeAll
+  }
+}
+</code></pre>
+        </article>
     </section>
-
-
 
 
 

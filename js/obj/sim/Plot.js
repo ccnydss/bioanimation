@@ -91,7 +91,7 @@ class Plot {
 
 
 
-    this.resizeAxis();
+    // this.resizeAxis();
   }
 
   onClick(e, legendItem) {
