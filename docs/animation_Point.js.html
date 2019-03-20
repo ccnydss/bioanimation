@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: animation/Point.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,48 +17,50 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: animation/Point.js</h1>
 
     
 
 
 
     
-
-
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
     <section>
-        <article><p>This is the documentation for the bioanimation code.</p>
-<h2>Set up instructions</h2><p>Clone the repository, make sure you have the latest versions of NodeJS and NPM,
-then run <code>npm install</code> inside the bioanimation directory.</p>
-<p>You can run the application directly in the browser by opening <code>index.html</code>,
-or as a desktop Electron application by running <code>npm run start</code> in the console.</p>
-<h2>Scripts</h2><p><code>npm run dist-all</code> will build Electron applications for Windows, Mac OS, and
-Linux.</p>
-<p><code>npm run publish</code> requires a GitHub authentication token defined in an
-environment variable <code>GH_TOKEN</code> that has repo access. This will build the
-Electron application for all platforms and automatically upload them to
-GitHub Releases.</p>
-<p><code>npm run docs</code> will generate the JSDoc documention and output the result in the
-<code>docs/</code> directory.</p></article>
+        <article>
+            <pre class="prettyprint source linenums"><code>/** Class representing a point on the p5.js canvas. */
+class Point {
+  /**
+   * Create a new point
+   * @param {number} x - Coordinate X value
+   * @param {number} y - Coordinate Y value
+   */
+  constructor(_x, _y) {
+    this.x = _x;
+    this.y = _y;
+  }
+
+  /**
+   * Function to draw the point on a p5js canvas.
+   */
+  draw() {
+    stroke(255);
+    point(this.x, this.y);
+  }
+
+  /**
+   * Compute the Euclidean distance between this point and another point.
+   * @param {Point} p - The external point whose distance from us we want to find.
+   * @returns {number}
+   */
+  distance(p) {
+    var xdiff = this.x - p.x;
+    var ydiff = this.y - p.y;
+    var result = Math.sqrt((xdiff * xdiff) + (ydiff * ydiff))
+    return result;
+  }
+}
+</code></pre>
+        </article>
     </section>
-
-
 
 
 
