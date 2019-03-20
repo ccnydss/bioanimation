@@ -91,7 +91,7 @@ class Particle {
     * @param {integer} [yc=this.center.y] - The y-coordinate to draw the particle at. Defaults to the center point's y-value.
     * @param {integer} [d=this.diameter] - The diameter of the Particle circle that gets drawn. Defaults to member variable-specified diameter.
     */
-  draw(xc = this.center.x, yc = this.center.y, d = this.diam) {
+  draw(xc = this.center.x, yc = this.center.y, d = this.diameter) {
     // if (this.display) ellipse(xc, yc, d);
     if(particleMapper[this.type]["display"]) ellipse(xc, yc, d);
   }
@@ -515,7 +515,7 @@ K.diameter = 15;
 K.display = false;
 
 /**
-* This sets the color for the ion type. This color string is used. 
+* This sets the color for the ion type. This color string is used.
 *
 * @memberof K
 * @type {p5.Color | string}
