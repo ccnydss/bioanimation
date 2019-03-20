@@ -67,11 +67,11 @@ class Particle {
     * @private
     * @type {p5.Vector}
     */
-    this.m_velocity = createVector(_vel.x, _vel.y).setMag(this.speed);
+    this.velocity = createVector(_vel.x, _vel.y).setMag(this.speed);
   }
 
   /**
-  * Set and get the fill color of the particle.
+  * Setter and getter for the fill color of the particle.
   *
   * @param {Color | string} [c=this.fill_color] - The color to set the particle to
   * @returns {Color | string} - The particle's new or current color
@@ -118,7 +118,7 @@ class Particle {
   * @param {p5.Vector} in_vector - The P5 vector object to use.
   */
   setVelocity(in_vector) {
-    this.m_velocity = in_vector.setMag(this.speed);
+    this.velocity = in_vector.setMag(this.speed);
   }
 
   /**
@@ -205,8 +205,8 @@ class Particle {
   * @param {Container} container_context - The container (Rectangle) that contains this particle inside of it.
   */
   moveCenter() {
-    this.center.x += this.m_velocity.x;
-    this.center.y += this.m_velocity.y;
+    this.center.x += this.velocity.x;
+    this.center.y += this.velocity.y;
   }
 
   /**
@@ -266,8 +266,8 @@ class Particle {
   */
   computeNewDirection(willCollide, reverseX, reverseY) {
     if (willCollide) {
-      var newx = this.m_velocity.x;
-      var newy = this.m_velocity.y;
+      var newx = this.velocity.x;
+      var newy = this.velocity.y;
 
       if (reverseX) newx = newx * -1;
       if (reverseY) newy = newy * -1;
@@ -304,7 +304,7 @@ class Particle {
   * @param {Point} bl - The bottom left point of the Container.
   */
   nextPastBottom(bl) {
-    return this.center.y + this.m_velocity.y + this.radius > bl.y;
+    return this.center.y + this.velocity.y + this.radius > bl.y;
   }
 
   /**
@@ -315,7 +315,7 @@ class Particle {
   * @param {Point} tl - The top left point of the Container.
   */
   nextPastTop(tl) {
-    return this.center.y + this.m_velocity.y - this.radius < tl.y;
+    return this.center.y + this.velocity.y - this.radius < tl.y;
   }
 
   /**
@@ -326,7 +326,7 @@ class Particle {
   * @param {Point} br - The bottom right point of the Container.
   */
   nextPastRight(br) {
-    return this.center.x + this.m_velocity.x + this.radius > br.x;
+    return this.center.x + this.velocity.x + this.radius > br.x;
   }
 
   /**
@@ -337,7 +337,7 @@ class Particle {
   * @param {Point} bl - The bottom left point of the Container.
   */
   nextPastLeft(bl) {
-    return this.center.x + this.m_velocity.x - this.radius < bl.x;
+    return this.center.x + this.velocity.x - this.radius < bl.x;
   }
 }
 
@@ -617,7 +617,12 @@ K.inside = 5;
 */
 K.outside = 3;
 
-// Used to instantiate a particle child class dynamically (without knowing if it will be a Na, Cl, or K)
+/**
+* particleMapper is an object that can be used to convert a string representation
+* of a specific ion type to its JavaScript class. It is used to instantiate a particle
+* child class dynamically (without knowing if it will be a Na, Cl, or K).
+*
+*/
 var particleMapper = {
   "Na": Na,
   "Cl": Cl,
