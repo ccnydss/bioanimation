@@ -360,54 +360,78 @@ class Na extends Particle {
 
 // Attach properties directly to the Na class itself, not an object/instance of the class.
 /**
+* ID is a field used to index the ion class itself. We maintain the ordering as follows:
+* Na, K, Cl. Everything expects this ordering to hold true, which probably isn't good.
+*
 * @memberof Na
 * @type {integer}
 */
 Na.id = 0;
 
 /**
+* Specifies the diameter of the particle ion type in question. Right now this is only
+* being used by Container.js when creating a new random particle.
+*
 * @memberof Na
 * @type {integer}
 */
 Na.diameter = 15;
 
 /**
+* Used during initializer first startup/initialization to show or hide the ion.
+* It SHOULD also be updated during runtime as the user ticks the boxes/switches
+* between Goldman and Nernst mode, but I don't know if it actually stays
+* synchronized with the object instance's display property.
+*
 * @memberof Na
 * @type {boolean}
 */
 Na.display = true;
 
 /**
+* This sets the color for the ion type. This color string is used for coloring the
+* membrane channels to match the ion.
+*
 * @memberof Na
 * @type {p5.Color | string}
 */
 Na.color = "#F5CE28";
 
 /**
+* Used for the ion label names in the simulator controls section.
+*
 * @memberof Na
 * @type {string}
 */
 Na.sign = "+";
 
 /**
+* Charge property used for computing Nernst & Goldman equations.
+*
 * @memberof Na
 * @type {integer}
 */
 Na.charge = 1;
 
 /**
+* Permeability property used for computing the Goldman equation.
+*
 * @memberof Na
 * @type {float}
 */
 Na.permeability = 0.03;
 
 /**
+* Number of Na ions inside of the cell upon startup/initialization.
+*
 * @memberof Na
 * @type {integer}
 */
 Na.inside = 1;
 
 /**
+* Number of Na ions outside of the cell upon startup/initialization.
+*
 * @memberof Na
 * @type {integer}
 */
@@ -426,54 +450,78 @@ class Cl extends Particle {
 }
 
 /**
+* ID is a field used to index the ion class itself. We maintain the ordering as follows:
+* Na, K, Cl. Everything expects this ordering to hold true, which probably isn't good.
+*
 * @memberof Cl
 * @type {integer}
 */
 Cl.id = 1;
 
 /**
+* Specifies the diameter of the particle ion type in question. Right now this is only
+* being used by Container.js when creating a new random particle.
+*
 * @memberof Cl
 * @type {integer}
 */
 Cl.diameter = 15;
 
 /**
+* Used during initializer first startup/initialization to show or hide the ion.
+* It SHOULD also be updated during runtime as the user ticks the boxes/switches
+* between Goldman and Nernst mode, but I don't know if it actually stays
+* synchronized with the object instance's display property.
+*
 * @memberof Cl
 * @type {boolean}
 */
 Cl.display = false;
 
 /**
+* This sets the color for the ion type. This color string is used for coloring the
+* membrane channels to match the ion.
+*
 * @memberof Cl
 * @type {p5.Color | string}
 */
 Cl.color = "#CD5C5C";
 
 /**
+* Used for the ion label names in the simulator controls section.
+*
 * @memberof Cl
 * @type {string}
 */
 Cl.sign = "-";
 
 /**
+* Charge property used for computing Nernst & Goldman equations.
+*
 * @memberof Cl
 * @type {integer}
 */
 Cl.charge = -1;
 
 /**
+* Permeability property used for computing the Goldman equation.
+*
 * @memberof Cl
 * @type {float}
 */
 Cl.permeability = 0.1;
 
 /**
+* Number of Cl ions inside of the cell upon startup/initialization.
+*
 * @memberof Cl
 * @type {integer}
 */
 Cl.inside = 2;
 
 /**
+* Number of Cl ions outside of the cell upon startup/initialization.
+*
 * @memberof Cl
 * @type {integer}
 */
@@ -492,12 +540,18 @@ class K extends Particle {
 }
 
 /**
+* ID is a field used to index the ion class itself. We maintain the ordering as follows:
+* Na, K, Cl. Everything expects this ordering to hold true, which probably isn't good.
+*
 * @memberof K
 * @type {integer}
 */
 K.id = 2;
 
 /**
+* Specifies the diameter of the particle ion type in question. Right now this is only
+* being used by Container.js when creating a new random particle.
+*
 * @memberof K
 * @type {integer}
 */
@@ -515,7 +569,8 @@ K.diameter = 15;
 K.display = false;
 
 /**
-* This sets the color for the ion type. This color string is used.
+* This sets the color for the ion type. This color string is used for coloring the
+* membrane channels to match the ion.
 *
 * @memberof K
 * @type {p5.Color | string}
