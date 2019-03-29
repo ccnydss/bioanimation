@@ -21,6 +21,14 @@ class Particle {
   *                               drawn to the screen at all.
   */
   constructor(_center, _diam, _vel, _collidable, _color, _display=true) {
+    if (_diam <= 0) {
+      throw new Error("Diameter must be positive and greater than 0.");
+    }
+
+    if (typeof _collidable != "boolean") {
+      throw new Error("Collidability property must be a boolean value.");
+    }
+
     /**
     * @protected
     * @type {Point}
@@ -98,12 +106,14 @@ class Particle {
 
   /**
   * Method to determine if the given particle is close to, or nearby, a single
-  * point within a given radius (range) of pixels.
+  * point within a given radius (range) of pixels from the particle's border.
   *
   * @param {Point} point - The point to compare this one to.
   * @param {integer} [range=0] - The distance (in pixels) that specifies how
   *  far away the point should be from the Particle's boundary to trigger
   *  this function. Defaults to 0 (i.e., checks to see if the Point is actually within this Particle).
+  *
+  * @returns {boolean} - True if `point` is within `range`, otherwise false.
   */
   nearToPoint(point, range=0) {
     var distanceBetween = this.center.distance(point);
@@ -129,6 +139,10 @@ class Particle {
   * Typically, something like 1-5 is pretty good.
   */
   setSpeed(speed) {
+    if (speed <= 0 || isNaN(speed) || parseInt(speed) != speed) {
+      throw new Error("Speed must be a positive integer.");
+    }
+    this.velocity.setMag(speed);
     this.speed = speed;
   }
 
@@ -138,6 +152,10 @@ class Particle {
   * @param {boolean} disp - True/False for display the particle or not.
   */
   setDisplay(disp) {
+    if (typeof disp != "boolean") {
+      throw new Error("Display must be true or false.");
+    }
+
     this.display = disp;
     setClassMember(this, "display", disp);
   }
@@ -147,7 +165,7 @@ class Particle {
   * during the equilibrium function to give particles a random direction
   * after they cross the cell membrane.
   *
-  * @param {boolean} topTop - True/False if the particle's y-component is
+  * @param {boolean} toTop - True/False if the particle's y-component is
   * negative (moving upwards) or positive (moving downwards).
   *
   * @returns {p5.Vector} - The velocity vector that is going in this random direction.
@@ -349,11 +367,19 @@ class Na extends Particle {
   * The Na ion has its own properties listed below that are attached directly
   * on the "Na" JavaScript class instead of each object instance. The point is to
   * emulate static member variables, which JavaScript doesn't have.
+  *
+  *
+  * @param {Point} _center - The starting position of the new Na Particle
+  *
+  * @param {Point} _vel - The input velocity is represented as a Point object
+  *                       with (x, y) components.
+  *
+  * @param {boolean} _collidable - Determines if the particle will be impacted
+  *                                 by collisions with Container objects.
   */
   constructor(_center, _vel, _collidable) {
-    super(_center, Na.diameter, _vel, _collidable, Na.color);
+    super(_center, Na.diameter, _vel, _collidable, Na.color, Na.display);
 
-    this.display = true;
     this.type = 'Na';
   }
 }
@@ -440,11 +466,18 @@ Na.outside = 2;
 class Cl extends Particle {
   /**
   * The class representing Cl ions
+  *
+  *
+  * @param {Point} _center - The starting position of the new Na Particle
+  *
+  * @param {Point} _vel - The input velocity is represented as a Point object
+  *                       with (x, y) components.
+  *
+  * @param {boolean} _collidable - Determines if the particle will be impacted
+  *                                 by collisions with Container objects.
   */
   constructor(_center, _vel, _collidable) {
-    super(_center, Cl.diameter, _vel, _collidable, Cl.color);
-
-    this.display = false;
+    super(_center, Cl.diameter, _vel, _collidable, Cl.color, Cl.display);
     this.type = 'Cl';
   }
 }
@@ -530,11 +563,18 @@ Cl.outside = 1;
 class K extends Particle {
   /**
   * The class representing K ions
+  *
+  *
+  * @param {Point} _center - The starting position of the new Na Particle
+  *
+  * @param {Point} _vel - The input velocity is represented as a Point object
+  *                       with (x, y) components.
+  *
+  * @param {boolean} _collidable - Determines if the particle will be impacted
+  *                                 by collisions with Container objects.
   */
   constructor(_center, _vel, _collidable) {
-    super(_center, K.diameter, _vel, _collidable, K.color);
-
-    this.display = false;
+    super(_center, K.diameter, _vel, _collidable, K.color, K.display);
     this.type = 'K';
   }
 }
