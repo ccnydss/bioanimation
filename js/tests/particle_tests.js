@@ -131,17 +131,80 @@ QUnit.test("moveCenter", function(assert) {
 });
 
 QUnit.test("bounce", function(assert) {
-  // Want to make sure that the particle actually does a bounce in a
-  // situation where it should.
-  assert.ok(1, "Pass");
+  var p1 = new Particle (
+    new Point(50, 50),
+    10,
+    { x: -5, y: 0 },
+    true,
+    "#ffaa00",
+    true
+  );
+
+  var rect = {
+    _tl: new Point(0, 0),
+    _tr: new Point(100, 0),
+    _bl: new Point(0, 100),
+    _br: new Point(100, 100)
+  };
+
+  var c1 = new Container (
+    rect,
+    "#ffaa00",
+    "inside"
+  );
+
+  // Test it when particle is completely inside border
+  p1.bounce(c1);
+  assert.equal(p1.center.x, 45);
+
+  // Test it when particle edge perfectly touches border
+  p1.center = new Point (5, 50);
+  p1.bounce(c1);
+
+  assert.equal(p1.center.x, 10);
+
+  // Test it when particle is partially past border
+
+  // Test it when particle is completely past border
 });
 
 QUnit.test("checkOutOfBounds", function(assert) {
-  // Test it when particle is completely inside
-  // Test it when particle is completely outside
-  // Test it when particle is partially inside
-  // Test it when particle edge perfectly touches the container border
-  assert.ok(1, "Pass");
+  var p1 = new Particle (
+    new Point(50, 50),
+    10,
+    { x: 5, y: 0 },
+    true,
+    "#ffaa00",
+    true
+  );
+
+  var rect = {
+    _tl: new Point(0, 0),
+    _tr: new Point(100, 0),
+    _bl: new Point(0, 100),
+    _br: new Point(100, 100)
+  };
+
+  var c1 = new Container (
+    rect,
+    "#ffaa00",
+    "inside"
+  );
+
+  // Test it when particle is completely inside border
+  assert.equal(p1.checkOutOfBounds(c1), false);
+
+  // Test it when particle edge perfectly touches border
+  p1.center = new Point (5, 50);
+  assert.equal(p1.checkOutOfBounds(c1), false);
+
+  // Test it when particle is partially past border
+  p1.center = new Point (4, 50);
+  assert.equal(p1.checkOutOfBounds(c1), true);
+
+  // Test it when particle is completely past border
+  p1.center = new Point (-15, 50);
+  assert.equal(p1.checkOutOfBounds(c1), true);
 });
 
 // /* Can't test because has random side effects  */
@@ -176,37 +239,115 @@ QUnit.test("nextPastBottom", function(assert) {
   assert.equal(p1.nextPastBottom(c1.bl), false);
 
   // Test it when particle is partially past border
-  p1.center = new Point (100, 98);
+  p1.center = new Point (50, 98);
   assert.equal(p1.nextPastBottom(c1.bl), true);
 
   // Test it when particle edge moves perfectly touches border
-  p1.center = new Point (100, 90);
+  p1.center = new Point (50, 90);
   assert.equal(p1.nextPastBottom(c1.bl), false);
 });
 
 QUnit.test("nextPastTop", function(assert) {
-  // Test it when particle is completely past border
-  // Test it when particle is completely inside border
-  // Test it when particle moves partially on border
-  // Test it when particle edge moves perfectly touches border
+  var p1 = new Particle (
+    new Point(50, 50),
+    10,
+    { x: 0, y: -5 },
+    true,
+    "#ffaa00",
+    true
+  );
 
-  assert.ok(1, "Pass");
+  var rect = {
+    _tl: new Point(0, 0),
+    _tr: new Point(100, 0),
+    _bl: new Point(0, 100),
+    _br: new Point(100, 100)
+  };
+
+  var c1 = new Container (
+    rect,
+    "#ffaa00",
+    "inside"
+  );
+
+  // Test it when particle is completely inside border
+  assert.equal(p1.nextPastTop(c1.tl), false);
+
+  // Test it when particle edge moves perfectly touches border
+  p1.center = new Point (50, 10);
+  assert.equal(p1.nextPastTop(c1.tl), false);
+
+  // Test it when particle is partially past border
+  p1.center = new Point (50, 8);
+  assert.equal(p1.nextPastTop(c1.tl), true);
 });
 
 QUnit.test("nextPastRight", function(assert) {
-  // Test it when particle is completely past border
-  // Test it when particle is completely inside border
-  // Test it when particle moves partially on border
-  // Test it when particle edge moves perfectly touches border
+  var p1 = new Particle (
+    new Point(50, 50),
+    10,
+    { x: 5, y: 0 },
+    true,
+    "#ffaa00",
+    true
+  );
 
-  assert.ok(1, "Pass");
+  var rect = {
+    _tl: new Point(0, 0),
+    _tr: new Point(100, 0),
+    _bl: new Point(0, 100),
+    _br: new Point(100, 100)
+  };
+
+  var c1 = new Container (
+    rect,
+    "#ffaa00",
+    "inside"
+  );
+
+  // Test it when particle is completely inside border
+  assert.equal(p1.nextPastRight(c1.tr), false);
+
+  // Test it when particle edge moves perfectly touches border
+  p1.center = new Point (90, 50);
+  assert.equal(p1.nextPastRight(c1.tr), false);
+
+  // Test it when particle is partially past border
+  p1.center = new Point (94, 50);
+  assert.equal(p1.nextPastRight(c1.tr), true);
 });
 
 QUnit.test("nextPastLeft", function(assert) {
-  // Test it when particle is completely past border
-  // Test it when particle is completely inside border
-  // Test it when particle moves partially on border
-  // Test it when particle edge moves perfectly touches border
+  var p1 = new Particle (
+    new Point(50, 50),
+    10,
+    { x: -5, y: 0 },
+    true,
+    "#ffaa00",
+    true
+  );
 
-  assert.ok(1, "Pass");
+  var rect = {
+    _tl: new Point(0, 0),
+    _tr: new Point(100, 0),
+    _bl: new Point(0, 100),
+    _br: new Point(100, 100)
+  };
+
+  var c1 = new Container (
+    rect,
+    "#ffaa00",
+    "inside"
+  );
+
+  // Test it when particle is completely inside border
+  assert.equal(p1.nextPastLeft(c1.tl), false);
+
+  // Test it when particle edge moves perfectly touches border
+  p1.center = new Point (10, 50);
+  assert.equal(p1.nextPastLeft(c1.tl), false);
+
+  // Test it when particle is partially past border
+  p1.center = new Point (6, 50);
+  assert.equal(p1.nextPastLeft(c1.tl), true);
 });

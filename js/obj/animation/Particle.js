@@ -262,6 +262,8 @@ class Particle {
   *
   * @private
   * @param {Container} container - The container (Rectangle) that contains this particle inside of it.
+  *
+  * @returns {boolean} Returns true if particle is out of bounds of the input container, false otherwise.
   */
   checkOutOfBounds(container) {
     var outRight = this.center.x + this.radius > container.br.x;
@@ -269,10 +271,13 @@ class Particle {
     var outTop = this.center.y - this.radius < container.tl.y;
     var outBot = this.center.y + this.radius > container.br.y;
 
-    if (outRight || outLeft || outTop || outBot) {
+    var is_out = outRight || outLeft || outTop || outBot;
+    if (is_out) {
       this.center.x = container.center.x;
       this.center.y = container.tl.y + (container.center.y / 2);
     }
+
+    return is_out;
   }
 
   /**
@@ -329,7 +334,7 @@ class Particle {
   * @private
   * @param {Point} bl - The bottom left point of the Container.
   */
-  nextPastBottom(bl) {        
+  nextPastBottom(bl) {
     return this.center.y + this.velocity.y + this.radius > bl.y;
   }
 
