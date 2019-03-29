@@ -179,7 +179,7 @@ class Particle {
     if (typeof toTop != "boolean") {
       throw new Error("toTop must be true or false.");
     }
-    
+
     var afterDirection;
     if (toTop) {
       afterDirection = randomFromRanges(
@@ -219,9 +219,7 @@ class Particle {
       }
 
       this.draw();
-
     }
-
   }
 
   /**
@@ -280,7 +278,9 @@ class Particle {
   /**
   * Reverse the velocity component if the particle collides with a wall. Whether
   * the x-component, y-component, or both of them get reversed depends on which
-  * wall is getting hit.
+  * wall is getting hit. This function also generates a slight random angular
+  * variation for the particle's new direction, so that the reflection is not
+  * "perfect" and therefore more natural looking.
   *
   * @private
   * @param {boolean} willCollide - A boolean corresponding to whether a particle
@@ -329,7 +329,7 @@ class Particle {
   * @private
   * @param {Point} bl - The bottom left point of the Container.
   */
-  nextPastBottom(bl) {
+  nextPastBottom(bl) {        
     return this.center.y + this.velocity.y + this.radius > bl.y;
   }
 
