@@ -51,7 +51,8 @@ class BioMain extends Sequence {
     // Create channels
     s.channels = createChannels(
       s.membrane,
-      mainSim.numParticleTypes()
+      mainSim.numParticleTypes(),
+      mainSim.m_particle_types
     );
 
     // Initialize containers with particles
@@ -110,7 +111,7 @@ class BioMain extends Sequence {
       }
     );
 
-    s.channels = createChannels(s.membrane, mainSim.numParticleTypes());
+    s.channels = createChannels(s.membrane, mainSim.numParticleTypes(), mainSim.m_particle_types);
 
     s.containers.outside.draw(false);
     s.containers.inside.draw(false);

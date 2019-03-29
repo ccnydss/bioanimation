@@ -104,9 +104,10 @@ QUnit.test("setDisplay", function(assert) {
   assert.equal(Na.display, na_p1.display);
 });
 
-QUnit.test("randomDirection", function(assert) {
-  assert.ok(1, "Pass");
-});
+// /* Not very testable, because it generates random results */
+// QUnit.test("randomDirection", function(assert) {
+//   assert.ok(1, "Pass");
+// });
 
 QUnit.test("move", function(assert) {
   assert.ok(1, "Pass");

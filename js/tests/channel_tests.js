@@ -23,8 +23,14 @@ QUnit.test("constructor", function(assert) {
 });
 
 QUnit.test("createChannels", function(assert) {
-
   // NOTE: In the future, we may wish to test the content of chans as well.
-  var chans = createChannels(topleft_test, topright_test, botleft_test, botright_test, 3);
+  var membrane = new Rectangle({
+      _tl: topleft_test,
+      _tr: topright_test,
+      _bl: botleft_test,
+      _br: botright_test
+  });
+
+  var chans = createChannels(membrane, 3, ["Na", "Cl", "K"]);
   assert.deepEqual(chans.length, 3, "Array length is correct");
 });

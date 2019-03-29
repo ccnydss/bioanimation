@@ -5,8 +5,8 @@ class Channel extends Rectangle {
   }
 }
 
-function createChannels(membrane, numOfChannels) {
-  // Input: Rectangle, Integer
+function createChannels(membrane, numOfChannels, particleArray) {
+  // Input: Rectangle, Integer, particleArray
   // Function: Creates an array of Channels for each particle type
   // Output: Array
 
@@ -35,7 +35,7 @@ function createChannels(membrane, numOfChannels) {
           _br: channelBR,
           _bl: channelBL
         },
-        mainSim.m_particle_types[i - 1]
+        particleArray[i - 1]
       )
     );
   }

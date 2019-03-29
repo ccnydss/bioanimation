@@ -199,25 +199,25 @@ class Plot {
 
 
     //Change the leading point color
-      this.m_data_chart.data.datasets[index].pointBackgroundColor[x*this.multiple] = this.m_point_color_leading[index];
-      this.m_data_chart.data.datasets[index].pointBorderColor[x*this.multiple] = this.m_point_color_leading[index];
+    this.m_data_chart.data.datasets[index].pointBackgroundColor[x*this.multiple] = this.m_point_color_leading[index];
+    this.m_data_chart.data.datasets[index].pointBorderColor[x*this.multiple] = this.m_point_color_leading[index];
 
-      var prevIndex = (x>0) ? x*this.multiple-1 : (this.m_max_x - 1)*this.multiple
-      this.m_data_chart.data.datasets[index].pointBackgroundColor[prevIndex] =  this.m_point_color_default[index];
-      this.m_data_chart.data.datasets[index].pointBorderColor[prevIndex] =  this.m_point_color_default[index];
-
-
-      if(this.m_sim.simMode() == "Nernst") {
-        if(this.m_sim.m_dom.m_sim.m_nernst_particle == this.m_sim.m_particle_types[index])
-        this.checkYaxis(index);
-
-      } else {
-    this.checkYaxis(index);
-      }
+    var prevIndex = (x>0) ? x*this.multiple-1 : (this.m_max_x - 1)*this.multiple
+    this.m_data_chart.data.datasets[index].pointBackgroundColor[prevIndex] =  this.m_point_color_default[index];
+    this.m_data_chart.data.datasets[index].pointBorderColor[prevIndex] =  this.m_point_color_default[index];
 
 
-        this.m_data_chart.data.datasets[index].data = dataset;
-        this.m_data_chart.data.datasets[index].data;
+    if(this.m_sim.simMode() == "Nernst") {
+      if(this.m_sim.m_dom.m_sim.m_nernst_particle == this.m_sim.m_particle_types[index])
+      this.checkYaxis(index);
+
+    } else {
+      this.checkYaxis(index);
+    }
+
+
+    this.m_data_chart.data.datasets[index].data = dataset;
+    this.m_data_chart.data.datasets[index].data;
     this.m_data_chart.update();
 
 
@@ -225,52 +225,52 @@ class Plot {
 
   checkYaxis(index) {
 
-        var maxVoltage = 0;
-        if(this.m_sim.simMode() == "Nernst") {
+    var maxVoltage = 0;
+    if(this.m_sim.simMode() == "Nernst") {
 
-          // maxVoltage = Math.abs(this.m_data_chart_global_voltage[index].max()/1000) //To mV
+      // maxVoltage = Math.abs(this.m_data_chart_global_voltage[index].max()/1000) //To mV
 
-          for(let i =0;i<this.m_data_chart.data.datasets[index].data.length;i++) {
+      for(let i =0;i<this.m_data_chart.data.datasets[index].data.length;i++) {
 
-            var dataSet = this.m_data_chart.data.datasets[index].data[i];
-                if(dataSet) {
-                  if(Math.abs(dataSet.y/1000)>maxVoltage && isFinite(dataSet.y))
-                  maxVoltage=Math.abs(dataSet.y/1000)
-                }
-          }
+        var dataSet = this.m_data_chart.data.datasets[index].data[i];
+        if(dataSet) {
+          if(Math.abs(dataSet.y/1000)>maxVoltage && isFinite(dataSet.y))
+          maxVoltage=Math.abs(dataSet.y/1000)
+        }
+      }
 
 
-        } else {
-          for(let j = 0; j < 4; j++) {
-            // var localMax = Math.abs(this.m_data_chart_global_voltage[i].max()/1000) //To mV
+    } else {
+      for(let j = 0; j < 4; j++) {
+        // var localMax = Math.abs(this.m_data_chart_global_voltage[i].max()/1000) //To mV
 
-            // maxVoltage = (localMax>maxVoltage) ? localMax : maxVoltage;
+        // maxVoltage = (localMax>maxVoltage) ? localMax : maxVoltage;
 
-            for(let i =0;i<this.m_data_chart.data.datasets[j].data.length;i++) {
+        for(let i = 0; i < this.m_data_chart.data.datasets[j].data.length; i++) {
 
-              var dataSet = this.m_data_chart.data.datasets[j].data[i];
-                  if(dataSet) {
-                    if(Math.abs(dataSet.y/1000)>maxVoltage && isFinite(dataSet.y))
-                    maxVoltage=Math.abs(dataSet.y/1000)
-                  }
-            }
-
+          var dataSet = this.m_data_chart.data.datasets[j].data[i];
+          if(dataSet) {
+            if(Math.abs(dataSet.y/1000)>maxVoltage && isFinite(dataSet.y))
+            maxVoltage=Math.abs(dataSet.y/1000)
           }
         }
 
-        // console.log(maxVoltage)
+      }
+    }
 
-        if(this.m_max_y<=maxVoltage) {
-          this.m_max_y = maxVoltage
-          this.resizeAxis();
-        } else if(maxVoltage < this.m_max_y_default) {
-          this.m_max_y = this.m_max_y_default
-          this.resizeAxis();
-        }
-        // else if(this.m_max_y != this.m_max_y_default) {
-        //   this.m_max_y=this.m_max_y_default
-        //   this.resizeAxis();
-        // }
+    // console.log(maxVoltage)
+
+    if(this.m_max_y<=maxVoltage) {
+      this.m_max_y = maxVoltage
+      this.resizeAxis();
+    } else if(maxVoltage < this.m_max_y_default) {
+      this.m_max_y = this.m_max_y_default
+      this.resizeAxis();
+    }
+    // else if(this.m_max_y != this.m_max_y_default) {
+    //   this.m_max_y=this.m_max_y_default
+    //   this.resizeAxis();
+    // }
   }
   resizeAxis() {
     //Resize y-axis automatically

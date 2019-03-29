@@ -116,6 +116,10 @@ class Particle {
   * @returns {boolean} - True if `point` is within `range`, otherwise false.
   */
   nearToPoint(point, range=0) {
+    if (range < 0 || isNaN(range) || parseInt(range) != range) {
+      throw new Error("Range must be zero, or a positive integer.");
+    }
+
     var distanceBetween = this.center.distance(point);
     return distanceBetween <= this.radius + range;
   }
@@ -142,6 +146,7 @@ class Particle {
     if (speed <= 0 || isNaN(speed) || parseInt(speed) != speed) {
       throw new Error("Speed must be a positive integer.");
     }
+
     this.velocity.setMag(speed);
     this.speed = speed;
   }
@@ -171,6 +176,10 @@ class Particle {
   * @returns {p5.Vector} - The velocity vector that is going in this random direction.
   */
   randomDirection(toTop) {
+    if (typeof toTop != "boolean") {
+      throw new Error("toTop must be true or false.");
+    }
+    
     var afterDirection;
     if (toTop) {
       afterDirection = randomFromRanges(
@@ -197,7 +206,6 @@ class Particle {
   * @param {Container} container_context - The container (Rectangle) that contains this particle inside of it.
   */
   move(container_context) {
-
     if(particleMapper[this.type]["display"]) {
       // Pass in a Container object the particle should be constrained inside.
       if (this.collidable) {
