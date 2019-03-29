@@ -31,6 +31,6 @@ QUnit.test("createChannels", function(assert) {
       _br: botright_test
   });
 
-  var chans = createChannels(membrane, 3, ["Na", "Cl", "K"]);
+  var chans = createChannels(membrane, ["Na", "Cl", "K"]);
   assert.deepEqual(chans.length, 3, "Array length is correct");
 });

@@ -30,10 +30,11 @@ class Channel extends Rectangle {
 *
 * @returns {array} An array of Channel objects.
 */
-function createChannels(membrane, num_of_channels, particle_array) {
+function createChannels(membrane, particle_array) {
   var channels = [];
   var offset = 30;
 
+  var num_of_channels = particle_array.length;
   var cell_wall_width = membrane.width;
 
   for (var i = 1; i <= num_of_channels; i++) {
