@@ -6,7 +6,6 @@ function windowResized() {
   mainSim.resize();
   help.resize();
 }
-window.dispatchEvent(new Event('resize'));
 
 function FormulaInputCalculation(particleType) {
   // input: string;

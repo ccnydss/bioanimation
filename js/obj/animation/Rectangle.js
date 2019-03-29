@@ -6,24 +6,24 @@ class Rectangle {
    * @param {Object} _points - An object of 4 points with keys named
    * appropriately { _tl: p1, _tr: p2, _bl: p3, _br: p4}
    *
-   * @param {Color|string} _fillColor - A p5 Color object, or a string that can be
+   * @param {Color|string} _fill_color - A p5 Color object, or a string that can be
    * converted to a color (ex: "#ff0000"). Acts as the color for the inside area.
    *
-   * @param {Color|string} _borderColor - A p5 Color object, or a string that can be
+   * @param {Color|string} _border_color - A p5 Color object, or a string that can be
    * converted to a color. Determines the border color, if a border is drawn.
    */
-  constructor(_points, _fillColor, _borderColor) {
+  constructor(_points, _fill_color, _border_color) {
     /**
       * @private
       * @type {Color|string|boolean}
       */
-    this.fill_color = _fillColor || false;
+    this.fill_color = _fill_color || false;
 
     /**
       * @private
       * @type {Color|string|boolean}
       */
-    this.border_color = _borderColor || false;
+    this.border_color = _border_color || false;
 
     /**
       * @private
@@ -112,15 +112,15 @@ class Rectangle {
     // Test multiple conditions to see if rectangle is valid.
     var lefts = (_tl.x < _tr.x) && (_bl.x < _br.x);
     var bottoms = (_bl.y > _tl.y) && (_br.y > _tr.y);
-    var leftAligned = _bl.x == _tl.x;
-    var rightAligned = _br.x == _tr.x;
-    var topAligned = _tl.y == _tr.y;
-    var botAligned = _bl.y == _br.y;
-    var validNumber = Object.keys(_points).length == 4;  // Count the number of points being sent in.
+    var left_aligned = _bl.x == _tl.x;
+    var right_aligned = _br.x == _tr.x;
+    var top_aligned = _tl.y == _tr.y;
+    var bot_aligned = _bl.y == _br.y;
+    var valid_number = Object.keys(_points).length == 4;  // Count the number of points being sent in.
 
-    var validRect = lefts && bottoms && leftAligned && rightAligned && topAligned && botAligned && validNumber;
+    var valid_rect = lefts && bottoms && left_aligned && right_aligned && top_aligned && bot_aligned && valid_number;
 
-    if (!validRect) throw new Error("Invalid point inputs do not form rectangle", _points);
+    if (!valid_rect) throw new Error("Invalid point inputs do not form rectangle", _points);
 
     this.tl = _tl;
     this.tr = _tr;
