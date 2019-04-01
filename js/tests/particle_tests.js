@@ -159,13 +159,16 @@ QUnit.test("bounce", function(assert) {
 
   // Test it when particle edge perfectly touches border
   p1.center = new Point (5, 50);
+  p1.bounce(c1); // This slightly modifies angle after reflection, so new velocity
+                  // won't go exactly from (-5, 0) -> (5, 0)
+
+  assert.equal(abs(p1.center.x - 10) <= 0.5, true);
+
+  // Test it when particle is partially past border (triggers outOfBounds)
+  p1.center = new Point(2, 50);
   p1.bounce(c1);
 
-  assert.equal(p1.center.x, 10);
-
-  // Test it when particle is partially past border
-
-  // Test it when particle is completely past border
+  assert.equal(abs(p1.center.x - 55) <= 0.5, true);
 });
 
 QUnit.test("checkOutOfBounds", function(assert) {

@@ -266,12 +266,13 @@ class Particle {
   * @returns {boolean} Returns true if particle is out of bounds of the input container, false otherwise.
   */
   checkOutOfBounds(container) {
-    var outRight = this.center.x + this.radius > container.br.x;
-    var outLeft = this.center.x - this.radius < container.tl.x;
-    var outTop = this.center.y - this.radius < container.tl.y;
-    var outBot = this.center.y + this.radius > container.br.y;
+    var out_right = this.center.x + this.radius > container.br.x;
+    var out_left = this.center.x - this.radius < container.tl.x;
+    var out_top = this.center.y - this.radius < container.tl.y;
+    var out_bot = this.center.y + this.radius > container.br.y;
 
-    var is_out = outRight || outLeft || outTop || outBot;
+    var is_out = out_right || out_left || out_top || out_bot;
+
     if (is_out) {
       this.center.x = container.center.x;
       this.center.y = container.tl.y + (container.center.y / 2);
@@ -288,26 +289,26 @@ class Particle {
   * "perfect" and therefore more natural looking.
   *
   * @private
-  * @param {boolean} willCollide - A boolean corresponding to whether a particle
+  * @param {boolean} will_collide - A boolean corresponding to whether a particle
   *   is touching or positioned past a given Container wall.
-  * @param {boolean} reverseX - Determines if we reverse the particle's x-component
+  * @param {boolean} reverse_x - Determines if we reverse the particle's x-component
   *   (i.e., a vertical reflection).
-  * @param {boolean} reverseY - Determines if we reverse the particle's y-component
+  * @param {boolean} reverse_y - Determines if we reverse the particle's y-component
   *   (i.e., a horizontal reflection).
   */
-  computeNewDirection(willCollide, reverseX, reverseY) {
-    if (willCollide) {
+  computeNewDirection(will_collide, reverse_x, reverse_y) {
+    if (will_collide) {
       var newx = this.velocity.x;
       var newy = this.velocity.y;
 
-      if (reverseX) newx = newx * -1;
-      if (reverseY) newy = newy * -1;
+      if (reverse_x) newx = newx * -1;
+      if (reverse_y) newy = newy * -1;
 
-      var newVector = createVector(newx, newy);
+      this.velocity.set(newx, newy);
 
       // Create slight random variation in the reflected angle to prevent
       //  particles from travelling along parallel paths (looks unnatural)
-      var currentRadian = newVector.heading();
+      var currentRadian = this.velocity.heading();
       var radianVariation = random(0, 0.2);
       if ( random([0, 1]) ) {
         radianVariation = radianVariation * -1;
@@ -322,8 +323,7 @@ class Particle {
         }
       };
 
-      newVector.rotate(radianVariation);
-      this.setVelocity(newVector);
+      this.velocity.rotate(radianVariation);
     }
   }
 
