@@ -1,11 +1,18 @@
-/** Create a preset menu attaching to current simulator canvas */
+
 class Preset {
+  /**
+  * Create a preset menu attaching to current simulator canvas
+  * @example <caption>Create a new preset menu.</caption>
+  mainSim.m_sim.m_preset = new Preset(mainSim);
+  // Some element that you want to trigger preset
+  mainSim.m_simCanvasPreset_dropbtn_list[i].elt.onclick = function() {
+    mainSim.m_sim.m_preset.changePreset(mainSim.m_simCanvasPreset_dropbtn_list[i].elt)
+  };
+  *
+  * @param {Object} sim - Current simulator
+  * @access public
+  */
   constructor(sim) {
-    /**
-    * Create a new preset menu.
-    * @param {Object} sim - Current simulator
-    * @access public
-    */
 
     /** @property {String} - The CSS selector string that defined the preset buttons */
     this.btn_group = ".dropdown-content a";
@@ -132,9 +139,6 @@ class Preset {
             animationSequencer.current().setContainerColor("inside",this.preset_list[j].color_in)
             animationSequencer.current().setContainerColor("outside",this.preset_list[j].color_out)
             animationSequencer.current().setMembraneColor(this.preset_list[j].color_membrane)
-
-
-
 
           }
         }

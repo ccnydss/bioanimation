@@ -1,7 +1,12 @@
-/** Create a Goldman Equation system. *///
+
 class GoldmanEq {
   /**
-  * Create a Goldman Equation .
+  * Create a Goldman Equation system.
+ * @example <caption>Create a Goldman Equation.</caption>
+   mainSim.m_goldman_eq = new GoldmanEq(mainSim);
+   var net_voltage = mainSim.m_goldman_eq.result()
+ *
+
   * @param {Object} sim - Current simulation object
   */
   constructor(m_sim) {
@@ -57,17 +62,34 @@ class GoldmanEq {
 
     /**
     * compute a Goldman Equation based on current simulation setting.
-    * @access private
+    * @access public
+    * @param {Dictionary} condition - Optional: Particle conditions in simulator
     * @returns {number}
     */
-  compute() {
+  compute(condition) {
     var R = this.m_sim.m_settings.gas_constant;   // ideal gas constant
     var T = this.m_sim.m_settings.temperature;    // 37 is the Human Body temperature
     var F = this.m_sim.m_settings.faraday;        // Faraday's constant
 
+    if(!condition)
+    var condition = this.obtainCondition()
+
+    var numerator = condition.numerator;
+    var denominator = condition.denominator;
+
+    // Accumulate sums for numerator and denominator
+    var answer = ((R * T) / F) * Math.log(numerator / denominator);
+    return answer;
+  }
+
+  /**
+  * obtain current simulation Condition.
+  * @access private
+  * @returns {Dictionary}
+  */
+  obtainCondition() {
     var numerator = 0;
     var denominator = 0;
-    // Accumulate sums for numerator and denominator
 
     for (var i = 0; i < this.m_sim.numParticleTypes(); i++) {
       var particleType = this.m_sim.m_particle_types[i];
@@ -86,8 +108,7 @@ class GoldmanEq {
       }
     };
 
-    var answer = ((R * T) / F) * Math.log(numerator / denominator);
-    return answer;
+    return {numerator: numerator, denominator: denominator}
   }
 
   /**

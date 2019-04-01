@@ -1,8 +1,13 @@
 var helpDebug = false;
-/** Create a help menu based on current simulator UI */
 class Help {
   /**
   * Create a new help menu.
+  * @example <caption>Create a help menu based on current simulator UI</caption>
+  help = new Help(mainSim);
+  help.initialize()
+  help.resize()
+  // help.clear() If you want to clear it
+  *
   * @param {Object} sim - Current simulator
   * @access public
   */
@@ -164,9 +169,6 @@ class Help {
       //Input1: DOM element
 
       var clone = document.createElement("div");
-      var dim = this.getDim(original)
-
-      helpDebug && console.log(dim)
 
       clone.id = original.id+"-clone";
       clone.classList = original.classList

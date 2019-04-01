@@ -1,9 +1,13 @@
 var questionDebug = false;
 
-/** Create a question menu. */
 class Question {
   /**
-  * Create a new question menu.
+  * Create a question menu.
+  * @example <caption>Create a new question menu.</caption>
+  mainSim.m_sim.m_dom.m_sim_question = new Question(this);
+  mainSim.m_sim.m_dom.m_sim_question.setup();
+  mainSim.m_sim.m_dom.m_sim_question.init("Goldman"); // or "Nersnt"
+  *
   * @access public
   */
   constructor() {
@@ -231,7 +235,7 @@ class Question {
       if (i>=this.m_index) continue
 
       if(index != i) {
-        // if(this.m_jump_list[i].attribute("selection")) This line will cause some bug...
+        // if(this.m_jump_list[i].attribute("selection")) This line will cause some bug... use trigger instead
         this.m_jump_list[i].removeAttribute("target");
 
       } else if (!this.m_jump_list[i].attribute("target")) {

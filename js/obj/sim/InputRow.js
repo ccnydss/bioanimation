@@ -1,7 +1,21 @@
-/** Create ions control table. *///
+
 class InputRow {
   /**
-  * Initialize an new ions control table.
+  * Create ions control table.
+ * @example <caption>Initialize an new ions control table.</caption>
+  for (var i = 0; i < numParticles; i++) {
+    var name = this.m_dom.m_sim.m_particle_types[i];
+    var { sign, color } = particleMapper[name];
+
+    var label = '[' + name + '<sup>' + sign + '</sup>]'
+    label += '<sub>' + locStr.slice(0, -4) + '</sub>&nbsp;';
+
+    var value = animationSequencer.current().getNumParticles(locStr, name);
+
+    location.rows[i] = new InputRow(label, value, true, name, this);
+    location.rows[i].create(location.table, i, name, locStr);
+  }
+  *
   * @param {string} label - ex: [Na+]in, [K+]out
   * @param {float} value - Value of ion concentration/Number of ion to display
   * @param {boolean} enabled - Is current Ion enabled

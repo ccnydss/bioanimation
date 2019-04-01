@@ -1,7 +1,12 @@
-/** Calculate an equation table menu. */
+
 class EquationResult {
   /**
-  * Create an new equation table.
+  * Calculate an equation table menu.
+  * @example <caption>Create an new equation table.</caption>
+  mainSim.m_dom.m_equationResult = new EquationResult(mainSim.m_dom);
+  mainSim.m_dom.m_equationResult.setup();
+  mainSim.m_dom.m_equationResult.setAnswer(33,'Na')
+  *
   * @param {Object} m_dom - Current simulator DOM object
   * @access public
   */
@@ -21,7 +26,7 @@ class EquationResult {
 
   /**
   * Function to initialize DOM element in the equation table
-  * @access private
+  * @access public
   */
   setup() {
     this.display = elementCreator("table", 'answer', 'equationContainer', { className: 'answer' });
@@ -93,7 +98,7 @@ class EquationResult {
 
   /**
   * Function to set ion(s) column in the equation table
-    active/inactive based on current simulation mode.
+  active/inactive based on current simulation mode.
   * @access public
   * @param {String} type - The type of ion(s), Na/Cl/K/Net
   */
