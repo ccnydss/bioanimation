@@ -9,28 +9,56 @@ Chart.plugins.register({
 });
 
 class Plot {
+  /**
+  Voltage plot.
+ * @example <caption>Create an new voltage plot.</caption>
+   graph = new Plot(mainSim);
+   // hide Na
+   graph.hidePlot(0, true);
+   // Unhide Na
+   graph.hidePlot(0, false);
+ *
+  * @param {Object} m_dom - Current simulator DOM object
+  * @access public
+  */
   constructor(m_sim) {
     this.m_sim = m_sim;
 
+    /** @property {Int} - The initial time (x axis) */
     this.m_time = 0;
 
+    /** @property {Int} - The multiple of x axis interval (ex: 4 = 1/4s = 0.25s) */
     this.multiple = 4; //can only set to non prime number... such as 1 2 4 10
+
+    /** @property {Int} - The maximum x axis value*/
     this.m_max_x = 30 + 1;
 
+    /** @property {Int} - The default/minimum y axis value*/
     this.m_max_y_default = 0.10/130*100
+
+    /** @property {Int} - The maximum y axis value*/
     this.m_max_y = this.m_max_y_default; //*1000 is to convert V to mV;
+
+    /** @property {Int} - The interval of x axis*/
     this.m_interval = 1000/this.multiple; // 1 second
 
+    /** @property {Object} - chart.js object*/
     this.m_data_chart;
 
     // this.m_data_chart_global_voltage = [];
+    /** @property {Dictionary} - The leading point color on a voltage line*/
     this.m_point_color_leading = ['#e74c3c','#f1c40f','#2c3e50','#8e44ad']
+    /** @property {Dictionary} - The color of a voltage line*/
     this.m_point_color_default = [Na.color, Cl.color, K.color, 'gray']
 
     this.initialize();
     setInterval(this.plot.bind(this), this.m_interval);
   }
 
+  /**
+  * Function to initialize the plot by using chart.js
+  * @access private
+  */
   initialize() {
     var ctx = document.getElementById('dataPlot').getContext('2d');
 
@@ -89,11 +117,15 @@ class Plot {
       }
     });
 
-
-
     // this.resizeAxis();
   }
 
+    /**
+    * When user check on the plot legend
+    * @access private
+    * @param {DOM} e - Clicked DOM elements
+    * @param {Object} legendItem - chart.js legend object
+    */
   onClick(e, legendItem) {
     var ci = this.m_data_chart;
     var curGraph = this;
@@ -130,6 +162,10 @@ class Plot {
     }
   }
 
+      /**
+      * Function to plot the voltage plot in every time frame interval
+      * @access private
+      */
   plot() {
     if (!this.m_sim.m_pause) { //If the plot is not paused
 
@@ -153,12 +189,25 @@ class Plot {
     }
   }
 
+      /**
+      * Hide or unhide a voltage plot
+      * @access public
+      * @param {Int} legendIndex - The index of voltage plot (ex: 0=Na,1=Cl,2=K,3=Net)
+      * @param {Boolean} value - to hide or unhide
+      */
   hidePlot(legendIndex, value) {
     // Input1: int
     // Input2: Boolean
     this.m_data_chart.getDatasetMeta(legendIndex).hidden = value;
   }
 
+  /**
+  * Update the voltage value of the plot
+  * @access private
+  * @param {Int} index - The index of voltage plot (ex: 0=Na,1=Cl,2=K,3=Net)
+  * @param {Int} x - The time index (ex: x interval = 0.25, then 0 = 0s, 1 = 0.25s, 2 = 0.5s, etc.)
+  * @param {Int} y - The voltage value respect to the x
+  */
   updateData(index, x, y) {
     // Input1: int
     // Input2: int
@@ -223,6 +272,11 @@ class Plot {
 
   }
 
+  /**
+  * Check if current plot voltage value exceed the maximum y axis value
+  * @access private
+  * @param {Int} index - The index of voltage plot (ex: 0=Na,1=Cl,2=K,3=Net)
+  */
   checkYaxis(index) {
 
         var maxVoltage = 0;
@@ -272,6 +326,11 @@ class Plot {
         //   this.resizeAxis();
         // }
   }
+
+    /**
+    * Resize y-axis automatically whenever the maximum voltage is changed
+    * @access private
+    */
   resizeAxis() {
     //Resize y-axis automatically
     this.m_data_chart.options = {

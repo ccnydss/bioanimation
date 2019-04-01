@@ -1,7 +1,13 @@
-/** Create a Nernst Equation system. *///
+
 class NernstEq {
   /**
-  * Create a Nernst Equation .
+  * Create a Nernst Equation system.
+ * @example <caption>Create a Nernst Equation.</caption>
+   mainSim.m_nernst_eq = new NernstEq(mainSim);
+   var Na_voltage = mainSim.m_nernst_eq.result("Na")
+   var Cl_voltage = mainSim.m_nernst_eq.result("Cl")
+   var K_voltage = mainSim.m_nernst_eq.result("K")
+ *
   * @param {Object} sim - Current simulation object
   */
   constructor(m_sim) {
@@ -68,22 +74,40 @@ class NernstEq {
 
       /**
       * compute a Nernst Equation based on current ion and simulation setting.
-      * @access private
+      * @access public
       * @param {String} particleType - ion type, such as 'Na','Cl','K'
+      * @param {Dictionary} condition - Optional: current particle condition in simulator
       * @returns {number}
       */
-  compute(particleType) {
+  compute(particleType,condition) {
     // input: string;
     var R = this.m_sim.m_settings.gas_constant; // ideal gas constant
     var T = this.m_sim.m_settings.temperature; // 37 is the Human Body temperature
     var F = this.m_sim.m_settings.faraday; // Faraday's constant
-    var z = particleMapper[particleType]["charge"];
 
-    var Xout = this.m_sim.m_dom.m_sim_controls.concentration(particleType, "outside");
-    var Xin = this.m_sim.m_dom.m_sim_controls.concentration(particleType, "inside");
+    if(!condition)
+    var condition = this.obtainCondition(particleType)
+
+    var Xout = condition.Xout;
+    var Xin = condition.Xin;
+    var z = condition.z;
 
     var answer = (R * T) / (z * F) * Math.log(Xout / Xin);
     return answer;
+  }
+
+    /**
+    * obtain current simulation Condition.
+    * @access private
+    * @param {String} particleType - ion type, such as 'Na','Cl','K'
+    * @returns {Dictionary}
+    */
+    obtainCondition(particleType) {
+  var Xout = this.m_sim.m_dom.m_sim_controls.concentration(particleType, "outside");
+  var Xin = this.m_sim.m_dom.m_sim_controls.concentration(particleType, "inside");
+    var z = particleMapper[particleType]["charge"];
+
+  return {Xout: Xout, Xin: Xin, z: z}
   }
 
     /**

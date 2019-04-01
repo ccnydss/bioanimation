@@ -1,5 +1,8 @@
 This is the documentation for the bioanimation code.
 
+main.js --The main file that initialize all the scripts
+
+
 ## Set up instructions
 Clone the repository, make sure you have the latest versions of NodeJS and NPM,
 then run `npm install` inside the bioanimation directory.
