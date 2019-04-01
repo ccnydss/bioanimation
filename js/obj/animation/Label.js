@@ -1,6 +1,14 @@
+/**
+* Label class is used to label Containers in the canvas.
+* The foreground text is always black.
+*/
 class Label extends Rectangle {
+  /**
+  * @param {string} _text - Text string to display.
+  * @param {Point} _offset - The top-left corner for the label to be rendered at.
+  * @param {Color | string} _bgcolor - The p5.Color object or string to use to color the label background.
+  */
   constructor(_text, _offset, _bgcolor) {
-    // label text, (X, Y) position, and background color
     var width = textWidth(_text) + 10;
     var height = 20;
 
@@ -13,9 +21,17 @@ class Label extends Rectangle {
     }
 
     super(points, _bgcolor)
+
+    /**
+      * @private
+      * @type {string}
+      */
     this.text = _text;
   }
 
+  /**
+  * The draw function for the label.
+  */
   draw() {
     super.draw();
 

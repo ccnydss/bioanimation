@@ -1,15 +1,60 @@
+/**
+* Container classes are Rectangles that define particle boundaries.
+* They maintain internal lists of particles and particles waiting to be
+* transferred out, as well as a label.
+*
+*/
 class Container extends Rectangle {
+  /**
+   * Create a new Rectangle.
+   *
+   * @param {Object} _points - An object of 4 points with keys named
+   * appropriately { _tl: p1, _tr: p2, _bl: p3, _br: p4}
+   *
+   * @param {Color|string} _color - A p5 Color object, or a string that can be
+   * converted to a color (ex: "#ff0000"). Acts as the color for the inside area.
+   *
+   * @param {string} _id - Must be either "inside" or "outside".
+   */
   constructor(_points, _color, _id) {
-    // Input:     Rectangle, a P5 color string, and "inside" | "outside"
-    // Function:  Generate a new Container object with its properties.
+    if (_id != "inside" && _id != "outside") {
+      throw new Error("Invalid Container ID: " + _id);
+    }
+
     super(_points, _color);
+
+    /**
+      * @public
+      * @type {string}
+      */
     this.id = _id;
+
+    /**
+      * @public
+      * @type {string}
+      */
+    this.name = _id == "inside" ? "Intracellular" : "Extracellular";
+
+    /**
+      * @private
+      * @type {Label}
+      */
     this.label = this.createLabels();
+
+    /**
+      * @private
+      * @type {Object}
+      */
     this.particles = {
       "Na" : [],
       "Cl" : [],
       "K" : []
     };
+
+    /**
+      * @private
+      * @type {Object}
+      */
     this.transfers = {
       "Na" : [],
       "Cl" : [],
@@ -17,6 +62,18 @@ class Container extends Rectangle {
     };
   }
 
+  /**
+  * The Container draw function. We may supply a boolean to move each particle
+  * inside this Container or to draw them without moving. By default, the
+  * Container will move each particle inside of it.
+  *
+  * Setting it to false would freeze all particles. This is useful for pausing
+  * the simulation, as an example.
+  *
+  * @public
+  * @param {boolean} [moveParticle=true] - Should the particles inside move
+  *                                        every frame the Container is drawn?
+  */
   draw( moveParticle=true ) {
     super.draw();
     this.label.draw();
@@ -93,17 +150,14 @@ class Container extends Rectangle {
 
   setSize(_points) {
     super.setSize(_points);
-    this.label = this.createLabels();
+    if (this.name)
+      this.label = this.createLabels();
   }
 
   createLabels() {
-    return this.id == "outside" ? new Label(
-      "Extracellular",
-      new Point(5, 15),
-      "#ffffff"
-    ) : new Label(
-      "Intracellular",
-      new Point(5, this.tl.y + 10),
+    return new Label (
+      this.name,
+      new Point(5, this.tl.y + 15),
       "#ffffff"
     );
   }

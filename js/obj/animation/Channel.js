@@ -21,10 +21,6 @@ class Channel extends Rectangle {
 * @param {Rectangle} membrane - The size and shape of the particle membrane,
 * should be the length of the whole container / canvas.
 *
-* @param {integer} num_of_channels - How many channels should be created.
-* We should remove this parameter, because we'll know how many channels to
-* make based off of the next parameter...
-*
 * @param {array} particle_array - An array of strings containing the names of
 * all the particle types we want to create channels for.
 *

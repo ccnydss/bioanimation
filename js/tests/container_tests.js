@@ -1,7 +1,7 @@
 QUnit.module("Container Tests");
 
 QUnit.test("constructor", function(assert) {
-  var cont1 = new Container(
+  var cont1 = new Container (
     {
       _tl: topleft_test,
       _tr: topright_test,
@@ -13,7 +13,7 @@ QUnit.test("constructor", function(assert) {
   );
   assert.ok(cont1, "Object created");
 });
-// 
+//
 // QUnit.test("moveNoCollision", function(assert) {
 //   var cont1 = new Container(
 //     {
