@@ -2,22 +2,22 @@
 class NernstEq {
   /**
   * Create a Nernst Equation system.
- * @example <caption>Create a Nernst Equation.</caption>
-   mainSim.m_nernst_eq = new NernstEq(mainSim);
-   var Na_voltage = mainSim.m_nernst_eq.result("Na")
-   var Cl_voltage = mainSim.m_nernst_eq.result("Cl")
-   var K_voltage = mainSim.m_nernst_eq.result("K")
- *
+  * @example <caption>Create a Nernst Equation.</caption>
+  mainSim.m_nernst_eq = new NernstEq(mainSim);
+  var Na_voltage = mainSim.m_nernst_eq.result("Na")
+  var Cl_voltage = mainSim.m_nernst_eq.result("Cl")
+  var K_voltage = mainSim.m_nernst_eq.result("K")
+  *
   * @param {Object} sim - Current simulation object
   */
   constructor(m_sim) {
     this.m_sim = m_sim;
   }
 
-      /**
-      * start a Nernst Equation and clear all Goldman Equation setting.
-      * @access public
-      */
+  /**
+  * start a Nernst Equation and clear all Goldman Equation setting.
+  * @access public
+  */
   start(evt) {
     var sim = this.m_sim;
 
@@ -72,13 +72,13 @@ class NernstEq {
     }
   }
 
-      /**
-      * compute a Nernst Equation based on current ion and simulation setting.
-      * @access public
-      * @param {String} particleType - ion type, such as 'Na','Cl','K'
-      * @param {Dictionary} condition - Optional: current particle condition in simulator
-      * @returns {number}
-      */
+  /**
+  * compute a Nernst Equation based on current ion and simulation setting.
+  * @access public
+  * @param {String} particleType - ion type, such as 'Na','Cl','K'
+  * @param {Dictionary} condition - Optional: current particle condition in simulator
+  * @returns {number}
+  */
   compute(particleType,condition) {
     // input: string;
     var R = this.m_sim.m_settings.gas_constant; // ideal gas constant
@@ -96,26 +96,26 @@ class NernstEq {
     return answer;
   }
 
-    /**
-    * obtain current simulation Condition.
-    * @access private
-    * @param {String} particleType - ion type, such as 'Na','Cl','K'
-    * @returns {Dictionary}
-    */
-    obtainCondition(particleType) {
-  var Xout = this.m_sim.m_dom.m_sim_controls.concentration(particleType, "outside");
-  var Xin = this.m_sim.m_dom.m_sim_controls.concentration(particleType, "inside");
+  /**
+  * obtain current simulation Condition.
+  * @access private
+  * @param {String} particleType - ion type, such as 'Na','Cl','K'
+  * @returns {Dictionary}
+  */
+  obtainCondition(particleType) {
+    var Xout = this.m_sim.m_dom.m_sim_controls.concentration(particleType, "outside");
+    var Xin = this.m_sim.m_dom.m_sim_controls.concentration(particleType, "inside");
     var z = particleMapper[particleType]["charge"];
 
-  return {Xout: Xout, Xin: Xin, z: z}
+    return {Xout: Xout, Xin: Xin, z: z}
   }
 
-    /**
-    * compute a Nernst Equation based on current ion and simulation setting to 4 decimal points.
-    * @access public
-    * @param {String} particleType - ion type, such as 'Na','Cl','K'
-    * @returns {number}
-    */
+  /**
+  * compute a Nernst Equation based on current ion and simulation setting to 4 decimal points.
+  * @access public
+  * @param {String} particleType - ion type, such as 'Na','Cl','K'
+  * @returns {String}
+  */
   result(type) {
     return this.compute(type).toFixed(4);
   }

@@ -2,21 +2,25 @@
 class GoldmanEq {
   /**
   * Create a Goldman Equation system.
- * @example <caption>Create a Goldman Equation.</caption>
-   mainSim.m_goldman_eq = new GoldmanEq(mainSim);
-   var net_voltage = mainSim.m_goldman_eq.result()
- *
+  * @example <caption>Create a Goldman Equation.</caption>
+  mainSim.m_goldman_eq = new GoldmanEq(mainSim);
+  var net_voltage = mainSim.m_goldman_eq.result()
+  *
 
   * @param {Object} sim - Current simulation object
   */
   constructor(m_sim) {
+    /**
+    * @private
+    * @type {string}
+    */
     this.m_sim = m_sim;
   }
 
-    /**
-    * start a Goldman Equation and clear all Nernst Equation setting.
-    * @access public
-    */
+  /**
+  * start a Goldman Equation and clear all Nernst Equation setting.
+  * @access public
+  */
   start() {
     // input: the element that triggered the event; however this input is unused in this function
 
@@ -60,12 +64,12 @@ class GoldmanEq {
     FormulaInputCalculation();
   }
 
-    /**
-    * compute a Goldman Equation based on current simulation setting.
-    * @access public
-    * @param {Dictionary} condition - Optional: Particle conditions in simulator
-    * @returns {number}
-    */
+  /**
+  * compute a Goldman Equation based on current simulation setting.
+  * @access public
+  * @param {Dictionary} condition - Optional: Particle conditions in simulator
+  * @returns {number}
+  */
   compute(condition) {
     var R = this.m_sim.m_settings.gas_constant;   // ideal gas constant
     var T = this.m_sim.m_settings.temperature;    // 37 is the Human Body temperature
@@ -114,7 +118,7 @@ class GoldmanEq {
   /**
   * compute a Goldman Equation based on current simulation setting to 4 decimal points.
   * @access public
-  * @returns {number}
+  * @returns {string}
   */
   result() {
     return this.compute().toFixed(4);
