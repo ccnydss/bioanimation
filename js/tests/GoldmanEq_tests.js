@@ -21,10 +21,10 @@ QUnit.test("compute", function(assert) {
       K_out = 3,
       K_in  = 5;
 
-  var condition =
-   {numerator: Pna*Na_out + Pcl*Cl_in + Pk*K_out,
-    denominator: Pna*Na_in + Pcl*Cl_out + Pk*K_in}
-
+  var condition = {
+    numerator: Pna*Na_out + Pcl*Cl_in + Pk*K_out,
+    denominator: Pna*Na_in + Pcl*Cl_out + Pk*K_in
+  }
 
   // NOTE: In the future, we may wish to test the content of chans as well.
   var result = sim.m_goldman_eq.compute(condition)

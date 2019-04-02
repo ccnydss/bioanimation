@@ -95,9 +95,33 @@ class Container extends Rectangle {
     }
   }
 
+  /**
+  * Add particle is the method to use for inserting a new particle into this
+  * Container. If `p` is not supplied, then a random particle of type `ptype` is
+  * created instead.
+  *
+  * @public
+  * @param {Particle} p - The input particle to add to the Container. If null,
+  *                       then the function looks at `ptype`.
+  * @param {string} ptype - The type ("Na", "Cl", "K") of particle that should
+  *                       be added to the container. If using this option, p
+  *                       MUST be set to `null`.
+  *
+  * @example <caption>Add a particle to my_container from p</caption>
+  var my_particle = // ... create a particle
+  var my_container = // ... create a container
+
+  my_container.addParticle(my_particle);
+  *
+  * @example <caption>Add a potassium ion to my_container</caption>
+  var my_container = // ... create a container
+
+  my_container.addParticle(null, "K");
+  */
   addParticle(p, ptype) {
     var particle = p;
     var type = ptype;
+
     if (p) {
       type = p.constructor.name;
     } else {
@@ -107,25 +131,43 @@ class Container extends Rectangle {
     this.particles[type].push(particle);
   }
 
+  /**
+  * Delete particle will remove the particle of type "type" at the supplied index
+  * in the Container's array.
+  *
+  * @public
+  * @param {string} type - Particle type ("Na", "Cl", "K") to delete.
+  * @param {integer} [index=0] - Which particle to delete, defaults to the first.
+  */
   deleteParticle(type, index=0) {
     var length = this.particles[type].length;
     this.particles[type].splice(index, 1);
   }
 
+  /**
+  * Create a particle of type "type" heading in a random direction, at
+  * supplied coordinates.
+  *
+  * @public
+  * @param {string} type - The name of the type of particle to create.
+  * @param {Point | null} coordinates - The coordinates to put the particle.
+  *                                     Leave blank for random.
+  * @returns {Particle}
+  */
   createNewParticle(type, coordinates) {
-    var xRange = this.tr.x - this.tl.x - 100;
-    var yRange = this.br.y - this.tr.y - 100;
-
     var velocities = [-1, -1.25, 1.25, 1];
-    var x_vel = Math.floor(Math.random() * (velocities.length - 1)) + 0;
-    var y_vel = Math.floor(Math.random() * (velocities.length - 1)) + 0;
+    var x_vel = Math.floor(Math.random() * (velocities.length - 1));
+    var y_vel = Math.floor(Math.random() * (velocities.length - 1));
 
     var velocity = createVector(velocities[x_vel], velocities[y_vel]);
 
     if (coordinates == null) {
+      var x_range = this.tr.x - this.tl.x - 100;
+      var y_range = this.br.y - this.tr.y - 100;
+
       // Get random location
-      var randomX = this.tl.x + particleMapper[type].diameter + (Math.floor(Math.random() * xRange));
-      var randomY = this.tl.y + particleMapper[type].diameter + (Math.floor(Math.random() * yRange));
+      var randomX = this.tl.x + particleMapper[type].diameter + (Math.floor(Math.random() * x_range));
+      var randomY = this.tl.y + particleMapper[type].diameter + (Math.floor(Math.random() * y_range));
 
       coordinates = new Point(randomX, randomY);
     }
@@ -137,6 +179,14 @@ class Container extends Rectangle {
     );
   }
 
+  /**
+  * Sets the display property of all particles of the supplied type inside the
+  * Container.
+  *
+  * @public
+  * @param {string} type - The name of the type of particle to create.
+  * @param {boolean} bool - The display setting to use.
+  */
   setParticleDisplays(type, bool) {
     for (const particle of this.particles[type]) {
       particle.setDisplay(bool);
@@ -144,16 +194,36 @@ class Container extends Rectangle {
     particleMapper[type].display = bool;
   }
 
+  /**
+  * Returns the number of particles of the supplied type inside the Container.
+  *
+  * @public
+  * @param {string} type - The name of the particle type.
+  *
+  * @returns {integer}
+  */
   countParticles(type) {
     return this.particles[type].length;
   }
 
+  /**
+  * Set the Container size.
+  *
+  * @public
+  * @param {Object} _points - A set of 4 points that dictate the new size of the
+  *                           Container.
+  */
   setSize(_points) {
     super.setSize(_points);
-    if (this.name)
-      this.label = this.createLabels();
+    if (this.name) this.label = this.createLabels();
   }
 
+  /**
+  * Create the label for this Container based off of its name.
+  *
+  * @private
+  * @returns {Label}
+  */
   createLabels() {
     return new Label (
       this.name,
@@ -163,5 +233,20 @@ class Container extends Rectangle {
   }
 }
 
+/**
+ * Define the color of the inside of the Cell.
+ *
+ * @memberof Container
+ * @static
+ * @type {string}
+ */
 Container.INSIDE_COLOR = "#fffbea";
+
+/**
+ * Define the color of the outside of the Cell.
+ *
+ * @memberof Container
+ * @static
+ * @type {string}
+ */
 Container.OUTSIDE_COLOR = "#e3f8fc";
