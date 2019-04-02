@@ -9,9 +9,17 @@
     },
     "plugins": [],
     "templates": {
-        "cleverLinks": false,
-        "monospaceLinks": false,
-        "sort": false,
-        "theme": "lumen"
+      "systemName"            : "bioanimation",
+      "copyright"             : "CCNY Digital Scholarship Service",
+      "includeDate"           : true,
+      "theme"                 : "flatly",
+      "linenums"              : true,
+      "collapseSymbols"       : false,
+      "inverseNav"            : true,
+      "outputSourceFiles"     : true,
+      "outputSourcePath"      : true,
+      "syntaxTheme"           : "default",
+      "sort"					        : false,
+      "search"                : true
     }
 }
