@@ -2,56 +2,56 @@
 
 class SimulatorDOM {
   constructor(sim) {
-    this.m_sim = sim;
+    this.sim = sim;
 
-    this.m_sidebar_size_multiple = 0.35;  // Equation sidebar 35% height of the screen by default. Goes to 100% (1.0) when expanded
-    this.m_sidebar_current = 0.35;        // Current value of the sidebar height
+    this.sidebar_size_multiple = 0.35;  // Equation sidebar 35% height of the screen by default. Goes to 100% (1.0) when expanded
+    this.sidebar_current = 0.35;        // Current value of the sidebar height
 
-    this.m_canvas_size_multiple = 0.65;   // Canvas width and height will be 65% of the screen's width and height.
-    this.m_canvas_in_leftbar = false;
+    this.canvas_size_multiple = 0.65;   // Canvas width and height will be 65% of the screen's width and height.
+    this.canvas_in_leftbar = false;
 
-    this.m_canvas_width;
-    this.m_canvas_height;
+    this.canvas_width;
+    this.canvas_height;
 
-    this.m_equationResult = new EquationResult(this);
+    this.equationResult = new EquationResult(this);
 
-    this.m_sim_controls = new SimulatorInputs(this);
-    this.m_sim_question = new Question(this);
+    this.sim_inputs = new SimulatorInputs(this);
+    this.sim_question = new Question(this);
 
-    this.m_settings = [] // Array of settings HTML fields, to replace 'simSetting'
+    this.settings = [] // Array of settings HTML fields, to replace 'simSetting'
   }
 
   setup() {
     var ec = elementCreator;
 
-    this.m_stage = ec("div", 'stage', 'root', { className: 'flex-container' });
-    this.m_firstBox = ec("div", 'firstBox', 'stage', { className: 'firstBox' });
-    this.m_secondBox = ec("div", 'secondBox', 'stage', { className: 'secondBox' });
+    this.stage = ec("div", 'stage', 'root', { className: 'flex-container' });
+    this.firstBox = ec("div", 'firstBox', 'stage', { className: 'firstBox' });
+    this.secondBox = ec("div", 'secondBox', 'stage', { className: 'secondBox' });
 
     // The right sidebar for displaying questions.
-    this.m_leftBox = ec("div", 'leftbar', 'firstBox', { className: 'leftbar' });
-    this.m_sim.renderUI("leftbar", true);
+    this.leftBox = ec("div", 'leftbar', 'firstBox', { className: 'leftbar' });
+    this.sim.renderUI("leftbar", true);
 
     // Drawer button to go up
-    this.m_hideBar = ec("div", 'hidebar', 'firstBox', { className: 'hidebar', mousePressed: this.hideQuestion.bind(this) });
-    this.m_hideBarText = ec("div", 'hidebarText', 'hidebar', { content: '<i class="fas fa-arrow-up"></i> Settings' });
+    this.hideBar = ec("div", 'hidebar', 'firstBox', { className: 'hidebar', mousePressed: this.hideQuestion.bind(this) });
+    this.hideBarText = ec("div", 'hidebarText', 'hidebar', { content: '<i class="fas fa-arrow-up"></i> Settings' });
 
     // Div to contain the equation
-    this.m_equationContainer = ec("div", 'equationContainer', 'firstBox', { className: 'equationContainer' });
+    this.equationContainer = ec("div", 'equationContainer', 'firstBox', { className: 'equationContainer' });
 
-    this.m_equation = ec("div", 'equationdiv', 'equationContainer', { className: 'equationdiv' });
-    this.m_equation.child('NernstEqn');   // Attach nernst equation LaTeX, defined in sketch.html with id 'NernstEqn'
-    this.m_equation.child('GoldmanEqn');  // Same as nersnt, with goldman
+    this.equation = ec("div", 'equationdiv', 'equationContainer', { className: 'equationdiv' });
+    this.equation.child('NernstEqn');   // Attach nernst equation LaTeX, defined in sketch.html with id 'NernstEqn'
+    this.equation.child('GoldmanEqn');  // Same as nersnt, with goldman
 
-    this.m_equationResult.setup();
+    this.equationResult.setup();
 
-    this.m_equi = ec("button", 'equilibrateButton', 'firstBox', { className: 'equilibrateButton', content: "Equilibrate", mousePressed: startEquilibrate });
+    this.equi = ec("button", 'equilibrateButton', 'firstBox', { className: 'equilibrateButton', content: "Equilibrate", mousePressed: startEquilibrate });
 
-    this.m_simulatorSetting = ec("div", 'simulatorSetting', 'equationdiv', { className: 'simulatorSetting', content: "Simulation Settings" })
-    this.m_sim.renderUI('simulatorSetting',false);
+    this.simulatorSetting = ec("div", 'simulatorSetting', 'equationdiv', { className: 'simulatorSetting', content: "Simulation Settings" })
+    this.sim.renderUI('simulatorSetting',false);
 
-    this.m_settingTable = ec("div", 'setting', 'simulatorSetting', { className: 'setting' });
-    this.m_sim.renderUI("setting", false);
+    this.settingTable = ec("div", 'setting', 'simulatorSetting', { className: 'setting' });
+    this.sim.renderUI("setting", false);
 
     var temperatureIcon = '<i class="fas fa-thermometer-half"></i>';
     this.makeTable (
@@ -60,7 +60,7 @@ class SimulatorDOM {
       [temperatureIcon],
       ["Enter Temperature..."],
       ["K"],
-      [mainSim.m_settings.temperature]
+      [mainSim.settings.temperature]
     );
 
     this.makeTable (
@@ -72,61 +72,61 @@ class SimulatorDOM {
       [Na.permeability, Cl.permeability, K.permeability]
     );
 
-    this.m_leftWindow = ec("div", 'leftWindow', 'equationdiv', {className: 'leftWindow' });
+    this.leftWindow = ec("div", 'leftWindow', 'equationdiv', {className: 'leftWindow' });
 
     // Plot window
-    this.m_dataPlot = document.createElement("canvas");
-    this.m_dataPlot.id = 'dataPlot';
-    this.m_leftWindow.child(this.m_dataPlot);
-    this.m_sim.renderUI('leftWindow', false);
+    this.sim_controls = document.createElement("canvas");
+    this.sim_controls.id = 'dataPlot';
+    this.leftWindow.child(this.sim_controls);
+    this.sim.renderUI('leftWindow', false);
 
 
     var self=this;
-    this.m_simulator = ec("div", 'sim', 'secondBox', {className: 'sim'});
-    this.m_simulator.mouseOver(function(e, x=true) { self.showPause(x) });
-    this.m_simulator.mouseOut(function(e, x=false) { self.showPause(x) });
+    this.simulator = ec("div", 'sim', 'secondBox', {className: 'sim'});
+    this.simulator.mouseOver(function(e, x=true) { self.showPause(x) });
+    this.simulator.mouseOut(function(e, x=false) { self.showPause(x) });
 
-    this.m_simCanvasPause = ec("div", 'simCanvasPause', 'sim', { content: "Paused" });
-    this.m_simCanvasPause.style('display', 'none');
+    this.simCanvasPause = ec("div", 'simCanvasPause', 'sim', { content: "Paused" });
+    this.simCanvasPause.style('display', 'none');
 
-    this.m_simCanvasFrame = ec("div", 'simCanvasFrame', 'sim');
+    this.simCanvasFrame = ec("div", 'simCanvasFrame', 'sim');
 
-    this.m_simCanvasPreset = ec("div", 'simCanvasPreset', 'simCanvasFrame');
-    this.m_simCanvasPreset_dropdown = ec("div", 'simCanvasPresetDropdown', 'simCanvasPreset', { className: 'dropdown' });
-    this.m_simCanvasPreset_dropbtn = ec("a", 'simCanvasPresetDropBtn', 'simCanvasPresetDropdown', { content: 'Default', className: 'dropbtn' });
-    this.m_simCanvasPreset_Content = ec("div", 'simCanvasPresetContent', 'simCanvasPresetDropdown', { className: 'dropdown-content' });
-    this.m_simCanvasPreset_dropbtn_list = []
+    this.simCanvasPreset = ec("div", 'simCanvasPreset', 'simCanvasFrame');
+    this.simCanvasPreset_dropdown = ec("div", 'simCanvasPresetDropdown', 'simCanvasPreset', { className: 'dropdown' });
+    this.simCanvasPreset_dropbtn = ec("a", 'simCanvasPresetDropBtn', 'simCanvasPresetDropdown', { content: 'Default', className: 'dropbtn' });
+    this.simCanvasPreset_Content = ec("div", 'simCanvasPresetContent', 'simCanvasPresetDropdown', { className: 'dropdown-content' });
+    this.simCanvasPreset_dropbtn_list = []
 
-    for(let i = 0; i < this.m_sim.m_preset.preset_list.length; i++) {
-      this.m_simCanvasPreset_dropbtn_list[i] = ec("a", 'simCanvasPresetDropBtnList'+i, 'simCanvasPresetContent', { content: this.m_sim.m_preset.preset_list[i].name });
+    for(let i = 0; i < this.sim.preset.preset_list.length; i++) {
+      this.simCanvasPreset_dropbtn_list[i] = ec("a", 'simCanvasPresetDropBtnList'+i, 'simCanvasPresetContent', { content: this.sim.preset.preset_list[i].name });
       var parent = this;
 
-      this.m_simCanvasPreset_dropbtn_list[i].elt.onclick = function() {
-        parent.m_sim.m_preset.changePreset(parent.m_simCanvasPreset_dropbtn_list[i].elt)
+      this.simCanvasPreset_dropbtn_list[i].elt.onclick = function() {
+        parent.sim.preset.changePreset(parent.simCanvasPreset_dropbtn_list[i].elt)
       };
-      // this.m_simCanvasPreset_dropbtn_list[i].mouseClicked(parent.m_sim.m_preset.changePreset(parent.m_simCanvasPreset_dropbtn_list[i].elt))
+      // this.simCanvasPreset_dropbtn_list[i].mouseClicked(parent.sim.preset.changePreset(parent.simCanvasPreset_dropbtn_list[i].elt))
     }
 
-    this.m_simCanvasPauseIcon = ec("div", 'simCanvasPauseIcon', 'simCanvasFrame', { content: '<i class="fas fa-pause"></i>' })
+    this.simCanvasPauseIcon = ec("div", 'simCanvasPauseIcon', 'simCanvasFrame', { content: '<i class="fas fa-pause"></i>' })
     document.getElementById('simCanvasFrame').style.display = "none";
     document.getElementById("simCanvasPauseIcon").onclick = function() {mainSim.pause()};
 
     // Now to create the canvas
-    this.m_canvas = this.canvasCreate(this.m_simulator.size().width, this.m_simulator.size().height - 8);
-    this.m_canvas.id ('can');
-    this.m_canvas.parent('sim');
+    this.canvas = this.canvasCreate(this.simulator.size().width, this.simulator.size().height - 8);
+    this.canvas.id ('can');
+    this.canvas.parent('sim');
 
-    this.m_sim_controls.setup();
-    this.m_sim_question.setup();
+    this.sim_inputs.setup();
+    this.sim_question.setup();
   }
 
   setSize(w, h) {
-    this.m_canvas_width = w;
-    this.m_canvas_height = h;
+    this.canvas_width = w;
+    this.canvas_height = h;
   }
 
   getSize() {
-    return { width: this.m_canvas_width, height: this.m_canvas_height };
+    return { width: this.canvas_width, height: this.canvas_height };
   }
 
   canvasCreate(w, h) {
@@ -136,29 +136,29 @@ class SimulatorDOM {
 
   canvasSize(w, h) {
     this.setSize(w, h);
-    this.m_canvas.size(w, h);
+    this.canvas.size(w, h);
   }
 
   showPause(option) {
-    this.m_sim.renderUI("simCanvasFrame", option)
+    this.sim.renderUI("simCanvasFrame", option)
   }
 
   hideQuestion(evt) {
     // input: the element that triggered the event (hide buttons [arrow]);
-    var show = this.m_sim.questionsAreHidden(); // Check if the questions are already hidden. If TRUE, we should show them. If FALSE, we should hide them.
+    var show = this.sim.questionsAreHidden(); // Check if the questions are already hidden. If TRUE, we should show them. If FALSE, we should hide them.
     var hide = !show;
 
     //Turn the question menu off
-    this.m_sim.renderUI("hidebarText", hide)
-    this.m_sim.renderUI("simulatorSetting", hide)
+    this.sim.renderUI("hidebarText", hide)
+    this.sim.renderUI("simulatorSetting", hide)
 
-    var curUI = (this.m_sim.simMode() == "Nernst") ? "NernstSetting" : "GoldmanSetting"
-    this.m_sim.renderUI(curUI, hide)
+    var curUI = (this.sim.simMode() == "Nernst") ? "NernstSetting" : "GoldmanSetting"
+    this.sim.renderUI(curUI, hide)
 
-    this.m_sim.renderUI("leftWindow", hide)
+    this.sim.renderUI("leftWindow", hide)
 
-    this.m_sim.resize();
-    this.m_sim.redrawUI(show);
+    this.sim.resize();
+    this.sim.redrawUI(show);
     // this.adjustUISize(this.getSize().width, this.getSize().height);
   }
 
@@ -167,13 +167,13 @@ class SimulatorDOM {
     // usage: Resizing the question/equation window; 0.35 (including question), 1 (excluding question)
     var adjustedWindowHeight = windowHeight - 36;
 
-    // var newCanWidth = this.m_canvas_size_multiple * windowWidth;
-    // var newCanHeight = (this.m_canvas_size_multiple * adjustedWindowHeight) - 4;
+    // var newCanWidth = this.canvas_size_multiple * windowWidth;
+    // var newCanHeight = (this.canvas_size_multiple * adjustedWindowHeight) - 4;
 
-    var newCanWidth = this.m_simulator.elt.clientWidth;
-    var newCanHeight = this.m_simulator.elt.clientHeight;
+    var newCanWidth = this.simulator.elt.clientWidth;
+    var newCanHeight = this.simulator.elt.clientHeight;
 
-    if (this.m_canvas_in_leftbar) {
+    if (this.canvas_in_leftbar) {
       newCanHeight = 0.75 * newCanWidth;
     }
 
@@ -190,24 +190,24 @@ class SimulatorDOM {
 
   // NOTE: create a single "toggleParticleID()" method
   disableParticleID(id) {
-    this.m_sim_controls.controls.inside.rows[id].enable(false);
-    this.m_sim_controls.controls.outside.rows[id].enable(false);
-    this.m_sim_controls.checkbox(id, false);
+    this.sim_inputs.controls_list.inside.rows[id].enable(false);
+    this.sim_inputs.controls_list.outside.rows[id].enable(false);
+    this.sim_inputs.checkbox(id, false);
   }
 
   enableParticleID(id) {
-    var ptype = this.m_sim.m_particle_types[id];
+    var ptype = this.sim.particle_types[id];
 
-    this.m_sim_controls.controls.inside.rows[id].enable(true);
-    this.m_sim_controls.controls.outside.rows[id].enable(true);
-    this.m_equationResult.setSelected(ptype);
-    this.m_sim_controls.checkbox(id, true);
+    this.sim_inputs.controls_list.inside.rows[id].enable(true);
+    this.sim_inputs.controls_list.outside.rows[id].enable(true);
+    this.equationResult.setSelected(ptype);
+    this.sim_inputs.checkbox(id, true);
   }
 
   swapChart() {
-    swapElements(this.m_dataPlot, this.m_simulator);
+    swapElements(this.sim_controls, this.simulator);
 
-    if(!this.m_canvas_in_leftbar) {
+    if(!this.canvas_in_leftbar) {
       document.getElementById('dataPlot').classList.add('visable')
         document.getElementById('can').classList.remove('visable')
   } else {
@@ -215,10 +215,10 @@ class SimulatorDOM {
         document.getElementById('can').classList.add('visable')
   }
 
-    this.m_canvas_size_multiple = (this.m_canvas_in_leftbar) ? 0.65 : 0.35;
-    this.m_canvas_in_leftbar = !this.m_canvas_in_leftbar;
+    this.canvas_size_multiple = (this.canvas_in_leftbar) ? 0.65 : 0.35;
+    this.canvas_in_leftbar = !this.canvas_in_leftbar;
 
-    this.m_sim.resize();
+    this.sim.resize();
 
     if(helpPage.style.display != 'none') {
     help.clear();
@@ -236,12 +236,12 @@ class SimulatorDOM {
       var trow = elementCreator("tr", '', settingPart);
       var td0 = elementCreator("label", '', trow, { content: content[i]} );
 
-      var inputElement = elementCreator("input", this.m_settings.length, trow);
+      var inputElement = elementCreator("input", this.settings.length, trow);
       inputElement.value(contentDefaultValue[i]);
       inputElement.attribute('placeholder', placeholder[i]);
-      inputElement.input(this.m_sim.changeSimulatorSettings.bind(this.m_sim));
+      inputElement.input(this.sim.changeSimulatorSettings.bind(this.sim));
 
-      this.m_settings.push(inputElement);
+      this.settings.push(inputElement);
 
       var td3 = elementCreator("div", '', trow, { content: contentUnit[i] });
 

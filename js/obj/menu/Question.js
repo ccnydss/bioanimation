@@ -4,9 +4,9 @@ class Question {
   /**
   * Create a question menu.
   * @example <caption>Create a new question menu.</caption>
-  mainSim.m_sim.m_dom.m_sim_question = new Question(this);
-  mainSim.m_sim.m_dom.m_sim_question.setup();
-  mainSim.m_sim.m_dom.m_sim_question.init("Goldman"); // or "Nersnt"
+  mainSim.sim.dom.sim_question = new Question(this);
+  mainSim.sim.dom.sim_question.setup();
+  mainSim.sim.dom.sim_question.init("Goldman"); // or "Nersnt"
   *
   * @access public
   */
@@ -79,7 +79,6 @@ class Question {
     this.prev_btn.attribute("disabled", ''); //We are already in first question, so disabled prev btn at default
 
     this.jump_div = ec("div", 'questionJumpDiv', 'questionControl', { className: 'container'} );
-    // this.m_jump = ec("div", 'questionJump', 'questionJumpDiv', { content: 'Jump' });
 
     this.refresh(0)
     this.focus(0)
@@ -136,7 +135,7 @@ class Question {
       this.refresh(this.current_page)
     }
 
-    this.current_index = (max_num > allow_index && this.m_current_selectio) ? this.current_index : this.current_index - 1
+    this.current_index = (max_num > allow_index && this.current_index) ? this.current_index : this.current_index - 1
     if(this.current_index<0) this.current_index=0
     this.focus(this.current_index)
     questionDebug && console.log("Prev index is "+(this.current_index))

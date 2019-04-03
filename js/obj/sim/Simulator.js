@@ -1,32 +1,32 @@
 // Purpose: Provide an interface to control the simulation parameters and track state
 class Simulator {
   constructor() {
-    this.m_particle_types = ["Na", "Cl", "K"];
+    this.particle_types = ["Na", "Cl", "K"];
 
-    this.m_pause = false;
+    this.pause = false;
 
-    this.m_dom = new SimulatorDOM(this)
+    this.dom = new SimulatorDOM(this)
 
-    this.m_mode = "Nernst";
-    this.m_nernst_particle = "Na";       // Contains the currently selected particle in Nernst mode
+    this.mode = "Nernst";
+    this.nernst_particle = "Na";       // Contains the currently selected particle in Nernst mode
 
-    this.m_nernst_eq = new NernstEq(this);
-    this.m_goldman_eq = new GoldmanEq(this);
+    this.nernst_eq = new NernstEq(this);
+    this.goldman_eq = new GoldmanEq(this);
 
-    this.m_settings = {
+    this.settings = {
       temperature: 37 + 273.13,           // 37 is the human body temperature
       gas_constant: 8.314,                // Ideal gas constant
       faraday: 96485.3329                 // Faraday's constant
     };
 
-    this.m_tabList = ['aboutPage','contactPage','helpPage']
-    this.m_preset = new Preset(this);
+    this.tabList = ['aboutPage','contactPage','helpPage']
+    this.preset = new Preset(this);
   }
 
   pause() {
-    this.m_pause = !this.m_pause;
+    this.pause = !this.pause;
 
-    if (!this.m_pause) {
+    if (!this.pause) {
       loop();
       document.getElementById('simCanvasPause').style.display = "none";
       document.getElementById('simCanvasPauseIcon').innerHTML = '<i class="fas fa-pause"></i>';
@@ -50,22 +50,22 @@ class Simulator {
 
       case Q_key:
       animationSequencer.prev(false);
-      this.m_dom.m_sim_controls.updateAll();
+      this.dom.sim_inputs.updateAll();
       break;
 
       case W_key:
       animationSequencer.next(false);
-      this.m_dom.m_sim_controls.updateAll();
+      this.dom.sim_inputs.updateAll();
       break;
 
       case S_key:
-      this.m_dom.swapChart();
+      this.dom.swapChart();
       break;
     }
   }
 
   numParticleTypes() {
-    return this.m_particle_types.length;
+    return this.particle_types.length;
   }
 
   renderUI(id, mode) {
@@ -90,7 +90,7 @@ class Simulator {
       case "questionsdiv":
       if (mode) {
 
-        if(!this.m_canvas_in_leftbar) {
+        if(!this.canvas_in_leftbar) {
           document.getElementById('questionsdiv').classList.remove("hidden")
         }
 
@@ -98,7 +98,7 @@ class Simulator {
 
         document.getElementById('equationContainer').classList.remove("fullsize")
       } else {
-        if(!this.m_canvas_in_leftbar) {
+        if(!this.canvas_in_leftbar) {
           document.getElementById('questionsdiv').classList.add("hidden")
         }
 
@@ -135,7 +135,7 @@ class Simulator {
       } else {
         document.getElementById('leftWindow').classList.add("hidden");
         document.getElementById('dataPlot').classList.add("hide");
-        if(document.getElementById('can') && this.m_canvas_in_leftbar)
+        if(document.getElementById('can') && this.canvas_in_leftbar)
         document.getElementById('can').classList.add("hidden");
       };
       break;
@@ -166,10 +166,10 @@ class Simulator {
     //Input 1: String
 
     //First, close all other tabs
-    for(let i = 0;i<this.m_tabList.length;i++) {
-      if(this.m_tabList[i] != target) {
-        document.getElementById(this.m_tabList[i]).style.display = 'none'
-        if(this.m_tabList[i]=='helpPage')
+    for(let i = 0;i<this.tabList.length;i++) {
+      if(this.tabList[i] != target) {
+        document.getElementById(this.tabList[i]).style.display = 'none'
+        if(this.tabList[i]=='helpPage')
         help.clear()
       }
     }
@@ -192,30 +192,30 @@ class Simulator {
   }
 
   questionsAreHidden() {
-    return this.m_dom.m_sidebar_current != this.m_dom.m_sidebar_size_multiple;
+    return this.dom.sidebar_current != this.dom.sidebar_size_multiple;
   }
 
   simMode(mode=null) {
     if (mode) {
       var header = "Goldman-Hodgkin-Katz";
       if (mode == "Nernst") header = "Nernst Equation";
-      this.m_dom.m_sim_question.header = header;
-      this.m_dom.m_sim_question.title.html(header);
-      this.m_mode = mode;
+      this.dom.sim_question.header = header;
+      this.dom.sim_question.title.html(header);
+      this.mode = mode;
     } else {
-      return this.m_mode;
+      return this.mode;
     };
 
     this.buttonModeSwitch();
   }
 
   updateInputs(amount, particleID) {
-    this.m_dom.m_sim_controls.controls["outside"].rows[particleID].value(amount);
-    this.m_dom.m_sim_controls.controls["inside"].rows[particleID].value(amount);
+    this.dom.sim_inputs.controls_list["outside"].rows[particleID].value(amount);
+    this.dom.sim_inputs.controls_list["inside"].rows[particleID].value(amount);
   }
 
   updateInputLoc(particleID, location, amount) {
-    this.m_dom.m_sim_controls.controls[location].rows[particleID].value(amount);
+    this.dom.sim_inputs.controls_list[location].rows[particleID].value(amount);
   }
 
   updateParticles(ptype, ploc, updatedAmount, noCompute) {
@@ -273,12 +273,12 @@ class Simulator {
     if (eventID == 0) {
       // Set temperature
       if (evt.target.value <= 313.15) {
-        this.m_settings.temperature = updatedAmount;
-        this.m_dom.m_settings[eventID].value(updatedAmount);
+        this.settings.temperature = updatedAmount;
+        this.dom.settings[eventID].value(updatedAmount);
       } else {
         alert("Max temperature is 40 C");
-        this.m_settings.temperature = 313.15;
-        this.m_dom.m_settings[eventID].value(313.15);
+        this.settings.temperature = 313.15;
+        this.dom.settings[eventID].value(313.15);
       }
     }
     if (eventID == 1) {
@@ -291,29 +291,29 @@ class Simulator {
       K.permeability = updatedAmount;
     }
 
-    FormulaInputCalculation(this.m_nernst_particle);
+    FormulaInputCalculation(this.nernst_particle);
   }
 
   setAnswer(answer, type) {
-    this.m_dom.m_equationResult.setAnswer(answer, type);
+    this.dom.equationResult.setAnswer(answer, type);
   }
 
   computeAll(selected) {
-    this.setAnswer(this.m_nernst_eq.result("Na"), "Na");
-    this.setAnswer(this.m_nernst_eq.result("K"), "K");
-    this.setAnswer(this.m_nernst_eq.result("Cl"), "Cl");
-    this.setAnswer(this.m_goldman_eq.result(), "Net");
+    this.setAnswer(this.nernst_eq.result("Na"), "Na");
+    this.setAnswer(this.nernst_eq.result("K"), "K");
+    this.setAnswer(this.nernst_eq.result("Cl"), "Cl");
+    this.setAnswer(this.goldman_eq.result(), "Net");
 
-    this.m_dom.m_equationResult.setSelected(selected);
+    this.dom.equationResult.setSelected(selected);
   }
 
   buttonModeSwitch() {
-    if (this.m_mode == "Nernst") {
-      this.m_dom.m_sim_controls.m_NernstButton.style('backgroundColor', "#74b9ff");
-      this.m_dom.m_sim_controls.m_GoldmanButton.style('backgroundColor', "#dfe6e9");
+    if (this.mode == "Nernst") {
+      this.dom.sim_inputs.NernstButton.style('backgroundColor', "#74b9ff");
+      this.dom.sim_inputs.GoldmanButton.style('backgroundColor', "#dfe6e9");
     } else {
-      this.m_dom.m_sim_controls.m_NernstButton.style('backgroundColor', "#dfe6e9");
-      this.m_dom.m_sim_controls.m_GoldmanButton.style('backgroundColor', "#74b9ff");
+      this.dom.sim_inputs.NernstButton.style('backgroundColor', "#dfe6e9");
+      this.dom.sim_inputs.GoldmanButton.style('backgroundColor', "#74b9ff");
     }
   }
 
@@ -326,10 +326,10 @@ class Simulator {
     // input: Boolean
     // usage: True is for initializing the UI; False is for recreating UI when browser window is resized (responsive UI)
 
-    this.m_dom.m_sidebar_current = hide ? this.m_dom.m_sidebar_size_multiple : 1;
-    this.m_dom.adjustUISize();
+    this.dom.sidebar_current = hide ? this.dom.sidebar_size_multiple : 1;
+    this.dom.adjustUISize();
 
-    var { width, height } = this.m_dom.getSize();
+    var { width, height } = this.dom.getSize();
     animationSequencer.current().setContainerSizes(width, height);
 
     this.renderUI("questionsdiv", hide)

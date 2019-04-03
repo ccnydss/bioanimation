@@ -2,8 +2,8 @@ function startEquilibrate(evt) {
   // input: the element that triggered the event; however this input is unused in this function
 
   for (var i = 0; i < mainSim.numParticleTypes(); i++) {
-    if (particleMapper[mainSim.m_particle_types[i]].display) {
-      animationSequencer.current().equilibrate(mainSim.m_particle_types[i]);
+    if (particleMapper[mainSim.particle_types[i]].display) {
+      animationSequencer.current().equilibrate(mainSim.particle_types[i]);
     }
   }
 }

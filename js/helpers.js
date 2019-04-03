@@ -122,7 +122,7 @@ Array.prototype.min = function() {
   return Math.min.apply(null, this);
 };
 
-// Compare two different version strings (ex: 0.0.1 and 0.4.3). 
+// Compare two different version strings (ex: 0.0.1 and 0.4.3).
 function cmpVersion(a, b) {
   var i, cmp, len;
   a = (a + '').split('.');

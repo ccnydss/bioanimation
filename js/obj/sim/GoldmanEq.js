@@ -3,8 +3,8 @@ class GoldmanEq {
   /**
   * Create a Goldman Equation system.
   * @example <caption>Create a Goldman Equation.</caption>
-  mainSim.m_goldman_eq = new GoldmanEq(mainSim);
-  var net_voltage = mainSim.m_goldman_eq.result()
+  mainSim.goldman_eq = new GoldmanEq(mainSim);
+  var net_voltage = mainSim.goldman_eq.result()
   *
 
   * @param {Object} sim - Current simulation object
@@ -37,7 +37,7 @@ class GoldmanEq {
     }
 
     //Add new text
-    this.sim.m_dom.m_sim_question.init("Goldman");
+    this.sim.dom.sim_question.init("Goldman");
 
     //Particles & functionality
     this.sim.simMode("Goldman");
@@ -50,12 +50,12 @@ class GoldmanEq {
       //enable all the particle in the plot
       graph.hidePlot(j, false);
 
-      var checkBoxParticle = this.sim.m_dom.m_sim_controls.checkboxes[j].elt.innerText;
+      var checkBoxParticle = this.sim.dom.sim_inputs.checkboxes[j].elt.innerText;
 
-      if (!this.sim.m_dom.m_sim_controls.checkbox(j)) {
+      if (!this.sim.dom.sim_inputs.checkbox(j)) {
 
         //enable those particles
-        this.sim.m_dom.m_sim_controls.checkbox(j, true);
+        this.sim.dom.sim_inputs.checkbox(j, true);
         animationSequencer.current().setContainerDisplays(checkBoxParticle, true);
         enableInputForParticle(checkBoxParticle);
       }
@@ -71,9 +71,9 @@ class GoldmanEq {
   * @returns {number}
   */
   compute(condition) {
-    var R = this.sim.m_settings.gas_constant;   // ideal gas constant
-    var T = this.sim.m_settings.temperature;    // 37 is the Human Body temperature
-    var F = this.sim.m_settings.faraday;        // Faraday's constant
+    var R = this.sim.settings.gas_constant;   // ideal gas constant
+    var T = this.sim.settings.temperature;    // 37 is the Human Body temperature
+    var F = this.sim.settings.faraday;        // Faraday's constant
 
     if(!condition)
     var condition = this.obtainCondition()
@@ -96,10 +96,10 @@ class GoldmanEq {
     var denominator = 0;
 
     for (var i = 0; i < this.sim.numParticleTypes(); i++) {
-      var particleType = this.sim.m_particle_types[i];
+      var particleType = this.sim.particle_types[i];
       if (particleMapper[particleType].display) {
-        var numOutside = this.sim.m_dom.m_sim_controls.concentration(particleType, "outside");
-        var numInside = this.sim.m_dom.m_sim_controls.concentration(particleType, "inside");
+        var numOutside = this.sim.dom.sim_inputs.concentration(particleType, "outside");
+        var numInside = this.sim.dom.sim_inputs.concentration(particleType, "inside");
 
         if (particleMapper[particleType].charge > 0) {
           numerator += particleMapper[particleType].permeability * numOutside;

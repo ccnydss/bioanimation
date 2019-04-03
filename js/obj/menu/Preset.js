@@ -3,10 +3,10 @@ class Preset {
   /**
   * Create a preset menu attaching to current simulator canvas
   * @example <caption>Create a new preset menu.</caption>
-  mainSim.sim.m_preset = new Preset(mainSim);
+  mainSim.sim.preset = new Preset(mainSim);
   // Some element that you want to trigger preset
   mainSim.simCanvasPreset_dropbtn_list[i].elt.onclick = function() {
-    mainSim.sim.m_preset.changePreset(mainSim.simCanvasPreset_dropbtn_list[i].elt)
+    mainSim.sim.preset.changePreset(mainSim.simCanvasPreset_dropbtn_list[i].elt)
   };
   *
   * @param {Object} _sim - Current simulator
@@ -134,7 +134,7 @@ class Preset {
             document.querySelector('input[placeholder="Enter Cl permeability..."]').value = this.preset_list[j].PCl
             this.sim.updateParticles("Cl","outside",this.preset_list[j].Cl_out,true);
             this.sim.updateParticles("Cl","inside",this.preset_list[j].Cl_in,true);
-            this.sim.m_settings.temperature = 273.15 + this.preset_list[j].Temp;
+            this.sim.settings.temperature = 273.15 + this.preset_list[j].Temp;
             document.querySelector('input[placeholder="Enter Temperature..."]').value = 273.15 + this.preset_list[j].Temp
             animationSequencer.current().setContainerColor("inside",this.preset_list[j].color_in)
             animationSequencer.current().setContainerColor("outside",this.preset_list[j].color_out)

@@ -1,13 +1,13 @@
 class SequenceManager {
   constructor(arr = []) {
-    this.m_seqitr = 0;                      // The sequence iterator, current animation being displayed.
-    this.m_seqArr = arr;                    // The array of animation objects
-    this.m_numSeq = this.m_seqArr.length;   // Number of sequences
+    this.seqitr = 0;                      // The sequence iterator, current animation being displayed.
+    this.seqArr = arr;                    // The array of animation objects
+    this.numSeq = this.seqArr.length;   // Number of sequences
   }
 
   import(animation) {
-    this.m_seqArr.push(animation);
-    this.m_numSeq += 1;
+    this.seqArr.push(animation);
+    this.numSeq += 1;
   }
 
   importMany(arr) {
@@ -17,16 +17,16 @@ class SequenceManager {
   }
 
   len() {
-    return this.m_seqArr.length;
+    return this.seqArr.length;
   }
 
   current() {
-    return this.m_seqArr[this.m_seqitr];
+    return this.seqArr[this.seqitr];
   }
 
   setup() {
     if (this.len()) {
-      for (const seq of this.m_seqArr) {
+      for (const seq of this.seqArr) {
         seq.setup();
       }
     }
@@ -40,9 +40,9 @@ class SequenceManager {
 
   next(reset=true) {
     if (this.len()) {
-      this.m_seqitr = (this.m_seqitr + 1) % this.len();   // Enable circular switching 
+      this.seqitr = (this.seqitr + 1) % this.len();   // Enable circular switching
 
-      var {width, height} = mainSim.m_dom.getSize();
+      var {width, height} = mainSim.dom.getSize();
       this.current().setContainerSizes(width, height);
 
       if (reset) this.current().reset();
@@ -51,9 +51,9 @@ class SequenceManager {
 
   prev(reset=true) {
     if (this.len()) {
-      this.m_seqitr = (this.m_seqitr == 0) ? this.len() - 1 : this.m_seqitr - 1;
+      this.seqitr = (this.seqitr == 0) ? this.len() - 1 : this.seqitr - 1;
 
-      var {width, height} = mainSim.m_dom.getSize();
+      var {width, height} = mainSim.dom.getSize();
       this.current().setContainerSizes(width, height);
 
       if (reset) this.current().reset();
@@ -63,26 +63,26 @@ class SequenceManager {
 
 class Sequence {
   constructor(init_state, setupfunc, drawfunc) {
-    this.m_init = Object.assign({}, init_state);
-    this.m_state = Object.assign({}, init_state);
+    this._init = Object.assign({}, init_state);
+    this.state = Object.assign({}, init_state);
 
-    this.m_setup = setupfunc;
-    this.m_draw = drawfunc;
+    this._setup = setupfunc;
+    this._draw = drawfunc;
   }
 
   setup() {
-    this.m_setup(this.m_state);
+    this._setup(this.state);
   }
 
   draw() {
-    this.m_draw(this.m_state);
+    this._draw(this.state);
   }
 
   setState(new_state) {
-    this.m_state = Object.assign({}, new_state);
+    this.state = Object.assign({}, new_state);
   }
 
   reset() {
-    this.setState(this.m_init);
+    this.setState(this._init);
   }
 }

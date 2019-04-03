@@ -4,7 +4,7 @@ class InputRow {
   * Create ions control table.
  * @example <caption>Initialize an new ions control table.</caption>
   for (var i = 0; i < numParticles; i++) {
-    var name = this.m_dom.m_sim.m_particle_types[i];
+    var name = this.dom.sim.particle_types[i];
     var { sign, color } = particleMapper[name];
 
     var label = '[' + name + '<sup>' + sign + '</sup>]'
@@ -186,7 +186,7 @@ class InputRow {
     this.value(updatedAmount);
 
     // Change the Preset text content to custom
-    mainSim.m_dom.m_simCanvasPreset_dropbtn.elt.textContent = 'Custom'
+    mainSim.dom.simCanvasPreset_dropbtn.elt.textContent = 'Custom'
   }
 
       /**

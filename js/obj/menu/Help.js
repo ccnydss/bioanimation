@@ -123,7 +123,7 @@ class Help {
         if(document.getElementById('dataPlot-clone'))
         document.getElementById('dataPlot-clone').style.height = height + 'px'
 
-        if(current.sim.m_dom.m_canvas_in_leftbar) { //Also resize canvas if it is in  leftbar
+        if(current.sim.dom.canvas_in_leftbar) { //Also resize canvas if it is in  leftbar
           var original = document.getElementById('sim')
           var height = (parseFloat(getComputedStyle(original)['height']))
 

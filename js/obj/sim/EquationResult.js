@@ -3,9 +3,9 @@ class EquationResult {
   /**
   * Calculate an equation table menu.
   * @example <caption>Create an new equation table.</caption>
-  mainSim.m_dom.m_equationResult = new EquationResult(mainSim.m_dom);
-  mainSim.m_dom.m_equationResult.setup();
-  mainSim.m_dom.m_equationResult.setAnswer(33,'Na')
+  mainSim.dom.equationResult = new EquationResult(mainSim.dom);
+  mainSim.dom.equationResult.setup();
+  mainSim.dom.equationResult.setAnswer(33,'Na')
   *
   * @param {Object} _dom - Current simulator DOM object
   * @access public
@@ -103,7 +103,7 @@ class EquationResult {
   * @param {String} type - The type of ion(s), Na/Cl/K/Net
   */
   setSelected(type) {
-    var mode = this.dom.m_sim.simMode();
+    var mode = this.dom.sim.simMode();
 
     if (mode == "Nernst") {
       this.toggle(type);
