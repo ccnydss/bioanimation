@@ -188,10 +188,11 @@ class Container extends Rectangle {
   * @param {boolean} bool - The display setting to use.
   */
   setParticleDisplays(type, bool) {
+    if (typeof bool != "boolean") throw new Error("Bool must be true or false.");
+
     for (const particle of this.particles[type]) {
       particle.setDisplay(bool);
     }
-    particleMapper[type].display = bool;
   }
 
   /**

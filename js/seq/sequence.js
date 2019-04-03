@@ -1,7 +1,7 @@
 class SequenceManager {
   constructor(arr = []) {
-    this.m_seqitr = 0;     // The sequence iterator, current animation being displayed.
-    this.m_seqArr = arr;   // The array of animation objects
+    this.m_seqitr = 0;                      // The sequence iterator, current animation being displayed.
+    this.m_seqArr = arr;                    // The array of animation objects
     this.m_numSeq = this.m_seqArr.length;   // Number of sequences
   }
 
@@ -40,7 +40,7 @@ class SequenceManager {
 
   next(reset=true) {
     if (this.len()) {
-      this.m_seqitr = (this.m_seqitr + 1) % this.len();
+      this.m_seqitr = (this.m_seqitr + 1) % this.len();   // Enable circular switching 
 
       var {width, height} = mainSim.m_dom.getSize();
       this.current().setContainerSizes(width, height);
@@ -52,7 +52,7 @@ class SequenceManager {
   prev(reset=true) {
     if (this.len()) {
       this.m_seqitr = (this.m_seqitr == 0) ? this.len() - 1 : this.m_seqitr - 1;
-      
+
       var {width, height} = mainSim.m_dom.getSize();
       this.current().setContainerSizes(width, height);
 
