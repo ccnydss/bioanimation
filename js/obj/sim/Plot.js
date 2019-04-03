@@ -138,7 +138,7 @@ class Plot {
       cur_graph.hidePlot(index, false);
       enableInputForParticle(checkBox_particle);
 
-      if (this.sim.pause) { //If the plot is paused, change the plot particle
+      if (this.sim.paused) { //If the plot is paused, change the plot particle
         var particle_type = this.sim.particle_types[index];
         var voltage = this.sim.nernst_eq.compute(particle_type);
         var dataset = ci.data.datasets[index].data;
@@ -170,7 +170,7 @@ class Plot {
   * @access private
   */
   plot() {
-    if (!this.sim.pause) { //If the plot is not paused
+    if (!this.sim.paused) { //If the plot is not paused
 
       for (var i = 0; i < 4; i++) {
         if (i < 3) {
