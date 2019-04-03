@@ -23,11 +23,11 @@ class InputRow {
   * @param {DOM} inputs - Current input DOM object
   */
   constructor(label, value, enabled, type, inputs) {
-    this.m_label = label;
-    this.m_value = value;
-    this.m_enabled = enabled;
-    this.m_type = type;
-    this.m_inputs = inputs;
+    this.label = label;
+    this.values = value;
+    this.enabled = enabled;
+    this.type = type;
+    this.inputs = inputs;
 
     this.dom = {
       title: null,
@@ -65,7 +65,7 @@ class InputRow {
 
     // Create the h4 label on the left
     this.dom.title = elementCreator("h4", '', table.td0, {
-      content: this.m_label,
+      content: this.label,
       className: 'qoptions'
     });
 
@@ -78,7 +78,7 @@ class InputRow {
     this.dom.input.id(id);
     this.dom.input.class('qoptions');
 
-    this.dom.input.value(this.m_value);
+    this.dom.input.value(this.values);
     this.dom.input.input(this.changeNumParticles.bind(this));
     this.dom.input.attribute("data-location", particleLocation);
     this.dom.input.attribute("data-ptype", particleType);
@@ -114,11 +114,11 @@ class InputRow {
       */
   value(setter) {
     if (typeof setter === 'undefined') {
-      this.m_value = Number(this.m_value);
-      return this.m_value;
+      this.values = Number(this.values);
+      return this.values;
     }
     else {
-      this.m_value = setter;
+      this.values = setter;
       this.dom.input.value(setter);
     }
   }
@@ -129,11 +129,11 @@ class InputRow {
   * @access public
   */
   enable(setter) {
-    if (setter == null) return this.m_enabled;
+    if (setter == null) return this.enabled;
     else {
-      this.m_enabled = setter;
-      var enableColor = this.m_type.toLowerCase() + "-bg";
-      var disableColor = this.m_type.toLowerCase() + "-disabled";
+      this.enabled = setter;
+      var enableColor = this.type.toLowerCase() + "-bg";
+      var disableColor = this.type.toLowerCase() + "-disabled";
 
       if (setter) {
         this.dom.input.removeAttribute("disabled");

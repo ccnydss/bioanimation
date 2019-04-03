@@ -7,11 +7,11 @@ class EquationResult {
   mainSim.m_dom.m_equationResult.setup();
   mainSim.m_dom.m_equationResult.setAnswer(33,'Na')
   *
-  * @param {Object} m_dom - Current simulator DOM object
+  * @param {Object} _dom - Current simulator DOM object
   * @access public
   */
-  constructor(m_dom) {
-    this.dom = m_dom;
+  constructor(_dom) {
+    this.dom = _dom;
 
     /** @property {Dictionary} - The numberical value of ion(s) */
     this.values = {

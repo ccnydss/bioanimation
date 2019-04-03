@@ -9,12 +9,12 @@ class GoldmanEq {
 
   * @param {Object} sim - Current simulation object
   */
-  constructor(m_sim) {
+  constructor(_sim) {
     /**
     * @private
     * @type {string}
     */
-    this.m_sim = m_sim;
+    this.sim = _sim;
   }
 
   /**
@@ -28,34 +28,34 @@ class GoldmanEq {
 
     //Remove old text
     if (document.getElementById('MathJax-Element-1-Frame')) {
-      this.m_sim.renderUI('NernstEqn', false);
-      this.m_sim.renderUI('GoldmanEqn', true);
+      this.sim.renderUI('NernstEqn', false);
+      this.sim.renderUI('GoldmanEqn', true);
 
-      if (this.m_sim.questionsAreHidden()) { //Only appear setting when question box disappear
-        this.m_sim.renderUI('GoldmanSetting', true);
+      if (this.sim.questionsAreHidden()) { //Only appear setting when question box disappear
+        this.sim.renderUI('GoldmanSetting', true);
       }
     }
 
     //Add new text
-    this.m_sim.m_dom.m_sim_question.init("Goldman");
+    this.sim.m_dom.m_sim_question.init("Goldman");
 
     //Particles & functionality
-    this.m_sim.simMode("Goldman");
+    this.sim.simMode("Goldman");
 
     //enable the net in the plot
     graph.hidePlot(3, false);
 
     //enable all Ions
-    for (var j = 0; j < this.m_sim.numParticleTypes(); j++) {
+    for (var j = 0; j < this.sim.numParticleTypes(); j++) {
       //enable all the particle in the plot
       graph.hidePlot(j, false);
 
-      var checkBoxParticle = this.m_sim.m_dom.m_sim_controls.checkboxes[j].elt.innerText;
+      var checkBoxParticle = this.sim.m_dom.m_sim_controls.checkboxes[j].elt.innerText;
 
-      if (!this.m_sim.m_dom.m_sim_controls.checkbox(j)) {
+      if (!this.sim.m_dom.m_sim_controls.checkbox(j)) {
 
         //enable those particles
-        this.m_sim.m_dom.m_sim_controls.checkbox(j, true);
+        this.sim.m_dom.m_sim_controls.checkbox(j, true);
         animationSequencer.current().setContainerDisplays(checkBoxParticle, true);
         enableInputForParticle(checkBoxParticle);
       }
@@ -71,9 +71,9 @@ class GoldmanEq {
   * @returns {number}
   */
   compute(condition) {
-    var R = this.m_sim.m_settings.gas_constant;   // ideal gas constant
-    var T = this.m_sim.m_settings.temperature;    // 37 is the Human Body temperature
-    var F = this.m_sim.m_settings.faraday;        // Faraday's constant
+    var R = this.sim.m_settings.gas_constant;   // ideal gas constant
+    var T = this.sim.m_settings.temperature;    // 37 is the Human Body temperature
+    var F = this.sim.m_settings.faraday;        // Faraday's constant
 
     if(!condition)
     var condition = this.obtainCondition()
@@ -95,11 +95,11 @@ class GoldmanEq {
     var numerator = 0;
     var denominator = 0;
 
-    for (var i = 0; i < this.m_sim.numParticleTypes(); i++) {
-      var particleType = this.m_sim.m_particle_types[i];
+    for (var i = 0; i < this.sim.numParticleTypes(); i++) {
+      var particleType = this.sim.m_particle_types[i];
       if (particleMapper[particleType].display) {
-        var numOutside = this.m_sim.m_dom.m_sim_controls.concentration(particleType, "outside");
-        var numInside = this.m_sim.m_dom.m_sim_controls.concentration(particleType, "inside");
+        var numOutside = this.sim.m_dom.m_sim_controls.concentration(particleType, "outside");
+        var numInside = this.sim.m_dom.m_sim_controls.concentration(particleType, "inside");
 
         if (particleMapper[particleType].charge > 0) {
           numerator += particleMapper[particleType].permeability * numOutside;

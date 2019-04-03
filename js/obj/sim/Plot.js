@@ -21,38 +21,38 @@ class Plot {
   * @param {Object} m_dom - Current simulator DOM object
   * @access public
   */
-  constructor(m_sim) {
-    this.m_sim = m_sim;
+  constructor(_sim) {
+    this.sim = _sim;
 
     /** @property {Int} - The initial time (x axis) */
-    this.m_time = 0;
+    this.init_time = 0;
 
     /** @property {Int} - The multiple of x axis interval (ex: 4 = 1/4s = 0.25s) */
     this.multiple = 4; //can only set to non prime number... such as 1 2 4 10
 
     /** @property {Int} - The maximum x axis value*/
-    this.m_max_x = 30 + 1;
+    this.max_x = 30 + 1;
 
     /** @property {Int} - The default/minimum y axis value*/
-    this.m_max_y_default = 0.10/130*100
+    this.max_y_default = 0.10/130*100
 
     /** @property {Int} - The maximum y axis value*/
-    this.m_max_y = this.m_max_y_default; //*1000 is to convert V to mV;
+    this.max_y = this.max_y_default; //*1000 is to convert V to mV;
 
     /** @property {Int} - The interval of x axis*/
-    this.m_interval = 1000/this.multiple; // 1 second
+    this.x_interval = 1000/this.multiple; // 1 second
 
     /** @property {Object} - chart.js object*/
-    this.m_data_chart;
+    this.data_chart;
 
     // this.m_data_chart_global_voltage = [];
     /** @property {Dictionary} - The leading point color on a voltage line*/
-    this.m_point_color_leading = ['#e74c3c','#f1c40f','#2c3e50','#8e44ad']
+    this.point_color_leading = ['#e74c3c','#f1c40f','#2c3e50','#8e44ad']
     /** @property {Dictionary} - The color of a voltage line*/
-    this.m_point_color_default = [Na.color, Cl.color, K.color, 'gray']
+    this.point_color_default = [Na.color, Cl.color, K.color, 'gray']
 
     this.initialize();
-    setInterval(this.plot.bind(this), this.m_interval);
+    setInterval(this.plot.bind(this), this.x_interval);
   }
 
   /**
@@ -62,7 +62,7 @@ class Plot {
   initialize() {
     var ctx = document.getElementById('dataPlot').getContext('2d');
 
-    this.m_data_chart = new Chart (ctx, {
+    this.data_chart = new Chart (ctx, {
       type: 'line',
       data: {
         datasets: [
@@ -71,8 +71,8 @@ class Plot {
             fill: false,
             data: [],
             pointRadius: 1,
-            borderColor: this.m_point_color_default[0],
-            backgroundColor: this.m_point_color_default[0],
+            borderColor: this.point_color_default[0],
+            backgroundColor: this.point_color_default[0],
             pointBorderColor: [],
             pointBackgroundColor: [],
           },
@@ -81,8 +81,8 @@ class Plot {
             fill: false,
             data: [],
             pointRadius: 1,
-            borderColor: this.m_point_color_default[1],
-            backgroundColor: this.m_point_color_default[1],
+            borderColor: this.point_color_default[1],
+            backgroundColor: this.point_color_default[1],
             pointBorderColor: [],
             pointBackgroundColor: [],
             hidden: true,
@@ -92,8 +92,8 @@ class Plot {
             fill: false,
             data: [],
             pointRadius: 1,
-            borderColor: this.m_point_color_default[2],
-            backgroundColor: this.m_point_color_default[2],
+            borderColor: this.point_color_default[2],
+            backgroundColor: this.point_color_default[2],
             pointBorderColor: [],
             pointBackgroundColor: [],
             hidden: true,
@@ -124,36 +124,36 @@ class Plot {
     * When user check on the plot legend
     * @access private
     * @param {DOM} e - Clicked DOM elements
-    * @param {Object} legendItem - chart.js legend object
+    * @param {Object} legend_item - chart.js legend object
     */
-  onClick(e, legendItem) {
-    var ci = this.m_data_chart;
-    var curGraph = this;
+  onClick(e, legend_item) {
+    var ci = this.data_chart;
+    var cur_graph = this;
 
-    var index = legendItem.datasetIndex;
+    var index = legend_item.datasetIndex;
 
-    if (this.m_sim.simMode() == "Nernst" & index != 3) { //index 3 is the net voltage
-      var checkBoxParticle = this.m_sim.m_dom.m_sim_controls.checkboxes[index].elt.innerText;
+    if (this.sim.simMode() == "Nernst" & index != 3) { //index 3 is the net voltage
+      var checkBox_particle = this.sim.m_dom.m_sim_controls.checkboxes[index].elt.innerText;
 
-      this.m_sim.m_dom.m_sim_controls.checkbox(index, true);
-      curGraph.hidePlot(index, false);
-      enableInputForParticle(checkBoxParticle);
+      this.sim.m_dom.m_sim_controls.checkbox(index, true);
+      cur_graph.hidePlot(index, false);
+      enableInputForParticle(checkBox_particle);
 
-      if (this.m_sim.m_pause) { //If the plot is paused, change the plot particle
-        var particleType = this.m_sim.m_particle_types[index];
-        var voltage = this.m_sim.m_nernst_eq.compute(particleType);
+      if (this.sim.m_pause) { //If the plot is paused, change the plot particle
+        var particle_type = this.sim.m_particle_types[index];
+        var voltage = this.sim.m_nernst_eq.compute(particle_type);
         var dataset = ci.data.datasets[index].data;
         ci.data.datasets[index].data = dataset;
       }
 
       ci.data.datasets.forEach(function(e, i) {
         if (i !== index && i != 3) {
-          var checkBoxParticle = this.m_sim.m_dom.m_sim_controls.checkboxes[i].elt.innerText;
+          var checkBox_particle = this.sim.m_dom.m_sim_controls.checkboxes[i].elt.innerText;
 
-          this.m_sim.m_dom.m_sim_controls.checkbox(i, false);
-          curGraph.hidePlot(i, true);
+          this.sim.m_dom.m_sim_controls.checkbox(i, false);
+          cur_graph.hidePlot(i, true);
 
-          disableInputForParticle(checkBoxParticle);
+          disableInputForParticle(checkBox_particle);
         }
       })
 
@@ -167,23 +167,23 @@ class Plot {
       * @access private
       */
   plot() {
-    if (!this.m_sim.m_pause) { //If the plot is not paused
+    if (!this.sim.m_pause) { //If the plot is not paused
 
       for (var i = 0; i < 4; i++) {
         if (i < 3) {
-          var particleType = this.m_sim.m_particle_types[i];
-          var voltage = this.m_sim.m_nernst_eq.compute(particleType);
+          var particle_type = this.sim.m_particle_types[i];
+          var voltage = this.sim.m_nernst_eq.compute(particle_type);
         } else if (i == 3) { // the net voltage
-          var voltage = this.m_sim.m_goldman_eq.compute();
+          var voltage = this.sim.m_goldman_eq.compute();
         }
 
-        this.updateData(i, this.m_time, voltage*1000); //*1000 is to convert V to mV
+        this.updateData(i, this.init_time, voltage*1000); //*1000 is to convert V to mV
       }
 
-      this.m_time=this.m_time+1/this.multiple;
+      this.init_time=this.init_time+1/this.multiple;
 
-      if (this.m_time > this.m_max_x - 1) {
-        this.m_time = 0;
+      if (this.init_time > this.max_x - 1) {
+        this.init_time = 0;
       }
 
     }
@@ -198,7 +198,7 @@ class Plot {
   hidePlot(legendIndex, value) {
     // Input1: int
     // Input2: Boolean
-    this.m_data_chart.getDatasetMeta(legendIndex).hidden = value;
+    this.data_chart.getDatasetMeta(legendIndex).hidden = value;
   }
 
   /**
@@ -212,9 +212,9 @@ class Plot {
     // Input1: int
     // Input2: int
     // Input3: int
-    var dataset = this.m_data_chart.data.datasets[index].data;
+    var dataset = this.data_chart.data.datasets[index].data;
 
-    var newData = {
+    var new_data = {
       x: x,
       y: y
     }
@@ -225,39 +225,39 @@ class Plot {
 
     // this.m_data_chart_global_voltage[index][x*this.multiple] = y
 
-    dataset[x*this.multiple] = newData
+    dataset[x*this.multiple] = new_data
 
     //Create the gap
-    for (let i = 0;i<round((this.m_max_x-1)/5);i++) {
+    for (let i = 0;i<round((this.max_x-1)/5);i++) {
 
-      if ( (x+1/this.multiple*(i+1)) > this.m_max_x - 1) {
-        var nextData = {
+      if ( (x+1/this.multiple*(i+1)) > this.max_x - 1) {
+        var next_data = {
           x: (this.multiple-i),
           y: NaN
         }
-        var nextIndex = (this.multiple-i);
+        var next_index = (this.multiple-i);
       } else {
-        var nextData = {
+        var next_data = {
           x: x+1/this.multiple*(i+1),
           y: NaN
         }
-        var nextIndex = x*this.multiple+1+i;
+        var next_index = x*this.multiple+1+i;
       }
-      dataset[nextIndex] = nextData
+      dataset[next_index] = next_data
     }
 
 
     //Change the leading point color
-    this.m_data_chart.data.datasets[index].pointBackgroundColor[x*this.multiple] = this.m_point_color_leading[index];
-    this.m_data_chart.data.datasets[index].pointBorderColor[x*this.multiple] = this.m_point_color_leading[index];
+    this.data_chart.data.datasets[index].pointBackgroundColor[x*this.multiple] = this.point_color_leading[index];
+    this.data_chart.data.datasets[index].pointBorderColor[x*this.multiple] = this.point_color_leading[index];
 
-    var prevIndex = (x>0) ? x*this.multiple-1 : (this.m_max_x - 1)*this.multiple
-    this.m_data_chart.data.datasets[index].pointBackgroundColor[prevIndex] =  this.m_point_color_default[index];
-    this.m_data_chart.data.datasets[index].pointBorderColor[prevIndex] =  this.m_point_color_default[index];
+    var prevIndex = (x>0) ? x*this.multiple-1 : (this.max_x - 1)*this.multiple
+    this.data_chart.data.datasets[index].pointBackgroundColor[prevIndex] =  this.point_color_default[index];
+    this.data_chart.data.datasets[index].pointBorderColor[prevIndex] =  this.point_color_default[index];
 
 
-    if(this.m_sim.simMode() == "Nernst") {
-      if(this.m_sim.m_dom.m_sim.m_nernst_particle == this.m_sim.m_particle_types[index])
+    if(this.sim.simMode() == "Nernst") {
+      if(this.sim.m_dom.m_sim.m_nernst_particle == this.sim.m_particle_types[index])
       this.checkYaxis(index);
 
     } else {
@@ -265,9 +265,9 @@ class Plot {
     }
 
 
-    this.m_data_chart.data.datasets[index].data = dataset;
-    this.m_data_chart.data.datasets[index].data;
-    this.m_data_chart.update();
+    this.data_chart.data.datasets[index].data = dataset;
+    this.data_chart.data.datasets[index].data;
+    this.data_chart.update();
 
 
   }
@@ -279,17 +279,17 @@ class Plot {
   */
   checkYaxis(index) {
 
-    var maxVoltage = 0;
-    if(this.m_sim.simMode() == "Nernst") {
+    var max_voltage = 0;
+    if(this.sim.simMode() == "Nernst") {
 
-      // maxVoltage = Math.abs(this.m_data_chart_global_voltage[index].max()/1000) //To mV
+      // max_voltage = Math.abs(this.m_data_chart_global_voltage[index].max()/1000) //To mV
 
-      for(let i =0;i<this.m_data_chart.data.datasets[index].data.length;i++) {
+      for(let i =0;i<this.data_chart.data.datasets[index].data.length;i++) {
 
-        var dataSet = this.m_data_chart.data.datasets[index].data[i];
+        var dataSet = this.data_chart.data.datasets[index].data[i];
         if(dataSet) {
-          if(Math.abs(dataSet.y/1000)>maxVoltage && isFinite(dataSet.y))
-          maxVoltage=Math.abs(dataSet.y/1000)
+          if(Math.abs(dataSet.y/1000)>max_voltage && isFinite(dataSet.y))
+          max_voltage=Math.abs(dataSet.y/1000)
         }
       }
 
@@ -298,31 +298,31 @@ class Plot {
       for(let j = 0; j < 4; j++) {
         // var localMax = Math.abs(this.m_data_chart_global_voltage[i].max()/1000) //To mV
 
-        // maxVoltage = (localMax>maxVoltage) ? localMax : maxVoltage;
+        // max_voltage = (localMax>max_voltage) ? localMax : max_voltage;
 
-        for(let i = 0; i < this.m_data_chart.data.datasets[j].data.length; i++) {
+        for(let i = 0; i < this.data_chart.data.datasets[j].data.length; i++) {
 
-          var dataSet = this.m_data_chart.data.datasets[j].data[i];
+          var dataSet = this.data_chart.data.datasets[j].data[i];
           if(dataSet) {
-            if(Math.abs(dataSet.y/1000)>maxVoltage && isFinite(dataSet.y))
-            maxVoltage=Math.abs(dataSet.y/1000)
+            if(Math.abs(dataSet.y/1000)>max_voltage && isFinite(dataSet.y))
+            max_voltage=Math.abs(dataSet.y/1000)
           }
         }
 
       }
     }
 
-    // console.log(maxVoltage)
+    // console.log(max_voltage)
 
-    if(this.m_max_y<=maxVoltage) {
-      this.m_max_y = maxVoltage
+    if(this.max_y<=max_voltage) {
+      this.max_y = max_voltage
       this.resizeAxis();
-    } else if(maxVoltage < this.m_max_y_default) {
-      this.m_max_y = this.m_max_y_default
+    } else if(max_voltage < this.max_y_default) {
+      this.max_y = this.max_y_default
       this.resizeAxis();
     }
-    // else if(this.m_max_y != this.m_max_y_default) {
-    //   this.m_max_y=this.m_max_y_default
+    // else if(this.max_y != this.max_y_default) {
+    //   this.max_y=this.max_y_default
     //   this.resizeAxis();
     // }
   }
@@ -333,7 +333,7 @@ class Plot {
     */
   resizeAxis() {
     //Resize y-axis automatically
-    this.m_data_chart.options = {
+    this.data_chart.options = {
       scales: {
         xAxes: [
           {
@@ -343,7 +343,7 @@ class Plot {
               beginAtZero: true,
               steps: 1,
               stepValue: 1,
-              max: this.m_max_x - 1
+              max: this.max_x - 1
             },
             scaleLabel: {
               display: true,
@@ -354,9 +354,9 @@ class Plot {
         yAxes: [
           {
             ticks: {
-              min: -this.m_max_y*1300,
-              stepSize: (2*1300 * this.m_max_y)/6,
-              max: this.m_max_y*1300
+              min: -this.max_y*1300,
+              stepSize: (2*1300 * this.max_y)/6,
+              max: this.max_y*1300
             },
             scaleLabel: {
               display: true,
@@ -374,6 +374,6 @@ class Plot {
     }
 
 
-    this.m_data_chart.update();
+    this.data_chart.update();
   }
 }

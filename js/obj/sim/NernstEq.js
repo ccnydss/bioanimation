@@ -10,8 +10,8 @@ class NernstEq {
   *
   * @param {Object} sim - Current simulation object
   */
-  constructor(m_sim) {
-    this.m_sim = m_sim;
+  constructor(_sim) {
+    this.sim = _sim;
   }
 
   /**
@@ -19,7 +19,7 @@ class NernstEq {
   * @access public
   */
   start(evt) {
-    var sim = this.m_sim;
+    var sim = this.sim;
 
     //Graphics & Text
     sim.renderUI('GoldmanSetting', false)
@@ -81,9 +81,9 @@ class NernstEq {
   */
   compute(particleType,condition) {
     // input: string;
-    var R = this.m_sim.m_settings.gas_constant; // ideal gas constant
-    var T = this.m_sim.m_settings.temperature; // 37 is the Human Body temperature
-    var F = this.m_sim.m_settings.faraday; // Faraday's constant
+    var R = this.sim.m_settings.gas_constant; // ideal gas constant
+    var T = this.sim.m_settings.temperature; // 37 is the Human Body temperature
+    var F = this.sim.m_settings.faraday; // Faraday's constant
 
     if(!condition)
     var condition = this.obtainCondition(particleType)
@@ -103,8 +103,8 @@ class NernstEq {
   * @returns {Dictionary}
   */
   obtainCondition(particleType) {
-    var Xout = this.m_sim.m_dom.m_sim_controls.concentration(particleType, "outside");
-    var Xin = this.m_sim.m_dom.m_sim_controls.concentration(particleType, "inside");
+    var Xout = this.sim.m_dom.m_sim_controls.concentration(particleType, "outside");
+    var Xin = this.sim.m_dom.m_sim_controls.concentration(particleType, "inside");
     var z = particleMapper[particleType]["charge"];
 
     return {Xout: Xout, Xin: Xin, z: z}
