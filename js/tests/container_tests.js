@@ -76,6 +76,51 @@ QUnit.test("deleteParticle", function(assert) {
 // });
 
 QUnit.test("setParticleDisplays", function(assert) {
+  var cont1 = new Container (
+    {
+      _tl: topleft_test,
+      _tr: topright_test,
+      _br: botright_test,
+      _bl: botleft_test
+    },
+    "ffeedd",
+    "inside"
+  );
+
+  var na1 = new Na (
+    new Point(10, 25),
+    { x: 10, y: 5 },
+    true
+  );
+
+  var na2 = new Na (
+    new Point(1, 2),
+    { x: 10, y: 5 },
+    true
+  );
+
+  var cl1 = new Cl (
+    new Point(10, 25),
+    { x: 10, y: 5 },
+    true
+  );
+
+  var k1 = new K (
+    new Point(10, 25),
+    { x: 10, y: 5 },
+    true
+  );
+
+  cont1.addParticle(na1);
+  cont1.addParticle(na2);
+  cont1.addParticle(cl1);
+  cont1.addParticle(k1);
+
+  assert.equal(cont1.particles.Na.length, 1, "Added particle");
+
+  cont1.deleteParticle("Na");
+  assert.equal(cont1.particles.Na.length, 0, "Removed particle");
+
   assert.ok(1);
 });
 
