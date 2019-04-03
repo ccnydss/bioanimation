@@ -1,12 +1,44 @@
-// Purpose: Provide an interface to control the simulation parameters and track state
+/**
+* Simulator provides an interface to control the simulation parameters and tracks
+* its internal state.
+*
+* The Simulator is the core of the application. It is responsible for drawing
+* not just the animation canvas, but also the entire page, including all buttons,
+* sidebars, etc -- via its member variable, `m_dom`, which is an instance of
+* SimulatorDOM.
+*
+*/
 class Simulator {
+  /**
+  * Construct a new Simulator instance. It defines the values for Simulator
+  * settings like temperature, the gas constant, and faraday's constant.
+  *
+  */
   constructor() {
+    /**
+    * @private
+    * @type {array}
+    */
     this.m_particle_types = ["Na", "Cl", "K"];
 
+    /**
+    * @private
+    * @type {boolean}
+    */
     this.m_pause = false;
 
+    /**
+    * @private
+    * @type {SimulatorDOM}
+    */
     this.m_dom = new SimulatorDOM(this)
 
+    /**
+    * @private
+    * @type {string}
+    * Which equation mode is currently being represented by the Simulator.
+    * Should ever either be "Nernst" or "Goldman".
+    */
     this.m_mode = "Nernst";
     this.m_nernst_particle = "Na";       // Contains the currently selected particle in Nernst mode
 
