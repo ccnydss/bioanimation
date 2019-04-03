@@ -18,7 +18,7 @@ class Plot {
    // Unhide Na
    graph.hidePlot(0, false);
  *
-  * @param {Object} m_dom - Current simulator DOM object
+  * @param {Object} dom - Current simulator DOM object
   * @access public
   */
   constructor(_sim) {
@@ -45,7 +45,6 @@ class Plot {
     /** @property {Object} - chart.js object*/
     this.data_chart;
 
-    // this.m_data_chart_global_voltage = [];
     /** @property {Dictionary} - The leading point color on a voltage line*/
     this.point_color_leading = ['#e74c3c','#f1c40f','#2c3e50','#8e44ad']
     /** @property {Dictionary} - The color of a voltage line*/
@@ -133,27 +132,31 @@ class Plot {
     var index = legend_item.datasetIndex;
 
     if (this.sim.simMode() == "Nernst" & index != 3) { //index 3 is the net voltage
-      var checkBox_particle = this.sim.m_dom.m_sim_controls.checkboxes[index].elt.innerText;
+      var checkBox_particle = this.sim.dom.sim_inputs.checkboxes[index].elt.innerText;
 
-      this.sim.m_dom.m_sim_controls.checkbox(index, true);
+      this.sim.dom.sim_inputs.checkbox(index, true);
       cur_graph.hidePlot(index, false);
       enableInputForParticle(checkBox_particle);
 
-      if (this.sim.m_pause) { //If the plot is paused, change the plot particle
-        var particle_type = this.sim.m_particle_types[index];
-        var voltage = this.sim.m_nernst_eq.compute(particle_type);
+      if (this.sim.pause) { //If the plot is paused, change the plot particle
+        var particle_type = this.sim.particle_types[index];
+        var voltage = this.sim.nernst_eq.compute(particle_type);
         var dataset = ci.data.datasets[index].data;
         ci.data.datasets[index].data = dataset;
       }
 
       ci.data.datasets.forEach(function(e, i) {
         if (i !== index && i != 3) {
-          var checkBox_particle = this.sim.m_dom.m_sim_controls.checkboxes[i].elt.innerText;
 
-          this.sim.m_dom.m_sim_controls.checkbox(i, false);
+          //Hide the plot only if it is enabled... TO avoid css problem
+          if(cur_graph.sim.dom.sim_inputs.checkboxes[i].elt.getElementsByTagName('input')[0].checked) {
+            var checkBox_particle = cur_graph.sim.dom.sim_inputs.checkboxes[i].elt.innerText;
+
+          cur_graph.sim.dom.sim_inputs.checkbox(i, false);
           cur_graph.hidePlot(i, true);
-
           disableInputForParticle(checkBox_particle);
+          }
+
         }
       })
 
@@ -167,14 +170,14 @@ class Plot {
       * @access private
       */
   plot() {
-    if (!this.sim.m_pause) { //If the plot is not paused
+    if (!this.sim.pause) { //If the plot is not paused
 
       for (var i = 0; i < 4; i++) {
         if (i < 3) {
-          var particle_type = this.sim.m_particle_types[i];
-          var voltage = this.sim.m_nernst_eq.compute(particle_type);
+          var particle_type = this.sim.particle_types[i];
+          var voltage = this.sim.nernst_eq.compute(particle_type);
         } else if (i == 3) { // the net voltage
-          var voltage = this.sim.m_goldman_eq.compute();
+          var voltage = this.sim.goldman_eq.compute();
         }
 
         this.updateData(i, this.init_time, voltage*1000); //*1000 is to convert V to mV
@@ -220,11 +223,6 @@ class Plot {
     }
 
 
-    // if(!this.m_data_chart_global_voltage[index])
-    // this.m_data_chart_global_voltage[index] = []
-
-    // this.m_data_chart_global_voltage[index][x*this.multiple] = y
-
     dataset[x*this.multiple] = new_data
 
     //Create the gap
@@ -257,7 +255,7 @@ class Plot {
 
 
     if(this.sim.simMode() == "Nernst") {
-      if(this.sim.m_dom.m_sim.m_nernst_particle == this.sim.m_particle_types[index])
+      if(this.sim.dom.sim.nernst_particle == this.sim.particle_types[index])
       this.checkYaxis(index);
 
     } else {
@@ -282,8 +280,6 @@ class Plot {
     var max_voltage = 0;
     if(this.sim.simMode() == "Nernst") {
 
-      // max_voltage = Math.abs(this.m_data_chart_global_voltage[index].max()/1000) //To mV
-
       for(let i =0;i<this.data_chart.data.datasets[index].data.length;i++) {
 
         var dataSet = this.data_chart.data.datasets[index].data[i];
@@ -296,9 +292,6 @@ class Plot {
 
     } else {
       for(let j = 0; j < 4; j++) {
-        // var localMax = Math.abs(this.m_data_chart_global_voltage[i].max()/1000) //To mV
-
-        // max_voltage = (localMax>max_voltage) ? localMax : max_voltage;
 
         for(let i = 0; i < this.data_chart.data.datasets[j].data.length; i++) {
 
