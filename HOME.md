@@ -1,6 +1,47 @@
+<!-- https://sourceforge.net/p/jsdoc/wiki/markdown_syntax/ -->
 This is the documentation for the bioanimation code.
 
-main.js --The main file that initialize all the scripts
+## Structure
+
+![1](../img/file.png)
+**index.html** --The main file that load all the JavaScript libraries, setting up basic HTML tabs
+
+![1](../img/file.png)
+**index.js** -- Use to generate different platform application (Window,Mac,Linux) using Electron.
+
+![1](../img/folder.png) **js**
+
+.....![2](../img/folder.png) **obj**
+
+.......... ![3](../img/file.png)
+**ALL THE JAVACRIPT FILE** -- <u>is explained in this documentation</u>
+
+.....![2](../img/folder.png) **p5** p5.js library
+
+.....![2](../img/folder.png) **seq** sequence preset event handler
+
+.....![2](../img/folder.png) **tests** QUnit testing framework
+
+.....![2](../img/file.png)
+**about.js** -- Generate the about page content
+
+.....![2](../img/file.png)
+**browserDetection.js** -- Detection their browser version and computer platform information
+
+.....![2](../img/file.png)
+**helper.js** -- Global/Public functions that can be accessed anywhere
+
+.....![2](../img/file.png)
+**main.js** -- Main file that initialize the simulator environment
+
+.....![2](../img/file.png)
+**particleControls.js** -- Particle Controls UI onClick/onChange handler
+
+.....![2](../img/file.png)
+**sketchControls.js** -- UI resizing, and UI enable/disable event handler
+
+.....![2](../img/file.png)
+**versionDetection.js** -- Detection bioanimation version on computer platform application
 
 
 ## Set up instructions
