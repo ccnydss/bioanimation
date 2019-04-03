@@ -11,13 +11,13 @@ Chart.plugins.register({
 class Plot {
   /**
   Voltage plot.
- * @example <caption>Create an new voltage plot.</caption>
-   graph = new Plot(mainSim);
-   // hide Na
-   graph.hidePlot(0, true);
-   // Unhide Na
-   graph.hidePlot(0, false);
- *
+  * @example <caption>Create an new voltage plot.</caption>
+  graph = new Plot(mainSim);
+  // hide Na
+  graph.hidePlot(0, true);
+  // Unhide Na
+  graph.hidePlot(0, false);
+  *
   * @param {Object} dom - Current simulator DOM object
   * @access public
   */
@@ -119,12 +119,12 @@ class Plot {
     // this.resizeAxis();
   }
 
-    /**
-    * When user check on the plot legend
-    * @access private
-    * @param {DOM} e - Clicked DOM elements
-    * @param {Object} legend_item - chart.js legend object
-    */
+  /**
+  * When user check on the plot legend
+  * @access private
+  * @param {DOM} e - Clicked DOM elements
+  * @param {Object} legend_item - chart.js legend object
+  */
   onClick(e, legend_item) {
     var ci = this.data_chart;
     var cur_graph = this;
@@ -152,9 +152,9 @@ class Plot {
           if(cur_graph.sim.dom.sim_inputs.checkboxes[i].elt.getElementsByTagName('input')[0].checked) {
             var checkBox_particle = cur_graph.sim.dom.sim_inputs.checkboxes[i].elt.innerText;
 
-          cur_graph.sim.dom.sim_inputs.checkbox(i, false);
-          cur_graph.hidePlot(i, true);
-          disableInputForParticle(checkBox_particle);
+            cur_graph.sim.dom.sim_inputs.checkbox(i, false);
+            cur_graph.hidePlot(i, true);
+            disableInputForParticle(checkBox_particle);
           }
 
         }
@@ -165,10 +165,10 @@ class Plot {
     }
   }
 
-      /**
-      * Function to plot the voltage plot in every time frame interval
-      * @access private
-      */
+  /**
+  * Function to plot the voltage plot in every time frame interval
+  * @access private
+  */
   plot() {
     if (!this.sim.pause) { //If the plot is not paused
 
@@ -192,12 +192,12 @@ class Plot {
     }
   }
 
-      /**
-      * Hide or unhide a voltage plot
-      * @access public
-      * @param {Int} legendIndex - The index of voltage plot (ex: 0=Na,1=Cl,2=K,3=Net)
-      * @param {Boolean} value - to hide or unhide
-      */
+  /**
+  * Hide or unhide a voltage plot
+  * @access public
+  * @param {Int} legendIndex - The index of voltage plot (ex: 0=Na,1=Cl,2=K,3=Net)
+  * @param {Boolean} value - to hide or unhide
+  */
   hidePlot(legendIndex, value) {
     // Input1: int
     // Input2: Boolean
@@ -320,10 +320,10 @@ class Plot {
     // }
   }
 
-    /**
-    * Resize y-axis automatically whenever the maximum voltage is changed
-    * @access private
-    */
+  /**
+  * Resize y-axis automatically whenever the maximum voltage is changed
+  * @access private
+  */
   resizeAxis() {
     //Resize y-axis automatically
     this.data_chart.options = {
