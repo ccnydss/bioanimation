@@ -7,7 +7,7 @@
         "includePattern": ".+\\.js(doc|x)?$",
         "excludePattern": "(^|\\/|\\\\)_"
     },
-    "plugins": [],
+    "plugins": ["plugins/markdown"],
     "templates": {
       "systemName"            : "bioanimation",
       "copyright"             : "CCNY Digital Scholarship Service",
