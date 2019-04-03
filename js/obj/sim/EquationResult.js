@@ -3,15 +3,15 @@ class EquationResult {
   /**
   * Calculate an equation table menu.
   * @example <caption>Create an new equation table.</caption>
-  mainSim.m_dom.m_equationResult = new EquationResult(mainSim.m_dom);
-  mainSim.m_dom.m_equationResult.setup();
-  mainSim.m_dom.m_equationResult.setAnswer(33,'Na')
+  mainSim.dom.equationResult = new EquationResult(mainSim.dom);
+  mainSim.dom.equationResult.setup();
+  mainSim.dom.equationResult.setAnswer(33,'Na')
   *
-  * @param {Object} m_dom - Current simulator DOM object
+  * @param {Object} _dom - Current simulator DOM object
   * @access public
   */
-  constructor(m_dom) {
-    this.dom = m_dom;
+  constructor(_dom) {
+    this.dom = _dom;
 
     /** @property {Dictionary} - The numberical value of ion(s) */
     this.values = {
@@ -103,7 +103,7 @@ class EquationResult {
   * @param {String} type - The type of ion(s), Na/Cl/K/Net
   */
   setSelected(type) {
-    var mode = this.dom.m_sim.simMode();
+    var mode = this.dom.sim.simMode();
 
     if (mode == "Nernst") {
       this.toggle(type);

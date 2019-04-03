@@ -3,16 +3,16 @@ class Preset {
   /**
   * Create a preset menu attaching to current simulator canvas
   * @example <caption>Create a new preset menu.</caption>
-  mainSim.m_sim.m_preset = new Preset(mainSim);
+  mainSim.sim.preset = new Preset(mainSim);
   // Some element that you want to trigger preset
-  mainSim.m_simCanvasPreset_dropbtn_list[i].elt.onclick = function() {
-    mainSim.m_sim.m_preset.changePreset(mainSim.m_simCanvasPreset_dropbtn_list[i].elt)
+  mainSim.simCanvasPreset_dropbtn_list[i].elt.onclick = function() {
+    mainSim.sim.preset.changePreset(mainSim.simCanvasPreset_dropbtn_list[i].elt)
   };
   *
-  * @param {Object} sim - Current simulator
+  * @param {Object} _sim - Current simulator
   * @access public
   */
-  constructor(sim) {
+  constructor(_sim) {
 
     /** @property {String} - The CSS selector string that defined the preset buttons */
     this.btn_group = ".dropdown-content a";
@@ -100,7 +100,7 @@ class Preset {
         color_membrane:"rgba(241,144,102,0.6)"
       }
     ]
-    this.m_sim = sim;
+    this.sim = _sim;
   }
 
   /**
@@ -124,17 +124,17 @@ class Preset {
 
             K.permeability = this.preset_list[j].PK;
             document.querySelector('input[placeholder="Enter K permeability..."]').value = this.preset_list[j].PK
-            this.m_sim.updateParticles("K","outside",this.preset_list[j].K_out,true);
-            this.m_sim.updateParticles("K","inside",this.preset_list[j].K_in,true);
+            this.sim.updateParticles("K","outside",this.preset_list[j].K_out,true);
+            this.sim.updateParticles("K","inside",this.preset_list[j].K_in,true);
             Na.permeability =  this.preset_list[j].PNa;
             document.querySelector('input[placeholder="Enter Na permeability..."]').value = this.preset_list[j].PNa
-            this.m_sim.updateParticles("Na","outside",this.preset_list[j].Na_out,true);
-            this.m_sim.updateParticles("Na","inside",this.preset_list[j].Na_in,true);
+            this.sim.updateParticles("Na","outside",this.preset_list[j].Na_out,true);
+            this.sim.updateParticles("Na","inside",this.preset_list[j].Na_in,true);
             Cl.permeability = this.preset_list[j].PCl;
             document.querySelector('input[placeholder="Enter Cl permeability..."]').value = this.preset_list[j].PCl
-            this.m_sim.updateParticles("Cl","outside",this.preset_list[j].Cl_out,true);
-            this.m_sim.updateParticles("Cl","inside",this.preset_list[j].Cl_in,true);
-            this.m_sim.m_settings.temperature = 273.15 + this.preset_list[j].Temp;
+            this.sim.updateParticles("Cl","outside",this.preset_list[j].Cl_out,true);
+            this.sim.updateParticles("Cl","inside",this.preset_list[j].Cl_in,true);
+            this.sim.settings.temperature = 273.15 + this.preset_list[j].Temp;
             document.querySelector('input[placeholder="Enter Temperature..."]').value = 273.15 + this.preset_list[j].Temp
             animationSequencer.current().setContainerColor("inside",this.preset_list[j].color_in)
             animationSequencer.current().setContainerColor("outside",this.preset_list[j].color_out)

@@ -3,9 +3,9 @@ class Test1 extends BioMain {
     super(canWidth, canHeight);
   }
 
-  setup(s = this.m_state) {
+  setup(s = this.state) {
     // Create channels
-    s.channels = createChannels(s.membrane, mainSim.m_particle_types);
+    s.channels = createChannels(s.membrane, mainSim.particle_types);
 
     // Initialize containers with particles
     for (var loc in s.containers) {
@@ -23,7 +23,7 @@ class Test1 extends BioMain {
     this.setContainerDisplays("K", false);
   }
 
-  draw(s = this.m_state) {
+  draw(s = this.state) {
     s.membrane.draw();
     s.containers.inside.draw();
     s.containers.outside.draw();

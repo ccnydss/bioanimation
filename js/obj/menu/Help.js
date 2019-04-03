@@ -8,16 +8,16 @@ class Help {
   help.resize()
   // help.clear() If you want to clear it
   *
-  * @param {Object} sim - Current simulator
+  * @param {Object} _sim - Current simulator
   * @access public
   */
-  constructor(sim) {
+  constructor(_sim) {
 
-    this.m_sim = sim;
+    this.sim = _sim;
 
     /** @property {Dictionary} - A array of setting listing a specific ID and its corresponding help description.
     * Leave the description empty if that DOM element is just a container */
-    this.m_list = {
+    this.id_list = {
       firstBox:"",
       leftbar:"The questions will be listed in this area.</br> Please read the questions carefully and make sure you have answer every questions",
       equationContainer:"",
@@ -45,7 +45,7 @@ class Help {
   */
   initialize() {
     var sim = document.querySelector("#root #stage");
-    var helpPage = document.querySelector("#helpPage");
+    var help_page = document.querySelector("#helpPage");
 
     //Need this line, can't append clone directly to the parent Element
     var temp = document.createDocumentFragment();
@@ -92,7 +92,7 @@ class Help {
 
       temp.appendChild(layer1);
     }
-    helpPage.appendChild(temp);
+    help_page.appendChild(temp);
 
     helpDebug && console.log('Help Page initialize end')
   }
@@ -101,9 +101,9 @@ class Help {
   * @access public
   */
   clear() {
-    var helpPage = document.querySelector("#helpPage");
-    while (helpPage.firstChild) {
-      helpPage.removeChild(helpPage.firstChild);
+    var help_page = document.querySelector("#helpPage");
+    while (help_page.firstChild) {
+      help_page.removeChild(help_page.firstChild);
     }
   }
 
@@ -123,7 +123,7 @@ class Help {
         if(document.getElementById('dataPlot-clone'))
         document.getElementById('dataPlot-clone').style.height = height + 'px'
 
-        if(current.m_sim.m_dom.m_canvas_in_leftbar) { //Also resize canvas if it is in  leftbar
+        if(current.sim.dom.canvas_in_leftbar) { //Also resize canvas if it is in  leftbar
           var original = document.getElementById('sim')
           var height = (parseFloat(getComputedStyle(original)['height']))
 
@@ -151,7 +151,7 @@ class Help {
       // return: DOM element
 
       var ui = parent.children[index]
-      if(!Object.keys(this.m_list).includes(ui.id) || ui.classList.contains('hidden') || ui.style.display=='none')
+      if(!Object.keys(this.id_list).includes(ui.id) || ui.classList.contains('hidden') || ui.style.display=='none')
       return;
 
       helpDebug && console.log('Layer '+index+' found. ID is'+ui.id+' childlength is '+ui.children.length)
@@ -227,8 +227,8 @@ class Help {
     //Input2: Optional text
 
 
-    target.innerHTML = this.m_list[content]
-    if(this.m_list[content]!="") {
+    target.innerHTML = this.id_list[content]
+    if(this.id_list[content]!="") {
       // target.classList.add('hovering')
       target.style.display = "flex";
       target.style.justifyContent = "center";

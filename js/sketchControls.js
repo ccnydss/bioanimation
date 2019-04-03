@@ -16,13 +16,13 @@ function FormulaInputCalculation(particleType) {
 
   if (mainSim.simMode() == "Nernst" && particleType !== "Net") {
     if (particleMapper[particleType]["display"])
-      answer = mainSim.m_nernst_eq.result(particleType);
+      answer = mainSim.nernst_eq.result(particleType);
   } else {
-    mainSim.setAnswer(mainSim.m_nernst_eq.result("Na"), "Na");
-    mainSim.setAnswer(mainSim.m_nernst_eq.result("Cl"), "Cl");
-    mainSim.setAnswer(mainSim.m_nernst_eq.result("K"), "K");
+    mainSim.setAnswer(mainSim.nernst_eq.result("Na"), "Na");
+    mainSim.setAnswer(mainSim.nernst_eq.result("Cl"), "Cl");
+    mainSim.setAnswer(mainSim.nernst_eq.result("K"), "K");
 
-    answer = mainSim.m_goldman_eq.result();
+    answer = mainSim.goldman_eq.result();
     type = "Net";
   }
 
@@ -34,7 +34,7 @@ function disableInputForParticle(particleType) {
   // usage: "Na", "Cl", "K"
   var particle_id = particleMapper[particleType].id;
 
-  mainSim.m_dom.disableParticleID(particle_id);
+  mainSim.dom.disableParticleID(particle_id);
 
   animationSequencer.current().setContainerDisplays(particleType, false);
 }
@@ -44,7 +44,7 @@ function enableInputForParticle(particleType) {
   // usage: "Na", "Cl", "K"
   var particle_id = particleMapper[particleType].id;
 
-  mainSim.m_dom.enableParticleID(particle_id);
+  mainSim.dom.enableParticleID(particle_id);
 
   animationSequencer.current().setContainerDisplays(particleType, true);
 }

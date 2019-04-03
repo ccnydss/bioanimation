@@ -9,7 +9,7 @@ class BioMain extends Sequence {
     this.MIN_PARTICLES = 1;
 
     // Initial state for the animation
-    this.m_init = {
+    this._init = {
       containers: {
         outside: new Container (
           {
@@ -44,14 +44,14 @@ class BioMain extends Sequence {
       channels: []
     };
 
-    this.m_state = Object.assign({}, this.m_init);
+    this.state = Object.assign({}, this._init);
   }
 
-  setup(s = this.m_state) {
+  setup(s = this.state) {
     // Create channels
     s.channels = createChannels (
       s.membrane,
-      mainSim.m_particle_types
+      mainSim.particle_types
     );
 
     // Initialize containers with particles
@@ -70,7 +70,7 @@ class BioMain extends Sequence {
     this.setContainerDisplays("K", false);
   }
 
-  draw(s = this.m_state) {
+  draw(s = this.state) {
     s.membrane.draw();
     s.containers.inside.draw();
     s.containers.outside.draw();
@@ -81,7 +81,7 @@ class BioMain extends Sequence {
   }
 
   setContainerSizes(canWidth, canHeight) {
-    var s = this.m_state;
+    var s = this.state;
 
     s.containers["outside"].setSize(
       {
@@ -110,7 +110,7 @@ class BioMain extends Sequence {
       }
     );
 
-    s.channels = createChannels(s.membrane, mainSim.m_particle_types);
+    s.channels = createChannels(s.membrane, mainSim.particle_types);
 
     s.containers.outside.draw(false);
     s.containers.inside.draw(false);
@@ -121,55 +121,55 @@ class BioMain extends Sequence {
   }
 
   setContainerDisplays(particleType, boolValue) {
-    this.m_state.containers.inside.setParticleDisplays(particleType, boolValue);
-    this.m_state.containers.outside.setParticleDisplays(particleType, boolValue);
+    this.state.containers.inside.setParticleDisplays(particleType, boolValue);
+    this.state.containers.outside.setParticleDisplays(particleType, boolValue);
   }
 
   setContainerColor(ploc, colorObj) {
-    this.m_state.containers[ploc].setColor(colorObj);
+    this.state.containers[ploc].setColor(colorObj);
   }
 
   setMembraneColor(p5ColorObj) {
     // var mycolor = color(255, 0, 0);
     // Use with animationSequencer.current().setMembraneColor(mycolor)
     this.MEMBRANE_COLOR = p5ColorObj;
-    this.m_state.membrane.setColor(this.MEMBRANE_COLOR);
+    this.state.membrane.setColor(this.MEMBRANE_COLOR);
   }
 
   getNumContainers() {
-    return Object.keys(this.m_state.containers).length;
+    return Object.keys(this.state.containers).length;
   }
 
   getParticles(container, particleType) {
-    return this.m_state.containers[container].particles[particleType];
+    return this.state.containers[container].particles[particleType];
   }
 
   getTransfers(container, particleType) {
-    return this.m_state.containers[container].transfers[particleType];
+    return this.state.containers[container].transfers[particleType];
   }
 
   getNumParticles(container, particleType) {
-    return this.m_state.containers[container].countParticles(particleType);
+    return this.state.containers[container].countParticles(particleType);
   }
 
   insertNewParticle(container, particleType) {
     var num = this.getNumParticles(container, particleType);
     if (num >= this.MAX_PARTICLES) return;
 
-    this.m_state.containers[container].addParticle(null, particleType);
+    this.state.containers[container].addParticle(null, particleType);
   }
 
   removeParticle(container, particleType, MIN_PARTICLES) {
     var num = this.getNumParticles(container, particleType);
     if (num <= this.MIN_PARTICLES) return;
 
-    this.m_state.containers[container].deleteParticle(particleType);
+    this.state.containers[container].deleteParticle(particleType);
   }
 
   equilibrate(particleType) {
     // Get concentration (i.e., decimal values)
-    var concOutside = mainSim.m_dom.m_sim_controls.concentration(particleType, "outside");
-    var concInside = mainSim.m_dom.m_sim_controls.concentration(particleType, "inside");
+    var concOutside = mainSim.dom.sim_inputs.concentration(particleType, "outside");
+    var concInside = mainSim.dom.sim_inputs.concentration(particleType, "inside");
 
     // Get particle population (i.e., integer values)
     var numOutside = this.getNumParticles("outside", particleType);
@@ -246,7 +246,7 @@ class BioMain extends Sequence {
     //    1. Create new particle in the channel center.
     //    2. Add it to the particle array and set velocity.
 
-    var state = this.m_state;
+    var state = this.state;
 
     var id = particleMapper[particleType].id;
 
@@ -338,7 +338,7 @@ class BioMain extends Sequence {
     //    2. Move the particle straight up/down to the channel center.
     //    3. Delete the particle from the container array.
 
-    var state = this.m_state;
+    var state = this.state;
 
     var id = particleMapper[particleType].id;
 

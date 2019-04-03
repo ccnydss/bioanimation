@@ -1,8 +1,8 @@
 class SimulatorInputs {
-  constructor(m_dom) {
-    this.m_dom = m_dom;
+  constructor(dom) {
+    this.dom = dom;
 
-    this.controls = {
+    this.controls_list = {
       inside: {
         label: "Intracellular (mM)",
         header: null,
@@ -26,32 +26,32 @@ class SimulatorInputs {
     var ec = elementCreator;
 
     // Div to contain the simulatorInput
-    this.m_simulatorInputContainer = ec("div", 'simulatorInputContainer', 'secondBox', { className: 'simulatorInputContainer' });
-    this.m_simulatorInput = ec("div", 'simInput', 'simulatorInputContainer', { className: 'simInput' });
+    this.simulatorInputContainer = ec("div", 'simulatorInputContainer', 'secondBox', { className: 'simulatorInputContainer' });
+    this.simulatorInput = ec("div", 'simInput', 'simulatorInputContainer', { className: 'simInput' });
 
     //Control UI ----------------------------
-    this.m_controlsLeft = ec("div", 'controls', 'simInput', { className: 'controls' });
-    this.m_controlsRight = ec("div", 'controls', 'simInput', { className: 'controls' });
+    this.controlsLeft = ec("div", 'controls', 'simInput', { className: 'controls' });
+    this.controlsRight = ec("div", 'controls', 'simInput', { className: 'controls' });
 
-    this.m_control0 = ec("div", 'control0', this.m_controlsLeft);
-    this.m_control1 = ec("div", 'control1', this.m_controlsLeft);
-    this.m_control2 = ec("div", 'control2', this.m_controlsRight);
-    this.m_control3 = ec("div", 'control3', this.m_controlsRight);
+    this.control0 = ec("div", 'control0', this.controlsLeft);
+    this.control1 = ec("div", 'control1', this.controlsLeft);
+    this.control2 = ec("div", 'control2', this.controlsRight);
+    this.control3 = ec("div", 'control3', this.controlsRight);
 
-    this.controls.inside.controls = [this.m_control0, this.m_control1];
-    this.controls.outside.controls = [this.m_control2, this.m_control3];
+    this.controls_list.inside.controls = [this.control0, this.control1];
+    this.controls_list.outside.controls = [this.control2, this.control3];
 
-    this.m_particleControl = ec("div", 'particleControl', 'simulatorInputContainer', {className: 'particleControl'});
+    this.particleControl = ec("div", 'particleControl', 'simulatorInputContainer', {className: 'particleControl'});
   }
 
   create() {
     var ec = elementCreator;
 
-    var numParticles = this.m_dom.m_sim.numParticleTypes();
+    var numParticles = this.dom.sim.numParticleTypes();
 
     // Create the radio buttons to select particles
     for (var i = 0; i < numParticles; i++) {
-      var name = this.m_dom.m_sim.m_particle_types[i];
+      var name = this.dom.sim.particle_types[i];
 
       var chk = createCheckbox(name, false);
       chk.addClass('checkboxes');
@@ -64,14 +64,14 @@ class SimulatorInputs {
     };
 
     // Create the nernst buttons
-    var startNernst = this.m_dom.m_sim.m_nernst_eq.start.bind(this.m_dom.m_sim.m_nernst_eq);
-    var startGoldman = this.m_dom.m_sim.m_goldman_eq.start.bind(this.m_dom.m_sim.m_goldman_eq);
+    var startNernst = this.dom.sim.nernst_eq.start.bind(this.dom.sim.nernst_eq);
+    var startGoldman = this.dom.sim.goldman_eq.start.bind(this.dom.sim.goldman_eq);
 
-    this.m_NernstButton = ec("button", 'NernstButton', 'particleControl', { content: "Nernst", mousePressed: startNernst });
-    this.m_GoldmanButton = ec("button", 'GoldmanButton', 'particleControl', { content: "Goldman", mousePressed: startGoldman });
+    this.NernstButton = ec("button", 'NernstButton', 'particleControl', { content: "Nernst", mousePressed: startNernst });
+    this.GoldmanButton = ec("button", 'GoldmanButton', 'particleControl', { content: "Goldman", mousePressed: startGoldman });
 
-    for (var locStr in this.controls) {
-      var location = this.controls[locStr];
+    for (var locStr in this.controls_list) {
+      var location = this.controls_list[locStr];
 
       location.header = ec("h4", '', location.controls[0], {
         content: location.label
@@ -82,7 +82,7 @@ class SimulatorInputs {
       });
 
       for (var i = 0; i < numParticles; i++) {
-        var name = this.m_dom.m_sim.m_particle_types[i];
+        var name = this.dom.sim.particle_types[i];
         var { sign, color } = particleMapper[name];
 
         var label = '[' + name + '<sup>' + sign + '</sup>]'
@@ -110,12 +110,12 @@ class SimulatorInputs {
 
   concentration(particleType, location) {
     var id = particleMapper[particleType].id;
-    return this.controls[location].rows[id].value();
+    return this.controls_list[location].rows[id].value();
   }
 
   setConcentration(particleType, location, amount) {
     var id = particleMapper[particleType].id;
-    this.controls[location].rows[id].value(amount);
+    this.controls_list[location].rows[id].value(amount);
   }
 
   // updateInputs(particleType, location, id) {
@@ -151,11 +151,11 @@ class SimulatorInputs {
     var checkboxID = evt.target.attributes["data-id"].value;
     var particleType = evt.target.attributes["data-ptype"].value;
 
-    if (this.m_dom.m_sim.simMode() == "Nernst") {
+    if (this.dom.sim.simMode() == "Nernst") {
       animationSequencer.current().setContainerDisplays(particleType, this.checkbox(checkboxID));
-      if (this.m_dom.m_sim.m_nernst_particle !== particleType) {
-        this.m_dom.m_sim.m_nernst_particle = particleType;
-        for (var j = 0; j < this.m_dom.m_sim.numParticleTypes(); j++) {
+      if (this.dom.sim.nernst_particle !== particleType) {
+        this.dom.sim.nernst_particle = particleType;
+        for (var j = 0; j < this.dom.sim.numParticleTypes(); j++) {
           var checkBoxParticle = this.checkboxes[j].elt.innerText;
 
           if (
