@@ -30,21 +30,21 @@ QUnit.test("compute", function(assert) {
     z:   Na_z}
 
   // NOTE: In the future, we may wish to test the content of chans as well.
-  var result = sim.m_nernst_eq.compute('Na',condition)
+  var result = sim.nernst_eq.compute('Na',condition)
   assert.deepEqual(parseFloat(result.toFixed(7)), 0.0185233, "Na voltage compute is correct");
 
   var condition =
    {Xout: Cl_out,
     Xin: Cl_in,
     z:   Cl_z}
-  var result = sim.m_nernst_eq.compute('Cl',condition)
+  var result = sim.nernst_eq.compute('Cl',condition)
   assert.deepEqual(parseFloat(result.toFixed(7)), 0.0185233, "cl voltage compute is correct");
 
   var condition =
    {Xout: K_out,
     Xin: K_in,
     z:   K_z}
-  var result = sim.m_nernst_eq.compute('K',condition)
+  var result = sim.nernst_eq.compute('K',condition)
   assert.deepEqual(parseFloat(result.toFixed(7)), -0.0136510, "K voltage compute is correct");
 
 });

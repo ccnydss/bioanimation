@@ -4,7 +4,7 @@
 *
 * The Simulator is the core of the application. It is responsible for drawing
 * not just the animation canvas, but also the entire page, including all buttons,
-* sidebars, etc -- via its member variable, `m_dom`, which is an instance of
+* sidebars, etc -- via its member variable, `dom`, which is an instance of
 * SimulatorDOM.
 *
 */
@@ -16,45 +16,81 @@ class Simulator {
   */
   constructor() {
     /**
-    * @private
+    * @public
     * @type {array}
     */
     this.particle_types = ["Na", "Cl", "K"];
 
     /**
-    * @private
+    * @public
     * @type {boolean}
     */
     this.paused = false;
 
     /**
-    * @private
+    * @public
     * @type {SimulatorDOM}
     */
     this.dom = new SimulatorDOM(this)
 
     /**
-    * @private
-    * @type {string}
+    *
     * Which equation mode is currently being represented by the Simulator.
     * Should ever either be "Nernst" or "Goldman".
+    * @private
+    * @type {string}
+    *
     */
     this.mode = "Nernst";
-    this.nernst_particle = "Na";       // Contains the currently selected particle in Nernst mode
 
+    /**
+    *
+    * Contains the currently selected particle for Nernst mode.
+    * @public
+    * @type {string}
+    *
+    */
+    this.nernst_particle = "Na";
+
+    /**
+    * @public
+    * @type {NernstEq}
+    */
     this.nernst_eq = new NernstEq(this);
+
+    /**
+    * @public
+    * @type {GoldmanEq}
+    */
     this.goldman_eq = new GoldmanEq(this);
 
+    /**
+    * @public
+    * @type {Object}
+    */
     this.settings = {
       temperature: 37 + 273.13,           // 37 is the human body temperature
       gas_constant: 8.314,                // Ideal gas constant
       faraday: 96485.3329                 // Faraday's constant
     };
 
+    /**
+    * @private
+    * @type {Array}
+    */
     this.tabList = ['aboutPage','contactPage','helpPage']
+
+    /**
+    *
+    * @public
+    * @type {Preset}
+    */
     this.preset = new Preset(this);
   }
 
+  /**
+  * Pauses the Simulator.
+  */
   pause() {
     this.paused = !this.paused;
 
@@ -69,6 +105,9 @@ class Simulator {
     }
   }
 
+  /**
+  * Called on every key press, trigger different events based on user input.
+  */
   keyInput() {
     var spacebar = 32;
     var Q_key = 81;
@@ -96,12 +135,25 @@ class Simulator {
     }
   }
 
+  /**
+  * Returns length of the particle_types array.
+  */
   numParticleTypes() {
     return this.particle_types.length;
   }
 
+  /**
+  *
+  * The function that handles displaying different sections of the user interface
+  * under different conditions. Mostly for things like the left bar with
+  * questions, settings, plot, etc.
+  *
+  * @param {string} id - The string identifier for which UI element we want to
+  *                       display or hide.
+  * @param {boolean} mode - The setting to use (true/false) for displaying the
+  *                           UI element.
+  */
   renderUI(id, mode) {
-    //Input DOM object/chartjs object, Boolean
     switch (id) {
       case "hidebarText":
       document.getElementById("hidebarText").innerHTML = (mode) ? '<i class="fas fa-arrow-down"></i> Questions' : '<i class="fas fa-arrow-up"></i> Settings';
@@ -175,195 +227,214 @@ class Simulator {
       case "dataPlot":
       if (mode) {
         document.getElementById('dataPlot').classList.remove("hide")
-      } else { document.getElementById('dataPlot').classList.add("hide")}
-      //Note chartjs chart has a class called 'chartjs-render-monitor' by default, but this class is conflict with our animation
-      break;
+      } else { document.getElementById('dataPlot').classList.add("hide")
+    }
+    //Note chartjs chart has a class called 'chartjs-render-monitor' by default, but this class is conflict with our animation
+    break;
 
-      case "simCanvasPause":
-      document.getElementById('simCanvasPause').style.display = (mode) ? "flex" : "none";
-      if(mode) {noloop();} else {loop()};
-      break;
+    case "simCanvasPause":
+    document.getElementById('simCanvasPause').style.display = (mode) ? "flex" : "none";
+    break;
 
-      case "leftbar":
-      document.getElementById('leftbar').style.display = (mode) ? "flex" : "none";
-      break;
+    case "leftbar":
+    document.getElementById('leftbar').style.display = (mode) ? "flex" : "none";
+    break;
 
-      case "simCanvasFrame":
-      document.getElementById('simCanvasFrame').style.display = (mode) ? "flex" : "none";
-      break;
+    case "simCanvasFrame":
+    document.getElementById('simCanvasFrame').style.display = (mode) ? "flex" : "none";
+    break;
+  }
+}
+
+/**
+* Used for toggling the
+*/
+toggleTab(target) {
+  //Input 1: String
+
+  //First, close all other tabs
+  for (let i = 0; i < this.tabList.length; i++) {
+    if (this.tabList[i] != target) {
+      document.getElementById(this.tabList[i]).style.display = 'none'
+      if (this.tabList[i] == 'helpPage') help.clear()
     }
   }
 
-  toggleTab(target) {
-    //Input 1: String
+  var page = document.getElementById(target);
 
-    //First, close all other tabs
-    for(let i = 0;i<this.tabList.length;i++) {
-      if(this.tabList[i] != target) {
-        document.getElementById(this.tabList[i]).style.display = 'none'
-        if(this.tabList[i]=='helpPage')
-        help.clear()
-      }
+  if (page.style.display == "flex") {
+    page.style.display = 'none'
+
+    if (target =='helpPage') help.clear();
+  } else {
+    page.style.display = 'flex';
+
+    if (target=='helpPage')
+    help.initialize()
+    help.resize()
+  }
+}
+
+/**
+* Check if the question sidebar is currently being displayed, or hidden
+* @returns {boolean}
+*/
+questionsAreHidden() {
+  return this.dom.sidebar_current != this.dom.sidebar_size_multiple;
+}
+
+/**
+* A getter and setter for changing the Simulator mode.
+*
+* @param {string | null} [mode=null] - If supplied, change the Simulator to the
+*                                       specified simulator mode. If left empty,
+*                                       will return the current simulator mode.
+*/
+simMode(mode = null) {
+  if (mode) {
+    if (mode != "Nernst" && mode != "Goldman") throw new Error("Sim mode must be Nernst or Goldman.");
+
+    var header = "Goldman-Hodgkin-Katz";
+    if (mode == "Nernst") header = "Nernst Equation";
+    this.dom.sim_question.header = header;
+    this.dom.sim_question.title.html(header);
+    this.mode = mode;
+  } else {
+    return this.mode;
+  };
+
+  this.buttonModeSwitch();
+}
+
+/**
+* Updates the text fields for concentration amounts for a specified particle
+* type.
+*
+* @param {float} amount - the concentration amount to be set to. 
+*/
+updateInputs(amount, particleID) {
+  this.dom.sim_inputs.controls_list["outside"].rows[particleID].value(amount);
+  this.dom.sim_inputs.controls_list["inside"].rows[particleID].value(amount);
+}
+
+updateInputLoc(particleID, location, amount) {
+  this.dom.sim_inputs.controls_list[location].rows[particleID].value(amount);
+}
+
+updateParticles(ptype, ploc, updatedAmount, noCompute) {
+  //mainSim.updateParticles("Na","outside",13)
+  var numParticles = animationSequencer.current().getNumParticles(ploc, ptype);
+  var maxParticles = animationSequencer.current().MAX_PARTICLES;
+  var minParticles = animationSequencer.current().MIN_PARTICLES;
+
+  // If the amount entered is invalid, alert user
+  if (
+    isNaN(updatedAmount) ||
+    updatedAmount < 0
+  ) {
+    alert("Please enter a valid number.");
+    evt.target.value = updatedAmount.slice(0, -1); // Erase the last character
+    return;
+  } else if (updatedAmount > maxParticles) {
+    // If the amount entered is greater than the maximum, force it to maximum and alert user
+    alert("Maximum amount is " + maxParticles + ".");
+    updatedAmount = maxParticles;
+  } else if (updatedAmount <= 1 && updatedAmount>0) {
+    updatedAmount = minParticles;
+  } else if (updatedAmount <= minParticles) {
+    alert("Must have at least " + minParticles + " particle.");
+    updatedAmount = minParticles;
+  }
+
+  if(!noCompute)
+  this.computeAll(ptype);
+
+  var updatedParticles = round(updatedAmount);
+  var difference = Math.abs(updatedParticles - numParticles);
+
+  // If the amount entered is less than 0, increase the amount
+  if (updatedParticles > numParticles) {
+    for (var i = 0; i < difference; i++) {
+      animationSequencer.current().insertNewParticle(ploc, ptype);
     }
+  } else if (updatedParticles < numParticles) {
+    for (var i = 0; i < difference; i++) {
+      animationSequencer.current().removeParticle(ploc, ptype, 0);
+    }
+  }
 
-    var page = document.getElementById(target);
+  var id = particleMapper[ptype].id;
+  this.updateInputLoc(id, ploc, updatedAmount);
+}
 
-    if(page.style.display == "flex") {
-      page.style.display = 'none'
+changeSimulatorSettings(evt) {
+  // input: the element that triggered the event (Input buttons);
 
-      if(target=='helpPage')
-      help.clear()
+  var updatedAmount = evt.target.value;
+  var eventID = evt.target.id;
+
+  if (eventID == 0) {
+    // Set temperature
+    if (evt.target.value <= 313.15) {
+      this.settings.temperature = updatedAmount;
+      this.dom.settings[eventID].value(updatedAmount);
     } else {
-      page.style.display = 'flex'
-      if(target=='helpPage')
-      help.initialize()
-      help.resize()
-    }
-
-
-  }
-
-  questionsAreHidden() {
-    return this.dom.sidebar_current != this.dom.sidebar_size_multiple;
-  }
-
-  simMode(mode=null) {
-    if (mode) {
-      var header = "Goldman-Hodgkin-Katz";
-      if (mode == "Nernst") header = "Nernst Equation";
-      this.dom.sim_question.header = header;
-      this.dom.sim_question.title.html(header);
-      this.mode = mode;
-    } else {
-      return this.mode;
-    };
-
-    this.buttonModeSwitch();
-  }
-
-  updateInputs(amount, particleID) {
-    this.dom.sim_inputs.controls_list["outside"].rows[particleID].value(amount);
-    this.dom.sim_inputs.controls_list["inside"].rows[particleID].value(amount);
-  }
-
-  updateInputLoc(particleID, location, amount) {
-    this.dom.sim_inputs.controls_list[location].rows[particleID].value(amount);
-  }
-
-  updateParticles(ptype, ploc, updatedAmount, noCompute) {
-    //mainSim.updateParticles("Na","outside",13)
-    var numParticles = animationSequencer.current().getNumParticles(ploc, ptype);
-    var maxParticles = animationSequencer.current().MAX_PARTICLES;
-    var minParticles = animationSequencer.current().MIN_PARTICLES;
-
-    // If the amount entered is invalid, alert user
-    if (
-      isNaN(updatedAmount) ||
-      updatedAmount < 0
-    ) {
-      alert("Please enter a valid number.");
-      evt.target.value = updatedAmount.slice(0, -1); // Erase the last character
-      return;
-    } else if (updatedAmount > maxParticles) {
-      // If the amount entered is greater than the maximum, force it to maximum and alert user
-      alert("Maximum amount is " + maxParticles + ".");
-      updatedAmount = maxParticles;
-    } else if (updatedAmount <= 1 && updatedAmount>0) {
-      updatedAmount = minParticles;
-    } else if (updatedAmount <= minParticles) {
-      alert("Must have at least " + minParticles + " particle.");
-      updatedAmount = minParticles;
-    }
-
-    if(!noCompute)
-    this.computeAll(ptype);
-
-    var updatedParticles = round(updatedAmount);
-    var difference = Math.abs(updatedParticles - numParticles);
-
-    // If the amount entered is less than 0, increase the amount
-    if (updatedParticles > numParticles) {
-      for (var i = 0; i < difference; i++) {
-        animationSequencer.current().insertNewParticle(ploc, ptype);
-      }
-    } else if (updatedParticles < numParticles) {
-      for (var i = 0; i < difference; i++) {
-        animationSequencer.current().removeParticle(ploc, ptype, 0);
-      }
-    }
-
-    var id = particleMapper[ptype].id;
-    this.updateInputLoc(id, ploc, updatedAmount);
-  }
-
-  changeSimulatorSettings(evt) {
-    // input: the element that triggered the event (Input buttons);
-
-    var updatedAmount = evt.target.value;
-    var eventID = evt.target.id;
-
-    if (eventID == 0) {
-      // Set temperature
-      if (evt.target.value <= 313.15) {
-        this.settings.temperature = updatedAmount;
-        this.dom.settings[eventID].value(updatedAmount);
-      } else {
-        alert("Max temperature is 40 C");
-        this.settings.temperature = 313.15;
-        this.dom.settings[eventID].value(313.15);
-      }
-    }
-    if (eventID == 1) {
-      Na.permeability = updatedAmount;
-    }
-    if (eventID == 2) {
-      Cl.permeability = updatedAmount;
-    }
-    if (eventID == 3) {
-      K.permeability = updatedAmount;
-    }
-
-    FormulaInputCalculation(this.nernst_particle);
-  }
-
-  setAnswer(answer, type) {
-    this.dom.equationResult.setAnswer(answer, type);
-  }
-
-  computeAll(selected) {
-    this.setAnswer(this.nernst_eq.result("Na"), "Na");
-    this.setAnswer(this.nernst_eq.result("K"), "K");
-    this.setAnswer(this.nernst_eq.result("Cl"), "Cl");
-    this.setAnswer(this.goldman_eq.result(), "Net");
-
-    this.dom.equationResult.setSelected(selected);
-  }
-
-  buttonModeSwitch() {
-    if (this.mode == "Nernst") {
-      this.dom.sim_inputs.NernstButton.style('backgroundColor', "#74b9ff");
-      this.dom.sim_inputs.GoldmanButton.style('backgroundColor', "#dfe6e9");
-    } else {
-      this.dom.sim_inputs.NernstButton.style('backgroundColor', "#dfe6e9");
-      this.dom.sim_inputs.GoldmanButton.style('backgroundColor', "#74b9ff");
+      alert("Max temperature is 40 C");
+      this.settings.temperature = 313.15;
+      this.dom.settings[eventID].value(313.15);
     }
   }
-
-  resize() {
-    var drawWithQuestions = !this.questionsAreHidden();
-    this.redrawUI(drawWithQuestions);
+  if (eventID == 1) {
+    Na.permeability = updatedAmount;
+  }
+  if (eventID == 2) {
+    Cl.permeability = updatedAmount;
+  }
+  if (eventID == 3) {
+    K.permeability = updatedAmount;
   }
 
-  redrawUI(hide) {
-    // input: Boolean
-    // usage: True is for initializing the UI; False is for recreating UI when browser window is resized (responsive UI)
+  FormulaInputCalculation(this.nernst_particle);
+}
 
-    this.dom.sidebar_current = hide ? this.dom.sidebar_size_multiple : 1;
-    this.dom.adjustUISize();
+setAnswer(answer, type) {
+  this.dom.equationResult.setAnswer(answer, type);
+}
 
-    var { width, height } = this.dom.getSize();
-    animationSequencer.current().setContainerSizes(width, height);
+computeAll(selected) {
+  this.setAnswer(this.nernst_eq.result("Na"), "Na");
+  this.setAnswer(this.nernst_eq.result("K"), "K");
+  this.setAnswer(this.nernst_eq.result("Cl"), "Cl");
+  this.setAnswer(this.goldman_eq.result(), "Net");
 
-    this.renderUI("questionsdiv", hide)
+  this.dom.equationResult.setSelected(selected);
+}
+
+buttonModeSwitch() {
+  if (this.mode == "Nernst") {
+    this.dom.sim_inputs.NernstButton.style('backgroundColor', "#74b9ff");
+    this.dom.sim_inputs.GoldmanButton.style('backgroundColor', "#dfe6e9");
+  } else {
+    this.dom.sim_inputs.NernstButton.style('backgroundColor', "#dfe6e9");
+    this.dom.sim_inputs.GoldmanButton.style('backgroundColor', "#74b9ff");
   }
+}
+
+resize() {
+  var drawWithQuestions = !this.questionsAreHidden();
+  this.redrawUI(drawWithQuestions);
+}
+
+redrawUI(hide) {
+  // input: Boolean
+  // usage: True is for initializing the UI; False is for recreating UI when browser window is resized (responsive UI)
+
+  this.dom.sidebar_current = hide ? this.dom.sidebar_size_multiple : 1;
+  this.dom.adjustUISize();
+
+  var { width, height } = this.dom.getSize();
+  animationSequencer.current().setContainerSizes(width, height);
+
+  this.renderUI("questionsdiv", hide)
+}
 }

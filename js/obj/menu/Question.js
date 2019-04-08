@@ -98,7 +98,7 @@ class Question {
     this.current_page++;
 
     // Checking refresh jump btn menu
-    var allow_index = (this.total_index>=this.max_index) ? this.max_index : this.total_index
+    var allow_index = (this.total_index >= this.max_index) ? this.max_index : this.total_index
     var max_num = this.jump_list[allow_index - 1].html();
     if (this.current_page>max_num) {
       questionDebug && console.log("Maximum page exceed! "+"Current: "+this.current_page+" MaxJump: "+max_num)

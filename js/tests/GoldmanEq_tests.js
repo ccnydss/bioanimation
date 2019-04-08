@@ -27,6 +27,6 @@ QUnit.test("compute", function(assert) {
   }
 
   // NOTE: In the future, we may wish to test the content of chans as well.
-  var result = sim.m_goldman_eq.compute(condition)
+  var result = sim.goldman_eq.compute(condition)
   assert.deepEqual(parseFloat(result.toFixed(7)), -0.0121158, "voltage compute is correct");
 });
