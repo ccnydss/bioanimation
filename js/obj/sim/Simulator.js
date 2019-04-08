@@ -308,63 +308,83 @@ simMode(mode = null) {
 
 /**
 * Updates the text fields for concentration amounts for a specified particle
-* type.
+* type. Applies the same amount to the inside and the outside. Currently
+* being used for equilibrating.
 *
-* @param {float} amount - the concentration amount to be set to. 
+* @param {float} amount - the concentration amount to be set to.
+* @param {int} particle_id - the ID number of the particle to update.
 */
-updateInputs(amount, particleID) {
-  this.dom.sim_inputs.controls_list["outside"].rows[particleID].value(amount);
-  this.dom.sim_inputs.controls_list["inside"].rows[particleID].value(amount);
+updateInputs(amount, particle_id) {
+  this.dom.sim_inputs.controls_list["outside"].rows[particle_id].value(amount);
+  this.dom.sim_inputs.controls_list["inside"].rows[particle_id].value(amount);
 }
 
-updateInputLoc(particleID, location, amount) {
-  this.dom.sim_inputs.controls_list[location].rows[particleID].value(amount);
+/**
+* Updates the text fields for concentration amounts for a specified particle
+* type, within a specified location ("inside" or "outside"). Currently
+* being used by updateParticles()
+*
+* @param {float} amount - the concentration amount to be set to.
+* @param {int} particleID - the ID number of the particle to update.
+* @param {string} location - which location to target, can be "inside" or "outside".
+*/
+updateInputLoc(amount, particle_id, location) {
+  if (location != "inside" && location != "outside") throw new Error("Location must be 'inside' or 'outside'.");
+  this.dom.sim_inputs.controls_list[location].rows[particle_id].value(amount);
 }
 
-updateParticles(ptype, ploc, updatedAmount, noCompute) {
-  //mainSim.updateParticles("Na","outside",13)
-  var numParticles = animationSequencer.current().getNumParticles(ploc, ptype);
-  var maxParticles = animationSequencer.current().MAX_PARTICLES;
-  var minParticles = animationSequencer.current().MIN_PARTICLES;
+/**
+* updateParticles is used when the user changes the number of particles by
+* typing in the text field or clicking the plus/minus buttons.
+*
+* @param {string} ptype - The name of the particle to update ("Na", "Cl", or "K").
+* @param {string} ploc - The location which this particle is in ("inside" or "outside").
+* @param {float} updated_amount - The concentration amount to update this particle at this location to.
+* @param {boolean} no_compute - Whether or not to compute the new equation values.
+*/
+updateParticles(ptype, ploc, updated_amount, no_compute) {
+  var num_particles = animationSequencer.current().getNumParticles(ploc, ptype);
+  var max_particles = animationSequencer.current().MAX_PARTICLES;
+  var min_particles = animationSequencer.current().MIN_PARTICLES;
 
   // If the amount entered is invalid, alert user
   if (
-    isNaN(updatedAmount) ||
-    updatedAmount < 0
+    isNaN(updated_amount) ||
+    updated_amount < 0
   ) {
     alert("Please enter a valid number.");
-    evt.target.value = updatedAmount.slice(0, -1); // Erase the last character
+    evt.target.value = updated_amount.slice(0, -1); // Erase the last character
     return;
-  } else if (updatedAmount > maxParticles) {
+  } else if (updated_amount > max_particles) {
     // If the amount entered is greater than the maximum, force it to maximum and alert user
-    alert("Maximum amount is " + maxParticles + ".");
-    updatedAmount = maxParticles;
-  } else if (updatedAmount <= 1 && updatedAmount>0) {
-    updatedAmount = minParticles;
-  } else if (updatedAmount <= minParticles) {
-    alert("Must have at least " + minParticles + " particle.");
-    updatedAmount = minParticles;
+    alert("Maximum amount is " + max_particles + ".");
+    updated_amount = max_particles;
+  } else if (updated_amount <= 1 && updated_amount > 0) {
+    updated_amount = min_particles;
+  } else if (updated_amount <= min_particles) {
+    alert("Must have at least " + min_particles + " particle.");
+    updated_amount = min_particles;
   }
 
-  if(!noCompute)
+  if(!no_compute)
   this.computeAll(ptype);
 
-  var updatedParticles = round(updatedAmount);
-  var difference = Math.abs(updatedParticles - numParticles);
+  var updated_particles = round(updated_amount);
+  var difference = Math.abs(updated_particles - num_particles);
 
   // If the amount entered is less than 0, increase the amount
-  if (updatedParticles > numParticles) {
+  if (updated_particles > num_particles) {
     for (var i = 0; i < difference; i++) {
       animationSequencer.current().insertNewParticle(ploc, ptype);
     }
-  } else if (updatedParticles < numParticles) {
+  } else if (updated_particles < num_particles) {
     for (var i = 0; i < difference; i++) {
       animationSequencer.current().removeParticle(ploc, ptype, 0);
     }
   }
 
   var id = particleMapper[ptype].id;
-  this.updateInputLoc(id, ploc, updatedAmount);
+  this.updateInputLoc(updated_amount, id, ploc);
 }
 
 changeSimulatorSettings(evt) {
