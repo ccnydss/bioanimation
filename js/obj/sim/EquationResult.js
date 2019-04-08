@@ -98,9 +98,9 @@ class EquationResult {
 
   /**
   * Function to set ion(s) column in the equation table
-  active/inactive based on current simulation mode.
+  * active/inactive based on current simulation mode.
   * @access public
-  * @param {String} type - The type of ion(s), Na/Cl/K/Net
+  * @param {String} type - The type of ion(s), Na/Cl/K
   */
   setSelected(type) {
     var mode = this.dom.sim.simMode();

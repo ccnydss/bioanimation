@@ -78,7 +78,7 @@ class Simulator {
     * @private
     * @type {Array}
     */
-    this.tabList = ['aboutPage','contactPage','helpPage']
+    this.tab_list = ['aboutPage','contactPage','helpPage']
 
     /**
     *
@@ -89,6 +89,7 @@ class Simulator {
   }
 
   /**
+  * @public
   * Pauses the Simulator.
   */
   pause() {
@@ -106,6 +107,7 @@ class Simulator {
   }
 
   /**
+  * @public
   * Called on every key press, trigger different events based on user input.
   */
   keyInput() {
@@ -136,6 +138,7 @@ class Simulator {
   }
 
   /**
+  * @public
   * Returns length of the particle_types array.
   */
   numParticleTypes() {
@@ -143,7 +146,7 @@ class Simulator {
   }
 
   /**
-  *
+  * @public
   * The function that handles displaying different sections of the user interface
   * under different conditions. Mostly for things like the left bar with
   * questions, settings, plot, etc.
@@ -227,234 +230,281 @@ class Simulator {
       case "dataPlot":
       if (mode) {
         document.getElementById('dataPlot').classList.remove("hide")
-      } else { document.getElementById('dataPlot').classList.add("hide")
-    }
-    //Note chartjs chart has a class called 'chartjs-render-monitor' by default, but this class is conflict with our animation
-    break;
+      } else {
+        document.getElementById('dataPlot').classList.add("hide")
+      }
+      //Note chartjs chart has a class called 'chartjs-render-monitor' by default, but this class is conflict with our animation
+      break;
 
-    case "simCanvasPause":
-    document.getElementById('simCanvasPause').style.display = (mode) ? "flex" : "none";
-    break;
+      case "simCanvasPause":
+      document.getElementById('simCanvasPause').style.display = (mode) ? "flex" : "none";
+      break;
 
-    case "leftbar":
-    document.getElementById('leftbar').style.display = (mode) ? "flex" : "none";
-    break;
+      case "leftbar":
+      document.getElementById('leftbar').style.display = (mode) ? "flex" : "none";
+      break;
 
-    case "simCanvasFrame":
-    document.getElementById('simCanvasFrame').style.display = (mode) ? "flex" : "none";
-    break;
-  }
-}
-
-/**
-* Used for toggling the
-*/
-toggleTab(target) {
-  //Input 1: String
-
-  //First, close all other tabs
-  for (let i = 0; i < this.tabList.length; i++) {
-    if (this.tabList[i] != target) {
-      document.getElementById(this.tabList[i]).style.display = 'none'
-      if (this.tabList[i] == 'helpPage') help.clear()
+      case "simCanvasFrame":
+      document.getElementById('simCanvasFrame').style.display = (mode) ? "flex" : "none";
+      break;
     }
   }
 
-  var page = document.getElementById(target);
-
-  if (page.style.display == "flex") {
-    page.style.display = 'none'
-
-    if (target =='helpPage') help.clear();
-  } else {
-    page.style.display = 'flex';
-
-    if (target=='helpPage')
-    help.initialize()
-    help.resize()
-  }
-}
-
-/**
-* Check if the question sidebar is currently being displayed, or hidden
-* @returns {boolean}
-*/
-questionsAreHidden() {
-  return this.dom.sidebar_current != this.dom.sidebar_size_multiple;
-}
-
-/**
-* A getter and setter for changing the Simulator mode.
-*
-* @param {string | null} [mode=null] - If supplied, change the Simulator to the
-*                                       specified simulator mode. If left empty,
-*                                       will return the current simulator mode.
-*/
-simMode(mode = null) {
-  if (mode) {
-    if (mode != "Nernst" && mode != "Goldman") throw new Error("Sim mode must be Nernst or Goldman.");
-
-    var header = "Goldman-Hodgkin-Katz";
-    if (mode == "Nernst") header = "Nernst Equation";
-    this.dom.sim_question.header = header;
-    this.dom.sim_question.title.html(header);
-    this.mode = mode;
-  } else {
-    return this.mode;
-  };
-
-  this.buttonModeSwitch();
-}
-
-/**
-* Updates the text fields for concentration amounts for a specified particle
-* type. Applies the same amount to the inside and the outside. Currently
-* being used for equilibrating.
-*
-* @param {float} amount - the concentration amount to be set to.
-* @param {int} particle_id - the ID number of the particle to update.
-*/
-updateInputs(amount, particle_id) {
-  this.dom.sim_inputs.controls_list["outside"].rows[particle_id].value(amount);
-  this.dom.sim_inputs.controls_list["inside"].rows[particle_id].value(amount);
-}
-
-/**
-* Updates the text fields for concentration amounts for a specified particle
-* type, within a specified location ("inside" or "outside"). Currently
-* being used by updateParticles()
-*
-* @param {float} amount - the concentration amount to be set to.
-* @param {int} particleID - the ID number of the particle to update.
-* @param {string} location - which location to target, can be "inside" or "outside".
-*/
-updateInputLoc(amount, particle_id, location) {
-  if (location != "inside" && location != "outside") throw new Error("Location must be 'inside' or 'outside'.");
-  this.dom.sim_inputs.controls_list[location].rows[particle_id].value(amount);
-}
-
-/**
-* updateParticles is used when the user changes the number of particles by
-* typing in the text field or clicking the plus/minus buttons.
-*
-* @param {string} ptype - The name of the particle to update ("Na", "Cl", or "K").
-* @param {string} ploc - The location which this particle is in ("inside" or "outside").
-* @param {float} updated_amount - The concentration amount to update this particle at this location to.
-* @param {boolean} no_compute - Whether or not to compute the new equation values.
-*/
-updateParticles(ptype, ploc, updated_amount, no_compute) {
-  var num_particles = animationSequencer.current().getNumParticles(ploc, ptype);
-  var max_particles = animationSequencer.current().MAX_PARTICLES;
-  var min_particles = animationSequencer.current().MIN_PARTICLES;
-
-  // If the amount entered is invalid, alert user
-  if (
-    isNaN(updated_amount) ||
-    updated_amount < 0
-  ) {
-    alert("Please enter a valid number.");
-    evt.target.value = updated_amount.slice(0, -1); // Erase the last character
-    return;
-  } else if (updated_amount > max_particles) {
-    // If the amount entered is greater than the maximum, force it to maximum and alert user
-    alert("Maximum amount is " + max_particles + ".");
-    updated_amount = max_particles;
-  } else if (updated_amount <= 1 && updated_amount > 0) {
-    updated_amount = min_particles;
-  } else if (updated_amount <= min_particles) {
-    alert("Must have at least " + min_particles + " particle.");
-    updated_amount = min_particles;
-  }
-
-  if(!no_compute)
-  this.computeAll(ptype);
-
-  var updated_particles = round(updated_amount);
-  var difference = Math.abs(updated_particles - num_particles);
-
-  // If the amount entered is less than 0, increase the amount
-  if (updated_particles > num_particles) {
-    for (var i = 0; i < difference; i++) {
-      animationSequencer.current().insertNewParticle(ploc, ptype);
+  /**
+  * @public
+  * Used for toggling the tabs at the top of the Simulator, like the About and
+  * Help pages.
+  *
+  * @param {string} target - The tab target to open.
+  */
+  toggleTab(target) {
+    //First, close all other tabs
+    for (let i = 0; i < this.tab_list.length; i++) {
+      if (this.tab_list[i] != target) {
+        document.getElementById(this.tab_list[i]).style.display = 'none'
+        if (this.tab_list[i] == 'helpPage') help.clear()
+      }
     }
-  } else if (updated_particles < num_particles) {
-    for (var i = 0; i < difference; i++) {
-      animationSequencer.current().removeParticle(ploc, ptype, 0);
-    }
-  }
 
-  var id = particleMapper[ptype].id;
-  this.updateInputLoc(updated_amount, id, ploc);
-}
+    var page = document.getElementById(target);
 
-changeSimulatorSettings(evt) {
-  // input: the element that triggered the event (Input buttons);
+    if (page.style.display == "flex") {
+      page.style.display = 'none'
 
-  var updatedAmount = evt.target.value;
-  var eventID = evt.target.id;
-
-  if (eventID == 0) {
-    // Set temperature
-    if (evt.target.value <= 313.15) {
-      this.settings.temperature = updatedAmount;
-      this.dom.settings[eventID].value(updatedAmount);
+      if (target =='helpPage') help.clear();
     } else {
-      alert("Max temperature is 40 C");
-      this.settings.temperature = 313.15;
-      this.dom.settings[eventID].value(313.15);
+      page.style.display = 'flex';
+
+      if (target=='helpPage')
+      help.initialize()
+      help.resize()
     }
   }
-  if (eventID == 1) {
-    Na.permeability = updatedAmount;
+
+  /**
+  * @private
+  * Check if the question sidebar is currently being displayed, or hidden
+  * @returns {boolean}
+  */
+  questionsAreHidden() {
+    return this.dom.sidebar_current != this.dom.sidebar_size_multiple;
   }
-  if (eventID == 2) {
-    Cl.permeability = updatedAmount;
+
+  /**
+  * @public
+  * A getter and setter for changing the Simulator mode.
+  *
+  * @param {string | null} [mode=null] - If supplied, change the Simulator to the
+  * specified simulator mode. If left empty, will return the current simulator mode.
+  */
+  simMode(mode = null) {
+    if (mode) {
+      if (mode != "Nernst" && mode != "Goldman") throw new Error("Sim mode must be Nernst or Goldman.");
+
+      var header = "Goldman-Hodgkin-Katz";
+      if (mode == "Nernst") header = "Nernst Equation";
+      this.dom.sim_question.header = header;
+      this.dom.sim_question.title.html(header);
+      this.mode = mode;
+    } else {
+      return this.mode;
+    };
+
+    this.buttonModeSwitch();
   }
-  if (eventID == 3) {
-    K.permeability = updatedAmount;
+
+  /**
+  * @public
+  * Updates the text fields for concentration amounts for a specified particle
+  * type. Applies the same amount to the inside and the outside. Currently
+  * being used for equilibrating.
+  *
+  * @param {float} amount - the concentration amount to be set to.
+  * @param {int} particle_id - the ID number of the particle to update.
+  */
+  updateInputs(amount, particle_id) {
+    this.dom.sim_inputs.controls_list["outside"].rows[particle_id].value(amount);
+    this.dom.sim_inputs.controls_list["inside"].rows[particle_id].value(amount);
   }
 
-  FormulaInputCalculation(this.nernst_particle);
-}
-
-setAnswer(answer, type) {
-  this.dom.equationResult.setAnswer(answer, type);
-}
-
-computeAll(selected) {
-  this.setAnswer(this.nernst_eq.result("Na"), "Na");
-  this.setAnswer(this.nernst_eq.result("K"), "K");
-  this.setAnswer(this.nernst_eq.result("Cl"), "Cl");
-  this.setAnswer(this.goldman_eq.result(), "Net");
-
-  this.dom.equationResult.setSelected(selected);
-}
-
-buttonModeSwitch() {
-  if (this.mode == "Nernst") {
-    this.dom.sim_inputs.NernstButton.style('backgroundColor', "#74b9ff");
-    this.dom.sim_inputs.GoldmanButton.style('backgroundColor', "#dfe6e9");
-  } else {
-    this.dom.sim_inputs.NernstButton.style('backgroundColor', "#dfe6e9");
-    this.dom.sim_inputs.GoldmanButton.style('backgroundColor', "#74b9ff");
+  /**
+  * @private
+  * Updates the text fields for concentration amounts for a specified particle
+  * type, within a specified location ("inside" or "outside"). Currently
+  * being used by updateParticles()
+  *
+  * @param {float} amount - the concentration amount to be set to.
+  * @param {int} particleID - the ID number of the particle to update.
+  * @param {string} location - which location to target, can be "inside" or "outside".
+  */
+  updateInputLoc(amount, particle_id, location) {
+    if (location != "inside" && location != "outside") throw new Error("Location must be 'inside' or 'outside'.");
+    this.dom.sim_inputs.controls_list[location].rows[particle_id].value(amount);
   }
-}
 
-resize() {
-  var drawWithQuestions = !this.questionsAreHidden();
-  this.redrawUI(drawWithQuestions);
-}
+  /**
+  * @public
+  * updateParticles is used when the user changes the number of particles by
+  * typing in the text field or clicking the plus/minus buttons.
+  *
+  * @param {string} ptype - The name of the particle to update ("Na", "Cl", or "K").
+  * @param {string} ploc - The location which this particle is in ("inside" or "outside").
+  * @param {float} updated_amount - The concentration amount to update this particle at this location to.
+  * @param {boolean} no_compute - Whether or not to compute the new equation values.
+  */
+  updateParticles(ptype, ploc, updated_amount, no_compute) {
+    var num_particles = animationSequencer.current().getNumParticles(ploc, ptype);
+    var max_particles = animationSequencer.current().MAX_PARTICLES;
+    var min_particles = animationSequencer.current().MIN_PARTICLES;
 
-redrawUI(hide) {
-  // input: Boolean
-  // usage: True is for initializing the UI; False is for recreating UI when browser window is resized (responsive UI)
+    // If the amount entered is invalid, alert user
+    if (
+      isNaN(updated_amount) ||
+      updated_amount < 0
+    ) {
+      alert("Please enter a valid number.");
+      evt.target.value = updated_amount.slice(0, -1); // Erase the last character
+      return;
+    } else if (updated_amount > max_particles) {
+      // If the amount entered is greater than the maximum, force it to maximum and alert user
+      alert("Maximum amount is " + max_particles + ".");
+      updated_amount = max_particles;
+    } else if (updated_amount <= 1 && updated_amount > 0) {
+      updated_amount = min_particles;
+    } else if (updated_amount <= min_particles) {
+      alert("Must have at least " + min_particles + " particle.");
+      updated_amount = min_particles;
+    }
 
-  this.dom.sidebar_current = hide ? this.dom.sidebar_size_multiple : 1;
-  this.dom.adjustUISize();
+    if(!no_compute)
+    this.computeAll(ptype);
 
-  var { width, height } = this.dom.getSize();
-  animationSequencer.current().setContainerSizes(width, height);
+    var updated_particles = round(updated_amount);
+    var difference = Math.abs(updated_particles - num_particles);
 
-  this.renderUI("questionsdiv", hide)
-}
+    // If the amount entered is less than 0, increase the amount
+    if (updated_particles > num_particles) {
+      for (var i = 0; i < difference; i++) {
+        animationSequencer.current().insertNewParticle(ploc, ptype);
+      }
+    } else if (updated_particles < num_particles) {
+      for (var i = 0; i < difference; i++) {
+        animationSequencer.current().removeParticle(ploc, ptype, 0);
+      }
+    }
+
+    var id = particleMapper[ptype].id;
+    this.updateInputLoc(updated_amount, id, ploc);
+  }
+
+  /**
+  * @private
+  * Called by the text fields under "Simulation Settings" in the app.
+  *
+  * @param {Object} evt - The evt object that is passed into the callback upon
+  * user input.
+  */
+  changeSimulatorSettings(evt) {
+    // input: the element that triggered the event (Input buttons);
+    var updated_amount = evt.target.value;
+    var event_id = evt.target.id;
+
+    if (event_id == 0) {
+      // Set temperature
+      if (evt.target.value <= 313.15) {
+        this.settings.temperature = updated_amount;
+        this.dom.settings[event_id].value(updated_amount);
+      } else {
+        alert("Max temperature is 40 C");
+        this.settings.temperature = 313.15;
+        this.dom.settings[event_id].value(313.15);
+      }
+    }
+    if (event_id == 1) {
+      Na.permeability = updated_amount;
+    }
+    if (event_id == 2) {
+      Cl.permeability = updated_amount;
+    }
+    if (event_id == 3) {
+      K.permeability = updated_amount;
+    }
+
+    FormulaInputCalculation(this.nernst_particle);
+  }
+
+  /**
+  * @public
+  * A top-level interface for setting the equation result answer. Just created
+  * for the convenience of avoiding the internal this > dom > equationResult >
+  * setAnswer chain.
+  *
+  * @param {Object} answer - The evt object that is passed into the callback upon
+  * user input.
+  * @param {Object} type - The evt object that is passed into the callback upon
+  * user input.
+  */
+  setAnswer(answer, type) {
+    this.dom.equationResult.setAnswer(answer, type);
+  }
+
+  /**
+  * @public
+  * This function is used to compute the answers for every particle type at the
+  * same time.
+  *
+  * @param {String} selected - Which particle to select in the result table.
+  */
+  computeAll(selected) {
+    this.setAnswer(this.nernst_eq.result("Na"), "Na");
+    this.setAnswer(this.nernst_eq.result("K"), "K");
+    this.setAnswer(this.nernst_eq.result("Cl"), "Cl");
+    this.setAnswer(this.goldman_eq.result(), "Net");
+
+    this.dom.equationResult.setSelected(selected);
+  }
+
+  /**
+  * @private
+  * Button to switch the button colors when the simulator mode is changed. Only
+  * gets called by this.simMode()
+  */
+  buttonModeSwitch() {
+    if (this.mode == "Nernst") {
+      this.dom.sim_inputs.NernstButton.style('backgroundColor', "#74b9ff");
+      this.dom.sim_inputs.GoldmanButton.style('backgroundColor', "#dfe6e9");
+    } else {
+      this.dom.sim_inputs.NernstButton.style('backgroundColor', "#dfe6e9");
+      this.dom.sim_inputs.GoldmanButton.style('backgroundColor', "#74b9ff");
+    }
+  }
+
+  /**
+  * @public
+  * This is triggered whenever the browser window is resized or the sidebar is
+  * hidden/shown.
+  */
+  resize() {
+    var draw_with_questions = !this.questionsAreHidden();
+    this.redrawUI(draw_with_questions);
+  }
+
+  /**
+  * @private
+  * This function is called by this.resize(), and handles the actual resizing.
+  * It sets new container sizes and displays or hides the settings in the side
+  * bar according to the hide parameter.
+  *
+  * @param {boolean} hide - True is for expanding the settings window, and false
+  * is for collapsing it.
+  */
+  redrawUI(hide) {
+    this.dom.sidebar_current = hide ? this.dom.sidebar_size_multiple : 1;
+    this.dom.adjustUISize();
+
+    var { width, height } = this.dom.getSize();
+    animationSequencer.current().setContainerSizes(width, height);
+
+    this.renderUI("questionsdiv", hide)
+  }
 }
