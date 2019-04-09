@@ -1,4 +1,6 @@
-/** Class representing a Rectangle on the p5.js canvas. */
+/**
+* Class representing a Rectangle on the p5.js canvas.
+*/
 class Rectangle {
   /**
    * Create a new Rectangle.

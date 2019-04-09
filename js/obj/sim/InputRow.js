@@ -2,7 +2,7 @@
 class InputRow {
   /**
   * Create ions control table.
- * @example <caption>Initialize an new ions control table.</caption>
+  * @example <caption>Initialize an new ions control table.</caption>
   for (var i = 0; i < numParticles; i++) {
     var name = this.dom.sim.particle_types[i];
     var { sign, color } = particleMapper[name];
@@ -46,14 +46,14 @@ class InputRow {
     }
   }
 
-    /**
-    * Create an new ions control table.
-    * @param {DOM} parent - The parent DOM table
-    * @param {String} id - The id of control table, range from 0-2 (# of particle)
-    * @param {string} particleType - Ion type, 'Na', 'Cl', 'K'
-    * @param {string} particleLocation - 'inside' or 'outside'
-    * @access public
-    */
+  /**
+  * Create an new ions control table.
+  * @param {DOM} parent - The parent DOM table
+  * @param {String} id - The id of control table, range from 0-2 (# of particle)
+  * @param {string} particleType - Ion type, 'Na', 'Cl', 'K'
+  * @param {string} particleLocation - 'inside' or 'outside'
+  * @access public
+  */
   create(parent, id, particleType, particleLocation) {
     var { title, input, table, buttons } = this.dom;
 
@@ -107,11 +107,11 @@ class InputRow {
     buttons.minus.addClass(colorClass);
   }
 
-      /**
-      * Change value of an ions control table.
-      * @param {float} setter - The new value
-      * @access public
-      */
+  /**
+  * Change value of an ions control table.
+  * @param {float} setter - The new value
+  * @access public
+  */
   value(setter) {
     if (typeof setter === 'undefined') {
       this.values = Number(this.values);
@@ -159,12 +159,12 @@ class InputRow {
     }
   }
 
-    /**
-    * Called by the plus/minus buttons, and also the text field input
-    * @param {DOM} evt - the element that triggered the event (Input buttons)
-    * @param {float} updatedAmount=evt.target.value - the value of triggered element
-    * @access private
-    */
+  /**
+  * Called by the plus/minus buttons, and also the text field input
+  * @param {DOM} evt - the element that triggered the event (Input buttons)
+  * @param {float} updatedAmount=evt.target.value - the value of triggered element
+  * @access private
+  */
   changeNumParticles(evt, updatedAmount=evt.target.value) {
     // Called by the plus/minus buttons, and also the text field input
     // input: the element that triggered the event (Input buttons);
@@ -189,12 +189,12 @@ class InputRow {
     mainSim.dom.simCanvasPreset_dropbtn.elt.textContent = 'Custom'
   }
 
-      /**
-      * Highlight all the value when user click in the input
-      * By doing this, user can change the input value directly
-      * @param {DOM} evt - the element that triggered the event (Input box)
-      * @access private
-      */
+  /**
+  * Highlight all the value when user click in the input
+  * By doing this, user can change the input value directly
+  * @param {DOM} evt - the element that triggered the event (Input box)
+  * @access private
+  */
   highLightInput(evt) {
     evt.target.setSelectionRange(0, evt.target.value.length)
   }
