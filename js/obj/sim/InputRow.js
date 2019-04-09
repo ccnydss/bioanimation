@@ -82,7 +82,9 @@ class InputRow {
     this.dom.input.input(this.changeNumParticles.bind(this));
     this.dom.input.attribute("data-location", particleLocation);
     this.dom.input.attribute("data-ptype", particleType);
-    this.dom.input.attribute("type", "text");
+    this.dom.input.attribute("type", "number");
+    this.dom.input.attribute("max", animationSequencer.current().MAX_PARTICLES);
+    this.dom.input.attribute("min", animationSequencer.current().MIN_PARTICLES);
     this.dom.input.mouseClicked(this.highLightInput);
     this.dom.input.parent(table.td1);
 
@@ -118,6 +120,11 @@ class InputRow {
       return this.values;
     }
     else {
+      if(setter>animationSequencer.current().MAX_PARTICLES)
+      setter=animationSequencer.current().MAX_PARTICLES
+      if(setter<animationSequencer.current().MIN_PARTICLES)
+      setter=animationSequencer.current().MIN_PARTICLES
+
       this.values = setter;
       this.dom.input.value(setter);
     }
