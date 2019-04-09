@@ -5,7 +5,7 @@ QUnit.test("compute", function(assert) {
 
   var sim = new Simulator()
 
-  sim.m_settings = {
+  sim.settings = {
     temperature: 37 + 273.13,           // 37 is the human body temperature
     gas_constant: 8.314,                // Ideal gas constant
     faraday: 96485.3329                 // Faraday's constant
@@ -27,6 +27,6 @@ QUnit.test("compute", function(assert) {
   }
 
   // NOTE: In the future, we may wish to test the content of chans as well.
-  var result = sim.m_goldman_eq.compute(condition)
+  var result = sim.goldman_eq.compute(condition)
   assert.deepEqual(parseFloat(result.toFixed(7)), -0.0121158, "voltage compute is correct");
 });
