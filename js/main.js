@@ -35,7 +35,7 @@ function setup() {
   mainSim.dom.setup();
   mainSim.dom.adjustUISize();
 
-  fps = new Fps(;
+  fps = new Fps();
   graph = new Plot(mainSim);
   help = new Help(mainSim);
   globals = new globals(mainSim);
