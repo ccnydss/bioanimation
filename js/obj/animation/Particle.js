@@ -462,7 +462,7 @@ Na.charge = 1;
 * Permeability property used for computing the Goldman equation.
 *
 * @memberof Na
-* @type {float}
+* @type {double}
 */
 Na.permeability = 0.03;
 
@@ -559,7 +559,7 @@ Cl.charge = -1;
 * Permeability property used for computing the Goldman equation.
 *
 * @memberof Cl
-* @type {float}
+* @type {double}
 */
 Cl.permeability = 0.1;
 
@@ -656,7 +656,7 @@ K.charge = 1;
 * Permeability property used for computing the Goldman equation.
 *
 * @memberof K
-* @type {float}
+* @type {double}
 */
 K.permeability = 1.0;
 

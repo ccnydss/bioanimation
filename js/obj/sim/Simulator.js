@@ -328,7 +328,7 @@ class Simulator {
   * being used for equilibrating.
   * @public
   *
-  * @param {float} amount - the concentration amount to be set to.
+  * @param {double} amount - the concentration amount to be set to.
   * @param {int} particle_id - the ID number of the particle to update.
   */
   updateInputs(amount, particle_id) {
@@ -342,7 +342,7 @@ class Simulator {
   * being used by updateParticles()
   * @private
   *
-  * @param {float} amount - the concentration amount to be set to.
+  * @param {double} amount - the concentration amount to be set to.
   * @param {int} particleID - the ID number of the particle to update.
   * @param {string} location - which location to target, can be "inside" or "outside".
   */
@@ -358,7 +358,7 @@ class Simulator {
   *
   * @param {string} ptype - The name of the particle to update ("Na", "Cl", or "K").
   * @param {string} ploc - The location which this particle is in ("inside" or "outside").
-  * @param {float} updated_amount - The concentration amount to update this particle at this location to.
+  * @param {double} updated_amount - The concentration amount to update this particle at this location to.
   * @param {boolean} no_compute - Whether or not to compute the new equation values.
   */
   updateParticles(ptype, ploc, updated_amount, no_compute) {
@@ -444,7 +444,7 @@ class Simulator {
 
   /**
   * A top-level interface for setting the equation result answer. Just created
-  * for the convenience of avoiding the internal this > dom > equationResult >
+  * for the convenience of avoiding the internal this > dom > equation_result >
   * setAnswer chain.
   * @public
   *
@@ -454,7 +454,7 @@ class Simulator {
   * user input.
   */
   setAnswer(answer, type) {
-    this.dom.equationResult.setAnswer(answer, type);
+    this.dom.equation_result.setAnswer(answer, type);
   }
 
   /**
@@ -470,7 +470,7 @@ class Simulator {
     this.setAnswer(this.nernst_eq.result("Cl"), "Cl");
     this.setAnswer(this.goldman_eq.result(), "Net");
 
-    this.dom.equationResult.setSelected(selected);
+    this.dom.equation_result.setSelected(selected);
   }
 
   /**

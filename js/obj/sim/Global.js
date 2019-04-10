@@ -6,7 +6,7 @@ class globals {
   * @access public
   */
   constructor(sim) {
-    // this.equationResult = sim.dom.equationResult;
+    // this.equation_result = sim.dom.equation_result;
     // this.nernst_eq = sim.nernst_eq;
     // this.goldman_eq = sim.goldman_eq;
 
