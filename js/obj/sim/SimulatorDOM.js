@@ -5,8 +5,20 @@
 * (text inputs, buttons, etc); the equilibrate button; the particle switcher;
 * and simulator mode HTML buttons.
 *
+* An instance of SimulatorDOM is defined as a member of a Simulator instance.
+* As such, this is a "private" class, in a sense, because nobody would create
+* a SimulatorDOM without it being inside a Simulator.
+*
+* The "parent" Simulator instance is passed in as a parameter for the constructor,
+* and be accessed internally by `this.sim`.
+*
 */
 class SimulatorDOM {
+  /**
+  * Construct a new SimulatorDOM instance. It defines the values for Simulator
+  * settings like temperature, the gas constant, and faraday's constant.
+  *
+  */
   constructor(sim) {
     this.sim = sim;
 

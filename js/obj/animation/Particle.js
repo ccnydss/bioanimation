@@ -114,8 +114,6 @@ class Particle {
   /**
   * Method to determine if the given particle is close to, or nearby, a single
   * point within a given radius (range) of pixels from the particle's border.
-  //Testing GIT
-  *@example
   * @param {Point} point - The point to compare this one to.
   * @param {integer} [range=0] - The distance (in pixels) that specifies how
   *  far away the point should be from the Particle's boundary to trigger
