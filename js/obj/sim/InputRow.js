@@ -17,7 +17,7 @@ class InputRow {
   }
   *
   * @param {string} label - ex: [Na+]in, [K+]out
-  * @param {float} value - Value of ion concentration/Number of ion to display
+  * @param {double} value - Value of ion concentration/Number of ion to display
   * @param {boolean} enabled - Is current Ion enabled
   * @param {string} type - Ion type, 'Na', 'Cl', 'K'
   * @param {DOM} inputs - Current input DOM object
@@ -109,7 +109,7 @@ class InputRow {
 
   /**
   * Change value of an ions control table.
-  * @param {float} setter - The new value
+  * @param {double} setter - The new value
   * @access public
   */
   value(setter) {
@@ -167,7 +167,7 @@ class InputRow {
   /**
   * Called by the plus/minus buttons, and also the text field input
   * @param {DOM} evt - the element that triggered the event (Input buttons)
-  * @param {float} updatedAmount=evt.target.value - the value of triggered element
+  * @param {double} updatedAmount=evt.target.value - the value of triggered element
   * @access private
   */
   changeNumParticles(evt, updatedAmount=evt.target.value) {
