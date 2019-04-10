@@ -287,6 +287,11 @@ class SimulatorDOM {
       className: 'sim'
     });
     var self = this;
+
+    var self=this;
+    this.simulator = ec("div", 'sim', 'secondBox', {
+      className: 'sim'
+    });
     this.simulator.mouseOver(function(e, x=true) { self.showPause(x) });
     this.simulator.mouseOut(function(e, x=false) { self.showPause(x) });
 
