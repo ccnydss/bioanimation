@@ -272,17 +272,21 @@ class SimulatorDOM {
       className: 'leftWindow'
     });
 
-    // Plot window
+    /**
+    * This stores the actual HTML canvas for the leftbar, which starts off
+    * showing the Plot but may also show the main animation if it is swapped.
+    * @type {HTMLCanvasElementPrototype}
+    * @private
+    */
     this.sim_controls = document.createElement("canvas");
     this.sim_controls.id = 'dataPlot';
     this.left_window.child(this.sim_controls);
     this.sim.renderUI('leftWindow', false);
 
-
-    var self=this;
     this.simulator = ec("div", 'sim', 'secondBox', {
       className: 'sim'
     });
+    var self = this;
     this.simulator.mouseOver(function(e, x=true) { self.showPause(x) });
     this.simulator.mouseOut(function(e, x=false) { self.showPause(x) });
 
