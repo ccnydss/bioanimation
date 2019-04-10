@@ -75,6 +75,7 @@ class Container extends Rectangle {
   *                                        every frame the Container is drawn?
   */
   draw( moveParticle=true ) {
+    fps.start('container')
     super.draw();
     this.label.draw();
 
@@ -93,6 +94,7 @@ class Container extends Rectangle {
         else t.draw();
       }
     }
+      fps.end('container')
   }
 
   /**
