@@ -10,7 +10,7 @@ function windowResized() {
 function FormulaInputCalculation(particleType) {
   // input: string;
   // usage: "Na", "Cl", "K"
-  // output: float;
+  // output: double;
   var answer = null;
   var type = particleType;
 
