@@ -1,6 +1,6 @@
 {
   "name": "bioanimation",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "CCNY Electrochemical Gradient Simulator",
   "main": "index.js",
   "scripts": {
