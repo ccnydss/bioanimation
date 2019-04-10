@@ -1,6 +1,21 @@
 /**
-* Class representing a Rectangle on the p5.js canvas.
+Class representing a Rectangle on the p5.js canvas.
+* @example
+//Creating a rectangle with 4 points.
+* var p1 = new Point(0, 0);
+* var p2 = new Point(5, 0);
+* var p3 = new Point(5, 3);
+* var p4 = new Point(0, 3);
+* var group2 = {
+*     _tl: p1,
+*     _tr: p2,
+*     _br: p3,
+*     _bl: p4
+*   }
+*  var rect2 = new Rectangle (group2, "#550000", "#000055");
+*  rect2.draw();
 */
+
 class Rectangle {
   /**
    * Create a new Rectangle.
@@ -82,7 +97,10 @@ class Rectangle {
   }
 
   /**
-   * Set the fill Color of the Rectangle
+   *@example
+   // Set the fill Color of the Rectangle using earlier example, rect2
+   * rect2.setColor("#ffff00");
+   *
    * @public
    * @param {Color} color - A p5 Color object or color string.
    */
@@ -92,6 +110,10 @@ class Rectangle {
 
   /**
    * Get the fill Color of the Rectangle
+   *@example
+   //Get the fill color of the rectangle using earlier example rect2
+   * rect2.color();//Color returned is "#ffff00" since we set it to that earlier
+   *
    * @public
    *
    * @returns {Color} A p5 Color object or color string.
@@ -103,6 +125,20 @@ class Rectangle {
   /**
    * Resize the Rectangle. Does not allow defining the size in terms of
    * length/width
+   *@example
+   //Resize the Rectangle. Does not allow defining the size in terms of Length.width.
+  //Lets Use rect2 from earlier example.Height and width of this rectangle according to the specific points are 3 and 5 respectively.
+   * var p1 = new Point(0, 0);
+   * var p2 = new Point(50, 0);
+   * var p3 = new Point(50, 30);
+   * var p4 = new Point(0, 30);
+   * var group1 = {
+   *  _tl: p1,
+   *  _tr: p2,
+   *  _br: p3,
+   *  _bl: p4
+   * };
+   * rect2.setSize(group1)//Height of rect2 is 30 and Width is now 50.
    *
    * @public
    * @param {Object} _points - An object of 4 points with keys named
