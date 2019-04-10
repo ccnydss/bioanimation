@@ -5,6 +5,9 @@ class Particle {
   * particle is drawn to the screen, its position vector is incremented by
   * the velocity vector. There are 3 types of particles: Cl-, K+, and Na+ ions.
   *
+  *@example
+  *var p1 = new Particle (new Point(10, 5), 10,{ x: 10, y: 5 }, true,"#ffaa00",true);
+  *
   * @param {Point} _center - The starting position of the new Particle
   *
   * @param {integer} _diam - The diameter of the particle
@@ -80,6 +83,10 @@ class Particle {
 
   /**
   * Setter and getter for the fill color of the particle.
+  * @example
+  //Using p1 from our example
+  * p1.color("#ff0000");//Sets p1 color to "#ff0000" and returns it.
+  * p1.color()//returns "#ff0000"
   *
   * @param {Color | string} [c=this.fill_color] - The color to set the particle to
   * @returns {Color | string} - The particle's new or current color
@@ -107,7 +114,8 @@ class Particle {
   /**
   * Method to determine if the given particle is close to, or nearby, a single
   * point within a given radius (range) of pixels from the particle's border.
-  *
+  //Testing GIT
+  *@example
   * @param {Point} point - The point to compare this one to.
   * @param {integer} [range=0] - The distance (in pixels) that specifies how
   *  far away the point should be from the Particle's boundary to trigger
