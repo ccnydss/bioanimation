@@ -1,5 +1,11 @@
-// Purpose: Purely manage the rendering of HTML elements, only
-
+/**
+* SimulatorDOM is used to manage the display and values of HTML elements on the
+* screen. This includes things like: the sidebar, with questions/settings; the
+* main canvas with the animation; the controls at the bottom of the animation
+* (text inputs, buttons, etc); the equilibrate button; the particle switcher;
+* and simulator mode HTML buttons.
+*
+*/
 class SimulatorDOM {
   constructor(sim) {
     this.sim = sim;
