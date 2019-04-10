@@ -170,6 +170,7 @@ class Plot {
   * @access private
   */
   plot() {
+          fps.start('plotData')
     if (!this.sim.paused) { //If the plot is not paused
 
       for (var i = 0; i < 4; i++) {
@@ -190,6 +191,7 @@ class Plot {
       }
 
     }
+            fps.end('plotData')
   }
 
   /**
@@ -225,6 +227,7 @@ class Plot {
 
     dataset[x*this.multiple] = new_data
 
+      fps.start('plotFor')
     //Create the gap
     for (let i = 0;i<round((this.max_x-1)/5);i++) {
 
@@ -243,6 +246,7 @@ class Plot {
       }
       dataset[next_index] = next_data
     }
+      fps.end('plotFor')
 
 
     //Change the leading point color
@@ -265,7 +269,7 @@ class Plot {
 
     this.data_chart.data.datasets[index].data = dataset;
     this.data_chart.data.datasets[index].data;
-    this.data_chart.update();
+    // this.data_chart.update();
 
 
   }

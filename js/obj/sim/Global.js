@@ -11,5 +11,6 @@ class globals {
     // this.goldman_eq = sim.goldman_eq;
 
     this.computeAll = sim.computeAll
+
   }
 }

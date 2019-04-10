@@ -5,7 +5,7 @@ QUnit.test("compute", function(assert) {
 
   var sim = new Simulator()
 
-  sim.m_settings = {
+  sim.settings = {
     temperature: 37 + 273.13,           // 37 is the human body temperature
     gas_constant: 8.314,                // Ideal gas constant
     faraday: 96485.3329                 // Faraday's constant

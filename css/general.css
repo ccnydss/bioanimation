@@ -1,3 +1,34 @@
+/* All the tag goes here */
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html, body{
+width: 100%;
+height: 100%;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  color: #fff;
+  box-sizing: border-box;
+}
+
 a {
   color: #aaaaff;
+}
+
+table, th, td {
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 5px;
+}
+
+th {
+  text-align: left;
 }

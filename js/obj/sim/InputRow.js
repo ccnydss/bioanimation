@@ -118,6 +118,11 @@ class InputRow {
       return this.values;
     }
     else {
+      if(setter>animationSequencer.current().MAX_PARTICLES)
+      setter=animationSequencer.current().MAX_PARTICLES
+      if(setter<animationSequencer.current().MIN_PARTICLES)
+      setter=animationSequencer.current().MIN_PARTICLES
+
       this.values = setter;
       this.dom.input.value(setter);
     }
