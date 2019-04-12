@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+  <script src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+
+  <script language="javascript" type="text/javascript" src="../seq/fps.js"></script>
+  <style>
+    /* .ct-line {
+    stroke-dasharray: 5px;
+    animation: dashoffset 1s linear infinite;
+  }
+
+  @keyframes dashoffset {
+  0% {
+  stroke-dashoffset: 0;
+}
+100% {
+stroke-dashoffset: -20px;
+}
+} */
+
+.ct-point {
+  /* display: none; */
+  stroke-width: 0px;
+}
+
+.first1 {
+  stroke-width: 8px;
+  stroke: blue !important;
+}
+
+.first2 {
+  stroke-width: 8px;
+  stroke: red !important;
+}
+
+.last-line {
+  stroke-dasharray: 5px;
+  animation: dashoffset 1s linear infinite;
+}
+
+.ct-series-a .ct-line {
+  stroke-width: 2px;
+  stroke: url(#gradient1) !important;
+}
+
+.ct-series-b .ct-line {
+  stroke-width: 3px;
+  stroke: url(#gradient2) !important;
+}
+
+.ct-legend {
+    position: relative;
+    z-index: 10;
+    list-style: none;
+    text-align: center;
+}
+.ct-legend li {
+    position: relative;
+    padding-left: 23px;
+    margin-right: 10px;
+    margin-bottom: 3px;
+    cursor: pointer;
+    display: inline-block;
+}
+.ct-legend li:before {
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    left: 0;
+    content: '';
+    border: 3px solid transparent;
+    border-radius: 2px;
+}
+.ct-legend li.inactive:before {
+    background: transparent;
+}
+.ct-legend.ct-legend-inside {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.ct-legend.ct-legend-inside li{
+    display: block;
+    margin: 0;
+}
+.ct-legend .ct-series-0:before {
+    /* background-color: #d70206;
+    border-color: #d70206; */
+    background-image: linear-gradient(to right, red , blue);
+    border: none;
+    padding: 2px;
+}
+.ct-legend .ct-series-1:before {
+    /* background-color: #f05b4f; */
+    /* border-color: #f05b4f; */
+    background-image: linear-gradient(to right, green , yellow);
+    border: none;
+    padding: 2px;
+}
+.ct-legend .ct-series-2:before {
+    background-color: #f4c63d;
+    border-color: #f4c63d;
+}
+.ct-legend .ct-series-3:before {
+    background-color: #d17905;
+    border-color: #d17905;
+}
+.ct-legend .ct-series-4:before {
+    background-color: #453d3f;
+    border-color: #453d3f;
+}
+
+</style>
+</head>
+
+<body>
+  <div class="ct-chart ct-golden-section"></div>
+
+  <svg>
+    <defs>
+      <linearGradient id="gradient1">
+        <stop offset="0" stop-color="red"/>
+        <stop offset="1" stop-color="blue"/
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <svg>
+    <defs>
+      <linearGradient id="gradient2">
+        <stop offset="0" stop-color="green"/>
+        <stop offset="1" stop-color="yellow"/
+      </linearGradient>
+    </defs>
+  </svg>
+
+
+  <script>
+    (function (root, factory) {
+      if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['chartist'], function (chartist) {
+          return (root.returnExportsGlobal = factory(chartist));
+        });
+      } else if (typeof exports === 'object') {
+        // Node. Does not work with strict CommonJS, but
+        // only CommonJS-like enviroments that support module.exports,
+        // like Node.
+        module.exports = factory(require('chartist'));
+      } else {
+        root['Chartist.plugins.legend'] = factory(root.Chartist);
+      }
+    }(this, function (Chartist) {
+      /**
+      * This Chartist plugin creates a legend to show next to the chart.
+      *
+      */
+      'use strict';
+
+      var defaultOptions = {
+        className: '',
+        classNames: false,
+        removeAll: false,
+        legendNames: false,
+        clickable: true,
+        onClick: null,
+        position: 'top'
+      };
+
+      Chartist.plugins = Chartist.plugins || {};
+
+      Chartist.plugins.legend = function (options) {
+
+        // Catch invalid options
+        if (options && options.position) {
+          if (!(options.position === 'top' || options.position === 'bottom' || options.position instanceof HTMLElement)) {
+            throw Error('The position you entered is not a valid position');
+          }
+          if(options.position instanceof HTMLElement){
+            // Detatch DOM element from options object, because Chartist.extend currently chokes on circular references present in HTMLElements
+            var cachedDOMPosition = options.position;
+            delete options.position;
+          }
+        }
+
+        options = Chartist.extend({}, defaultOptions, options);
+
+        if(cachedDOMPosition){
+          // Reattatch the DOM Element position if it was removed before
+          options.position = cachedDOMPosition
+        }
+
+        return function legend(chart) {
+          var existingLegendElement = chart.container.querySelector('.ct-legend');
+          if (existingLegendElement) {
+            // Clear legend if already existing.
+            existingLegendElement.parentNode.removeChild(existingLegendElement);
+          }
+
+          // Set a unique className for each series so that when a series is removed,
+          // the other series still have the same color.
+          if (options.clickable) {
+            var newSeries = chart.data.series.map(function (series, seriesIndex) {
+              if (typeof series !== 'object') {
+                series = {
+                  value: series
+                };
+              }
+
+              series.className = series.className || chart.options.classNames.series + '-' + Chartist.alphaNumerate(seriesIndex);
+              return series;
+            });
+            chart.data.series = newSeries;
+          }
+
+          var legendElement = document.createElement('ul'),
+          isPieChart = chart instanceof Chartist.Pie;
+          legendElement.className = 'ct-legend';
+          if (chart instanceof Chartist.Pie) {
+            legendElement.classList.add('ct-legend-inside');
+          }
+          if (typeof options.className === 'string' && options.className.length > 0) {
+            legendElement.classList.add(options.className);
+          }
+
+          if (chart.options.width) {
+            legendElement.style.cssText = 'width: ' + chart.options.width + 'px;margin: 0 auto;';
+          }
+
+          // Get the right array to use for generating the legend.
+          var legendNames = chart.data.series,
+          useLabels = isPieChart && chart.data.labels;
+          if (useLabels) {
+            var originalLabels = chart.data.labels.slice(0);
+            legendNames = chart.data.labels;
+          }
+          legendNames = options.legendNames || legendNames;
+
+          var legends = [];
+          var seriesMetadata = new Array(chart.data.series.length);
+          var activeLegendCount = 0;
+
+          // Initialize the array that associates series with legends.
+          // -1 indicates that there is no legend associated with it.
+          for (var i = 0; i < chart.data.series.length; i++) {
+            seriesMetadata[i] = {
+              data: chart.data.series[i],
+              label: useLabels ? chart.data.labels[i] : null,
+              legend: -1
+            };
+          }
+
+          // Check if given class names are viable to append to legends
+          var classNamesViable = (Array.isArray(options.classNames) && (options.classNames.length === legendNames.length));
+
+          // Loop through all legends to set each name in a list item.
+          legendNames.forEach(function (legend, i) {
+            var legendText = legend.name || legend;
+            var legendSeries = legend.series || [i];
+
+            var li = document.createElement('li');
+            li.className = 'ct-series-' + i;
+            // Append specific class to a legend element, if viable classes are given
+            if (classNamesViable) {
+              li.className += ' ' + options.classNames[i];
+            }
+            li.setAttribute('data-legend', i);
+            li.textContent = legendText;
+            legendElement.appendChild(li);
+
+            legendSeries.forEach(function(seriesIndex) {
+              seriesMetadata[seriesIndex].legend = i;
+            });
+
+            legends.push({
+              text: legendText,
+              series: legendSeries,
+              active: true
+            });
+
+            activeLegendCount++;
+          });
+
+          chart.on('created', function (data) {
+            // Append the legend element to the DOM
+            if(!(options.position instanceof HTMLElement))
+            {
+              switch (options.position) {
+                case 'top':
+                chart.container.insertBefore(legendElement, chart.container.childNodes[0]);
+                break;
+
+                case 'bottom':
+                chart.container.insertBefore(legendElement, null);
+                break;
+              }
+            }
+            else {
+              // Appends the legend element as the last child of a given HTMLElement
+              options.position.insertBefore(legendElement, null);
+            }
+          });
+
+          if (options.clickable) {
+            legendElement.addEventListener('click', function (e) {
+              var li = e.target;
+              if (li.parentNode !== legendElement || !li.hasAttribute('data-legend'))
+              return;
+              e.preventDefault();
+
+              var legendIndex = parseInt(li.getAttribute('data-legend'));
+              var legend = legends[legendIndex];
+
+              if (!legends[legendIndex].active) {
+                legend.active = true;
+                activeLegendCount++;
+                li.classList.remove('inactive');
+              } else {
+                legend.active = false;
+                activeLegendCount--;
+                li.classList.add('inactive');
+
+                if (!options.removeAll && activeLegendCount == 0) {
+                  //If we can't disable all series at the same time, let's
+                  //reenable all of them:
+                  for (var i = 0; i < legends.length; i++) {
+                    legends[i].active = true;
+                    activeLegendCount++;
+                    legendElement.childNodes[i].classList.remove('inactive');
+                  }
+                }
+              }
+
+              var newSeries = [];
+              var newLabels = [];
+
+              for (var i = 0; i < seriesMetadata.length; i++) {
+                if(seriesMetadata[i].legend != -1 && legends[seriesMetadata[i].legend].active) {
+                  newSeries.push(seriesMetadata[i].data);
+                  newLabels.push(seriesMetadata[i].label);
+                }
+              }
+
+              chart.data.series = newSeries;
+              if (useLabels) {
+                chart.data.labels = newLabels;
+              }
+
+              chart.update();
+
+              if (options.onClick) {
+                options.onClick(chart, e);
+              }
+            });
+          }
+        };
+
+      };
+
+      return Chartist.plugins.legend;
+
+    }));
+  </script>
+  <script>
+    fps = new Fps();
+
+    var data = {
+      // A labels array that can contain any sort of values
+      // labels: [],
+      // Our series array that contains series objects or in this case series data arrays
+      series: [
+      {
+        name: 'set-1',
+        data:
+        [{x:1,y:5},
+        {x:2,y:6}
+        ]
+      },
+      {
+        name: 'set-2',
+        data:
+        [{x:1,y:5},
+        {x:2,y:6}
+        ]
+      },
+      // {
+      //   name: 'set-3',
+      //   data:
+      //   [{x:1,y:5},
+      //   {x:2,y:6}
+      //   ]
+      // },
+      // {
+      //   name: 'set-4',
+      //   data:
+      //   [{x:1,y:5},
+      //   {x:2,y:6}
+      //   ]
+      // }
+      ]
+    };
+
+
+    var time = 1;
+
+    var multi = 10;
+    var max = 30*multi;
+
+    var gap = 1;
+
+    // for(let i = data.series[j].data.length;i<max;i++) {
+    //   data.series[j].data[i] = {x:i+1, y:null}
+    // }
+    setInterval(
+    function() {
+      fps.start('plotData')
+
+        time=time+1;
+
+        if(time>max)
+        time=1;
+
+      for(let j = 0;j<2;j++) {
+
+        if(!data.series[j]) return;
+
+        var rand = Math.floor(Math.random() * 5) + 1;
+        data.series[j].data[time-1] = {x:time,y:rand}
+
+        if(data.series[j].data.length==max) {
+          for(let i=0;i<multi;i++) {
+            let _gaps = gap+i
+            let __gaps = (_gaps<max) ? _gaps : _gaps-max;
+            let cond = (_gaps<max) ? ' less '+i : ' more '+i;
+            // console.log(__gaps+cond)
+            data.series[j].data[__gaps-1] = {x:time,y:null}
+          }
+
+          if(j==0) {
+            gap=gap+1;
+            if(gap>=max)
+            gap=1
+          }
+
+        }
+        // console.log(data)
+
+        // Create a new line chart object where as first parameter we pass in a selector
+        // that is resolving to our chart container element. The Second parameter
+        // is the actual data object.
+        new Chartist.Line('.ct-chart', data, {
+          divisor: 10,
+          low: 0,
+          high: 5,
+          axisX: {
+            labelInterpolationFnc: function(value, index) {
+              return index % 10 === 0 ? value : null;
+            }
+          },
+          plugins: [
+          Chartist.plugins.legend({
+            onClick: function ()
+            {
+                console.log('Somebody clicked a legend!');
+            },
+            legendNames: ['Line 1','Line 2'
+            // ,'Line 3','Line 4'
+            ]
+          })
+          ]
+        }).on('draw',function (data) {
+          if(document.querySelectorAll('.ct-series-a .ct-point')[time-1])
+          document.querySelectorAll('.ct-series-a .ct-point')[time-1].classList.add('first1')
+
+          if(document.querySelectorAll('.ct-series-b .ct-point')[time-1])
+          document.querySelectorAll('.ct-series-b .ct-point')[time-1].classList.add('first2')
+          //   if(document.getElementsByClassName('ct-line')[0])
+          // document.getElementsByClassName('ct-line')[0].classList.add('last-line')
+        });
+      }
+      fps.end('plotData')
+    },1000/multi);
+
+  </script>
+</body>
+</html>
