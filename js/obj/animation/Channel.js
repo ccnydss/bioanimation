@@ -44,6 +44,31 @@ function createChannels(membrane, particle_array) {
     var channel_bl = new Point(center - offset, membrane.bl.y);
 
     // Add new channel to channels array
+
+  /**
+  * channels.push is used to insert new channels into the array.
+  * In this case, these new channels are coordinates of rectangle.
+  * @param {Method} push - a method used to insert items into an array and stored
+  * for later use.
+  *
+  * @example
+  //Creating an array and then inserting items into it
+  * var p1 = new Point(0, 0);
+  * var p2 = new Point(5, 0);
+  * var p3 = new Point(5, 3);
+  * var p4 = new Point(0, 3);
+  * var coordinate = [];
+  * coordinate.push (p1);
+  * coordinate.push (p2);
+  * coordinate.push (p3);
+  * coordinate.push (p4);
+  */
+
+
+
+
+
+
     channels.push (
       new Channel (
         {
