@@ -3,9 +3,9 @@ class EquationResult {
   /**
   * Calculate an equation table menu.
   * @example <caption>Create an new equation table.</caption>
-  mainSim.dom.equationResult = new EquationResult(mainSim.dom);
-  mainSim.dom.equationResult.setup();
-  mainSim.dom.equationResult.setAnswer(33,'Na')
+  mainSim.dom.equation_result = new EquationResult(mainSim.dom);
+  mainSim.dom.equation_result.setup();
+  mainSim.dom.equation_result.setAnswer(33,'Na')
   *
   * @param {Object} _dom - Current simulator DOM object
   * @access public

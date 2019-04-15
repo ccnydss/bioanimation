@@ -101,7 +101,6 @@ class Particle {
 
     /**
     * Set and get the fill color of the particle.
-    *
     * @param {integer} [xc=this.center.x] - The x-coordinate to draw the particle at. Defaults to the center point's x-value.
     * @param {integer} [yc=this.center.y] - The y-coordinate to draw the particle at. Defaults to the center point's y-value.
     * @param {integer} [d=this.diameter] - The diameter of the Particle circle that gets drawn. Defaults to member variable-specified diameter.
@@ -115,6 +114,13 @@ class Particle {
   * Method to determine if the given particle is close to, or nearby, a single
   * point within a given radius (range) of pixels from the particle's border.
   *@example
+  * var point = new Point(10, 25);
+  * var point2 = new Point(50, 50);
+  * var p1 = new Particle ( point,20,{ x: 10, y: 5 },true,"#ffaa00",true);
+  * p1.nearToPoint(point)//returns true;
+  * p1.nearToPoint(point,10)//returns true;
+  * p1.nearToPoint(point2, 20)//returns false;
+  *
   * @param {Point} point - The point to compare this one to.
   * @param {integer} [range=0] - The distance (in pixels) that specifies how
   *  far away the point should be from the Particle's boundary to trigger
@@ -135,7 +141,10 @@ class Particle {
   * Public method to set the particle's velocity. It enforces the speed of the
   * of the particle by modifying the input vector's magnitude no matter what it
   * was initially.
-  *
+  *@example
+  *var p1 = new Particle (new Point(10, 25),20,{ x: 10, y: 5 },true,"#ffaa00",true);
+  *var vect = createVector(0, 5);
+  * p1.setVelocity(vect);
   * @param {p5.Vector} in_vector - The P5 vector object to use.
   */
   setVelocity(in_vector) {
@@ -145,6 +154,9 @@ class Particle {
   /**
   * Public method to set the particle's speed. This will be used to force all
   * velocity vectors to maintain this given speed.
+  *@example
+  * var p1 = new Particle (new Point(10, 25),20,{ x: 10, y: 5 },true,"#ffaa00",true);
+  * p1.setSpeed(7);
   *
   * @param {integer} speed - The speed to use, in terms of pixels per frame.
   * Typically, something like 1-5 is pretty good.
@@ -160,6 +172,9 @@ class Particle {
 
   /**
   * Public method to set the particle's display property.
+  *@example
+  * var na_p1 = new Na (new Point(10, 25),{ x: 10, y: 5 },true);
+  * na_p1.setDisplay(false);
   *
   * @param {boolean} disp - True/False for display the particle or not.
   */
@@ -177,6 +192,9 @@ class Particle {
   * during the equilibrium function to give particles a random direction
   * after they cross the cell membrane.
   *
+  * @example
+  * var p1 = new Particle (new Point(10, 25),20,{ x: 3, y: 4 },true,"#ffaa00",true);
+  * p1.randomDirection(true);
   * @param {boolean} toTop - True/False if the particle's y-component is
   * negative (moving upwards) or positive (moving downwards).
   *
@@ -208,7 +226,16 @@ class Particle {
 
   /**
   * Move the particle within the context of a Container.
-  *
+  *@example
+  *var na_p1 = new Na ( new Point(10, 25),{ x: 10, y: 5 },true);
+  *  var rect = {
+  *    _tl: new Point(0, 0),
+  *    _tr: new Point(100, 0),
+  *    _bl: new Point(0, 100),
+  *    _br: new Point(100, 100)
+  *  };
+  *  var c1 = new Container (rect,"#ffaa00","inside");
+  * p1.move(c1);
   * @private
   * @param {Container} container_context - The container (Rectangle) that contains this particle inside of it.
   */
@@ -231,7 +258,9 @@ class Particle {
 
   /**
   * Move the particle within the context of a Container.
-  *
+  *@example
+  * var p1 = new Particle (new Point(10, 25),20,{ x: 3, y: 4 },true,"#ffaa00",true);
+  * p1.moveCenter();
   * @private
   * @param {Container} container_context - The container (Rectangle) that contains this particle inside of it.
   */
@@ -243,7 +272,23 @@ class Particle {
   /**
   * Detect if the particle is out of bounds of a Container or needs to be bounced.
   * Reverse the velocity component if the particle collides with a wall.
-  *
+  *@example
+  *  var p1 = new Particle (new Point(50, 50),10,{ x: -5, y: 0 },true,"#ffaa00",true);
+  *  var rect = {
+  *   _tl: new Point(0, 0),
+  *   _tr: new Point(100, 0),
+  *   _bl: new Point(0, 100),
+  *   _br: new Point(100, 100)
+  *  };
+  * var c1 = new Container (rect,"#ffaa00","inside");
+  // Test it when particle is completely inside border
+  * p1.bounce(c1);
+  // Test it when particle edge perfectly touches border
+  * p1.center = new Point (5, 50);
+  * p1.bounce(c1); // This slightly modifies angle after reflection, so new velocity won't go exactly from (-5, 0) -> (5, 0)
+  // Test it when particle is partially past border (triggers outOfBounds)
+  * p1.center = new Point(2, 50);
+  * p1.bounce(c1);
   * @private
   * @param {Container} container - The container (Rectangle) that contains this particle inside of it.
   */
@@ -266,7 +311,18 @@ class Particle {
   /**
   * Detect if the particle is out of bounds of a Container. If it is, the particle
   * is repositioned to the center of the container.
-  *
+  * @example
+  * var p1 = new Particle (new Point(50, 50),10,{ x: 5, y: 0 },true,"#ffaa00",true);
+  * var rect = {
+  *  _tl: new Point(0, 0),
+  *  _tr: new Point(100, 0),
+  *  _bl: new Point(0, 100),
+  *  _br: new Point(100, 100)
+  * };
+  * var c1 = new Container (rect,"#ffaa00","inside");
+  // Test it when particle is completely inside border
+  * p1.checkOutOfBounds(c1);
+
   * @private
   * @param {Container} container - The container (Rectangle) that contains this particle inside of it.
   *
@@ -294,7 +350,8 @@ class Particle {
   * wall is getting hit. This function also generates a slight random angular
   * variation for the particle's new direction, so that the reflection is not
   * "perfect" and therefore more natural looking.
-  *
+  *@example
+  *this.computeNewDirection(this.nextPastLeft(bl), true, false);
   * @private
   * @param {boolean} will_collide - A boolean corresponding to whether a particle
   *   is touching or positioned past a given Container wall.
@@ -337,7 +394,16 @@ class Particle {
   /**
   * Detect if the particle has collided with or moved past the bottom of the
   * container if it moves forward one more time (one more frame).
-  *
+  *@example
+  *var p1 = new Particle (new Point(50, 50),10,{ x: 0, y: 5 },true,"#ffaa00",true);
+  * var rect = {
+  *  _tl: new Point(0, 0),
+  *  _tr: new Point(100, 0),
+  *  _bl: new Point(0, 100),
+  *  _br: new Point(100, 100)
+  *  };
+  * var c1 = new Container (rect,"#ffaa00","inside");
+  *p1.nextPastBottom(c1.bl)
   * @private
   * @param {Point} bl - The bottom left point of the Container.
   */
@@ -348,7 +414,9 @@ class Particle {
   /**
   * Detect if the particle has collided with or moved past the top of the
   * container if it moves forward one more time (one more frame).
-  *
+  *@example
+  //using the exampel from before
+  * p1.nextPastTop(c1.tl);
   * @private
   * @param {Point} tl - The top left point of the Container.
   */
@@ -359,7 +427,9 @@ class Particle {
   /**
   * Detect if the particle has collided with or moved past the right of the
   * container if it moves forward one more time (one more frame).
-  *
+  *@example
+  //using the exampel from before
+  * p1.nextPastRight(c1.tr)
   * @private
   * @param {Point} br - The bottom right point of the Container.
   */
@@ -370,7 +440,9 @@ class Particle {
   /**
   * Detect if the particle has collided with or moved past the left of the
   * container if it moves forward one more time (one more frame).
-  *
+  *@example
+  //using the exampel from before
+  * p1.nextPastLeft(c1.tl)
   * @private
   * @param {Point} bl - The bottom left point of the Container.
   */
@@ -463,7 +535,7 @@ Na.charge = 1;
 * Permeability property used for computing the Goldman equation.
 *
 * @memberof Na
-* @type {float}
+* @type {double}
 */
 Na.permeability = 0.03;
 
@@ -560,7 +632,7 @@ Cl.charge = -1;
 * Permeability property used for computing the Goldman equation.
 *
 * @memberof Cl
-* @type {float}
+* @type {double}
 */
 Cl.permeability = 0.1;
 
@@ -657,7 +729,7 @@ K.charge = 1;
 * Permeability property used for computing the Goldman equation.
 *
 * @memberof K
-* @type {float}
+* @type {double}
 */
 K.permeability = 1.0;
 

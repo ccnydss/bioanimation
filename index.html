@@ -80,63 +80,63 @@ font-size: 30px;
 
 <body>
 
-    <div style="display:none" id="platformDetection" class="container center">
-      <div style="font-size: 26px"><i class="fas fa-frown"></i> Sorry, bioanimation currently doesn't support mobile <i class="fas fa-mobile"></i></div>
-      <div>please run it in a computer <i class="fas fa-laptop"></i></div>
+  <div style="display:none" id="platformDetection" class="container center">
+    <div style="font-size: 26px"><i class="fas fa-frown"></i> Sorry, bioanimation currently doesn't support mobile <i class="fas fa-mobile"></i></div>
+    <div>please run it in a computer <i class="fas fa-laptop"></i></div>
 
-    </div>
+  </div>
 
-    <div style="display:none" id="browserDetection" class="container">
-      <section style="flex-direction: column;" class="container center">
-        <div class="container center" ><i id="browserDetectionText"><i class="fas fa-exclamation-circle"></i>IE</i> doesn't support bioanimation</div>
-        <div class="container center" >Please update it to the follow version</div>
-      </section>
-      <section class="container center">
+  <div style="display:none" id="browserDetection" class="container">
+    <section style="flex-direction: column;" class="container center">
+      <div class="container center" ><i id="browserDetectionText"><i class="fas fa-exclamation-circle"></i>IE</i> doesn't support bioanimation</div>
+      <div class="container center" >Please update it to the follow version</div>
+    </section>
+    <section class="container center">
 
-        <table id="browserDetectionTable">
-          <tr>
-            <th>Browser</th>
-            <th>Support Version</th>
-          </tr>
-          <tr>
-            <td><i class="fab fa-internet-explorer"> Internet Explorer</i></td>
-            <td>Not supported</td>
-          </tr>
-          <tr>
-            <td><i class="fab fa-edge"> Microsoft Edge</i></td>
-            <td><i class="fas fa-download"></i><a target="_blank" href='https://www.microsoft.com/en-us/windows/microsoft-edge'>v. 42</a></td>
-          </tr>
-          <tr>
-            <td><i class="fab fa-chrome"> Chrome</i></td>
-            <td><i class="fas fa-download"></i><a target="_blank" href='https://www.google.com/chrome/'>v. 68</a></td>
-          </tr>
-          <!-- <tr>
-          <td><i class="fab fa-chrome"></i>Chrome for Android</td>
-          <td>v. 68</td>
-        </tr> -->
+      <table id="browserDetectionTable">
         <tr>
-          <td><i class="fab fa-firefox"> Firefox</i></td>
-          <td><i class="fas fa-download"></i><a target="_blank" href='https://www.mozilla.org/en-US/firefox/new/'>v. 61</a></td>
+          <th>Browser</th>
+          <th>Support Version</th>
         </tr>
         <tr>
-          <td><i class="fab fa-safari"> Safari</i></td>
-          <td><i class="fas fa-download"></i><a target="_blank" href='https://www.apple.com/safari/'>v. 11</a></td>
+          <td><i class="fab fa-internet-explorer"> Internet Explorer</i></td>
+          <td>Not supported</td>
+        </tr>
+        <tr>
+          <td><i class="fab fa-edge"> Microsoft Edge</i></td>
+          <td><i class="fas fa-download"></i><a target="_blank" href='https://www.microsoft.com/en-us/windows/microsoft-edge'>v. 42</a></td>
+        </tr>
+        <tr>
+          <td><i class="fab fa-chrome"> Chrome</i></td>
+          <td><i class="fas fa-download"></i><a target="_blank" href='https://www.google.com/chrome/'>v. 68</a></td>
         </tr>
         <!-- <tr>
-        <td><i class="fab fa-safari"></i>iOS Safari</td>
-        <td>v. 11.4</td>
+        <td><i class="fab fa-chrome"></i>Chrome for Android</td>
+        <td>v. 68</td>
       </tr> -->
       <tr>
-        <td><i class="fab fa-opera"> Opera</i></td>
-        <td><i class="fas fa-download"></i><a target="_blank" href='https://www.opera.com/download'>v. 54</a></td>
+        <td><i class="fab fa-firefox"> Firefox</i></td>
+        <td><i class="fas fa-download"></i><a target="_blank" href='https://www.mozilla.org/en-US/firefox/new/'>v. 61</a></td>
       </tr>
       <tr>
-        <td><i class="fas fa-desktop"></i><i style="padding-left: 5px" class="fab">Desktop App</i></td>
-        <td><i class="fas fa-download"></i><a target="_blank" href=''>v. 1</a></td>
+        <td><i class="fab fa-safari"> Safari</i></td>
+        <td><i class="fas fa-download"></i><a target="_blank" href='https://www.apple.com/safari/'>v. 11</a></td>
       </tr>
-    </table>
+      <!-- <tr>
+      <td><i class="fab fa-safari"></i>iOS Safari</td>
+      <td>v. 11.4</td>
+    </tr> -->
+    <tr>
+      <td><i class="fab fa-opera"> Opera</i></td>
+      <td><i class="fas fa-download"></i><a target="_blank" href='https://www.opera.com/download'>v. 54</a></td>
+    </tr>
+    <tr>
+      <td><i class="fas fa-desktop"></i><i style="padding-left: 5px" class="fab">Desktop App</i></td>
+      <td><i class="fas fa-download"></i><a target="_blank" href=''>v. 1</a></td>
+    </tr>
+  </table>
 
-  </section>
+</section>
 </div>
 
 <div id="helpPage" style="display:none"></div>
@@ -299,7 +299,7 @@ font-size: 30px;
 
     <div>
       <ul id='firstLine'>
-        <p>build: Feb 25, 2019 <span id="currentVersion"></span></p>
+        <p>build: Apr 15, 2019 <span id="currentVersion"></span></p>
         <p>The City College of New York</p>
       </ul>
       <ul id='secondLine'>
@@ -307,14 +307,28 @@ font-size: 30px;
         <p>Lead by Professor Hysell Oviedo and Professor Ching-Jung Chen</p>
         <br>Designed by Digital Scholarship Services in the Cohen Library</p>
         <p>Design Credit:</p>
+        <ul id='thirdLine'>
+
+          <div id='windows-tag'>
+            <i class="fab fa-windows"></i><i style="padding-left: 5px" class="fab">Window App</i>
+            <span id="downloadLink-win"></span>
+          </div>
+          <div id='mac-tag'>
+            <i class="fab fa-apple"></i><i style="padding-left: 5px" class="fab">Mac App</i>
+            <span id="downloadLink-mac"></span>
+          </div>
+          <div id='linux-tag'>
+            <i class="fab fa-linux"></i><i style="padding-left: 5px" class="fab">Linux App</i>
+            <span id="downloadLink-linux"></span>
+          </div>
+        </ul>
+
         <p>For questions or concerns, please contact <a href="mailto:digital@ccny.cuny.edu">digital@ccny.cuny.edu</a></p>
       </ul>
-      <!-- <ul id='thirdLine'>
-      <i class="fas fa-desktop"></i><i style="padding-left: 5px" class="fab">Desktop App</i>
-      <i class="fas fa-download"></i><span id="downloadLink"></span>
-    </ul> -->
-  </div>
-</section>
+      <ul id='thirdLine'>
+      </ul>
+    </div>
+  </section>
 </div>
 
 <div id="containerHeader">
