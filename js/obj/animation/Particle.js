@@ -350,7 +350,8 @@ class Particle {
   * wall is getting hit. This function also generates a slight random angular
   * variation for the particle's new direction, so that the reflection is not
   * "perfect" and therefore more natural looking.
-  *
+  *@example
+  *this.computeNewDirection(this.nextPastLeft(bl), true, false);
   * @private
   * @param {boolean} will_collide - A boolean corresponding to whether a particle
   *   is touching or positioned past a given Container wall.
@@ -393,7 +394,16 @@ class Particle {
   /**
   * Detect if the particle has collided with or moved past the bottom of the
   * container if it moves forward one more time (one more frame).
-  *
+  *@example
+  *var p1 = new Particle (new Point(50, 50),10,{ x: 0, y: 5 },true,"#ffaa00",true);
+  * var rect = {
+  *  _tl: new Point(0, 0),
+  *  _tr: new Point(100, 0),
+  *  _bl: new Point(0, 100),
+  *  _br: new Point(100, 100)
+  *  };
+  * var c1 = new Container (rect,"#ffaa00","inside");
+  *p1.nextPastBottom(c1.bl)
   * @private
   * @param {Point} bl - The bottom left point of the Container.
   */
@@ -404,7 +414,9 @@ class Particle {
   /**
   * Detect if the particle has collided with or moved past the top of the
   * container if it moves forward one more time (one more frame).
-  *
+  *@example
+  //using the exampel from before
+  * p1.nextPastTop(c1.tl);
   * @private
   * @param {Point} tl - The top left point of the Container.
   */
@@ -415,7 +427,9 @@ class Particle {
   /**
   * Detect if the particle has collided with or moved past the right of the
   * container if it moves forward one more time (one more frame).
-  *
+  *@example
+  //using the exampel from before
+  * p1.nextPastRight(c1.tr)
   * @private
   * @param {Point} br - The bottom right point of the Container.
   */
@@ -426,7 +440,9 @@ class Particle {
   /**
   * Detect if the particle has collided with or moved past the left of the
   * container if it moves forward one more time (one more frame).
-  *
+  *@example
+  //using the exampel from before
+  * p1.nextPastLeft(c1.tl)
   * @private
   * @param {Point} bl - The bottom left point of the Container.
   */
