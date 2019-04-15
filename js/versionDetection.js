@@ -1,6 +1,8 @@
 // Check for updates if electron
 if (typeof require === "function") {
   const bioapp = require("electron").remote.app;
+
+  document.getElementById('thirdLine').parentNode.removeChild(document.getElementById('thirdLine'));
   console.log("bioapp ", bioapp);
   fetch("https://api.github.com/repos/ccnydss/bioanimation/releases/latest").then (
     function(raw) {
