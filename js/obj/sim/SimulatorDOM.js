@@ -507,8 +507,6 @@ class SimulatorDOM {
   * @param {integer} [height=null] - The new height to overrise browser settings with.
   */
   adjustUISize(width, height) {
-    // input: Floats
-    // usage: Resizing the question/equation window; 0.35 (including question), 1 (excluding question)
     var newCanWidth = this.simulator.elt.clientWidth;
     var newCanHeight = this.simulator.elt.clientHeight;
 
@@ -547,6 +545,13 @@ class SimulatorDOM {
     }
   }
 
+  /**
+  * This function is called when the user presses the "S" key on their keyboard.
+  * It swaps the two HTML elements for the Plot and the main animation canvas.
+  * This places the particle animation into the leftbar, and the plot into the
+  * main right viewport.
+  * @private
+  */
   swapChart() {
     swapElements(this.data_plot, this.simulator);
 
@@ -570,7 +575,20 @@ class SimulatorDOM {
     }
   }
 
-  makeTable(id, parent, content, placeholder, contentUnit, contentDefaultValue, prevLength) {
+  /**
+  * Function to create the table for the simulator settings component. Currently,
+  * it is only being used in `SimulatorDOM.js`, within the `setup` function.
+  * @private
+  *
+  * @param {} id - ?
+  * @param {} parent - ?
+  * @param {} content - ?
+  * @param {} placeholder - ?
+  * @param {} content_unit - ?
+  * @param {} content_default_value - ?
+  * @param {} prev_length - ?
+  */
+  makeTable(id, parent, content, placeholder, content_unit, content_default_value, prev_length) {
     var settingPart = elementCreator("div", id, parent);
 
     var tableRow = content.length;
@@ -580,15 +598,15 @@ class SimulatorDOM {
       var td0 = elementCreator("label", '', trow, { content: content[i]} );
 
       var inputElement = elementCreator("input", this.settings.length, trow);
-      inputElement.value(contentDefaultValue[i]);
+      inputElement.value(content_default_value[i]);
       inputElement.attribute('placeholder', placeholder[i]);
       inputElement.input(this.sim.changeSimulatorSettings.bind(this.sim));
 
       this.settings.push(inputElement);
 
-      var td3 = elementCreator("div", '', trow, { content: contentUnit[i] });
+      var td3 = elementCreator("div", '', trow, { content: content_unit[i] });
 
-      if (contentUnit[i]) {
+      if (content_unit[i]) {
         td3.addClass('unit');
       }
     }
