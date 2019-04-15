@@ -53,11 +53,7 @@ class GoldmanEq {
       var checkBoxParticle = this.sim.dom.sim_inputs.checkboxes[j].elt.innerText;
 
       if (!this.sim.dom.sim_inputs.checkbox(j)) {
-
-        //enable those particles
-        this.sim.dom.sim_inputs.checkbox(j, true);
-        animationSequencer.current().setContainerDisplays(checkBoxParticle, true);
-        enableInputForParticle(checkBoxParticle);
+        this.sim.toggleInputForParticle(checkBoxParticle, true);
       }
     }
 

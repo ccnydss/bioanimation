@@ -33,7 +33,6 @@ function setup() {
 
   // Defines the simulator's HTML DOM layout as well as "canWidth", "canHeight"
   mainSim.dom.setup();
-  mainSim.dom.adjustUISize();
 
   fps = new Fps();
   graph = new Plot(mainSim);
@@ -54,9 +53,9 @@ function setup() {
   mainSim.nernst_eq.start();
   mainSim.renderUI('NernstEqn', true);
 
-  //Only show one particle at the beginning
-  disableInputForParticle("Cl");
-  disableInputForParticle("K");
+  //Only show the Na particles at the beginning
+  mainSim.toggleInputForParticle("Cl", false);
+  mainSim.toggleInputForParticle("K", false);
 }
 
 function draw() {

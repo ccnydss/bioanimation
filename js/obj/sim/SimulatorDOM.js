@@ -272,87 +272,215 @@ class SimulatorDOM {
       className: 'leftWindow'
     });
 
-    // Plot window
-    this.sim_controls = document.createElement("canvas");
-    this.sim_controls.id = 'dataPlot';
-    this.left_window.child(this.sim_controls);
+    /**
+    * This stores the actual HTML canvas for the leftbar, which starts off
+    * showing the Plot but may also show the main animation if it is swapped.
+    * @type {HTMLCanvasElementPrototype}
+    * @private
+    */
+    this.data_plot = document.createElement("canvas");
+    this.data_plot.id = 'dataPlot';
+    this.left_window.child(this.data_plot);
     this.sim.renderUI('leftWindow', false);
 
-
-    var self=this;
+    /**
+    * This is a div in the secondBox that contains only the cell animation.
+    * @type {p5.Element}
+    * @private
+    */
     this.simulator = ec("div", 'sim', 'secondBox', {
       className: 'sim'
     });
+
+    // Reveal the `this.sim_canvas_frame` div on mouse hover.
+    var self=this;
     this.simulator.mouseOver(function(e, x=true) { self.showPause(x) });
     this.simulator.mouseOut(function(e, x=false) { self.showPause(x) });
 
-    this.simCanvasPause = ec("div", 'simCanvasPause', 'sim', {
+    /**
+    * The div that overlays on top of the simulator div when the animation is
+    * paused.
+    * @type {p5.Element}
+    * @private
+    */
+    this.sim_canvas_pause = ec("div", 'simCanvasPause', 'sim', {
       content: "Paused"
     });
-    this.simCanvasPause.style('display', 'none');
+    this.sim_canvas_pause.style('display', 'none');
 
-    this.simCanvasFrame = ec("div", 'simCanvasFrame', 'sim');
+    /**
+    * The div container that overlays on top of the simulator div, and displays
+    * the pause button as well as the preset picker. This only shows up when
+    * the mouse hovers over that section.
+    * @type {p5.Element}
+    * @private
+    */
+    this.sim_canvas_frame = ec("div", 'simCanvasFrame', 'sim');
 
-    this.simCanvasPreset = ec("div", 'simCanvasPreset', 'simCanvasFrame');
-    this.simCanvasPreset_dropdown = ec("div", 'simCanvasPresetDropdown', 'simCanvasPreset', {
+    /**
+    * The div that displays the current simulation preset mode. On hover, it
+    * displays the dropdown options. This div stretches out along the bottom
+    * of the simulator frame div.
+    * @type {p5.Element}
+    * @private
+    */
+    this.sim_canvas_preset = ec("div", 'simCanvasPreset', 'simCanvasFrame');
+
+    /**
+    * The div that contains the actual button for the dropdown.
+    * @type {p5.Element}
+    * @private
+    */
+    this.sim_canvas_preset_dropdown = ec("div", 'simCanvasPresetDropdown', 'simCanvasPreset', {
       className: 'dropdown'
     });
-    this.simCanvasPreset_dropbtn = ec("a", 'simCanvasPresetDropBtn', 'simCanvasPresetDropdown', {
+
+    /**
+    * The link element that is used for selecting a dropdown element.
+    * @type {p5.Element}
+    * @private
+    */
+    this.sim_canvas_preset_dropbtn = ec("a", 'simCanvasPresetDropBtn', 'simCanvasPresetDropdown', {
       content: 'Default', className: 'dropbtn'
     });
-    this.simCanvasPreset_Content = ec("div", 'simCanvasPresetContent', 'simCanvasPresetDropdown', {
+
+    /**
+    * The div that contains the actual list of preset options. Populates based
+    * off of Simulator.preset member variable.
+    * @type {p5.Element}
+    * @private
+    */
+    this.sim_canvas_preset_content = ec("div", 'simCanvasPresetContent', 'simCanvasPresetDropdown', {
       className: 'dropdown-content'
     });
-    this.simCanvasPreset_dropbtn_list = []
 
-    for(let i = 0; i < this.sim.preset.preset_list.length; i++) {
-      this.simCanvasPreset_dropbtn_list[i] = ec("a", 'simCanvasPresetDropBtnList'+i, 'simCanvasPresetContent', { content: this.sim.preset.preset_list[i].name });
+    this.sim_canvas_preset_dropbtn_list = []
+    for (let i = 0; i < this.sim.preset.preset_list.length; i++) {
+      this.sim_canvas_preset_dropbtn_list[i] = ec (
+        "a",
+        'simCanvasPresetDropBtnList' + i,
+        'simCanvasPresetContent',
+        { content: this.sim.preset.preset_list[i].name }
+      );
       var parent = this;
 
-      this.simCanvasPreset_dropbtn_list[i].elt.onclick = function() {
-        parent.sim.preset.changePreset(parent.simCanvasPreset_dropbtn_list[i].elt)
+      this.sim_canvas_preset_dropbtn_list[i].elt.onclick = function() {
+        parent.sim.preset.changePreset(parent.sim_canvas_preset_dropbtn_list[i].elt)
       };
     }
 
-    this.simCanvasPauseIcon = ec("div", 'simCanvasPauseIcon', 'simCanvasFrame', { content: '<i class="fas fa-pause"></i>' })
-    document.getElementById('simCanvasFrame').style.display = "none";
-    document.getElementById("simCanvasPauseIcon").onclick = function() {mainSim.pause()};
+    /**
+    * The pause icon that shows up on the Simulator div overlay when a mouse
+    * hovers over it.
+    * @type {p5.Element}
+    * @private
+    */
+    this.sim_canvas_pause_icon = ec (
+      "div",
+      'simCanvasPauseIcon',
+      'simCanvasFrame',
+      { content: '<i class="fas fa-pause"></i>' }
+    );
 
-    // Now to create the canvas
-    this.canvas = this.canvasCreate(this.simulator.size().width, this.simulator.size().height - 8);
+    this.sim_canvas_frame.elt.style.display = "none";
+    this.sim_canvas_pause_icon.elt.onclick = function() { mainSim.pause() };
+
+    /**
+    * This stores the actual HTML canvas for the actual animation, which starts
+    * off showing the cell and ion particles, but may also show the plot if it
+    * is swapped.
+    * @type {HTMLCanvasElementPrototype}
+    * @private
+    */
+    this.canvas = this.canvasCreate(
+      this.simulator.size().width,
+      this.simulator.size().height
+    );
     this.canvas.id ('can');
     this.canvas.parent('sim');
 
+    // Execute the setup functions for the other DOM elements. These guys are
+    // grouped into their own classes.
     this.sim_inputs.setup();
     this.sim_question.setup();
   }
 
+  /**
+  * Set the size of the main animation canvas in the right side of the app.
+  * @private
+  *
+  * @param {integer} w - The width for the canvas.
+  * @param {integer} h - The height for the canvas.
+  */
   setSize(w, h) {
     this.canvas_width = w;
     this.canvas_height = h;
   }
 
+  /**
+  * Getter to get the width and height of the current size of the main
+  * animation canvas in the right side of the application.
+  *
+  * Returns an object like: `{ width: 10, height: 10 }`
+  * @public
+  *
+  * @returns {Object}
+  */
   getSize() {
     return { width: this.canvas_width, height: this.canvas_height };
   }
 
+  /**
+  * Create a canvas for the first time, during p5 sketch setup.
+  * @private
+  *
+  * @param {integer} w - The width for the canvas.
+  * @param {integer} h - The height for the canvas.
+  *
+  * @returns {p5.Element}
+  */
   canvasCreate(w, h) {
     this.setSize(w, h);
     return createCanvas(w, h);
   }
 
+  /**
+  * Resize the canvas to a new width and height.
+  * @private
+  *
+  * @param {integer} w - The width for the canvas.
+  * @param {integer} h - The height for the canvas.
+  */
   canvasSize(w, h) {
     this.setSize(w, h);
     this.canvas.size(w, h);
   }
 
+  /**
+  * Function that gets called to display the canvas frame div, which contains
+  * the pause button and preset setting list. This function is called whenever
+  * the mouse hovers over the simulator div.
+  * @private
+  *
+  * @param {boolean} option - "True" to show the buttons, "False" to hide them.
+  */
   showPause(option) {
     this.sim.renderUI("simCanvasFrame", option)
   }
 
+  /**
+  * This function is called when the user clicks on the settings bar. If the
+  * questions are currently being displayed, they will get collapsed to reveal
+  * the Simulator settings underneath. If the Simulator settings are already
+  * showing, the drawer will close them to display the questions again.
+  * @private
+  *
+  * @param {} evt - The callback from attaching this function to
+  * the hidebar's onclick event handler.
+  */
   hideQuestion(evt) {
-    // input: the element that triggered the event (hide buttons [arrow]);
-    var show = this.sim.questionsAreHidden(); // Check if the questions are already hidden. If TRUE, we should show them. If FALSE, we should hide them.
+    // Check if the questions are already hidden. If TRUE, we should show them. If FALSE, we should hide them.
+    var show = this.sim.questionsAreHidden();
     var hide = !show;
 
     //Turn the question menu off
@@ -366,17 +494,21 @@ class SimulatorDOM {
 
     this.sim.resize();
     this.sim.redrawUI(show);
-    // this.adjustUISize(this.getSize().width, this.getSize().height);
   }
 
+  /**
+  * When the browser window is resized, we need to adjust the application UI
+  * for the new width and height. Specifically, this determines and applies
+  * new canvas dimensions. The function also allows new values for width and
+  * height to get passed in, overriding the current browser values.
+  * @private
+  *
+  * @param {integer} [width=null] - The new width to override browser settings with.
+  * @param {integer} [height=null] - The new height to overrise browser settings with.
+  */
   adjustUISize(width, height) {
     // input: Floats
     // usage: Resizing the question/equation window; 0.35 (including question), 1 (excluding question)
-    var adjustedWindowHeight = windowHeight - 36;
-
-    // var newCanWidth = this.canvas_size_multiple * windowWidth;
-    // var newCanHeight = (this.canvas_size_multiple * adjustedWindowHeight) - 4;
-
     var newCanWidth = this.simulator.elt.clientWidth;
     var newCanHeight = this.simulator.elt.clientHeight;
 
@@ -384,7 +516,7 @@ class SimulatorDOM {
       newCanHeight = 0.75 * newCanWidth;
     }
 
-    if (width, height) {
+    if (width && height) {
       newCanWidth = width;
       newCanHeight = height;
     }
@@ -395,42 +527,46 @@ class SimulatorDOM {
     );
   }
 
-  // NOTE: create a single "toggleParticleID()" method
-  disableParticleID(id) {
-    this.sim_inputs.controls_list.inside.rows[id].enable(false);
-    this.sim_inputs.controls_list.outside.rows[id].enable(false);
-    this.sim_inputs.checkbox(id, false);
-  }
+  /**
+  * This function will run when the user wants to switch between selected
+  * particles in Nernst mode ( the default mode ).
+  * @public
+  *
+  * @param {integer} id - The array index for the particle to select, in the
+  * array ["Na", "Cl", "K"].
+  * @param {boolean} toggle - Whether to enable or disable the selected particle.
+  */
+  toggleParticleID(id, toggle) {
+    this.sim_inputs.controls_list.inside.rows[id].enable(toggle);
+    this.sim_inputs.controls_list.outside.rows[id].enable(toggle);
+    this.sim_inputs.checkbox(id, toggle);
 
-  enableParticleID(id) {
-    var ptype = this.sim.particle_types[id];
-
-    this.sim_inputs.controls_list.inside.rows[id].enable(true);
-    this.sim_inputs.controls_list.outside.rows[id].enable(true);
-    this.equation_result.setSelected(ptype);
-    this.sim_inputs.checkbox(id, true);
+    if (toggle) {
+      var ptype = this.sim.particle_types[id];
+      this.equation_result.setSelected(ptype);
+    }
   }
 
   swapChart() {
-    swapElements(this.sim_controls, this.simulator);
+    swapElements(this.data_plot, this.simulator);
 
     if(!this.canvas_in_leftbar) {
-      document.getElementById('dataPlot').classList.add('visable')
-        document.getElementById('can').classList.remove('visable')
-  } else {
-      document.getElementById('dataPlot').classList.remove('visable')
-        document.getElementById('can').classList.add('visable')
-  }
+      this.data_plot.classList.add('visable');
+      this.canvas.elt.classList.remove('visable');
+    } else {
+      this.data_plot.classList.remove('visable');
+      this.canvas.elt.classList.add('visable');
+    }
 
     this.canvas_size_multiple = (this.canvas_in_leftbar) ? 0.65 : 0.35;
     this.canvas_in_leftbar = !this.canvas_in_leftbar;
 
     this.sim.resize();
 
-    if(helpPage.style.display != 'none') {
-    help.clear();
-    help.initialize();
-    help.resize();
+    if (helpPage.style.display != 'none') {
+      help.clear();
+      help.initialize();
+      help.resize();
     }
   }
 

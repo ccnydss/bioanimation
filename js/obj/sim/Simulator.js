@@ -443,6 +443,21 @@ class Simulator {
   }
 
   /**
+  * Public method for toggling the inputs of a particle type in Nernst mode.
+  * Used for when the user switches between particles in Nernst.
+  * @public
+  *
+  * @param {String} particleType - The name for the particle type ["Na", "Cl", "K"]
+  * @param {boolean} toggle - True to enable, false to disable the particle type inputs.
+  */
+  toggleInputForParticle(particleType, toggle) {
+    var particle_id = particleMapper[particleType].id;
+
+    this.dom.toggleParticleID(particle_id, toggle);
+    animationSequencer.current().setContainerDisplays(particleType, toggle);
+  }
+
+  /**
   * A top-level interface for setting the equation result answer. Just created
   * for the convenience of avoiding the internal this > dom > equation_result >
   * setAnswer chain.

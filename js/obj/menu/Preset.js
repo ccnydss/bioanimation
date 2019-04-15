@@ -5,8 +5,8 @@ class Preset {
   * @example <caption>Create a new preset menu.</caption>
   mainSim.sim.preset = new Preset(mainSim);
   // Some element that you want to trigger preset
-  mainSim.simCanvasPreset_dropbtn_list[i].elt.onclick = function() {
-    mainSim.sim.preset.changePreset(mainSim.simCanvasPreset_dropbtn_list[i].elt)
+  mainSim.dom.sim_canvas_preset_dropbtn_list[i].elt.onclick = function() {
+    mainSim.dom.sim.preset.changePreset(mainSim.simCanvasPreset_dropbtn_list[i].elt)
   };
   *
   * @param {Object} _sim - Current simulator
