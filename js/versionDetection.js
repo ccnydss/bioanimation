@@ -33,7 +33,7 @@ if (typeof require === "function") {
         console.log("OS version and link", userOS, releaseLink);
 
         if (ltVersion(currentNum, latestNum)) {
-          message = "<a href='" + releaseLink + "'>New version (v" + latestNum + ") available</a>";
+          message = "<a href='" + releaseLink + "'>New version (v" + latestNum + ")</a>";
           document.getElementById("updateNotifier").innerHTML = message;
         }
 
@@ -72,6 +72,28 @@ if (typeof require === "function") {
       document.getElementById("downloadLink-win").innerHTML = "<a href='" + releaseLink_win + "'>v" + latestNum + "<i class='fas fa-download'></i></a>"
       document.getElementById("downloadLink-mac").innerHTML = "<a href='" + releaseLink_mac + "'>v" + latestNum + "<i class='fas fa-download'></i></a>"
       document.getElementById("downloadLink-linux").innerHTML = "<a href='" + releaseLink_linux + "'>v" + latestNum + "<i class='fas fa-download'></i></a>"
+
+
+      //Date
+      var d = new Date(res.published_at);
+      var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+      var day = days[d.getDay()];
+      var hr = d.getHours();
+      var min = d.getMinutes();
+      if (min < 10) {
+          min = "0" + min;
+      }
+      var ampm = "am";
+      if( hr > 12 ) {
+          hr -= 12;
+          ampm = "pm";
+      }
+      var date = d.getDate();
+      var month = months[d.getMonth()];
+      var year = d.getFullYear();
+      document.getElementById("publishDate").innerHTML = month + " " + date + ", " + year;
 
     })
   }
