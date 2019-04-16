@@ -17,10 +17,10 @@ class Fps {
       function() {
       // _fps.start('fps')
 
-        console.log('%c------------------------','background: #222; color: #bada55')
-        _fps.log('plotFor')
-        _fps.log('plotData')
-        _fps.log('container')
+        // console.log('%c------------------------','background: #222; color: #bada55')
+        // _fps.log('plotFor')
+        // _fps.log('plotData')
+        // _fps.log('container')
 
       // _fps.end('fps')
 
