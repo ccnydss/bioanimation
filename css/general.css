@@ -1,4 +1,4 @@
-/* All the tag goes here */
+/* All the HTML tag goes here */
 
 * {
   padding: 0;
@@ -31,4 +31,9 @@ th, td {
 
 th {
   text-align: left;
+}
+
+code {
+  white-space: pre;
+  font-family: Consolas, Courier New, monospace;
 }
