@@ -61,8 +61,6 @@ if (typeof require === "function") {
         break;
       }
 
-      console.log("hmmmmm", releaseLink);
-
       var releaseLink_mac = res.assets[0].browser_download_url;
       var releaseLink_linux = res.assets[1].browser_download_url;
       var releaseLink_win = res.assets[2].browser_download_url;
