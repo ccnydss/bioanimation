@@ -142,6 +142,10 @@ class Preset {
 
           }
         }
+
+        if(mainSim.paused)
+        mainSim.resize()
+
       }
     }
   }

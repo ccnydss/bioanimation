@@ -6,23 +6,26 @@ class Fps {
     this.avg_time = 20;
 
 
-    this.init('plotFor','plot For loop performance took: ')
+    // this.init('plotFor','plot For loop performance took: ')
     this.init('plotData','plot Data performance took: ')
-    this.init('container','container performance took: ')
+    // this.init('container','container performance took: ')
 
     var _fps = this
 
 
     setInterval(
       function() {
-      // _fps.start('fps')
+        // _fps.start('fps')
 
-        // console.log('%c------------------------','background: #222; color: #bada55')
+
+
+        console.log('%c------------------------','background: #222; color: #bada55')
         // _fps.log('plotFor')
-        // _fps.log('plotData')
+        _fps.log('plotData')
+
         // _fps.log('container')
 
-      // _fps.end('fps')
+        // _fps.end('fps')
 
         // _fps.log('fps')
 

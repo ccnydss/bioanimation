@@ -19,18 +19,21 @@ class Simulator {
   constructor() {
     /**
     * @public
+    *
     * @type {array}
     */
     this.particle_types = ["Na", "Cl", "K"];
 
     /**
     * @public
+    *
     * @type {boolean}
     */
     this.paused = false;
 
     /**
     * @public
+    *
     * @type {SimulatorDOM}
     */
     this.dom = new SimulatorDOM(this)
@@ -40,15 +43,16 @@ class Simulator {
     * Which equation mode is currently being represented by the Simulator.
     * Should ever either be "Nernst" or "Goldman".
     * @private
+    *
     * @type {string}
     *
     */
     this.mode = "Nernst";
 
     /**
-    *
     * Contains the currently selected particle for Nernst mode.
     * @public
+    *
     * @type {string}
     *
     */
@@ -56,18 +60,21 @@ class Simulator {
 
     /**
     * @public
+    *
     * @type {NernstEq}
     */
     this.nernst_eq = new NernstEq(this);
 
     /**
     * @public
+    *
     * @type {GoldmanEq}
     */
     this.goldman_eq = new GoldmanEq(this);
 
     /**
     * @public
+    *
     * @type {Object}
     */
     this.settings = {
@@ -78,13 +85,14 @@ class Simulator {
 
     /**
     * @private
+    *
     * @type {Array}
     */
     this.tab_list = ['aboutPage','contactPage','helpPage']
 
     /**
-    *
     * @public
+    *
     * @type {Preset}
     */
     this.preset = new Preset(this);
@@ -92,6 +100,7 @@ class Simulator {
 
   /**
   * Pauses the Simulator.
+
   * @access public
   */
   pause() {
@@ -110,6 +119,7 @@ class Simulator {
 
   /**
   * Called on every key press, trigger different events based on user input.
+
   * @Example
   * var mainSim = new Simulator();//if the simulation isn't declared
   * keyInput(){
@@ -167,6 +177,7 @@ class Simulator {
   * The function that handles displaying different sections of the user interface
   * under different conditions. Mostly for things like the left bar with
   * questions, settings, plot, etc.
+  * @public
   *
   * @param {string} id - The string identifier for which UI element we want to
   *                       display or hide.
@@ -271,6 +282,7 @@ class Simulator {
   /**
   * Used for toggling the tabs at the top of the Simulator, like the About and
   * Help pages.
+  * @public
   *
   * @param {string} target - The tab target to open.
   * @access public
@@ -303,7 +315,7 @@ class Simulator {
   * Check if the question sidebar is currently being displayed, or hidden
   * @Example
   * if(questionsAreHidden()) alert("No // QUESTION:")
-  * @private
+  * @access private
   * @returns {boolean}
   */
   questionsAreHidden() {
@@ -340,6 +352,7 @@ class Simulator {
   * Updates the text fields for concentration amounts for a specified particle
   * type. Applies the same amount to the inside and the outside. Currently
   * being used for equilibrating.
+
   *@Example
   *  var mainSim = new Simulator();//if the simulation isn't declared
   *  var concOutside = mainSim.dom.sim_inputs.concentration(particleType, "outside");
@@ -348,6 +361,7 @@ class Simulator {
   *  var id = particleMapper[particleType].id;
   *  mainSim.updateInputs(concEqui, id);
   * @param {float} amount - the concentration amount to be set to.
+
   * @param {int} particle_id - the ID number of the particle to update.
   * @access public
   */
@@ -360,12 +374,14 @@ class Simulator {
   * Updates the text fields for concentration amounts for a specified particle
   * type, within a specified location ("inside" or "outside"). Currently
   * being used by updateParticles()
+
   * @Example
   * var mainSim = new Simulator();//if the simulation isn't declared
   * var id = particleMapper["Na"].id;
   * mainSim.updateInputLoc(0.45, id, "inside");
+
   *
-  * @param {float} amount - the concentration amount to be set to.
+  * @param {double} amount - the concentration amount to be set to.
   * @param {int} particleID - the ID number of the particle to update.
   * @param {string} location - which location to target, can be "inside" or "outside".
   * @access private
@@ -378,12 +394,14 @@ class Simulator {
   /**
   * updateParticles is used when the user changes the number of particles by
   * typing in the text field or clicking the plus/minus buttons.
+
   * @Example
   * var mainSim = new Simulator();//if the simulation isn't declared
   * mainSim.updateParticles("Na","inside", 111, true);
+
   * @param {string} ptype - The name of the particle to update ("Na", "Cl", or "K").
   * @param {string} ploc - The location which this particle is in ("inside" or "outside").
-  * @param {float} updated_amount - The concentration amount to update this particle at this location to.
+  * @param {double} updated_amount - The concentration amount to update this particle at this location to.
   * @param {boolean} no_compute - Whether or not to compute the new equation values.
   * @access public
   */
@@ -434,6 +452,7 @@ class Simulator {
 
   /**
   * Called by the text fields under "Simulation Settings" in the app.
+
   * @Example
   * var mainSim = new Simulator();//if the simulation isn't declared
   * mainSim.changeSimulatorSettings.bind(mainSim.simMode("Goldman"));
@@ -472,10 +491,12 @@ class Simulator {
 
   /**
   * A top-level interface for setting the equation result answer. Just created
-  * for the convenience of avoiding the internal this > dom > equationResult >
+  * for the convenience of avoiding the internal this > dom > equation_result >
   * setAnswer chain.
+
   *@example
   * mainSim.setAnswer(mainSim.nernst_eq.result("Na"), "Na");
+
   * @param {Object} answer - The evt object that is passed into the callback upon
   * user input.
   * @param {Object} type - The evt object that is passed into the callback upon
@@ -483,14 +504,16 @@ class Simulator {
   * @access public
   */
   setAnswer(answer, type) {
-    this.dom.equationResult.setAnswer(answer, type);
+    this.dom.equation_result.setAnswer(answer, type);
   }
 
   /**
   * This function is used to compute the answers for every particle type at the
   * same time.
+
   *@Example
   * mainSim.computeAll("Na");
+
   * @param {String} selected - Which particle to select in the result table.
   * @access public
   */
@@ -500,15 +523,17 @@ class Simulator {
     this.setAnswer(this.nernst_eq.result("Cl"), "Cl");
     this.setAnswer(this.goldman_eq.result(), "Net");
 
-    this.dom.equationResult.setSelected(selected);
+    this.dom.equation_result.setSelected(selected);
   }
 
   /**
   * Button to switch the button colors when the simulator mode is changed. Only
   * gets called by this.simMode()
+
   *@example
   * mainSim.buttonModeSwitch("Goldman");
   * @access private
+
   */
   buttonModeSwitch() {
     if (this.mode == "Nernst") {
@@ -523,9 +548,11 @@ class Simulator {
   /**
   * This is triggered whenever the browser window is resized or the sidebar is
   * hidden/shown.
+
   *@example
   * mainSim.resize();
   * @access public
+
   */
   resize() {
     var draw_with_questions = !this.questionsAreHidden();
@@ -536,8 +563,10 @@ class Simulator {
   * This function is called by this.resize(), and handles the actual resizing.
   * It sets new container sizes and displays or hides the settings in the side
   * bar according to the hide parameter.
+
   *@Example
   * mainSim.redrawUI(true);
+
   * @param {boolean} hide - True is for expanding the settings window, and false
   * is for collapsing it.
   * @access private
