@@ -164,12 +164,12 @@ class SimulatorInputs {
             particleMapper[checkBoxParticle].display
           ) {
             //Disable those particles
-            disableInputForParticle(checkBoxParticle);
+            this.dom.sim.toggleInputForParticle(checkBoxParticle, false);
 
             //Also disable the particle in the plot
             graph.hidePlot(j, true);
           } else if (particleMapper[checkBoxParticle]["display"]) {
-            enableInputForParticle(particleType);
+            this.dom.sim.toggleInputForParticle(particleType, true);
 
             //Enable the particle in the plot
             graph.hidePlot(j, false);
@@ -178,6 +178,6 @@ class SimulatorInputs {
       }
       FormulaInputCalculation(particleType);
     }
-    enableInputForParticle(particleType);
+    this.dom.sim.toggleInputForParticle(particleType, true);
   }
 }

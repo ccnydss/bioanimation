@@ -133,11 +133,11 @@ class Plot {
     if (this.sim.simMode() == "Nernst" & index != 3) { //index 3 is the net voltage
       var checkBox_particle = this.sim.dom.sim_inputs.checkboxes[index].elt.innerText;
 
-      this.sim.dom.sim_inputs.checkbox(index, true);
       cur_graph.hidePlot(index, false);
-      enableInputForParticle(checkBox_particle);
+      this.sim.toggleInputForParticle(checkBox_particle, true);
 
-      if (this.sim.paused) { //If the plot is paused, change the plot particle
+      // If the plot is paused, change the plot particle
+      if (this.sim.paused) {
         var particle_type = this.sim.particle_types[index];
         var voltage = this.sim.nernst_eq.compute(particle_type);
         var dataset = ci.data.datasets[index].data;
@@ -151,9 +151,8 @@ class Plot {
           if(cur_graph.sim.dom.sim_inputs.checkboxes[i].elt.getElementsByTagName('input')[0].checked) {
             var checkBox_particle = cur_graph.sim.dom.sim_inputs.checkboxes[i].elt.innerText;
 
-            cur_graph.sim.dom.sim_inputs.checkbox(i, false);
             cur_graph.hidePlot(i, true);
-            disableInputForParticle(checkBox_particle);
+            cur_graph.sim.toggleInputForParticle(checkBox_particle, false);
           }
 
         }

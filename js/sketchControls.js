@@ -28,23 +28,3 @@ function FormulaInputCalculation(particleType) {
 
   if (answer) mainSim.setAnswer(answer, type);
 }
-
-function disableInputForParticle(particleType) {
-  // input: string;
-  // usage: "Na", "Cl", "K"
-  var particle_id = particleMapper[particleType].id;
-
-  mainSim.dom.disableParticleID(particle_id);
-
-  animationSequencer.current().setContainerDisplays(particleType, false);
-}
-
-function enableInputForParticle(particleType) {
-  // input: string;
-  // usage: "Na", "Cl", "K"
-  var particle_id = particleMapper[particleType].id;
-
-  mainSim.dom.enableParticleID(particle_id);
-
-  animationSequencer.current().setContainerDisplays(particleType, true);
-}

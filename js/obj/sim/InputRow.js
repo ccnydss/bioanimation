@@ -191,7 +191,7 @@ class InputRow {
     this.value(updatedAmount);
 
     // Change the Preset text content to custom
-    mainSim.dom.simCanvasPreset_dropbtn.elt.textContent = 'Custom'
+    mainSim.dom.sim_canvas_preset_dropbtn.elt.textContent = 'Custom'
   }
 
   /**

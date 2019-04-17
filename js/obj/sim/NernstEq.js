@@ -46,25 +46,16 @@ class NernstEq {
     for (var j = 0; j < sim.numParticleTypes(); j++) {
       var checkBoxParticle = sim.dom.sim_inputs.checkboxes[j].elt.innerText;
       if (checkBoxParticle == sim.nernst_particle) {
-
-        //Just enable it by default?
-
         //enable its particles
-        sim.dom.sim_inputs.checkbox(j, true);
-        enableInputForParticle(checkBoxParticle);
-        animationSequencer.current().setContainerDisplays(checkBoxParticle, true);
+        sim.toggleInputForParticle(checkBoxParticle, true);
 
         //Also enable the particle in the plot
         graph.hidePlot(j, false);
 
         FormulaInputCalculation(checkBoxParticle);
-
-        //disable other ions if they are on?
       } else if (checkBoxParticle != sim.nernst_particle && sim.dom.sim_inputs.checkbox(j)) {
         //disable others particles
-        sim.dom.sim_inputs.checkbox(j, false);
-        disableInputForParticle(checkBoxParticle);
-        animationSequencer.current().setContainerDisplays(checkBoxParticle, false);
+        sim.toggleInputForParticle(checkBoxParticle, false);
 
         //Also disable the particle in the plot
         graph.hidePlot(j, true);
