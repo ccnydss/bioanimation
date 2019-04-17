@@ -49,7 +49,6 @@ function setup() {
   animationSequencer = new SequenceManager([bioMainSequence, test1Seq])
   animationSequencer.setup();
 
-  mainSim.dom.sim_inputs.create();
   mainSim.nernst_eq.start();
   mainSim.renderUI('NernstEqn', true);
 

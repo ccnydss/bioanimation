@@ -62,6 +62,8 @@ class BioMain extends Sequence {
         for (var i = 0; i < amount; i++) {
           s.containers[loc].addParticle(null, particle);
         }
+
+        mainSim.dom.sim_inputs.setConcentration(particle, loc, amount);
       }
     }
 
