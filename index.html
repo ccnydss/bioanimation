@@ -7,13 +7,20 @@
 
   <link rel="shortcut icon" href="img/microscope.png" type="image/png">
 
+  <link rel="stylesheet" type="text/css" href="css/button.css">
+  <link rel="stylesheet" type="text/css" href="css/etc.css">
   <link rel="stylesheet" type="text/css" href="css/general.css">
-  <link rel="stylesheet" type="text/css" href="css/sketch.css">
   <link rel="stylesheet" type="text/css" href="css/particles.css">
   <link rel="stylesheet" type="text/css" href="css/scrolls.css">
   <link rel="stylesheet" type="text/css" href="css/sim-window.css">
-  <link rel="stylesheet" type="text/css" href="css/button.css">
-  <link rel="stylesheet" type="text/css" href="css/tabs.css">
+  <link rel="stylesheet" type="text/css" href="css/simulatorDOM.css">
+
+  <link rel="stylesheet" type="text/css" href="css/menu/about.css">
+  <link rel="stylesheet" type="text/css" href="css/menu/browser-detection.css">
+  <link rel="stylesheet" type="text/css" href="css/menu/contact.css">
+  <link rel="stylesheet" type="text/css" href="css/menu/help.css">
+  <link rel="stylesheet" type="text/css" href="css/menu/preset.css">
+    <link rel="stylesheet" type="text/css" href="css/menu/question.css">
 
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
@@ -80,6 +87,8 @@ font-size: 30px;
 
 <body>
 
+<!-- Browser Detection -->
+<!-- Description: First Page show up to detect whenever browser support newest JavaScript -->
   <div style="display:none" id="platformDetection" class="container center">
     <div style="font-size: 26px"><i class="fas fa-frown"></i> Sorry, bioanimation currently doesn't support mobile <i class="fas fa-mobile"></i></div>
     <div>please run it in a computer <i class="fas fa-laptop"></i></div>
@@ -139,9 +148,11 @@ font-size: 30px;
 </section>
 </div>
 
+<!-- Tabs Menu-->
+<!-- Description: The three tabs menus on the top -->
 <div id="helpPage" style="display:none"></div>
 <div id="aboutPage" style="display:none">
-  <script src="js/about.js"></script>
+  <script src="js/menu/about.js"></script>
   <section>
     <nav>
       $$
@@ -299,7 +310,7 @@ font-size: 30px;
 
     <div>
       <ul id='firstLine'>
-        <p>build: Apr 15, 2019 <span id="currentVersion"></span></p>
+        <p>build: <span id="publishDate"></span> <span id="currentVersion"></span></p>
         <p>The City College of New York</p>
       </ul>
       <ul id='secondLine'>
@@ -338,10 +349,12 @@ font-size: 30px;
   <li onclick="openPage('helpPage')">Help</li>
 </div>
 
+<!-- root-->
+<!-- Description: all the bioanimation related code is triggered on root -->
 <div id="root"></div>
 
 <script language="javascript" type="text/javascript" src="js/helpers.js"></script>
-<script language="javascript" type="text/javascript" src="js/browserDetection.js"></script>
+<script language="javascript" type="text/javascript" src="js/menu/browserDetection.js"></script>
 <script language="javascript" type="text/javascript" src="js/versionDetection.js"></script>
 
 <script language="javascript" type="text/javascript" src="js/p5/p5.min.js"></script>
@@ -357,11 +370,11 @@ font-size: 30px;
 
 <script language="javascript" type="text/javascript" src="js/obj/sim/NernstEq.js"></script>
 <script language="javascript" type="text/javascript" src="js/obj/sim/GoldmanEq.js"></script>
-<script language="javascript" type="text/javascript" src="js/obj/menu/Help.js"></script>
-<script language="javascript" type="text/javascript" src="js/obj/menu/Preset.js"></script>
+<script language="javascript" type="text/javascript" src="js/menu/Help.js"></script>
+<script language="javascript" type="text/javascript" src="js/menu/Preset.js"></script>
 <script language="javascript" type="text/javascript" src="js/obj/sim/InputRow.js"></script>
 <script language="javascript" type="text/javascript" src="js/obj/sim/Plot.js"></script>
-<script language="javascript" type="text/javascript" src="js/obj/menu/Question.js"></script>
+<script language="javascript" type="text/javascript" src="js/menu/Question.js"></script>
 <script language="javascript" type="text/javascript" src="js/obj/sim/EquationResult.js"></script>
 <script language="javascript" type="text/javascript" src="js/obj/sim/SimulatorInputs.js"></script>
 <script language="javascript" type="text/javascript" src="js/obj/sim/SimulatorDOM.js"></script>
@@ -383,6 +396,8 @@ font-size: 30px;
 <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async>
 </script>
 
+
+<!-- Description: The equation display in equationContainer -->
 <section id="NernstEqn" style="display:none">
   $$
   \normalsize

@@ -47,10 +47,24 @@ class Question {
     /** @property {String} - Nernst/Goldman */
     this.mode = mode;
 
+    if(!this.question_list[mode]) {
+        var current = this
+        this.loadJSON(function(response) {
+          // Parse JSON string into object
+          /** @property {JSON} - The question list parsed from a JSON file */
+          current.question_list = JSON.parse(response);
+          current.total_index = current.question_list[mode].length;
+
+          document.getElementById("q1").innerHTML = current.question_list[mode][0]
+
+        },'questions.json');
+    } else {
     /** @property {String} - Total question index (number - 1) in the mode  */
     this.total_index = this.question_list[mode].length;
 
     document.getElementById("q1").innerHTML = this.question_list[mode][0]
+    }
+
     if (this.jump_div) {
       this.refresh(0)
       this.focus(0)

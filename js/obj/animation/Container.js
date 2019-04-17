@@ -128,7 +128,6 @@ class Container extends Rectangle {
       type = p.constructor.name;
     } else {
       particle = this.createNewParticle(type);
-      particle.setDisplay(true);
     }
     this.particles[type].push(particle);
   }

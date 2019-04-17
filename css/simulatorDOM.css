@@ -1,28 +1,11 @@
 /* *****************************
 All the simulator layers
 All the General setting
-The help menu clone will clone this css
-
-The following are the elements list
-firstBox:"",
-leftbar:"The questions will be listed in this area.</br> Please read the questions carefully and make sure you have answer every questions",
-equationContainer:"",
-hidebar:"Click arrow to expanded/hide questions",
-equationdiv:"",
-NernstEqn:"Current mode governing equation",
-GoldmanEqn:"Goldman equation",
-simulatorSetting:"In the setting Menu, you can change the setting of temperature and ion permeability",
-leftWindow: " ", //space for add the 'last' class
-dataPlot:"Voltage data plot",
-answer:"Current Voltage in membrane",
-equilibrateButton:"Click this to equilibrate the membrane",
-secondBox:"",
-sim:"This window will deminstrate the movement of pparticles with the membrane</br>. You can either hover the window or press 'space' to pause the window",
-simulatorInputContainer:"",
-simInput:"All the particle input",
-particleControl:"All the particle control",
-helpDummy:""
+The Help.js will clone the this css
 ***************************** */
+#root {
+  height: calc(100% - 36px)
+}
 
 #stage {
   display: flex;
@@ -82,36 +65,6 @@ helpDummy:""
 #leftbar.hidden {
   height: 0%;
 }
-
-
-#questionsdiv {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  height: 100%
-}
-
-#questionsdiv h3 {
-  align-self: center;
-}
-
-#qtable {
-  width: 100%;
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
-#q1 section {
-  padding-bottom: 20px;
-}
-
-.questions {
-  height: 80%;
-  margin: 15px;
-  font-size: 0.95em;
-  overflow-y: auto;
-}
-
 
 .simulatorInputContainer {
   justify-content: space-between;
@@ -345,9 +298,6 @@ background-color: #4F4A41;
   height: 36px;
 }
 
-#root {
-  height: calc(100% - 36px)
-}
 
 #containerHeader li {
   display: flex;
@@ -367,8 +317,4 @@ background-color: #4F4A41;
   background-color: #111111;
   width: 30%;
   cursor: pointer;
-}
-
-#answer-Na.na-disabled, #answer-Cl.cl-disabled, #answer-K.k-disabled, #answer-Net.net-disabled {
-  display: none;
 }

@@ -1,8 +1,19 @@
 <!-- https://sourceforge.net/p/jsdoc/wiki/markdown_syntax/ -->
 This is the documentation for the bioanimation code.
 
-## Structure
+## JavaScript
+------
 
+#### Naming Rule
+Style: **camelcase**
+
+**Capital** first letter means **class**
+
+**lowcase** first letter means **global function***
+
+<br/>
+#### Structure
+------
 ![1](../img/file.png)
 **index.html** --The main file that load all the JavaScript libraries, setting up basic HTML tabs
 
@@ -43,15 +54,54 @@ This is the documentation for the bioanimation code.
 .....![2](../img/file.png)
 **versionDetection.js** -- Detection bioanimation version on computer platform application
 
+<br/><br/><br/>
+## CSS
+------
 
+#### Naming Rule
+Style: **lowcase-lowcase**
+
+<br/>
+#### Structure
+------
+![1](../img/folder.png) **menu**
+
+.....![2](../img/file.png)
+**ALL THE CSS FILE** -- js/menu/ related css
+
+![1](../img/file.png)
+**button.css** -- All sims button goes here
+
+![1](../img/file.png)
+**etc.css** -- All uncategorized items goes here
+
+![1](../img/file.png)
+**general.css** -- All the HTML tag goes here
+
+![1](../img/file.png)
+**particles.css** -- js/obj/animation/particle.js
+
+![1](../img/file.png)
+**scrolls.css** -- All the HTML scroll goes here
+
+![1](../img/file.png)
+**sim-window.css** -- All the element append on the sim canvas goes here
+
+![1](../img/file.png)
+**simulatorDOM** -- All the element append on the sim canvas goes here
+
+<br/><br/><br/>
 ## Set up instructions
+------
 Clone the repository, make sure you have the latest versions of NodeJS and NPM,
 then run `npm install` inside the bioanimation directory.
 
 You can run the application directly in the browser by opening `index.html`,
 or as a desktop Electron application by running `npm run start` in the console.
 
+<br/><br/><br/>
 ## Scripts
+------
 `npm run dist-all` will build Electron applications for Windows, Mac OS, and
 Linux.
 

@@ -1,0 +1,43 @@
+#helpPage, #aboutPage {
+  z-index: 10;
+  background-color: rgba(128, 128, 128,0.92);
+  display: flex;
+  position: absolute;
+  width: calc(100% - 4px - 2px);
+  height: calc(100% - 36px - 4px);
+  top: calc(36px + 2px);
+  left: 2px;
+  color: white;
+  border-style: solid;
+  border-width: 1px 0 0 1px;
+}
+
+#helpPage {
+  background-color: rgba(128, 128, 128,0.85);
+}
+
+.clone {
+  /* display: flex;
+  flex-direction: column; */
+  /* background-color: gray; */
+  color: white;
+  padding: 0px;
+  margin: 0px;
+}
+
+.eqn:hover {
+  background-color: #00b894;
+  cursor: help;
+}
+
+/* .hovering:hover {
+opacity: 0.75;
+background-color: #00b894;
+cursor: help;
+} */
+
+.last {
+  border-style: solid;
+  border-color: white;
+  border-width: 0 1px 1px 0;
+}
