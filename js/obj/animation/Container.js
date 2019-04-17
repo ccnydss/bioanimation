@@ -67,7 +67,7 @@ class Container extends Rectangle {
   * inside this Container or to draw them without moving. By default, the
   * Container will move each particle inside of it.
   *
-  * Setting it to false would freeze all particles. This is useful for pausing
+  * Changing the default will cause the particles to freeze, as that is not the norm. This is useful for pausing
   * the simulation, as an example.
   *
   * @public
@@ -131,13 +131,13 @@ class Container extends Rectangle {
     }
     this.particles[type].push(particle);
   }
-
+/*so i think this is how it works or maybe not?*/
   /**
   * Delete particle will remove the particle of type "type" at the supplied index
   * in the Container's array.
   *
   * @public
-  * @param {string} type - Particle type ("Na", "Cl", "K") to delete.
+  * @param {string} type - Particle types to delete.
   * @param {integer} [index=0] - Which particle to delete, defaults to the first.
   */
   deleteParticle(type, index=0) {
@@ -236,7 +236,7 @@ class Container extends Rectangle {
 }
 
 /**
- * Define the color of the inside of the Cell.
+ * Define the color inside of the cell.
  *
  * @memberof Container
  * @static
@@ -245,7 +245,7 @@ class Container extends Rectangle {
 Container.INSIDE_COLOR = "#fffbea";
 
 /**
- * Define the color of the outside of the Cell.
+ * Define the color of the outside of the cell.
  *
  * @memberof Container
  * @static
