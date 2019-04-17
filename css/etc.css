@@ -1,0 +1,33 @@
+/* All uncategorized items goes here */
+
+.center {
+  justify-content: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.fa-download {
+  padding-right: 5px;
+}
+
+/* p5js create this by default... it causes a bug in IE */
+#defaultCanvas0 {
+  display: none;
+}
+
+#updateNotifier {
+  align-self: center;
+  flex: 1;
+}
+
+#updateNotifier a, #currentVersion a {
+  color: #f90;
+}
+
+.MJXc-display {
+  margin: 0 !important;
+}

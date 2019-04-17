@@ -1,0 +1,80 @@
+#aboutPage section {
+  width: 50%;
+  margin: 10px 0px;
+  display: flex;
+  flex-direction: column;
+}
+
+#aboutPage section:last-child {
+  border-left: solid 1px white;
+}
+
+#aboutPage section {
+  overflow: auto;
+}
+
+#aboutPage section nav, #aboutPage section p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+#aboutPage section p {
+}
+
+#aboutPage section:first-child nav {
+  font-size: 20px;
+}
+
+#aboutPage section p {
+  padding: 0 10px;
+}
+
+#aboutPage section table {
+  align-self: center;
+  width: 90%;
+  border-top: solid 1px white;
+  margin-top: 5%;
+  flex: 3;
+}
+
+/* https://stackoverflow.com/questions/11404744/css-media-queries-max-width-or-max-height */
+@media only screen and (max-width: 1060px), screen and (max-height: 625px) {
+  #aboutPage section:last-child nav {
+    margin-top: 30px;
+    margin-bottom: 10px;
+  }
+  #aboutPage section p {
+    display: none;
+  }
+
+}
+@media only screen and (max-width: 970px) {
+  #aboutPage section:last-child nav {
+    font-size: 12px;
+  }
+}
+
+#aboutPage section table tbody tr td:nth-child(1) {
+  width: 10%;
+}
+
+#aboutPage section table tbody tr td:nth-child(1) span {
+  font-size: 16px;
+}
+#aboutPage section table tbody tr td:nth-child(2) {
+  font-size: 14px;
+  width: 70%;
+}
+#aboutPage section table tbody tr td:nth-child(3) {
+  font-size: 14px;
+  width: 20%;
+}
+
+#aboutPage section div {
+  padding: 5px 0px 0 10px;
+  font-size: 14px;
+  display: flex;
+  align-content: flex-start;
+}

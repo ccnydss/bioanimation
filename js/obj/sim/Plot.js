@@ -116,7 +116,6 @@ class Plot {
       }
     });
 
-    // this.resizeAxis();
   }
 
   /**
@@ -268,7 +267,6 @@ class Plot {
 
     this.data_chart.data.datasets[index].data = dataset;
     this.data_chart.data.datasets[index].data;
-    // this.data_chart.update();
 
 
   }
@@ -308,7 +306,6 @@ class Plot {
       }
     }
 
-    // console.log(max_voltage)
 
     if(this.max_y<=max_voltage) {
       this.max_y = max_voltage
@@ -317,10 +314,7 @@ class Plot {
       this.max_y = this.max_y_default
       this.resizeAxis();
     }
-    // else if(this.max_y != this.max_y_default) {
-    //   this.max_y=this.max_y_default
-    //   this.resizeAxis();
-    // }
+
   }
 
   /**

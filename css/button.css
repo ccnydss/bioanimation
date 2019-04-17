@@ -1,7 +1,4 @@
 /* All sims button goes here */
-
-/* Question box buttons */
-
 .controls {
   padding: 5px;
   display: flex;
@@ -9,73 +6,24 @@
   width: 50%;
 }
 
-#questionBotton {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  background-color: #112D32;
-}
-
-#questionNext, #questionPrev {
-  background-color: #112D32;
-  border: none;
-  color: white;
-  padding: 10px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 16px;
-  cursor: pointer;
-  width: 20%;
-}
-
-#questionNext:disabled, #questionPrev:disabled {
-  background-color: gray;
-  cursor: not-allowed;
-}
-
-#questionControl {
-  padding-bottom: 10px;
-}
-#questionJumpInput {
-  width: 20px;
-  text-align: center;
-}
-
-#jumpBtn0 {
-  border: solid 1px;
-}
-
-.jumpBtn:not(:first-child) {
-  color: white;
-  background-color: #112D32;
-  width: 25px;
-  border: solid 1px;
-  border-left: none;
-}
-
-.jumpBtn[target] {
-  background-color: #59ABE3;
-}
-
-.jumpDot {
-  /* color: white;
-  background-color: #112D32; */
-  cursor: default;
-  padding: 0px 5px;
-}
-
-.container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
 .control {
   display: flex;
   justify-content: flex-start;
   align-items: center;
 }
+
+.control input:disabled, button:disabled {
+  cursor: not-allowed;
+}
+
+#pauseButton {
+  z-index: 1;
+  background-color: gray;
+  padding: 3%;
+  position: absolute;
+  top: calc(65% - 20px);
+}
+
 
 .qoptions {
   margin-left: 5px;
@@ -167,23 +115,23 @@
 }
 
 #equilibrateButton {
-background-color: #dfe6e9;
+  background-color: #dfe6e9;
   font-size: 1.1em;
-    border: none;
-    text-align: center;
-    text-decoration: none;
-      width: 20%;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  width: 20%;
 }
 
 .equilibrateButton {
   height: 36px;
   margin-left: 20px;
-    margin: 10px 0px;
-    /* flex: 0 0 auto; */
+  margin: 10px 0px;
+  /* flex: 0 0 auto; */
 }
 
 #equilibrateButton-clone {
-height: calc(36px + 20px);
+  height: calc(36px + 20px);
 }
 
 #equilibrateButton, #answer {
@@ -196,6 +144,9 @@ height: calc(36px + 20px);
   cursor: pointer;
 }
 
+#answer-Na.na-disabled, #answer-Cl.cl-disabled, #answer-K.k-disabled, #answer-Net.net-disabled {
+  display: none;
+}
 /* #ion-selector {
-  display: block;
+display: block;
 } */

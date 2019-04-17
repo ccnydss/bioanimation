@@ -2,6 +2,11 @@
 * Label class is used to label Containers in the canvas.
 * The foreground text is always black.
 */
+/**
+* @example
+* var example = new Label(  "Example", new Point(5, this.tl.y + 15),"#ffffff");
+*/
+
 class Label extends Rectangle {
   /**
   * @param {string} _text - Text string to display.

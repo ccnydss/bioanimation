@@ -1,0 +1,83 @@
+#questionBotton {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #112D32;
+}
+
+#questionNext, #questionPrev {
+  background-color: #112D32;
+  border: none;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+  width: 20%;
+}
+
+#questionNext:disabled, #questionPrev:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
+
+#questionControl {
+  padding-bottom: 10px;
+}
+#questionJumpInput {
+  width: 20px;
+  text-align: center;
+}
+
+#jumpBtn0 {
+  border: solid 1px;
+}
+
+.jumpBtn:not(:first-child) {
+  color: white;
+  background-color: #112D32;
+  width: 25px;
+  border: solid 1px;
+  border-left: none;
+}
+
+.jumpBtn[target] {
+  background-color: #59ABE3;
+}
+
+.jumpDot {
+  /* color: white;
+  background-color: #112D32; */
+  cursor: default;
+  padding: 0px 5px;
+}
+
+#questionsdiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100%
+}
+
+#questionsdiv h3 {
+  align-self: center;
+}
+
+#qtable {
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#q1 section {
+  padding-bottom: 20px;
+}
+
+.questions {
+  height: 80%;
+  margin: 15px;
+  font-size: 0.95em;
+  overflow-y: auto;
+}

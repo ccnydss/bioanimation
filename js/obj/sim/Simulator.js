@@ -6,8 +6,10 @@
 * not just the animation canvas, but also the entire page, including all buttons,
 * sidebars, etc -- via its member variable, `dom`, which is an instance of
 * SimulatorDOM.
-*
+*@example
+* var mainSim = new Simulator();
 */
+
 class Simulator {
   /**
   * Construct a new Simulator instance. It defines the values for Simulator
@@ -98,7 +100,8 @@ class Simulator {
 
   /**
   * Pauses the Simulator.
-  * @public
+
+  * @access public
   */
   pause() {
     this.paused = !this.paused;
@@ -116,7 +119,18 @@ class Simulator {
 
   /**
   * Called on every key press, trigger different events based on user input.
-  * @public
+
+  * @Example
+  * var mainSim = new Simulator();//if the simulation isn't declared
+  * keyInput(){
+  * var Q_key = 81;
+  * switch(keyCode)//keyCode is a p5.js variable
+  * { case Q_key:
+  *   alert('Q is pressed')
+  *   break;}
+  *}
+  * mainSim.keyInput();//called on every key press on the start of the simulation. It would alert on press of Q.
+  * @access public
   */
   keyInput() {
     var spacebar = 32;
@@ -146,8 +160,14 @@ class Simulator {
   }
 
   /**
-  * Returns length of the particle_types array.
-  * @public
+  * Function that returns the number of particle_types
+  * @Example
+  * var mainSim = new Simulator();//if the simulation isn't declared
+  * mainSim.particle_types = ["Na", "Cl", "K"];
+  * mainSim.numParticleTypes();//returns 3;
+
+  * @returns length of the particle_types array.
+  * @access public
   */
   numParticleTypes() {
     return this.particle_types.length;
@@ -163,6 +183,7 @@ class Simulator {
   *                       display or hide.
   * @param {boolean} mode - The setting to use (true/false) for displaying the
   *                           UI element.
+  * @access public
   */
   renderUI(id, mode) {
     switch (id) {
@@ -264,6 +285,7 @@ class Simulator {
   * @public
   *
   * @param {string} target - The tab target to open.
+  * @access public
   */
   toggleTab(target) {
     //First, close all other tabs
@@ -291,8 +313,9 @@ class Simulator {
 
   /**
   * Check if the question sidebar is currently being displayed, or hidden
-  * @private
-  *
+  * @Example
+  * if(questionsAreHidden()) alert("No // QUESTION:")
+  * @access private
   * @returns {boolean}
   */
   questionsAreHidden() {
@@ -301,10 +324,13 @@ class Simulator {
 
   /**
   * A getter and setter for changing the Simulator mode.
-  * @public
-  *
+  * @Example
+  * var mainSim = new Simulator();//if the simulation isn't declared
+  * mainsim.simMode("Nernst");//sets the mode to Nernst
+  * mainsim.simMode()//gets the mode from the mainSim object
   * @param {string | null} [mode=null] - If supplied, change the Simulator to the
   * specified simulator mode. If left empty, will return the current simulator mode.
+  * @access public
   */
   simMode(mode = null) {
     if (mode) {
@@ -326,10 +352,18 @@ class Simulator {
   * Updates the text fields for concentration amounts for a specified particle
   * type. Applies the same amount to the inside and the outside. Currently
   * being used for equilibrating.
-  * @public
-  *
-  * @param {double} amount - the concentration amount to be set to.
+
+  *@Example
+  *  var mainSim = new Simulator();//if the simulation isn't declared
+  *  var concOutside = mainSim.dom.sim_inputs.concentration(particleType, "outside");
+  *  var concInside = mainSim.dom.sim_inputs.concentration(particleType, "inside");
+  *  var concEqui = (concOutside + concInside) / 2;
+  *  var id = particleMapper[particleType].id;
+  *  mainSim.updateInputs(concEqui, id);
+  * @param {float} amount - the concentration amount to be set to.
+
   * @param {int} particle_id - the ID number of the particle to update.
+  * @access public
   */
   updateInputs(amount, particle_id) {
     this.dom.sim_inputs.controls_list["outside"].rows[particle_id].value(amount);
@@ -340,11 +374,17 @@ class Simulator {
   * Updates the text fields for concentration amounts for a specified particle
   * type, within a specified location ("inside" or "outside"). Currently
   * being used by updateParticles()
-  * @private
+
+  * @Example
+  * var mainSim = new Simulator();//if the simulation isn't declared
+  * var id = particleMapper["Na"].id;
+  * mainSim.updateInputLoc(0.45, id, "inside");
+
   *
   * @param {double} amount - the concentration amount to be set to.
   * @param {int} particleID - the ID number of the particle to update.
   * @param {string} location - which location to target, can be "inside" or "outside".
+  * @access private
   */
   updateInputLoc(amount, particle_id, location) {
     if (location != "inside" && location != "outside") throw new Error("Location must be 'inside' or 'outside'.");
@@ -354,12 +394,16 @@ class Simulator {
   /**
   * updateParticles is used when the user changes the number of particles by
   * typing in the text field or clicking the plus/minus buttons.
-  * @public
-  *
+
+  * @Example
+  * var mainSim = new Simulator();//if the simulation isn't declared
+  * mainSim.updateParticles("Na","inside", 111, true);
+
   * @param {string} ptype - The name of the particle to update ("Na", "Cl", or "K").
   * @param {string} ploc - The location which this particle is in ("inside" or "outside").
   * @param {double} updated_amount - The concentration amount to update this particle at this location to.
   * @param {boolean} no_compute - Whether or not to compute the new equation values.
+  * @access public
   */
   updateParticles(ptype, ploc, updated_amount, no_compute) {
     var num_particles = animationSequencer.current().getNumParticles(ploc, ptype);
@@ -408,10 +452,13 @@ class Simulator {
 
   /**
   * Called by the text fields under "Simulation Settings" in the app.
-  * @private
-  *
+
+  * @Example
+  * var mainSim = new Simulator();//if the simulation isn't declared
+  * mainSim.changeSimulatorSettings.bind(mainSim.simMode("Goldman"));
   * @param {Object} evt - The evt object that is passed into the callback upon
   * user input.
+  * @access private
   */
   changeSimulatorSettings(evt) {
     // input: the element that triggered the event (Input buttons);
@@ -461,12 +508,15 @@ class Simulator {
   * A top-level interface for setting the equation result answer. Just created
   * for the convenience of avoiding the internal this > dom > equation_result >
   * setAnswer chain.
-  * @public
-  *
+
+  *@example
+  * mainSim.setAnswer(mainSim.nernst_eq.result("Na"), "Na");
+
   * @param {Object} answer - The evt object that is passed into the callback upon
   * user input.
   * @param {Object} type - The evt object that is passed into the callback upon
   * user input.
+  * @access public
   */
   setAnswer(answer, type) {
     this.dom.equation_result.setAnswer(answer, type);
@@ -475,9 +525,12 @@ class Simulator {
   /**
   * This function is used to compute the answers for every particle type at the
   * same time.
-  * @public
-  *
+
+  *@Example
+  * mainSim.computeAll("Na");
+
   * @param {String} selected - Which particle to select in the result table.
+  * @access public
   */
   computeAll(selected) {
     this.setAnswer(this.nernst_eq.result("Na"), "Na");
@@ -491,7 +544,11 @@ class Simulator {
   /**
   * Button to switch the button colors when the simulator mode is changed. Only
   * gets called by this.simMode()
-  * @private
+
+  *@example
+  * mainSim.buttonModeSwitch("Goldman");
+  * @access private
+
   */
   buttonModeSwitch() {
     if (this.mode == "Nernst") {
@@ -506,7 +563,11 @@ class Simulator {
   /**
   * This is triggered whenever the browser window is resized or the sidebar is
   * hidden/shown.
-  * @public
+
+  *@example
+  * mainSim.resize();
+  * @access public
+
   */
   resize() {
     var draw_with_questions = !this.questionsAreHidden();
@@ -517,10 +578,13 @@ class Simulator {
   * This function is called by this.resize(), and handles the actual resizing.
   * It sets new container sizes and displays or hides the settings in the side
   * bar according to the hide parameter.
-  * @private
-  *
+
+  *@Example
+  * mainSim.redrawUI(true);
+
   * @param {boolean} hide - True is for expanding the settings window, and false
   * is for collapsing it.
+  * @access private
   */
   redrawUI(hide) {
     this.dom.sidebar_current = hide ? this.dom.sidebar_size_multiple : 1;
