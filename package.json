@@ -11,7 +11,7 @@
     "dist-lin": "electron-builder build --linux",
     "dist-all": "electron-builder build -mwl",
     "publish": "electron-builder build -mwl -p always",
-    "docs": "jsdoc -c ./conf.json -t ./node_modules/ink-docstrap/template -r js -a all -d docs/ -R HOME.md"
+    "docs": "jsdoc -c ./conf.json -t ./node_modules/ink-docstrap/template -r js -a all -d ./docs/ -R HOME.md -u ./tutorials/"
   },
   "repository": {
     "type": "git",
