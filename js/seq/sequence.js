@@ -134,6 +134,9 @@ class SequenceManager {
 * Sequence is the class for managing animation parameters. In our code it will
 * create the containers, particles, and provide methods that Simulator can
 * use to interact with the animation.
+*
+* This class will typically need to be extended in a child class to be fully
+* used. Look at {@link BioMain} for an example. 
 */
 class Sequence {
   /**
