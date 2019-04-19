@@ -131,9 +131,18 @@ class SequenceManager {
 }
 
 /**
-* Sequence is the class for managing animation parameters. 
+* Sequence is the class for managing animation parameters. In our code it will
+* create the containers, particles, and provide methods that Simulator can
+* use to interact with the animation.
 */
 class Sequence {
+  /**
+  * Initialize a Sequence object instance.
+  * @access public
+  * @param {Object} init_state - The initial state/parameters for the animation.
+  * @param {function} setupfunc - The function to be used when `setup()` is called.
+  * @param {function} drawfunc - The function to be used when `draw()` is called.
+  */
   constructor(init_state, setupfunc, drawfunc) {
     this._init = Object.assign({}, init_state);
     this.state = Object.assign({}, init_state);
@@ -142,19 +151,42 @@ class Sequence {
     this._draw = drawfunc;
   }
 
+  /**
+  * This is to be run within the setup function for p5.js, which gets called by SequenceManager.
+  * This function is overloaded by the constructor when the Sequence object is
+  * created.
+  * @access public
+  */
   setup() {
     this._setup(this.state);
   }
 
+  /**
+  * This is to be run within the draw function for p5.js, which gets called by SequenceManager.
+  * This function is overloaded by the constructor when the Sequence object is
+  * created.
+  * @access public
+  */
   draw() {
     this._draw(this.state);
   }
 
-  setState(new_state) {
-    this.state = Object.assign({}, new_state);
-  }
-
+  /**
+  * This is the reset function for p5.js, which gets called by SequenceManager
+  * when the manager switches between Sequences with `next` and `prev`.
+  * @access public
+  */
   reset() {
     this.setState(this._init);
+  }
+
+  /**
+  * This is the setState function for p5.js, which is used for the Sequence to
+  * alter its own parameters as the app runs.
+  * @access private
+  * @params {Object} new_state - The new state object.
+  */
+  setState(new_state) {
+    this.state = Object.assign({}, new_state);
   }
 }
