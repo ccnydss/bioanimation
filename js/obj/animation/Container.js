@@ -184,7 +184,6 @@ class Container extends Rectangle {
     if (coordinates == null) {
       var x_range = this.tr.x - this.tl.x - 100;
       var y_range = this.br.y - this.tr.y - 100;
-
       // Get random location
       var randomX = this.tl.x + particleMapper[type].diameter + (Math.floor(Math.random() * x_range));
       var randomY = this.tl.y + particleMapper[type].diameter + (Math.floor(Math.random() * y_range));
