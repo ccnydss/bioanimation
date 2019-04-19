@@ -580,29 +580,28 @@ class SimulatorDOM {
   * it is only being used in `SimulatorDOM.js`, within the `setup` function.
   * @private
   *
-  * @param {} id - ?
-  * @param {} parent - ?
-  * @param {} content - ?
-  * @param {} placeholder - ?
-  * @param {} content_unit - ?
-  * @param {} content_default_value - ?
-  * @param {} prev_length - ?
+  * @param {String} id - The HTML id for the table element.
+  * @param {String} parent - The HTML parent id.
+  * @param {String[]} content - What fields the table contains
+  * @param {String[]} placeholder - Placeholder input values
+  * @param {String[]} content_unit - If a unit is specified.
+  * @param {String[]} content_default_value - Default value to display
   */
-  makeTable(id, parent, content, placeholder, content_unit, content_default_value, prev_length) {
-    var settingPart = elementCreator("div", id, parent);
+  makeTable(id, parent, content, placeholder, content_unit, content_default_value) {
+    var setting_part = elementCreator("div", id, parent);
 
-    var tableRow = content.length;
+    var table_row = content.length;
 
-    for (var i = 0; i < tableRow; i++) {
-      var trow = elementCreator("tr", '', settingPart);
+    for (var i = 0; i < table_row; i++) {
+      var trow = elementCreator("tr", '', setting_part);
       var td0 = elementCreator("label", '', trow, { content: content[i]} );
 
-      var inputElement = elementCreator("input", this.settings.length, trow);
-      inputElement.value(content_default_value[i]);
-      inputElement.attribute('placeholder', placeholder[i]);
-      inputElement.input(this.sim.changeSimulatorSettings.bind(this.sim));
+      var input_element = elementCreator("input", this.settings.length, trow);
+      input_element.value(content_default_value[i]);
+      input_element.attribute('placeholder', placeholder[i]);
+      input_element.input(this.sim.changeSimulatorSettings.bind(this.sim));
 
-      this.settings.push(inputElement);
+      this.settings.push(input_element);
 
       var td3 = elementCreator("div", '', trow, { content: content_unit[i] });
 
