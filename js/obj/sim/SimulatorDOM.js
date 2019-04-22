@@ -11,16 +11,14 @@
 *
 * The "parent" Simulator instance is passed in as a parameter for the constructor,
 * and be accessed internally by `this.sim`.
-*
 */
 class SimulatorDOM {
   /**
   * Construct a new SimulatorDOM instance. It instantiates new EquationResult,
   * SimulatorInputs, and Question objects.
-  * @public
-  *
   * @param {Simulator} sim - The parent Simulator that will spawn this SimulatorDOM
   * instance.
+  * @access public
   */
   constructor(sim) {
     /**
@@ -115,7 +113,10 @@ class SimulatorDOM {
   * first time. Here, HTML elements are first defined and placed into the web
   * page via JavaScript. The `ec()` function is a helper function for creating
   * p5 HTML elements (p5.Element type).
-  * @public
+  * @example
+  * var mainSim =new Simulator();
+  * mainSim.dom.setup();
+  * @access public
   */
   setup() {
     var ec = elementCreator;
@@ -407,10 +408,12 @@ class SimulatorDOM {
 
   /**
   * Set the size of the main animation canvas in the right side of the app.
-  * @private
-  *
+  * @example
+  * var mainSim =new Simulator();
+  * mainSim.dom.setSize(585,366);
   * @param {integer} w - The width for the canvas.
   * @param {integer} h - The height for the canvas.
+  *@access private
   */
   setSize(w, h) {
     this.canvas_width = w;
@@ -420,11 +423,11 @@ class SimulatorDOM {
   /**
   * Getter to get the width and height of the current size of the main
   * animation canvas in the right side of the application.
-  *
-  * Returns an object like: `{ width: 10, height: 10 }`
-  * @public
-  *
-  * @returns {Object}
+  * @example
+  * var mainSim =new Simulator();
+  * mainSim.dom.getSize();
+  * @returns {object} an object like: { width: 10, height: 10 }
+  * @access public
   */
   getSize() {
     return { width: this.canvas_width, height: this.canvas_height };
@@ -432,11 +435,12 @@ class SimulatorDOM {
 
   /**
   * Create a canvas for the first time, during p5 sketch setup.
-  * @private
-  *
+  * @Example
+  * var mainSim =new Simulator();
+  * mainSim.dom.canvasCreate(500,340);
   * @param {integer} w - The width for the canvas.
   * @param {integer} h - The height for the canvas.
-  *
+  * @access private
   * @returns {p5.Element}
   */
   canvasCreate(w, h) {
@@ -446,10 +450,12 @@ class SimulatorDOM {
 
   /**
   * Resize the canvas to a new width and height.
-  * @private
-  *
+  * @example
+  * var mainSim =new Simulator();
+  * mainSim.dom.canvasSize(500,340);
   * @param {integer} w - The width for the canvas.
   * @param {integer} h - The height for the canvas.
+  * @access private
   */
   canvasSize(w, h) {
     this.setSize(w, h);
@@ -460,9 +466,11 @@ class SimulatorDOM {
   * Function that gets called to display the canvas frame div, which contains
   * the pause button and preset setting list. This function is called whenever
   * the mouse hovers over the simulator div.
-  * @private
-  *
+  * @example
+  * var mainSim =new Simulator();
+  * mainSim.dom.showPause(false);
   * @param {boolean} option - "True" to show the buttons, "False" to hide them.
+  * @access private
   */
   showPause(option) {
     this.sim.renderUI("simCanvasFrame", option)
@@ -473,10 +481,12 @@ class SimulatorDOM {
   * questions are currently being displayed, they will get collapsed to reveal
   * the Simulator settings underneath. If the Simulator settings are already
   * showing, the drawer will close them to display the questions again.
-  * @private
-  *
+  * @example
+  * var mainSim =new Simulator();
+  * mainSim.dom.hideQuestion(event);
   * @param {} evt - The callback from attaching this function to
   * the hidebar's onclick event handler.
+  * @access private
   */
   hideQuestion(evt) {
     // Check if the questions are already hidden. If TRUE, we should show them. If FALSE, we should hide them.
@@ -501,10 +511,12 @@ class SimulatorDOM {
   * for the new width and height. Specifically, this determines and applies
   * new canvas dimensions. The function also allows new values for width and
   * height to get passed in, overriding the current browser values.
-  * @private
-  *
+  * @example
+  * var mainSim =new Simulator();
+  * mainSim.dom.adjustUISize(500,300);
   * @param {integer} [width=null] - The new width to override browser settings with.
   * @param {integer} [height=null] - The new height to overrise browser settings with.
+  * @access private
   */
   adjustUISize(width, height) {
     var newCanWidth = this.simulator.elt.clientWidth;
@@ -528,11 +540,13 @@ class SimulatorDOM {
   /**
   * This function will run when the user wants to switch between selected
   * particles in Nernst mode ( the default mode ).
-  * @public
-  *
+  * @example
+  * var mainSim =new Simulator();
+  * mainSim.dom.toggleParticleID(0, true);
   * @param {integer} id - The array index for the particle to select, in the
   * array ["Na", "Cl", "K"].
   * @param {boolean} toggle - Whether to enable or disable the selected particle.
+  * @access public
   */
   toggleParticleID(id, toggle) {
     this.sim_inputs.controls_list.inside.rows[id].enable(toggle);
@@ -550,7 +564,10 @@ class SimulatorDOM {
   * It swaps the two HTML elements for the Plot and the main animation canvas.
   * This places the particle animation into the leftbar, and the plot into the
   * main right viewport.
-  * @private
+  * @Example
+  * var mainSim =new Simulator();
+  * mainSim.dom.swapChart();
+  * @access private
   */
   swapChart() {
     swapElements(this.data_plot, this.simulator);
@@ -578,7 +595,7 @@ class SimulatorDOM {
   /**
   * Function to create the table for the simulator settings component. Currently,
   * it is only being used in `SimulatorDOM.js`, within the `setup` function.
-  * @private
+  * @access private
   *
   * @param {String} id - The HTML id for the table element.
   * @param {String} parent - The HTML parent id.
@@ -586,6 +603,12 @@ class SimulatorDOM {
   * @param {String[]} placeholder - Placeholder input values
   * @param {String[]} content_unit - If a unit is specified.
   * @param {String[]} content_default_value - Default value to display
+  *
+  * @example
+  * var mainSim =new Simulator();
+  * mainSim.dom.makeTable("GoldmanSetting","setting",["p<sub>Na</sub>", "p<sub>Cl</sub>", "p<sub>K</sub>"],
+  * ["Enter Na permeability...","Enter Cl permeability...","Enter K permeability..."],
+  * ["", "", ""],[Na.permeability, Cl.permeability, K.permeability]);
   */
   makeTable(id, parent, content, placeholder, content_unit, content_default_value) {
     var setting_part = elementCreator("div", id, parent);

@@ -100,7 +100,8 @@ class Simulator {
 
   /**
   * Pauses the Simulator.
-
+  * @Example
+  * mainSim.pause();
   * @access public
   */
   pause() {
@@ -316,7 +317,7 @@ class Simulator {
   * @Example
   * if(questionsAreHidden()) alert("No // QUESTION:")
   * @access private
-  * @returns {boolean}
+  * @returns {boolean} true or false to determine if questions are hidden or not.
   */
   questionsAreHidden() {
     return this.dom.sidebar_current != this.dom.sidebar_size_multiple;
