@@ -120,7 +120,7 @@ class Simulator {
 
   /**
   * Called on every key press, trigger different events based on user input.
-
+  *
   * @Example
   * var mainSim = new Simulator();//if the simulation isn't declared
   * keyInput(){
@@ -453,7 +453,7 @@ class Simulator {
 
   /**
   * Called by the text fields under "Simulation Settings" in the app.
-
+  *
   * @Example
   * var mainSim = new Simulator();//if the simulation isn't declared
   * mainSim.changeSimulatorSettings.bind(mainSim.simMode("Goldman"));
@@ -462,7 +462,6 @@ class Simulator {
   * @access private
   */
   changeSimulatorSettings(evt) {
-    // input: the element that triggered the event (Input buttons);
     var updated_amount = evt.target.value;
     var event_id = evt.target.id;
 
@@ -564,11 +563,11 @@ class Simulator {
   /**
   * This is triggered whenever the browser window is resized or the sidebar is
   * hidden/shown.
-
+  *
   *@example
   * mainSim.resize();
   * @access public
-
+  *
   */
   resize() {
     var draw_with_questions = !this.questionsAreHidden();

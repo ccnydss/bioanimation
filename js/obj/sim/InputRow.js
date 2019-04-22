@@ -82,7 +82,7 @@ class InputRow {
     this.dom.input.parent(table.td1);
 
     // Create the plus button and minus button
-    var colorClass = particle_type.toLowerCase() + "-bg";
+    var color_class = particle_type.toLowerCase() + "-bg";
     buttons.plus = elementCreator("button", id, table.td2, {
       content: "+",
       className: 'qoptions',
@@ -90,7 +90,7 @@ class InputRow {
     });
     buttons.plus.attribute("data-location", particle_location);
     buttons.plus.attribute("data-ptype", particle_type);
-    buttons.plus.addClass(colorClass);
+    buttons.plus.addClass(color_class);
 
     buttons.minus = elementCreator("button", id, table.td3, {
       content: "-",
@@ -99,7 +99,7 @@ class InputRow {
     });
     buttons.minus.attribute("data-location", particle_location);
     buttons.minus.attribute("data-ptype", particle_type);
-    buttons.minus.addClass(colorClass);
+    buttons.minus.addClass(color_class);
   }
 
   /**
@@ -113,10 +113,11 @@ class InputRow {
       return this.values;
     }
     else {
-      if(setter>animationSequencer.current().MAX_PARTICLES)
-      setter=animationSequencer.current().MAX_PARTICLES
-      if(setter<animationSequencer.current().MIN_PARTICLES)
-      setter=animationSequencer.current().MIN_PARTICLES
+      if(setter > animationSequencer.current().MAX_PARTICLES)
+        setter = animationSequencer.current().MAX_PARTICLES
+
+      if(setter < animationSequencer.current().MIN_PARTICLES)
+        setter = animationSequencer.current().MIN_PARTICLES
 
       this.values = setter;
       this.dom.input.value(setter);
@@ -132,29 +133,29 @@ class InputRow {
     if (setter == null) return this.enabled;
     else {
       this.enabled = setter;
-      var enableColor = this.type.toLowerCase() + "-bg";
-      var disableColor = this.type.toLowerCase() + "-disabled";
+      var enable_color = this.type.toLowerCase() + "-bg";
+      var disable_color = this.type.toLowerCase() + "-disabled";
 
       if (setter) {
         this.dom.input.removeAttribute("disabled");
 
         this.dom.buttons.plus.removeAttribute("disabled");
-        this.dom.buttons.plus.addClass(enableColor);
-        this.dom.buttons.plus.removeClass(disableColor);
+        this.dom.buttons.plus.addClass(enable_color);
+        this.dom.buttons.plus.removeClass(disable_color);
 
         this.dom.buttons.minus.removeAttribute("disabled");
-        this.dom.buttons.minus.addClass(enableColor);
-        this.dom.buttons.minus.removeClass(disableColor);
+        this.dom.buttons.minus.addClass(enable_color);
+        this.dom.buttons.minus.removeClass(disable_color);
       } else {
         this.dom.input.attribute("disabled", '');
 
         this.dom.buttons.plus.attribute("disabled", '');
-        this.dom.buttons.plus.addClass(disableColor);
-        this.dom.buttons.plus.removeClass(enableColor);
+        this.dom.buttons.plus.addClass(disable_color);
+        this.dom.buttons.plus.removeClass(enable_color);
 
         this.dom.buttons.minus.attribute("disabled", '');
-        this.dom.buttons.minus.addClass(disableColor);
-        this.dom.buttons.minus.removeClass(enableColor);
+        this.dom.buttons.minus.addClass(disable_color);
+        this.dom.buttons.minus.removeClass(enable_color);
       }
     }
   }
@@ -168,7 +169,7 @@ class InputRow {
   changeNumParticles(evt, updated_amount=evt.target.value) {
     // Called by the plus/minus buttons, and also the text field input
     // input: the element that triggered the event (Input buttons);
-    var eventID = evt.target.id;
+    var event_id = evt.target.id;
 
     var particle_type = evt.target.attributes['data-ptype'].value;
     var particle_location = evt.target.attributes['data-location'].value;
