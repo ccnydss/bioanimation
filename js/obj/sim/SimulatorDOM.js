@@ -11,9 +11,6 @@
 *
 * The "parent" Simulator instance is passed in as a parameter for the constructor,
 * and be accessed internally by `this.sim`.
-*@example
-* var mainSim = new Simulator();
-* var dom = new SimulatorDOM(mainSim);
 */
 class SimulatorDOM {
   /**
@@ -118,7 +115,6 @@ class SimulatorDOM {
   * p5 HTML elements (p5.Element type).
   * @example
   * var mainSim =new Simulator();
-  * var dom = new SimulatorDOM(mainSim);
   * mainSim.dom.setup();
   * @access public
   */
@@ -414,7 +410,6 @@ class SimulatorDOM {
   * Set the size of the main animation canvas in the right side of the app.
   * @example
   * var mainSim =new Simulator();
-  * var dom = new SimulatorDOM(mainSim);
   * mainSim.dom.setSize(585,366);
   * @param {integer} w - The width for the canvas.
   * @param {integer} h - The height for the canvas.
@@ -430,7 +425,6 @@ class SimulatorDOM {
   * animation canvas in the right side of the application.
   * @example
   * var mainSim =new Simulator();
-  * var dom = new SimulatorDOM(mainSim);
   * mainSim.dom.getSize();
   * @returns {object} an object like: { width: 10, height: 10 }
   * @access public
@@ -443,7 +437,6 @@ class SimulatorDOM {
   * Create a canvas for the first time, during p5 sketch setup.
   * @Example
   * var mainSim =new Simulator();
-  * var dom = new SimulatorDOM(mainSim);
   * mainSim.dom.canvasCreate(500,340);
   * @param {integer} w - The width for the canvas.
   * @param {integer} h - The height for the canvas.
@@ -459,7 +452,6 @@ class SimulatorDOM {
   * Resize the canvas to a new width and height.
   * @example
   * var mainSim =new Simulator();
-  * var dom = new SimulatorDOM(mainSim);
   * mainSim.dom.canvasSize(500,340);
   * @param {integer} w - The width for the canvas.
   * @param {integer} h - The height for the canvas.
@@ -476,7 +468,6 @@ class SimulatorDOM {
   * the mouse hovers over the simulator div.
   * @example
   * var mainSim =new Simulator();
-  * var dom = new SimulatorDOM(mainSim);
   * mainSim.dom.showPause(false);
   * @param {boolean} option - "True" to show the buttons, "False" to hide them.
   * @access private
@@ -492,7 +483,6 @@ class SimulatorDOM {
   * showing, the drawer will close them to display the questions again.
   * @example
   * var mainSim =new Simulator();
-  * var dom = new SimulatorDOM(mainSim);
   * mainSim.dom.hideQuestion(event);
   * @param {} evt - The callback from attaching this function to
   * the hidebar's onclick event handler.
@@ -523,7 +513,6 @@ class SimulatorDOM {
   * height to get passed in, overriding the current browser values.
   * @example
   * var mainSim =new Simulator();
-  * var dom = new SimulatorDOM(mainSim);
   * mainSim.dom.adjustUISize(500,300);
   * @param {integer} [width=null] - The new width to override browser settings with.
   * @param {integer} [height=null] - The new height to overrise browser settings with.
@@ -553,7 +542,6 @@ class SimulatorDOM {
   * particles in Nernst mode ( the default mode ).
   * @example
   * var mainSim =new Simulator();
-  * var dom = new SimulatorDOM(mainSim);
   * mainSim.dom.toggleParticleID(0, true);
   * @param {integer} id - The array index for the particle to select, in the
   * array ["Na", "Cl", "K"].
@@ -578,7 +566,6 @@ class SimulatorDOM {
   * main right viewport.
   * @Example
   * var mainSim =new Simulator();
-  * var dom = new SimulatorDOM(mainSim);
   * mainSim.dom.swapChart();
   * @access private
   */
@@ -610,7 +597,6 @@ class SimulatorDOM {
   * it is only being used in `SimulatorDOM.js`, within the `setup` function.
   * @example
   * var mainSim =new Simulator();
-  * var dom = new SimulatorDOM(mainSim);
   * mainSim.dom.makeTable("GoldmanSetting","setting",["p<sub>Na</sub>", "p<sub>Cl</sub>", "p<sub>K</sub>"],
   * ["Enter Na permeability...","Enter Cl permeability...","Enter K permeability..."],
   * ["", "", ""],[Na.permeability, Cl.permeability, K.permeability]);
