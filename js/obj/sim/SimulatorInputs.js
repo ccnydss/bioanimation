@@ -2,6 +2,8 @@
 * Class simulatorInputs, used to manage the inputs for the Simulator. These
 * inputs include the table of plus/minus buttons, the text amount inputs, and
 * the checkbox elements for switching simulator modes.
+*@Example
+* var mainSim = new Simulator();
 */
 class SimulatorInputs {
   /**
@@ -49,6 +51,8 @@ class SimulatorInputs {
   /**
   * This setup() function runs during the p5.js setup event. It defines and
   * creates the actual p5.Elements to go onto the DOM.
+  * @example
+  * simInputs.setup();
   * @public
   */
   setup() {
@@ -164,6 +168,8 @@ class SimulatorInputs {
   * it used to rely on animationSequencer to update the initial amounts.
   * However, the dependency to animationSequencer was moved and the logic for
   * initializing the inputs was put in `seq/BioMain.js`.
+  *@Example
+  * mainSim.dom.create();
   * @private
   */
   create() {
@@ -240,6 +246,8 @@ class SimulatorInputs {
   /**
   * addCheckbox is used to add a new checkbox to the input section. This is only
   * used internally for initialization.
+  * @Example
+  * mainSim.dom.sim_inputs.addCheckbox(createCheckbox);
   * @private
   * @param {p5.Element} checkbox - the checkbox element created using the p5 API
   */
@@ -250,8 +258,10 @@ class SimulatorInputs {
   /**
   * The checkbox function allows you to set the value of a particle type, or
   * read the current value. Leave bool empty to use this as a getter.
+  * @Example
+  * mainSim.dom.sim_inputs.checkbox(1,false);//Setter
+  * mainSim.dom.sim_inputs.checkbox(1);//Getter
   * @public
-  *
   * @param {integer} index - The particle array index to use.
   * @param {boolean} [bool=null] - If supplied, the true/false value to set the
   * checkbox to. If left blank, the function will instead return the current value.
@@ -267,6 +277,8 @@ class SimulatorInputs {
   /**
   * Getter function to get the current concentration for this particle type.
   * This is done by checking the value of the appropriate InputRow.
+  *@Example
+  * mainSimdom.sim_inputs.concentration("Na", "inside");
   * @public
   * @param {string} particle_type - The name of the particle to use.
   * @param {string} location - The name of the location ("inside" or "outside") to use.
@@ -278,6 +290,8 @@ class SimulatorInputs {
 
   /**
   * Setter function to set the concentration for this particle type.
+  * @Example
+  * mainSim.dom.sim_inputs.setConcentration("Na","inside", 42);
   * @public
   * @param {string} particle_type - The name of the particle to use.
   * @param {string} location - The name of the location ("inside" or "outside") to use.
