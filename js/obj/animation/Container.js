@@ -110,15 +110,15 @@ class Container extends Rectangle {
   *                       MUST be set to `null`.
   *
   * @example <caption>Add a particle to my_container from p</caption>
-  var my_particle = // ... create a particle
-  var my_container = // ... create a container
-
-  my_container.addParticle(my_particle);
+  *var my_particle = // ... create a particle
+  *var my_container = // ... create a container
+  *
+  *  my_container.addParticle(my_particle);
   *
   * @example <caption>Add a potassium ion to my_container</caption>
-  var my_container = // ... create a container
-
-  my_container.addParticle(null, "K");
+  *var my_container = // ... create a container
+  *
+  *  my_container.addParticle(null, "K");
   */
   addParticle(p, ptype) {
     var particle = p;
@@ -131,7 +131,6 @@ class Container extends Rectangle {
     }
     this.particles[type].push(particle);
   }
-/*so i think this is how it works or maybe not?*/
   /**
   * Delete particle will remove the particle of type "type" at the supplied index
   * in the Container's array.
@@ -139,7 +138,20 @@ class Container extends Rectangle {
   * @public
   * @param {string} type - Particle types to delete.
   * @param {integer} [index=0] - Which particle to delete, defaults to the first.
+  *
+  * @example <caption>Delete a particle from my_container from p</caption>
+  *var my_particle = // creates a particle
+  *var my_container = // creates a container
+  *
+  *  my_container.deleteParticle(my_particle);
+  *
+  * @example <caption>Delete a sodium ion from my_container</caption>
+  *var my_container = // ... creates the container
+  *
+  *  my_container.deleteParticle(null, 0); // deletes the first one
+  *
   */
+
   deleteParticle(type, index=0) {
     var length = this.particles[type].length;
     this.particles[type].splice(index, 1);
@@ -154,7 +166,14 @@ class Container extends Rectangle {
   * @param {Point | null} coordinates - The coordinates to put the particle.
   *                                     Leave blank for random.
   * @returns {Particle}
+  *
+  * @example
+  * var sodium = // creates a particle, in this case sodium
+  *
+  * sodium_createNewParticle("Na",coordinates); // creates the particle, Na, allowing it to move in random directions
   */
+
+
   createNewParticle(type, coordinates) {
     var velocities = [-1, -1.25, 1.25, 1];
     var x_vel = Math.floor(Math.random() * (velocities.length - 1));
@@ -187,6 +206,11 @@ class Container extends Rectangle {
   * @public
   * @param {string} type - The name of the type of particle to create.
   * @param {boolean} bool - The display setting to use.
+  *
+  * @example
+  *var my_particle = // creates the particle
+  *
+  *my_particle.setParticleDisplays(type, bool)
   */
   setParticleDisplays(type, bool) {
     if (typeof bool != "boolean") throw new Error("Bool must be true or false.");
@@ -204,6 +228,7 @@ class Container extends Rectangle {
   *
   * @returns {integer}
   */
+
   countParticles(type) {
     return this.particles[type].length;
   }
@@ -214,7 +239,13 @@ class Container extends Rectangle {
   * @public
   * @param {Object} _points - A set of 4 points that dictate the new size of the
   *                           Container.
+  *
+  * @example
+  * var rectangle= // create your container or Object
+  *
+  * rectangle.setSize(_points) // gives four points that sets size of container
   */
+
   setSize(_points) {
     super.setSize(_points);
     if (this.name) this.label = this.createLabels();

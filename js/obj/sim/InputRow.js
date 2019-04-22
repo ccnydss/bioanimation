@@ -50,11 +50,11 @@ class InputRow {
   * Create an new ions control table.
   * @param {DOM} parent - The parent DOM table
   * @param {String} id - The id of control table, range from 0-2 (# of particle)
-  * @param {string} particleType - Ion type, 'Na', 'Cl', 'K'
-  * @param {string} particleLocation - 'inside' or 'outside'
+  * @param {string} particle_type - Ion type, 'Na', 'Cl', 'K'
+  * @param {string} particle_location - 'inside' or 'outside'
   * @access public
   */
-  create(parent, id, particleType, particleLocation) {
+  create(parent, id, particle_type, particle_location) {
     var { title, input, table, buttons } = this.dom;
 
     table.trow = elementCreator("tr", '', parent);
@@ -69,32 +69,27 @@ class InputRow {
       className: 'qoptions'
     });
 
-    // Create the text input for number of particles
-    // this.dom.input = elementCreator("input", id, table.td1, {
-    //   className: 'qoptions'
-    // });
-
     this.dom.input = createInput("");
     this.dom.input.id(id);
     this.dom.input.class('qoptions');
 
     this.dom.input.value(this.values);
     this.dom.input.input(this.changeNumParticles.bind(this));
-    this.dom.input.attribute("data-location", particleLocation);
-    this.dom.input.attribute("data-ptype", particleType);
+    this.dom.input.attribute("data-location", particle_location);
+    this.dom.input.attribute("data-ptype", particle_type);
     this.dom.input.attribute("type", "text");
     this.dom.input.mouseClicked(this.highLightInput);
     this.dom.input.parent(table.td1);
 
     // Create the plus button and minus button
-    var colorClass = particleType.toLowerCase() + "-bg";
+    var colorClass = particle_type.toLowerCase() + "-bg";
     buttons.plus = elementCreator("button", id, table.td2, {
       content: "+",
       className: 'qoptions',
       mousePressed: this.changeNumParticles.bind(this)
     });
-    buttons.plus.attribute("data-location", particleLocation);
-    buttons.plus.attribute("data-ptype", particleType);
+    buttons.plus.attribute("data-location", particle_location);
+    buttons.plus.attribute("data-ptype", particle_type);
     buttons.plus.addClass(colorClass);
 
     buttons.minus = elementCreator("button", id, table.td3, {
@@ -102,8 +97,8 @@ class InputRow {
       className: 'qoptions',
       mousePressed: this.changeNumParticles.bind(this)
     });
-    buttons.minus.attribute("data-location", particleLocation);
-    buttons.minus.attribute("data-ptype", particleType);
+    buttons.minus.attribute("data-location", particle_location);
+    buttons.minus.attribute("data-ptype", particle_type);
     buttons.minus.addClass(colorClass);
   }
 
@@ -167,28 +162,28 @@ class InputRow {
   /**
   * Called by the plus/minus buttons, and also the text field input
   * @param {DOM} evt - the element that triggered the event (Input buttons)
-  * @param {double} updatedAmount=evt.target.value - the value of triggered element
+  * @param {double} updated_amount=evt.target.value - the value of triggered element
   * @access private
   */
-  changeNumParticles(evt, updatedAmount=evt.target.value) {
+  changeNumParticles(evt, updated_amount=evt.target.value) {
     // Called by the plus/minus buttons, and also the text field input
     // input: the element that triggered the event (Input buttons);
     var eventID = evt.target.id;
 
-    var particleType = evt.target.attributes['data-ptype'].value;
-    var particleLocation = evt.target.attributes['data-location'].value;
+    var particle_type = evt.target.attributes['data-ptype'].value;
+    var particle_location = evt.target.attributes['data-location'].value;
 
-    if (!updatedAmount) {
+    if (!updated_amount) {
       var symbol = evt.target.innerText;
       var current = this.value();
-      updatedAmount = (symbol == "+") ? current + 1 : current - 1;
+      updated_amount = (symbol == "+") ? current + 1 : current - 1;
     }
 
     // NOTE: Call the Simulator object less directly?
     // otherwise, renaming the global "mainSim" variable breaks this code
-    mainSim.updateParticles(particleType, particleLocation, updatedAmount);
+    mainSim.updateParticles(particle_type, particle_location, updated_amount);
 
-    this.value(updatedAmount);
+    this.value(updated_amount);
 
     // Change the Preset text content to custom
     mainSim.dom.sim_canvas_preset_dropbtn.elt.textContent = 'Custom'

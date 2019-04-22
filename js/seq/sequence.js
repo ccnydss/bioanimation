@@ -1,10 +1,32 @@
+/**
+* This class is essentially infrastructure to support
+* the creation of multiple co-existing animation scenarios. See {@tutorial Future}
+* for what this means.
+*/
 class SequenceManager {
   constructor(arr = []) {
-    this.seqitr = 0;                      // The sequence iterator, current animation being displayed.
-    this.seqArr = arr;                    // The array of animation objects
-    this.numSeq = this.seqArr.length;   // Number of sequences
+    /**
+    * The sequence iterator, current animation index being displayed.
+    * @type {integer}
+    */
+    this.seqitr = 0;
+
+    /**
+    * The array of animation sequences that the SequenceManager manages.
+    * @type {Sequence[]}
+    */
+    this.seqArr = arr;
+
+    /**
+    * The total number of sequences so far.
+    * @type {integer}
+    */
+    this.numSeq = this.seqArr.length;
   }
 
+  /**
+  * The import method 
+  */
   import(animation) {
     this.seqArr.push(animation);
     this.numSeq += 1;

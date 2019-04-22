@@ -1,7 +1,26 @@
+/**
+* Class simulatorInputs, used to manage the inputs for the Simulator. These
+* inputs include the table of plus/minus buttons, the text amount inputs, and
+* the checkbox elements for switching simulator modes.
+*/
 class SimulatorInputs {
+  /**
+  * Construct a new SimulatorInputs instance.
+  * @param {SimulatorDOM} dom - The SimulatorDOM instance to attach these inputs to.
+  */
   constructor(dom) {
+    /**
+    * @private
+    *
+    * @type {SimulatorDOM}
+    */
     this.dom = dom;
 
+    /**
+    * @private
+    *
+    * @type {Object}
+    */
     this.controls_list = {
       inside: {
         label: "Intracellular (mM)",
@@ -19,38 +38,141 @@ class SimulatorInputs {
       }
     };
 
+    /**
+    * @private
+    *
+    * @type {p5.Element[]}
+    */
     this.checkboxes = [];
   }
 
+  /**
+  * This setup() function runs during the p5.js setup event. It defines and
+  * creates the actual p5.Elements to go onto the DOM.
+  * @public
+  */
   setup() {
     var ec = elementCreator;
 
-    // Div to contain the simulatorInput
-    this.simulatorInputContainer = ec("div", 'simulatorInputContainer', 'secondBox', { className: 'simulatorInputContainer' });
-    this.simulatorInput = ec("div", 'simInput', 'simulatorInputContainer', { className: 'simInput' });
+    /**
+    * Overall div to contain the simulatorInput
+    * @private
+    *
+    * @type {p5.Element}
+    */
+    this.simulator_input_container = ec (
+      "div",
+      'simulatorInputContainer',
+      'secondBox',
+      { className: 'simulatorInputContainer' }
+    );
 
-    //Control UI ----------------------------
-    this.controlsLeft = ec("div", 'controls', 'simInput', { className: 'controls' });
-    this.controlsRight = ec("div", 'controls', 'simInput', { className: 'controls' });
+    /**
+    * @private
+    *
+    * @type {p5.Element}
+    */
+    this.simulator_input = ec (
+      "div",
+      'simInput',
+      'simulatorInputContainer',
+      { className: 'simInput' }
+    );
 
-    this.control0 = ec("div", 'control0', this.controlsLeft);
-    this.control1 = ec("div", 'control1', this.controlsLeft);
-    this.control2 = ec("div", 'control2', this.controlsRight);
-    this.control3 = ec("div", 'control3', this.controlsRight);
+    //Control UI ---------------------------------------------------------------
 
+    /**
+    * @private
+    *
+    * @type {p5.Element}
+    */
+    this.controls_left = ec (
+      "div",
+      'controls',
+      'simInput',
+      { className: 'controls' }
+    );
+
+    /**
+    * @private
+    *
+    * @type {p5.Element}
+    */
+    this.controls_right = ec (
+      "div",
+      'controls',
+      'simInput',
+      { className: 'controls' }
+    );
+
+    /**
+    * @private
+    *
+    * @type {p5.Element}
+    */
+    this.control0 = ec("div", 'control0', this.controls_left);
+
+    /**
+    * @private
+    *
+    * @type {p5.Element}
+    */
+    this.control1 = ec("div", 'control1', this.controls_left);
+
+    /**
+    * @private
+    *
+    * @type {p5.Element}
+    */
+    this.control2 = ec("div", 'control2', this.controls_right);
+
+    /**
+    * @private
+    *
+    * @type {p5.Element}
+    */
+    this.control3 = ec("div", 'control3', this.controls_right);
+
+    /**
+    * @private
+    *
+    * @type {p5.Element}
+    */
     this.controls_list.inside.controls = [this.control0, this.control1];
+
+    /**
+    * @private
+    *
+    * @type {p5.Element}
+    */
     this.controls_list.outside.controls = [this.control2, this.control3];
 
-    this.particleControl = ec("div", 'particleControl', 'simulatorInputContainer', {className: 'particleControl'});
+    /**
+    * @private
+    *
+    * @type {p5.Element}
+    */
+    this.particle_control = ec("div", 'particleControl', 'simulatorInputContainer', {className: 'particleControl'});
+
+    this.create();
   }
 
+  /**
+  * The create() function creates all the elements. Conceptually, this
+  * function has the same purpose as setup() -- to define and create HTML DOM
+  * elements. However, this section was split into a different function because
+  * it used to rely on animationSequencer to update the initial amounts.
+  * However, the dependency to animationSequencer was moved and the logic for
+  * initializing the inputs was put in `seq/BioMain.js`.
+  * @private
+  */
   create() {
     var ec = elementCreator;
 
-    var numParticles = this.dom.sim.numParticleTypes();
+    var num_particles = this.dom.sim.numParticleTypes();
 
     // Create the radio buttons to select particles
-    for (var i = 0; i < numParticles; i++) {
+    for (var i = 0; i < num_particles; i++) {
       var name = this.dom.sim.particle_types[i];
 
       var chk = createCheckbox(name, false);
@@ -64,14 +186,35 @@ class SimulatorInputs {
     };
 
     // Create the nernst buttons
-    var startNernst = this.dom.sim.nernst_eq.start.bind(this.dom.sim.nernst_eq);
-    var startGoldman = this.dom.sim.goldman_eq.start.bind(this.dom.sim.goldman_eq);
+    var start_nernst = this.dom.sim.nernst_eq.start.bind(this.dom.sim.nernst_eq);
+    var start_goldman = this.dom.sim.goldman_eq.start.bind(this.dom.sim.goldman_eq);
 
-    this.NernstButton = ec("button", 'NernstButton', 'particleControl', { content: "Nernst", mousePressed: startNernst });
-    this.GoldmanButton = ec("button", 'GoldmanButton', 'particleControl', { content: "Goldman", mousePressed: startGoldman });
+    /**
+    * @private
+    *
+    * @type {p5.Element}
+    */
+    this.nernst_button = ec (
+      "button",
+      'NernstButton',
+      'particleControl',
+      { content: "Nernst", mousePressed: start_nernst }
+    );
 
-    for (var locStr in this.controls_list) {
-      var location = this.controls_list[locStr];
+    /**
+    * @private
+    *
+    * @type {p5.Element}
+    */
+    this.goldman_button = ec (
+      "button",
+      'GoldmanButton',
+      'particleControl',
+      { content: "Goldman", mousePressed: start_goldman }
+    );
+
+    for (var loc_str in this.controls_list) {
+      var location = this.controls_list[loc_str];
 
       location.header = ec("h4", '', location.controls[0], {
         content: location.label
@@ -81,25 +224,38 @@ class SimulatorInputs {
         className: 'table qoptions'
       });
 
-      for (var i = 0; i < numParticles; i++) {
+      for (var i = 0; i < num_particles; i++) {
         var name = this.dom.sim.particle_types[i];
         var { sign, color } = particleMapper[name];
 
         var label = '[' + name + '<sup>' + sign + '</sup>]'
-        label += '<sub>' + locStr.slice(0, -4) + '</sub>&nbsp;';
+        label += '<sub>' + loc_str.slice(0, -4) + '</sub>&nbsp;';
 
-        var value = animationSequencer.current().getNumParticles(locStr, name);
-
-        location.rows[i] = new InputRow(label, value, true, name, this);
-        location.rows[i].create(location.table, i, name, locStr);
+        location.rows[i] = new InputRow(label, 0, true, name, this);
+        location.rows[i].create(location.table, i, name, loc_str);
       }
     }
   }
 
+  /**
+  * addCheckbox is used to add a new checkbox to the input section. This is only
+  * used internally for initialization.
+  * @private
+  * @param {p5.Element} checkbox - the checkbox element created using the p5 API
+  */
   addCheckbox(checkbox) {
     this.checkboxes.push(checkbox);
   }
 
+  /**
+  * The checkbox function allows you to set the value of a particle type, or
+  * read the current value. Leave bool empty to use this as a getter.
+  * @public
+  *
+  * @param {integer} index - The particle array index to use.
+  * @param {boolean} [bool=null] - If supplied, the true/false value to set the
+  * checkbox to. If left blank, the function will instead return the current value.
+  */
   checkbox(index, bool=null) {
     if (bool != null) {
       this.checkboxes[index].checked(bool);
@@ -108,76 +264,69 @@ class SimulatorInputs {
     }
   }
 
-  concentration(particleType, location) {
-    var id = particleMapper[particleType].id;
+  /**
+  * Getter function to get the current concentration for this particle type.
+  * This is done by checking the value of the appropriate InputRow.
+  * @public
+  * @param {string} particle_type - The name of the particle to use.
+  * @param {string} location - The name of the location ("inside" or "outside") to use.
+  */
+  concentration(particle_type, location) {
+    var id = particleMapper[particle_type].id;
     return this.controls_list[location].rows[id].value();
   }
 
-  setConcentration(particleType, location, amount) {
-    var id = particleMapper[particleType].id;
+  /**
+  * Setter function to set the concentration for this particle type.
+  * @public
+  * @param {string} particle_type - The name of the particle to use.
+  * @param {string} location - The name of the location ("inside" or "outside") to use.
+  * @param {integer} amount - The concentration amount you want to set.
+  */
+  setConcentration(particle_type, location, amount) {
+    var id = particleMapper[particle_type].id;
     this.controls_list[location].rows[id].value(amount);
   }
 
-  // updateInputs(particleType, location, id) {
-  //   var transferLocation = (location == "outside")
-  //   ? "inside"
-  //   : "outside";
-  //
-  //   var oldAmount = animationSequencer.current().getNumParticles(location, particleType);
-  //   var transferAmount = animationSequencer.current().getNumParticles(transferLocation, particleType);
-  //
-  //   var oldInput = this.controls[location].rows[id];
-  //   var transferInput = this.controls[transferLocation].rows[id];
-  //
-  //   oldInput.value(oldAmount);
-  //   transferInput.value(transferAmount);
-  //
-  //   FormulaInputCalculation(particleType);
-  // }
-  //
-  // updateAll() {
-  //   this.updateInputs("Na", "outside", 0);
-  //   this.updateInputs("Na", "inside", 0);
-  //   this.updateInputs("Cl", "outside", 1);
-  //   this.updateInputs("Cl", "inside", 1);
-  //   this.updateInputs("K", "outside", 2);
-  //   this.updateInputs("K", "inside", 2);
-  //
-  //   FormulaInputCalculation("Na");
-  // }
-
+  /**
+  * The checkedEvent function is a callback that is run whenever a user clicks
+  * on one of the three checkboxes at the bottom of the simulatorInputs. It
+  * overrides the default browser behavior to act more like radio buttons, where
+  * only one value can be checked at a time.
+  * @private
+  * @param {} evt - The calling event.
+  */
   checkedEvent(evt) {
-    // input: the element that triggered the event (Input buttons);
-    var checkboxID = evt.target.attributes["data-id"].value;
-    var particleType = evt.target.attributes["data-ptype"].value;
+    var checkbox_id = evt.target.attributes["data-id"].value;
+    var particle_type = evt.target.attributes["data-ptype"].value;
 
     if (this.dom.sim.simMode() == "Nernst") {
-      animationSequencer.current().setContainerDisplays(particleType, this.checkbox(checkboxID));
-      if (this.dom.sim.nernst_particle !== particleType) {
-        this.dom.sim.nernst_particle = particleType;
+      animationSequencer.current().setContainerDisplays(particle_type, this.checkbox(checkbox_id));
+      if (this.dom.sim.nernst_particle !== particle_type) {
+        this.dom.sim.nernst_particle = particle_type;
         for (var j = 0; j < this.dom.sim.numParticleTypes(); j++) {
-          var checkBoxParticle = this.checkboxes[j].elt.innerText;
+          var check_box_particle = this.checkboxes[j].elt.innerText;
 
           if (
             this.checkbox(j) &&
-            checkBoxParticle !== particleType &&
-            particleMapper[checkBoxParticle].display
+            check_box_particle !== particle_type &&
+            particleMapper[check_box_particle].display
           ) {
             //Disable those particles
-            this.dom.sim.toggleInputForParticle(checkBoxParticle, false);
+            this.dom.sim.toggleInputForParticle(check_box_particle, false);
 
             //Also disable the particle in the plot
             graph.hidePlot(j, true);
-          } else if (particleMapper[checkBoxParticle]["display"]) {
-            this.dom.sim.toggleInputForParticle(particleType, true);
+          } else if (particleMapper[check_box_particle]["display"]) {
+            this.dom.sim.toggleInputForParticle(particle_type, true);
 
             //Enable the particle in the plot
             graph.hidePlot(j, false);
           }
         }
       }
-      FormulaInputCalculation(particleType);
+      FormulaInputCalculation(particle_type);
     }
-    this.dom.sim.toggleInputForParticle(particleType, true);
+    this.dom.sim.toggleInputForParticle(particle_type, true);
   }
 }

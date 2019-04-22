@@ -553,11 +553,11 @@ class Simulator {
   */
   buttonModeSwitch() {
     if (this.mode == "Nernst") {
-      this.dom.sim_inputs.NernstButton.style('backgroundColor', "#74b9ff");
-      this.dom.sim_inputs.GoldmanButton.style('backgroundColor', "#dfe6e9");
+      this.dom.sim_inputs.nernst_button.style('backgroundColor', "#74b9ff");
+      this.dom.sim_inputs.goldman_button.style('backgroundColor', "#dfe6e9");
     } else {
-      this.dom.sim_inputs.NernstButton.style('backgroundColor', "#dfe6e9");
-      this.dom.sim_inputs.GoldmanButton.style('backgroundColor', "#74b9ff");
+      this.dom.sim_inputs.nernst_button.style('backgroundColor', "#dfe6e9");
+      this.dom.sim_inputs.goldman_button.style('backgroundColor', "#74b9ff");
     }
   }
 
