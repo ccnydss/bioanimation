@@ -1,6 +1,9 @@
 /**
 * This class is essentially infrastructure to support the creation of multiple
 * co-existing animation scenarios. See {@tutorial Future} for what this means.
+* @example
+* animationSequencer = new SequenceManager([bioMainSequence, test1Seq])
+* //bioMainSequence from class bioMain and test1Seq from class Test1
 */
 class SequenceManager {
   constructor(arr = []) {
@@ -31,6 +34,17 @@ class SequenceManager {
   * the manager.
   * @access public
   * @param {Sequence} animation - The animation sequence.
+  * @example
+  * var seq = new Sequence (
+  *  {x: 0},
+  *  function(s) {
+  *      s.x = 5;
+  *    },
+  *    function(s) {
+  *      s.x += 1;
+  *    }
+  *  )
+  * animationSequencer.import(seq)
   */
   import(animation) {
     this.seqArr.push(animation);
@@ -41,6 +55,26 @@ class SequenceManager {
   * This method allows us to insert multiple Sequences at once via an array.
   * @access public
   * @param {Sequence[]} arr - Array of animation Sequences.
+  * @example
+  *var seq = new Sequence (
+  *  {x: 0},
+  *  function(s) {
+  *      s.x = 5;
+  *    },
+  *    function(s) {
+  *      s.x += 1;
+  *    }
+  *  )
+  var seq2 = new Sequence (
+  *  {x: 0},
+  *  function(s) {
+  *      s.x = 10;
+  *    },
+  *    function(s) {
+  *      s.x += 2;
+  *    }
+  *  )
+  * animationSequencer.importMany([seq,seq2]);
   */
   importMany(arr) {
     for (const seq of arr) {
@@ -52,6 +86,7 @@ class SequenceManager {
   * Tell us how many sequences are currently loaded into this manager.
   * @access public
   * @return {integer}
+  * animationSequencer.len();
   */
   len() {
     return this.seqArr.length;
@@ -61,6 +96,8 @@ class SequenceManager {
   * Give us the animation Sequence that is currently executing.
   * @access public
   * @return {Sequence}
+  * @example
+  * animationSequencer.current();
   */
   current() {
     return this.seqArr[this.seqitr];
@@ -70,6 +107,7 @@ class SequenceManager {
   * A setup function for use within p5.js' setup() hook. This will call the
   * setup functions of all sequences in the manager.
   * @access public
+  *animationSequencer.setup();
   */
   setup() {
     if (this.len()) {
@@ -83,6 +121,7 @@ class SequenceManager {
   * A draw function for use within p5.js' draw() hook. This will call the draw
   * functions for all sequences in the manager.
   * @access public
+  *animationSequencer.draw();
   */
   draw() {
     if (this.len()) {
@@ -98,6 +137,8 @@ class SequenceManager {
   * @access public
   * @param {boolean} [reset=true] - The reset parameter will be used if you want
   * the new Sequence to be set to its initial conditions.
+  * @example
+  * animationSequencer.next();
   */
   next(reset=true) {
     if (this.len()) {
@@ -117,6 +158,7 @@ class SequenceManager {
   * @access public
   * @param {boolean} [reset=true] - The reset parameter will be used if you want
   * the new Sequence to be set to its initial conditions.
+  * animationSequencer.prev(false);
   */
   prev(reset=true) {
     if (this.len()) {
@@ -137,6 +179,16 @@ class SequenceManager {
 *
 * This class will typically need to be extended in a child class to be fully
 * used. Look at {@link BioMain} for an example.
+* @example
+*   var seq = new Sequence (
+*  {x: 0},
+*  function(s) {
+*      s.x = 5;
+*    },
+*    function(s) {
+*      s.x += 1;
+*    }
+*  )
 */
 class Sequence {
   /**
@@ -159,6 +211,8 @@ class Sequence {
   * This function is overloaded by the constructor when the Sequence object is
   * created.
   * @access public
+  * @example
+  * seq.setup();
   */
   setup() {
     this._setup(this.state);
@@ -169,6 +223,8 @@ class Sequence {
   * This function is overloaded by the constructor when the Sequence object is
   * created.
   * @access public
+  * @example
+  * seq.draw();
   */
   draw() {
     this._draw(this.state);
@@ -178,6 +234,8 @@ class Sequence {
   * This is the reset function for p5.js, which gets called by SequenceManager
   * when the manager switches between Sequences with `next` and `prev`.
   * @access public
+  * @example
+  * seq.reset();
   */
   reset() {
     this.setState(this._init);
@@ -188,6 +246,8 @@ class Sequence {
   * alter its own parameters as the app runs.
   * @access private
   * @params {Object} new_state - The new state object.
+  * @example
+  * seq.setState( {x: 0});
   */
   setState(new_state) {
     this.state = Object.assign({}, new_state);
