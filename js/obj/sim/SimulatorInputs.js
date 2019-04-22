@@ -154,21 +154,7 @@ class SimulatorInputs {
     */
     this.particle_control = ec("div", 'particleControl', 'simulatorInputContainer', {className: 'particleControl'});
 
-    this.create();
-  }
-
-  /**
-  * The create() function creates all the elements. Conceptually, this
-  * function has the same purpose as setup() -- to define and create HTML DOM
-  * elements. However, this section was split into a different function because
-  * it used to rely on animationSequencer to update the initial amounts.
-  * However, the dependency to animationSequencer was moved and the logic for
-  * initializing the inputs was put in `seq/BioMain.js`.
-  * @private
-  */
-  create() {
-    var ec = elementCreator;
-
+    // Create
     var num_particles = this.dom.sim.numParticleTypes();
 
     // Create the radio buttons to select particles

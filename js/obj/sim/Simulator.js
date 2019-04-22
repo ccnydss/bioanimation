@@ -119,7 +119,7 @@ class Simulator {
 
   /**
   * Called on every key press, trigger different events based on user input.
-
+  *
   * @Example
   * var mainSim = new Simulator();//if the simulation isn't declared
   * keyInput(){
