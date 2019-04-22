@@ -136,7 +136,7 @@ class SequenceManager {
 * use to interact with the animation.
 *
 * This class will typically need to be extended in a child class to be fully
-* used. Look at {@link BioMain} for an example. 
+* used. Look at {@link BioMain} for an example.
 */
 class Sequence {
   /**

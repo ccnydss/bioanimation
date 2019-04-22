@@ -10,17 +10,13 @@ catch(error) {
     document.getElementById('root').style.display = 'none';
     document.getElementById('root').innerHTML = '';
   }
-} finally {
-  // cleanup
-  // document.write("<script ...src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>");
-  // console.log('not IE')
 }
 
 var graph;
 var animationSequencer;
 
 function setup() {
-  if ( getOS()== 'iOS' || getOS()== 'Android' ) {
+  if ( getOS() == 'iOS' || getOS() == 'Android' ) {
       document.getElementsByTagName('body')[0].style.backgroundColor = '#ecf0f1';
       document.getElementById('platformDetection').style.display = '';
       document.getElementById('containerHeader').style.display = 'none';
