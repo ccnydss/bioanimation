@@ -19,9 +19,9 @@ class Fps {
 
 
 
-        console.log('%c------------------------','background: #222; color: #bada55')
-        // _fps.log('plotFor')
-        _fps.log('plotData')
+        // console.log('%c------------------------','background: #222; color: #bada55')
+        // // _fps.log('plotFor')
+        // _fps.log('plotData')
 
         // _fps.log('container')
 
