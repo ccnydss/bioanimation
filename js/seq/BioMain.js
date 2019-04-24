@@ -1,5 +1,7 @@
 /**
 * BioMain is the primary animation sequence that the application uses.
+* @example
+* bioMainSequence = new BioMain(200,300);
 */
 class BioMain extends Sequence {
   /**
@@ -138,6 +140,8 @@ class BioMain extends Sequence {
   * @access public
   * @param {integer} canWidth - The width of the canvas.
   * @param {integer} canHeight - The height of the canvas.
+  * @example
+  * bioMainSequence.setContainerSizes(300,400);
   */
   setContainerSizes(canWidth, canHeight) {
     var s = this.state;
@@ -184,6 +188,8 @@ class BioMain extends Sequence {
   * @access public
   * @param {String} particle_type - The type of the particle, ex: "Na", "Cl", or "K".
   * @param {boolean} bool_value - The display setting to use.
+  * @example
+  * bioMainSequence.setContainerDisplays("Na", true);
   */
   setContainerDisplays(particle_type, bool_value) {
     this.state.containers.inside.setParticleDisplays(particle_type, bool_value);
@@ -196,6 +202,8 @@ class BioMain extends Sequence {
   * @access public
   * @param {String} location - The name of the location: ex "inside" or "outside".
   * @param {p5.Color|String} color_obj - The color to set container to.
+  * @example
+  * bioMainSequence.setContainerColor("outside","#ff0000" );
   */
   setContainerColor(location, color_obj) {
     this.state.containers[location].setColor(color_obj);
@@ -206,6 +214,8 @@ class BioMain extends Sequence {
   * animation. Use by animationSequencer.current().setMembraneColor(mycolor)
   * @access public
   * @param {p5.Color|String} color_obj - The color to set container to.
+  * @example
+  * bioMainSequence.setMembraneColor("#ff0000");
   */
   setMembraneColor(color_obj) {
     this.MEMBRANE_COLOR = color_obj;
@@ -216,6 +226,8 @@ class BioMain extends Sequence {
   * Method for getting the number of containers.
   * @access public
   * @return {integer}
+  * @example
+  * bioMainSequence.getNumContainers();
   */
   getNumContainers() {
     return Object.keys(this.state.containers).length;
@@ -228,6 +240,8 @@ class BioMain extends Sequence {
   * @param {String} container - The container name to look at: ex; "inside" or "outside".
   * @param {String} particle_type - The particle name to get: ex; "Na", "Cl", or "K".
   * @return {Particle[]}
+  *@example
+  * bioMainSequence.getParticles("inside", "Na");
   */
   getParticles(container, particle_type) {
     return this.state.containers[container].particles[particle_type];
@@ -240,6 +254,7 @@ class BioMain extends Sequence {
   * @param {String} container - The container name to look at: ex; "inside" or "outside".
   * @param {String} particle_type - The particle name to get: ex; "Na", "Cl", or "K".
   * @return {Particle[]}
+  * bioMainSequence.getTransfers("outside", "Cl");
   */
   getTransfers(container, particle_type) {
     return this.state.containers[container].transfers[particle_type];
@@ -252,6 +267,8 @@ class BioMain extends Sequence {
   * @param {String} container - The container name to look at: ex; "inside" or "outside".
   * @param {String} particle_type - The particle name to get: ex; "Na", "Cl", or "K".
   * @return {integer}
+  *@example
+  * bioMainSequence.("inside","Cl");
   */
   getNumParticles(container, particle_type) {
     return this.state.containers[container].countParticles(particle_type);
@@ -262,6 +279,8 @@ class BioMain extends Sequence {
   * @access public
   * @param {String} container - The container name to look at: ex; "inside" or "outside".
   * @param {String} particle_type - The particle name to get: ex; "Na", "Cl", or "K".
+  * @example
+  * bioMainSequence.insertNewParticle("inside", "K");
   */
   insertNewParticle(container, particle_type) {
     var num = this.getNumParticles(container, particle_type);
@@ -277,6 +296,8 @@ class BioMain extends Sequence {
   * @param {String} container - The container name to look at: ex; "inside" or "outside".
   * @param {String} particle_type - The particle name to get: ex; "Na", "Cl", or "K".
   * @return {Particle[]}
+  * @example
+  * bioMainSequence.removeParticle("outside", "Cl");
   */
   removeParticle(container, particle_type, MIN_PARTICLES) {
     var num = this.getNumParticles(container, particle_type);
@@ -290,6 +311,8 @@ class BioMain extends Sequence {
   * with higher concentration must move into the container with lower concentration.
   * @access public
   * @param {String} particle_type - The particle name to get: ex; "Na", "Cl", or "K".
+  * @example
+  * bioMainSequence.equilibrate("Na");
   */
   equilibrate(particle_type) {
     // Get concentration (i.e., decimal values)
@@ -373,6 +396,8 @@ class BioMain extends Sequence {
   * @access private
   * @param {String} target - The container name the particle is going towards.
   * @param {String} particle_type - The particle name to get: ex; "Na", "Cl", or "K".
+  * @example
+  * bioMainSequence.transferIn("outside", "Na");
   */
   transferIn(target, particle_type) {
     var state = this.state;
@@ -469,6 +494,8 @@ class BioMain extends Sequence {
   * @access private
   * @param {String} target - The container name the particle is going towards.
   * @param {String} particle_type - The particle name to get: ex; "Na", "Cl", or "K".
+  *@example
+  * bioMainSequence.transferOut("outside","Cl");
   */
   transferOut(target, particle_type) {
     var state = this.state;
@@ -561,6 +588,8 @@ class BioMain extends Sequence {
   * @access private
   * @param {String} location - The container name we want the opposite of.
   * @return {String}
+  *@example
+  * bioMainSequence.otherLocation("inside");//returns "outside";
   */
   otherLocation(location) {
     return location == "inside" ? "outside" : "inside";
