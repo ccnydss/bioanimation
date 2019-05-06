@@ -234,12 +234,12 @@ class Simulator {
       break;
 
       case "NernstSetting":
-      document.getElementById('NernstSetting').style.display = (mode) ? "block" : "none";
+      // document.getElementById('NernstSetting').style.display = (mode) ? "block" : "none";
       document.getElementById('setting').style.display = (mode) ? "initial" : "none";
       break;
 
       case "GoldmanSetting":
-      document.getElementById('GoldmanSetting').style.display = (mode) ? "block" : "none";
+      document.getElementById('GoldmanSetting').style.display = (mode) ? "flex" : "none";
       document.getElementById('setting').style.display = (mode) ? "initial" : "none";
       break;
 
