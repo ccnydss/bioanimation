@@ -318,3 +318,7 @@ background-color: #4F4A41;
   width: 30%;
   cursor: pointer;
 }
+
+#GoldmanSetting {
+  flex-direction: column;
+}
