@@ -98,7 +98,7 @@ class SimulatorDOM {
     * @type {Question}
     * @private
     */
-    this.sim_question = new Question(this);
+    this.sim_question = new QuestionList(this);
 
     /**
     * Array of settings HTML fields, to replace 'simSetting'

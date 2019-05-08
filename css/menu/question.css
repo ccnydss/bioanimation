@@ -81,3 +81,7 @@
   font-size: 0.95em;
   overflow-y: auto;
 }
+
+#qchoices label{
+  width: 100%;
+}
