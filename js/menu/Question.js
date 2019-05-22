@@ -113,7 +113,6 @@ class Question {
       this.radio = createElement("div");
       this.radio.id("qchoices");
       this.radio.parent(parentID);
-
       for (var i = 0; i < this.choices.length; i++) {
         let optionContainer = createElement("div");
         // optionContainer.class("qcontainer");

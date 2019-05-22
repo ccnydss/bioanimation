@@ -58,6 +58,8 @@ class QuestionList {
     }
 
     this.checkDisable('prev')
+
+    // this.question_list["Nernst"][0] = nq1;
   }
 
   /**
