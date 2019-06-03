@@ -11,12 +11,8 @@ class QuestionList {
   * @access public
   */
   constructor() {
-    var current = this
-    this.loadJSON(function(response) {
-      // Parse JSON string into object
-      /** @property {JSON} - The question list parsed from a JSON file */
-      current.question_list = JSON.parse(response);
-    },'questions.json');
+    /** @property {Object} - An object containing arrays of Questions for Nernst and Goldman modes. */
+    this.question_list = questions;
 
     /** @property {Int} - The minimum page number */
     this.min_page = 1;
@@ -58,8 +54,6 @@ class QuestionList {
     }
 
     this.checkDisable('prev')
-
-    // this.question_list["Nernst"][0] = nq1;
   }
 
   /**
@@ -114,7 +108,8 @@ class QuestionList {
 
     // Checking disable btn or not
     this.checkDisable('next')
-    document.getElementById("q1").innerHTML = this.question_list[this.mode][this.current_page - 1]
+    console.log(this.question_list[this.mode][this.current_page - 1]);
+    this.question_list[this.mode][this.current_page - 1].display("q1");
   }
 
   /**
@@ -145,7 +140,7 @@ class QuestionList {
 
     // Checking disable btn or not
     this.checkDisable('prev')
-    document.getElementById("q1").innerHTML = this.question_list[this.mode][this.current_page - 1]
+    this.question_list[this.mode][this.current_page - 1].display("q1");
   }
 
   /**
@@ -194,7 +189,7 @@ class QuestionList {
     questionDebug && console.log("Toggle index is "+curIndex+" cur index is "+eventHTML)
 
     this.current_page = eventHTML;
-    document.getElementById("q1").innerHTML = this.question_list[this.mode][this.current_page - 1]
+    this.question_list[this.mode][this.current_page - 1].display("q1");
 
     this.current_index = curIndex;
     this.focus(this.current_index)
@@ -208,26 +203,6 @@ class QuestionList {
       this.checkDisable('both')
     }
 
-  }
-
-  /**
-  * Function to load JSON file
-  * @access private
-  * @param {callback} callback
-  * @param {url} url - The file name of the JSON file
-  */
-  loadJSON(callback,url) {
-
-    var xobj = new XMLHttpRequest();
-    xobj.overrideMimeType("application/json");
-    xobj.open('GET', url, true); // Replace 'my_data' with the path to your file
-    xobj.onreadystatechange = function () {
-      if (xobj.readyState == 4 && xobj.status == "200") {
-        // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
-        callback(xobj.responseText);
-      }
-    };
-    xobj.send(null);
   }
 
   /**
